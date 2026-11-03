@@ -1,0 +1,8 @@
+{
+  "id": "bg_sky",
+  "type": "parallax",
+  "status": "certified",
+  "rev": 1,
+  "factor": 0.2,
+  "min_visible_pct": 40
+}

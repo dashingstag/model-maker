@@ -1,0 +1,33 @@
+{
+  "goal": "pirate_deck_scene",
+  "style": "@styles/painted_game_art",
+  "palette": "@palettes/dusk",
+  "components": [
+    {"id": "captain",    "type": "sprite",  "h_px": 384, "pivot": "feet",
+     "prompt_core": "pirate captain, red coat, tricorn hat, eyepatch, orange beard, cutlass",
+     "poses": ["idle", "walk_a", "walk_b"]},
+    {"id": "crew",       "type": "sprite_variant", "of": "captain",
+     "count": 5, "vary": ["coat_color", "trim"], "method": "palette"},
+    {"id": "portrait",   "type": "ui_image", "h_px": 256,
+     "prompt_core": "bust portrait of a pirate captain, tricorn hat, eyepatch, grey beard, dramatic rim light"},
+    {"id": "bg_sky",     "type": "parallax", "factor": 0.2,
+     "hero_art": true, "min_visible_pct": 40,
+     "prompt_core": "sunset sky over the sea, orange and purple clouds, distant ship silhouettes"},
+    {"id": "bg_deck",    "type": "parallax", "factor": 0.6,
+     "prompt_core": "pirate ship wooden deck and railings overlooking ocean, warm dusk light, no characters"},
+    {"id": "captain_3d", "type": "glb", "tri_budget": 4000,
+     "anims": ["idle", "walk"], "collision": "capsule-approx"}
+  ],
+  "composition": {
+    "lighting_rig": "@rigs/std_dusk",
+    "layout": {
+      "rows": [{"id": "front", "y": 648}, {"id": "back", "y": 560}],
+      "captain_row": "front", "crew_row": "back",
+      "spacing_px": 170, "patrol": {"speed_px": 110, "from_x": -120, "to_x": 1200},
+      "light_anchor": {"of": "captain", "offset": [40, -290]},
+      "feet_pivot": true
+    },
+    "shots": ["wide_all", "captain_closeup", "crew_lineup",
+              "walk_t0", "walk_t1", "walk_t2", "low_light", "ui_dialogue"]
+  }
+}

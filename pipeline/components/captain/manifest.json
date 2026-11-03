@@ -1,0 +1,17 @@
+{
+  "id": "captain",
+  "type": "sprite",
+  "status": "certified",
+  "rev": 1,
+  "pivot": "feet",
+  "h_px": 384,
+  "fringe_px": {
+    "idle": 2,
+    "walk_a": 1,
+    "walk_b": 0
+  },
+  "collider": "alpha-bounds-10pct",
+  "gate": {
+    "fringe_ok": true
+  }
+}

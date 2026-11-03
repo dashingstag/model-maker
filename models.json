@@ -1,0 +1,21 @@
+{
+  "checkpoints": {
+    "sd15": "v1-5-pruned-emaonly.safetensors",
+    "dreamshaper8": "DreamShaper_8_pruned.safetensors"
+  },
+  "controlnets": {
+    "sd15_depth": "control_v11f1p_sd15_depth_fp16.safetensors"
+  },
+  "matting": {
+    "birefnet": "birefnet-general"
+  },
+  "custom_nodes": {
+    "birefnet": "BiRefNet_ModelLoader_Zho + BiRefNet_Zho (ComfyUI Zho BiRefNet nodes) — server must NOT run with --disable-all-custom-nodes"
+  },
+  "model_meta": {
+    "sd15":         {"vae": "baked", "license": "CreativeML Open RAIL-M", "source": "runwayml/stable-diffusion-v1-5", "sha256": null},
+    "dreamshaper8": {"vae": "baked", "license": "VERIFY — community merge", "source": "civitai", "sha256": null},
+    "sd15_depth":   {"vae": null,    "license": "VERIFY", "source": "lllyasviel control_v11f1p_sd15_depth", "sha256": null},
+    "birefnet":     {"vae": null,    "license": "VERIFY before ship", "source": "ZhengPeng7/BiRefNet", "sha256": null}
+  }
+}

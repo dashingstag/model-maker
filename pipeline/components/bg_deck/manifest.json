@@ -1,0 +1,8 @@
+{
+  "id": "bg_deck",
+  "type": "parallax",
+  "status": "certified",
+  "rev": 1,
+  "factor": 0.6,
+  "min_visible_pct": null
+}

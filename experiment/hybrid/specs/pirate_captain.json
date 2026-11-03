@@ -1,0 +1,12 @@
+{
+  "name": "pirate_captain",
+  "glb": "assets/models/pirate.glb",
+  "prompt": "hand-painted pirate captain, red coat, tricorn hat, eyepatch, orange beard, stylized 2d game sprite, full body, front view, isolated on plain white background, crisp edges, vibrant colors, masterpiece",
+  "negative": "photorealistic, photo, 3d render, blurry, deformed, extra limbs, cropped, text, watermark, busy background, gradient background",
+  "camera": { "ortho_scale": 2.4, "location": [0, -4.2, 1.0], "size": [512, 640] },
+  "poses": {
+    "idle":   { "seed": 101, "bones": {} },
+    "walk_a": { "seed": 202, "bones": { "leg_L": [0.49, 0, 0], "leg_R": [-0.49, 0, 0], "arm_L": [-0.34, 0, 0], "arm_R": [0.34, 0, 0] } },
+    "walk_b": { "seed": 303, "bones": { "leg_L": [-0.49, 0, 0], "leg_R": [0.49, 0, 0], "arm_L": [0.34, 0, 0], "arm_R": [-0.34, 0, 0] } }
+  }
+}

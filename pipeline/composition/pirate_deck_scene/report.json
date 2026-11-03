@@ -1,0 +1,44 @@
+{
+  "composition": {
+    "captain_lit_coverage": 0.041,
+    "cross_row_occlusions": 306,
+    "draw_calls": 12,
+    "min_crew_gap_px": -172.1,
+    "same_row_overlap_events": 0,
+    "shots": [
+      "wide_all",
+      "captain_closeup",
+      "crew_lineup",
+      "walk_t0",
+      "walk_t1",
+      "walk_t2",
+      "low_light",
+      "ui_dialogue"
+    ],
+    "sky_visible_pct": 52.8
+  },
+  "unit": {
+    "bg_deck": {
+      "lit_coverage": 0.341,
+      "type": "parallax"
+    },
+    "bg_sky": {
+      "lit_coverage": 0.366,
+      "type": "parallax"
+    },
+    "captain": {
+      "lit_coverage": 0.035,
+      "sat_mean": 0.688,
+      "type": "sprite"
+    },
+    "captain_3d": {
+      "animations": [
+        "walk"
+      ],
+      "type": "glb"
+    },
+    "portrait": {
+      "type": "ui_image"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "goal": "pirate_deck_scene",
+  "rig": {
+    "name": "std_dusk",
+    "canvas_modulate": "#a8a8bc",
+    "light_2d": {
+      "color": "#ffbf73",
+      "energy": 2.2,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2e2e3a"
+  },
+  "shots": [
+    "wide_all",
+    "captain_closeup",
+    "crew_lineup",
+    "walk_t0",
+    "walk_t1",
+    "walk_t2",
+    "low_light",
+    "ui_dialogue"
+  ],
+  "layout": {
+    "rows": [
+      {
+        "id": "front",
+        "y": 648
+      },
+      {
+        "id": "back",
+        "y": 560
+      }
+    ],
+    "captain_row": "front",
+    "crew_row": "back",
+    "spacing_px": 170,
+    "patrol": {
+      "speed_px": 110,
+      "from_x": -120,
+      "to_x": 1200
+    },
+    "light_anchor": {
+      "of": "captain",
+      "offset": [
+        40,
+        -290
+      ]
+    },
+    "feet_pivot": true
+  },
+  "components": [
+    "captain",
+    "crew",
+    "portrait",
+    "bg_sky",
+    "bg_deck",
+    "captain_3d"
+  ]
+}

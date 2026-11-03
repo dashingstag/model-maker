@@ -1,0 +1,15 @@
+{
+  "id": "captain_3d",
+  "type": "glb",
+  "status": "certified",
+  "rev": 1,
+  "meshes": 20,
+  "tris": 1412,
+  "animations": [
+    "walk"
+  ],
+  "tri_budget": 4000,
+  "gate": {
+    "tris_ok": true
+  }
+}

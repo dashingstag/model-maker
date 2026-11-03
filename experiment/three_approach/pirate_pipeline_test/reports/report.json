@@ -1,0 +1,36 @@
+{
+  "cutout": {
+    "deck_drift_x": -96.0,
+    "dialogue_present": true,
+    "draw_calls": 8,
+    "frame_ms_p50": 16.66,
+    "frame_ms_p95": 16.72,
+    "light2d_present": true,
+    "parallax_differs": true,
+    "parallax_layers": 2,
+    "pirate_count": 6,
+    "primitives": 16,
+    "sky_drift_x": -32.0
+  },
+  "realtime_3d": {
+    "collision_shapes": 1,
+    "draw_calls": 115,
+    "frame_ms_p50": 16.67,
+    "frame_ms_p95": 16.72,
+    "meshes_per_pirate": 19,
+    "min_captain_separation": 0.75,
+    "physics_bodies": 1,
+    "pirate_count": 6,
+    "primitives": 8402,
+    "walk_animation_present": true
+  },
+  "sprites": {
+    "distinct_tints": 6,
+    "draw_calls": 6,
+    "frame_ms_p50": 16.66,
+    "frame_ms_p95": 16.71,
+    "pirate_count": 6,
+    "primitives": 12,
+    "single_texture_reuse": true
+  }
+}

@@ -1,0 +1,16 @@
+# Pipeline working area: regenerable/cheap artifacts ignored —
+# certified evidence (accepted/, processed/, unit_render/) is CHECKED IN,
+# it is what the gates signed off on and cannot be regenerated exactly.
+pipeline/**/candidates/*
+!pipeline/**/candidates/index.json
+pipeline/**/build/
+
+# Packaged output — rebuildable
+dist/
+
+# Godot artifacts
+.godot/
+
+# Python
+__pycache__/
+*.pyc

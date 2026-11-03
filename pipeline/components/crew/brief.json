@@ -1,0 +1,35 @@
+{
+  "id": "crew",
+  "type": "sprite_variant",
+  "of": "captain",
+  "count": 5,
+  "vary": [
+    "coat_color",
+    "trim"
+  ],
+  "method": "palette",
+  "goal": "pirate_deck_scene",
+  "style": {
+    "name": "painted_game_art",
+    "suffix": "hand-painted 2d game art style, stylized, painterly brushwork, crisp readable silhouettes, rich saturated colors, game asset, masterpiece",
+    "negative": "photorealistic, photo, 3d render, blurry, deformed, extra limbs, cropped, text, watermark, signature, busy background, gradient background, low quality",
+    "subject_bg": "isolated on plain solid white background",
+    "scene_suffix": "wide painted game background, atmospheric depth, no characters"
+  },
+  "palette": {
+    "name": "dusk",
+    "colors": {
+      "coat": "#8c1f28",
+      "trim": "#d4a017",
+      "pants": "#2b2b3d",
+      "skin": "#d9a077",
+      "sky_hi": "#3d2a6e",
+      "sky_mid": "#c76b3f",
+      "sea": "#1d5e6e",
+      "wood": "#6e4a2f",
+      "canvas_modulate": "#73738c",
+      "light_warm": "#ffbf73"
+    },
+    "prompt_hints": "deep crimson coat, gold trim, warm dusk palette, teal ocean, orange sunset"
+  }
+}

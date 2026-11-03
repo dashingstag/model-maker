@@ -1,0 +1,75 @@
+{
+  "mode": "all",
+  "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\pirate_deck_scene",
+  "rig": {
+    "name": "std_dusk",
+    "canvas_modulate": "#73738c",
+    "light_2d": {
+      "color": "#ffbf73",
+      "energy": 1.4,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2e2e3a"
+  },
+  "unit_jobs": [
+    {
+      "id": "captain",
+      "type": "sprite",
+      "assets": "res://assets/components/captain",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\captain\\unit_render",
+      "h_px": 384
+    },
+    {
+      "id": "portrait",
+      "type": "ui_image",
+      "assets": "res://assets/components/portrait",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\portrait\\unit_render"
+    },
+    {
+      "id": "bg_sky",
+      "type": "parallax",
+      "assets": "res://assets/components/bg_sky",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\bg_sky\\unit_render"
+    },
+    {
+      "id": "bg_deck",
+      "type": "parallax",
+      "assets": "res://assets/components/bg_deck",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\bg_deck\\unit_render"
+    },
+    {
+      "id": "captain_3d",
+      "type": "glb",
+      "assets": "res://assets/components/captain_3d",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\captain_3d\\unit_render"
+    }
+  ],
+  "composition": {
+    "components_dir": "res://assets/components",
+    "layers": [
+      {
+        "id": "bg_sky",
+        "factor": 0.2,
+        "min_visible_pct": 40,
+        "y_off": 0
+      },
+      {
+        "id": "bg_deck",
+        "factor": 0.6,
+        "min_visible_pct": null,
+        "y_off": 380
+      }
+    ],
+    "shots": [
+      "wide_all",
+      "captain_closeup",
+      "crew_lineup",
+      "walk_t0",
+      "walk_t1",
+      "walk_t2",
+      "low_light",
+      "ui_dialogue"
+    ]
+  }
+}

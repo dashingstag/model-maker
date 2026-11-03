@@ -1,0 +1,11 @@
+{
+  "name": "std_dusk",
+  "canvas_modulate": "#a8a8bc",
+  "light_2d": {
+    "color": "#ffbf73",
+    "energy": 2.2,
+    "texture_scale": 3.0,
+    "anchor": "center-above-hero"
+  },
+  "unit_render_bg": "#2e2e3a"
+}

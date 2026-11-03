@@ -1,0 +1,7 @@
+{
+  "name": "painted_game_art",
+  "suffix": "hand-painted 2d game art style, stylized, painterly brushwork, crisp readable silhouettes, rich saturated colors, game asset, masterpiece",
+  "negative": "photorealistic, photo, 3d render, blurry, deformed, extra limbs, cropped, text, watermark, signature, busy background, gradient background, low quality",
+  "subject_bg": "isolated on plain solid white background",
+  "scene_suffix": "wide painted game background, atmospheric depth, no characters"
+}
