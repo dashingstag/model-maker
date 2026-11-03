@@ -1,0 +1,73 @@
+{
+  "name": "captain",
+  "prompt": "pirate captain, red coat, tricorn hat, eyepatch, orange beard, cutlass, tricorn hat, eyepatch on right eye, orange beard, cutlass at hip, hand-painted 2d game art style, stylized, painterly brushwork, crisp readable silhouettes, rich saturated colors, game asset, masterpiece, deep crimson coat, gold trim, warm dusk palette, teal ocean, orange sunset",
+  "negative": "photorealistic, photo, 3d render, blurry, deformed, extra limbs, cropped, text, watermark, signature, busy background, gradient background, low quality, extra limbs, merged background objects, duplicate hat, ship-body torso",
+  "camera": {
+    "ortho_scale": 2.4,
+    "location": [
+      0,
+      -4.2,
+      1.0
+    ],
+    "size": [
+      512,
+      640
+    ]
+  },
+  "poses": {
+    "idle": {
+      "seed": 1000,
+      "bones": {}
+    },
+    "walk_a": {
+      "seed": 1100,
+      "bones": {
+        "leg_L": [
+          0.49,
+          0,
+          0
+        ],
+        "leg_R": [
+          -0.49,
+          0,
+          0
+        ],
+        "arm_L": [
+          -0.34,
+          0,
+          0
+        ],
+        "arm_R": [
+          0.34,
+          0,
+          0
+        ]
+      }
+    },
+    "walk_b": {
+      "seed": 1200,
+      "bones": {
+        "leg_L": [
+          -0.49,
+          0,
+          0
+        ],
+        "leg_R": [
+          0.49,
+          0,
+          0
+        ],
+        "arm_L": [
+          0.34,
+          0,
+          0
+        ],
+        "arm_R": [
+          -0.34,
+          0,
+          0
+        ]
+      }
+    }
+  }
+}
