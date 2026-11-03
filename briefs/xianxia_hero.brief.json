@@ -1,0 +1,49 @@
+{
+  "goal": "xianxia_hero",
+  "style": "@styles/xianxia_ethereal",
+  "palette": "@palettes/xianxia_element",
+  "components": [
+    {"id": "xx_azure_sage_3d", "type": "glb", "tri_budget": 15000,
+     "skeleton": "@skeletons/humanoid_v1",
+     "prompt_core": "silver-white haired water sage, dark ornamental crown, layered indigo and silver hanfu robes with wide draped sleeves, blue-gem embroidery",
+     "must_have": ["silver-white hair", "layered indigo and silver robes", "dark crown ornament"],
+     "must_not": ["missing fingers", "collapsed sleeves", "merged robe layers"],
+     "anims": [{"name": "idle", "loop": true, "fps": 24},
+               {"name": "walk", "loop": true, "fps": 24},
+               {"name": "channel_water", "duration": 2.0, "fps": 24,
+                "events": [{"name": "surge", "t": 0.6}, {"name": "release", "t": 1.4}]},
+               {"name": "staff_salute", "duration": 1.2, "fps": 24,
+                "hand_pose": "@poses/grip_sword",
+                "events": [{"name": "bow", "t": 0.5}]},
+               {"name": "seated_meditate", "duration": 4.0, "loop": true, "fps": 24}],
+     "root_motion": "in_place",
+     "attachments": [{"id": "staff_main", "component": "xx_sage_staff_3d",
+                      "socket": "hand.r",
+                      "keep_during": ["idle", "walk", "channel_water", "staff_salute"]}],
+     "collision": "capsule-approx",
+     "review": "human"},
+    {"id": "xx_sage_staff_3d", "type": "glb", "prop": true, "tri_budget": 1500,
+     "prompt_core": "ornate silver sage staff, twisted dark-metal shaft, large glowing blue gem in a claw setting, tassel cord",
+     "must_have": ["blue gem headpiece", "straight shaft"],
+     "must_not": ["bent shaft", "extra gems"],
+     "review": "auto"}
+  ],
+  "composition": {
+    "lighting_rig": "@rigs/std_xianxia",
+    "layout": {
+      "rows": [{"id": "ground", "y": 648}],
+      "xx_azure_sage_3d_row": "ground", "xx_azure_sage_3d_x": 512,
+      "feet_pivot": true
+    },
+    "shots": ["turntable_front", "turntable_side", "turntable_back",
+              "channel_surge", "staff_attach_close"],
+    "shot_expect": {},
+    "action_shots": [
+      {"name": "channel_sequence",
+       "cast": {"sage": "xx_azure_sage_3d"},
+       "captures": [{"t": 0.6, "camera": "front_close"},
+                    {"t": 1.4, "camera": "front_close"}],
+       "expect": {"props_attached": true}}
+    ]
+  }
+}

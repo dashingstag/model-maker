@@ -1,0 +1,11 @@
+{
+  "name": "std_xianxia",
+  "canvas_modulate": "#b8b0cc",
+  "light_2d": {
+    "color": "#ffd9a0",
+    "energy": 2.0,
+    "texture_scale": 3.0,
+    "anchor": "center-above-hero"
+  },
+  "unit_render_bg": "#2a2a38"
+}

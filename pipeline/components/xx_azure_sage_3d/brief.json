@@ -1,0 +1,103 @@
+{
+  "id": "xx_azure_sage_3d",
+  "type": "glb",
+  "tri_budget": 15000,
+  "skeleton": "@skeletons/humanoid_v1",
+  "prompt_core": "silver-white haired water sage, dark ornamental crown, layered indigo and silver hanfu robes with wide draped sleeves, blue-gem embroidery",
+  "must_have": [
+    "silver-white hair",
+    "layered indigo and silver robes",
+    "dark crown ornament"
+  ],
+  "must_not": [
+    "missing fingers",
+    "collapsed sleeves",
+    "merged robe layers"
+  ],
+  "anims": [
+    {
+      "name": "idle",
+      "loop": true,
+      "fps": 24
+    },
+    {
+      "name": "walk",
+      "loop": true,
+      "fps": 24
+    },
+    {
+      "name": "channel_water",
+      "duration": 2.0,
+      "fps": 24,
+      "events": [
+        {
+          "name": "surge",
+          "t": 0.6
+        },
+        {
+          "name": "release",
+          "t": 1.4
+        }
+      ]
+    },
+    {
+      "name": "staff_salute",
+      "duration": 1.2,
+      "fps": 24,
+      "hand_pose": "@poses/grip_sword",
+      "events": [
+        {
+          "name": "bow",
+          "t": 0.5
+        }
+      ]
+    },
+    {
+      "name": "seated_meditate",
+      "duration": 4.0,
+      "loop": true,
+      "fps": 24
+    }
+  ],
+  "root_motion": "in_place",
+  "attachments": [
+    {
+      "id": "staff_main",
+      "component": "xx_sage_staff_3d",
+      "socket": "hand.r",
+      "keep_during": [
+        "idle",
+        "walk",
+        "channel_water",
+        "staff_salute"
+      ]
+    }
+  ],
+  "collision": "capsule-approx",
+  "review": "human",
+  "goal": "xianxia_hero",
+  "style": {
+    "name": "xianxia_ethereal",
+    "suffix": "ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece",
+    "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, gradient background, low quality",
+    "subject_bg": "isolated on plain solid white background",
+    "scene_suffix": "wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters"
+  },
+  "palette": {
+    "name": "xianxia_element",
+    "colors": {
+      "crimson_aura": "#e03a2f",
+      "crimson_deep": "#5c1512",
+      "blood_moon": "#f2e6dd",
+      "bone_white": "#e8e0d4",
+      "ink_black": "#14100f",
+      "jade_aura": "#3fd87a",
+      "jade_deep": "#0d3a24",
+      "spirit_cyan": "#7fd8e8",
+      "night_blue": "#14283c",
+      "silver_moon": "#c8d8e8",
+      "gold_line": "#d9b568"
+    },
+    "prompt_hints": "crimson blood-moon aura vs jade verdant glow, ink-black robes with ornate embroidery, bone-white hair, dark elemental backdrop"
+  }
+}

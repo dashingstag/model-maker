@@ -1,0 +1,53 @@
+{
+  "id": "xx_falls_mid",
+  "type": "parallax",
+  "factor": 0.25,
+  "prompt_core": "waterfalls cascading off floating cliff edges into banks of luminous mist, glowing blue spirit trees on ledges, rope bridges crossing between rocks",
+  "neg_extra": "characters, people, open sky, text",
+  "must_have": [
+    "waterfalls",
+    "mist banks",
+    "glowing blue foliage"
+  ],
+  "must_not": [
+    "characters",
+    "text",
+    "dry cliffs"
+  ],
+  "seeds": 2,
+  "review": "auto",
+  "goal": "xianxia_overworld",
+  "style": {
+    "name": "xianxia_ethereal",
+    "suffix": "ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece",
+    "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, gradient background, low quality",
+    "subject_bg": "isolated on plain solid white background",
+    "scene_suffix": "wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters"
+  },
+  "palette": {
+    "name": "xianxia_mist",
+    "colors": {
+      "robe_white": "#f5f0e8",
+      "robe_gold": "#d9b568",
+      "robe_azure": "#4a7a9e",
+      "robe_cinnabar": "#b8473a",
+      "robe_ink": "#3a4a52",
+      "robe_teal": "#3e8a8a",
+      "robe_rose": "#c98a9e",
+      "jade": "#7fbfa8",
+      "ribbon_red": "#c0392b",
+      "skin": "#e8c8a8",
+      "hair_white": "#e8e8f0",
+      "hair_black": "#2a2430",
+      "mist_lilac": "#b8a8d0",
+      "peak_indigo": "#2e3a5c",
+      "sky_peach": "#e8a878",
+      "sky_violet": "#6e5a9e",
+      "falls_teal": "#4a9aa0",
+      "glow_cyan": "#8fd8e0",
+      "leaf_blue": "#6fb8d8",
+      "light_warm": "#ffd9a0"
+    },
+    "prompt_hints": "moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist"
+  }
+}

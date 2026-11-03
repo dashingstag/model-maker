@@ -1,0 +1,58 @@
+{
+  "goal": "xianxia_hero",
+  "rig": {
+    "name": "std_xianxia",
+    "canvas_modulate": "#b8b0cc",
+    "light_2d": {
+      "color": "#ffd9a0",
+      "energy": 2.0,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2a2a38"
+  },
+  "shots": [
+    "turntable_front",
+    "turntable_side",
+    "turntable_back",
+    "channel_surge",
+    "staff_attach_close"
+  ],
+  "shot_expect": {},
+  "action_shots": [
+    {
+      "name": "channel_sequence",
+      "cast": {
+        "sage": "xx_azure_sage_3d"
+      },
+      "captures": [
+        {
+          "t": 0.6,
+          "camera": "front_close"
+        },
+        {
+          "t": 1.4,
+          "camera": "front_close"
+        }
+      ],
+      "expect": {
+        "props_attached": true
+      }
+    }
+  ],
+  "layout": {
+    "rows": [
+      {
+        "id": "ground",
+        "y": 648
+      }
+    ],
+    "xx_azure_sage_3d_row": "ground",
+    "xx_azure_sage_3d_x": 512,
+    "feet_pivot": true
+  },
+  "components": [
+    "xx_azure_sage_3d",
+    "xx_sage_staff_3d"
+  ]
+}

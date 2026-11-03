@@ -1,0 +1,48 @@
+{
+  "id": "xx_card_monk",
+  "type": "ui_image",
+  "h_px": 512,
+  "w_px": 340,
+  "prompt_core": "bald wandering monk in layered dark kasaya robes, hands pressed in prayer, large wooden bead necklace, glowing ring of runic symbols forming a halo behind his head, crimson wasteland",
+  "style_anchor": "xx_card_blade",
+  "must_have": [
+    "prayer pose",
+    "wooden beads",
+    "runic halo ring",
+    "bald head"
+  ],
+  "must_not": [
+    "text",
+    "letters",
+    "border",
+    "frame",
+    "hair"
+  ],
+  "seeds": 4,
+  "review": "human",
+  "goal": "xianxia_roster",
+  "style": {
+    "name": "xianxia_dark",
+    "suffix": "dark ornate xianxia character card art, dramatic elemental aura swirling around the figure, intricate embroidered hanfu, bold ink-painterly strokes, high contrast, poster composition, upper-body focus, game asset, masterpiece",
+    "negative": "photorealistic, photo, 3d render, text, letters, typography, title, watermark, signature, logo, border, frame, extra limbs, deformed hands, second figure, low quality",
+    "subject_bg": "full-bleed painted dark backdrop, art extends to all edges",
+    "scene_suffix": "dark atmospheric xianxia backdrop, ink wash, elemental haze, no characters"
+  },
+  "palette": {
+    "name": "xianxia_element",
+    "colors": {
+      "crimson_aura": "#e03a2f",
+      "crimson_deep": "#5c1512",
+      "blood_moon": "#f2e6dd",
+      "bone_white": "#e8e0d4",
+      "ink_black": "#14100f",
+      "jade_aura": "#3fd87a",
+      "jade_deep": "#0d3a24",
+      "spirit_cyan": "#7fd8e8",
+      "night_blue": "#14283c",
+      "silver_moon": "#c8d8e8",
+      "gold_line": "#d9b568"
+    },
+    "prompt_hints": "crimson blood-moon aura vs jade verdant glow, ink-black robes with ornate embroidery, bone-white hair, dark elemental backdrop"
+  }
+}

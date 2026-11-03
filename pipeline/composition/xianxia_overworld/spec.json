@@ -1,0 +1,103 @@
+{
+  "goal": "xianxia_overworld",
+  "rig": {
+    "name": "std_xianxia",
+    "canvas_modulate": "#b8b0cc",
+    "light_2d": {
+      "color": "#ffd9a0",
+      "energy": 2.0,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2a2a38"
+  },
+  "shots": [
+    "vista_all",
+    "terrace_pair",
+    "meditation_close",
+    "sword_salute",
+    "sleeve_dance",
+    "sage_channel",
+    "low_light"
+  ],
+  "shot_expect": {
+    "vista_all": {
+      "same_row_overlap_events": 0
+    },
+    "terrace_pair": {
+      "same_row_overlap_events": 0
+    },
+    "sage_channel": {
+      "same_row_overlap_events": 0
+    },
+    "low_light": {
+      "lit_coverage_min": 0.05
+    }
+  },
+  "action_shots": [
+    {
+      "name": "salute_sync",
+      "cast": {
+        "bearer": "xx_immortal_m",
+        "witness": "xx_immortal_f"
+      },
+      "captures": [
+        {
+          "t": 0.6,
+          "camera": "terrace"
+        }
+      ],
+      "expect": {
+        "both_on_row": "terrace",
+        "min_gap_px": 80
+      }
+    }
+  ],
+  "layout": {
+    "rows": [
+      {
+        "id": "terrace",
+        "y": 648
+      },
+      {
+        "id": "ledge",
+        "y": 590
+      }
+    ],
+    "xx_immortal_m_row": "terrace",
+    "xx_immortal_f_row": "terrace",
+    "xx_azure_sage_row": "terrace",
+    "xx_immortal_m_x": 460,
+    "xx_immortal_f_x": 760,
+    "xx_azure_sage_x": 240,
+    "spacing_px": 220,
+    "patrol": {
+      "speed_px": 60,
+      "from_x": -100,
+      "to_x": 1250
+    },
+    "light_anchor": {
+      "of": "xx_immortal_m",
+      "offset": [
+        30,
+        -300
+      ]
+    },
+    "feet_pivot": true
+  },
+  "components": [
+    "xx_peaks_far",
+    "xx_falls_mid",
+    "xx_terrace",
+    "xx_immortal_m",
+    "xx_immortal_f",
+    "xx_m_robes",
+    "xx_f_robes",
+    "xx_m_hair",
+    "xx_f_hair",
+    "xx_azure_sage",
+    "xx_sage_staff",
+    "xx_jian",
+    "xx_ribbon"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "goal": "xianxia_roster",
+  "rig": {
+    "name": "std_xianxia",
+    "canvas_modulate": "#b8b0cc",
+    "light_2d": {
+      "color": "#ffd9a0",
+      "energy": 2.0,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2a2a38"
+  },
+  "shots": [
+    "select_grid",
+    "card_focus",
+    "element_swap"
+  ],
+  "shot_expect": {
+    "select_grid": {
+      "lit_coverage_min": 0.04
+    }
+  },
+  "action_shots": [],
+  "layout": {
+    "grid": {
+      "cols": 4,
+      "rows": 2,
+      "card_w": 300,
+      "card_h": 500,
+      "gap": 14,
+      "origin": [
+        24,
+        60
+      ]
+    },
+    "cards": [
+      "xx_card_azure_sage",
+      "xx_card_blade",
+      "xx_card_archivist",
+      "xx_card_venom",
+      "xx_card_mirror",
+      "xx_card_monk",
+      "xx_card_planets"
+    ],
+    "backdrop": "xx_select_backdrop"
+  },
+  "components": [
+    "xx_select_backdrop",
+    "xx_card_blade",
+    "xx_card_archivist",
+    "xx_card_venom",
+    "xx_card_mirror",
+    "xx_card_monk",
+    "xx_card_azure_sage",
+    "xx_card_planets",
+    "xx_card_blade_jade",
+    "xx_card_archivist_jade",
+    "xx_card_venom_jade",
+    "xx_card_mirror_jade",
+    "xx_card_monk_jade",
+    "xx_card_planets_jade"
+  ]
+}

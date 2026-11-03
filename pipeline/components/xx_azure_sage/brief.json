@@ -1,0 +1,78 @@
+{
+  "id": "xx_azure_sage",
+  "type": "sprite",
+  "h_px": 400,
+  "pivot": "feet",
+  "prompt_core": "silver-white haired water sage, long hair held by a dark ornamental crown, layered indigo and silver hanfu robes with wide draped sleeves, intricate blue-gem embroidery, wisps of water-dragon aura curling around him, full body",
+  "must_have": [
+    "silver-white hair with dark crown ornament",
+    "layered indigo and silver robes",
+    "blue-gem embroidery",
+    "full body head to feet"
+  ],
+  "must_not": [
+    "extra limbs",
+    "cropped feet",
+    "second figure",
+    "text",
+    "modern clothing"
+  ],
+  "poses": [
+    "idle",
+    {
+      "name": "seated_meditation",
+      "prompt_extra": "seated on a rock ledge, one hand raised holding a glowing water orb, water-dragon aura swirling around him",
+      "init_from": "idle",
+      "denoise": 0.62
+    },
+    {
+      "name": "channel_water",
+      "prompt_extra": "standing, palm forward, channeling a spiraling water-dragon aura",
+      "init_from": "idle",
+      "denoise": 0.58
+    },
+    {
+      "name": "staff_stance",
+      "prompt_extra": "resting one hand on an ornate silver staff topped with a glowing blue gem",
+      "init_from": "idle",
+      "denoise": 0.55
+    }
+  ],
+  "style_anchor": "xx_immortal_m",
+  "seeds": 4,
+  "review": "human",
+  "goal": "xianxia_overworld",
+  "style": {
+    "name": "xianxia_ethereal",
+    "suffix": "ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece",
+    "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, gradient background, low quality",
+    "subject_bg": "isolated on plain solid white background",
+    "scene_suffix": "wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters"
+  },
+  "palette": {
+    "name": "xianxia_mist",
+    "colors": {
+      "robe_white": "#f5f0e8",
+      "robe_gold": "#d9b568",
+      "robe_azure": "#4a7a9e",
+      "robe_cinnabar": "#b8473a",
+      "robe_ink": "#3a4a52",
+      "robe_teal": "#3e8a8a",
+      "robe_rose": "#c98a9e",
+      "jade": "#7fbfa8",
+      "ribbon_red": "#c0392b",
+      "skin": "#e8c8a8",
+      "hair_white": "#e8e8f0",
+      "hair_black": "#2a2430",
+      "mist_lilac": "#b8a8d0",
+      "peak_indigo": "#2e3a5c",
+      "sky_peach": "#e8a878",
+      "sky_violet": "#6e5a9e",
+      "falls_teal": "#4a9aa0",
+      "glow_cyan": "#8fd8e0",
+      "leaf_blue": "#6fb8d8",
+      "light_warm": "#ffd9a0"
+    },
+    "prompt_hints": "moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist"
+  }
+}
