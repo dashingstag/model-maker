@@ -1,0 +1,19 @@
+{
+  "id": "sword_duel",
+  "roles": ["attacker", "defender"],
+  "spacing_m": 1.6,
+  "facing": "each other",
+  "timeline": [
+    {"t": 0.0, "role": "attacker", "anim": "sword_swing"},
+    {"t": 0.2, "role": "defender", "anim": "parry",
+     "sync_on": "attacker.sword_swing@contact", "tolerance_s": 0.08},
+    {"t": 0.9, "role": "attacker", "anim": "recover"}
+  ],
+  "events": {
+    "contact": {
+      "actor": "attacker", "anim": "sword_swing",
+      "expect": "blades within 0.15m of each other",
+      "region": "mid_blade"
+    }
+  }
+}

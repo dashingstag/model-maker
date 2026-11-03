@@ -68,6 +68,12 @@ model-maker/
     palettes/dusk.json               # named hexes + prompt_hints (color NAMES)
     rigs/std_dusk.json               # canvas_modulate + light_2d + unit_render_bg
     poses/walk_cycle.json            # named bone-rotation poses for renders
+    poses/grip_sword.json            # finger-joint targets + tolerance, per
+                                     # hand — for rigged glb hand_pose checks
+    skeletons/humanoid_v1.json       # bone graph spec: required bones, finger
+                                     # chains, sockets, per-joint ROM bounds
+    actions/sword_duel.json          # multi-actor timeline: roles, clip
+                                     # calls, event anchors, sync tolerance
 
   models.json                    # generative-model registry + model_meta
                                  # (license/source/sha256/custom-node deps)
@@ -196,6 +202,9 @@ The single mutable file in a component folder; written atomically
 | A component | `pipeline/components/<domain>_<id>/` | any brief — the library is shared |
 | A generative model | entry in `models.json` (+ `model_meta`) | tools and briefs via `@<id>` |
 | A style / palette / rig | `shared/<kind>/<name>.json` | briefs via `@<kind>/<name>` |
+| A skeleton spec | `shared/skeletons/<name>.json` | `glb` components via `skeleton:` |
+| An action sequence | `shared/actions/<name>.json` | `action_shots` via `of:` |
+| A hand pose | `shared/poses/<name>.json` | clip entries via `hand_pose:` |
 | A tool binary/path | `tools/env.json` | every script — no hardcoded exe paths |
 | A side experiment | `experiment/<name>/` | nothing — self-contained |
 
@@ -298,18 +307,71 @@ reference (as implemented by `tools/scaffold.py`):
   "components": [
     {"id": "captain",    "type": "sprite",  "h_px": 384, "pivot": "feet",
      "prompt_core": "pirate captain, red coat, tricorn hat, eyepatch, orange beard, cutlass",
-     "poses": ["idle", "walk_a", "walk_b"]},
+     "must_have": ["tricorn hat", "eyepatch on right eye", "orange beard", "cutlass at hip"],
+     "must_not":  ["extra limbs", "merged background objects", "duplicate hat", "ship-body torso"],
+     "poses": ["idle", {"name": "walk_a", "prompt_extra": "mid-stride, legs apart"}, "walk_b"],
+     "guide": "depth", "silhouette_iou_min": 0.55,
+     "seeds": 4, "review": "human"},
     {"id": "crew",       "type": "sprite_variant", "of": "captain",
-     "count": 5, "vary": ["coat_color", "trim"], "method": "palette"},
+     "count": 5, "method": "palette", "vary": ["coat", "trim"],
+     "variants": [
+       {"id": "crew_01", "coat": "@palettes/dusk.colors.sea",    "trim": "@palettes/dusk.colors.trim"},
+       {"id": "crew_02", "coat": "@palettes/dusk.colors.sky_hi", "trim": "@palettes/dusk.colors.trim"},
+       {"id": "crew_03", "coat": "@palettes/dusk.colors.wood",   "trim": "@palettes/dusk.colors.canvas_modulate"},
+       {"id": "crew_04", "coat": "@palettes/dusk.colors.pants",  "trim": "@palettes/dusk.colors.light_warm"},
+       {"id": "crew_05", "coat": "@palettes/dusk.colors.coat",   "trim": "@palettes/dusk.colors.sea"}
+     ],
+     "review": "auto"},
     {"id": "portrait",   "type": "ui_image", "h_px": 256,
-     "prompt_core": "bust portrait of a pirate captain, tricorn hat, eyepatch, grey beard, dramatic rim light"},
+     "prompt_core": "bust portrait of a pirate captain, tricorn hat, eyepatch, grey beard, dramatic rim light",
+     "same_character_as": "captain",
+     "must_have": ["tricorn hat", "eyepatch", "grey beard"],
+     "must_not":  ["full body", "extra figures", "text"],
+     "seeds": 6, "review": "human"},
     {"id": "bg_sky",     "type": "parallax", "factor": 0.2,
      "hero_art": true, "min_visible_pct": 40,
-     "prompt_core": "sunset sky over the sea, orange and purple clouds, distant ship silhouettes"},
+     "prompt_core": "sunset sky over the sea, orange and purple clouds, distant ship silhouettes",
+     "prompt_extra": "seen from mid-deck, horizon high in frame",
+     "neg_extra": "characters, birds, foreground objects",
+     "seeds": 2, "review": "auto"},
     {"id": "bg_deck",    "type": "parallax", "factor": 0.6,
-     "prompt_core": "pirate ship wooden deck and railings overlooking ocean, warm dusk light, no characters"},
+     "prompt_core": "pirate ship wooden deck and railings overlooking ocean, warm dusk light, no characters",
+     "neg_extra": "characters, people, birds",
+     "seeds": 2, "review": "auto"},
     {"id": "captain_3d", "type": "glb", "tri_budget": 4000,
-     "anims": ["idle", "walk"], "collision": "capsule-approx"}
+     "anims": ["idle", "walk"], "collision": "capsule-approx"},
+    {"id": "sword",      "type": "glb", "tri_budget": 600, "prop": true},
+    {"id": "duelist",    "type": "glb", "tri_budget": 6000,
+     "skeleton": "@skeletons/humanoid_v1",
+     "anims": [
+       {"name": "idle_armed", "loop": true, "hand_pose": "@poses/grip_sword"},
+       {"name": "draw",       "duration": 0.5, "events": [{"name": "grip", "t": 0.3}]},
+       {"name": "sword_swing","duration": 0.6,
+        "events": [{"name": "contact", "t": 0.35}],
+        "hand_pose": "@poses/grip_sword"},
+       {"name": "parry",      "duration": 0.4,
+        "events": [{"name": "block", "t": 0.2}]},
+       {"name": "recover",    "duration": 0.8}
+     ],
+     "attachments": [
+       {"id": "sword_main", "component": "sword", "socket": "hand.r",
+        "keep_during": ["idle_armed", "draw", "sword_swing", "parry", "recover"]}
+     ],
+     "collision": "capsule-approx", "review": "human"},
+    {"id": "opponent",   "type": "glb", "tri_budget": 6000,
+     "skeleton": "@skeletons/humanoid_v1",
+     "anims": [
+       {"name": "idle_armed", "loop": true, "hand_pose": "@poses/grip_sword"},
+       {"name": "parry",      "duration": 0.4,
+        "events": [{"name": "block", "t": 0.2}],
+        "hand_pose": "@poses/grip_sword"},
+       {"name": "stagger",    "duration": 0.7}
+     ],
+     "attachments": [
+       {"id": "sword_main", "component": "sword", "socket": "hand.r",
+        "keep_during": ["idle_armed", "parry"]}
+     ],
+     "collision": "capsule-approx", "review": "human"}
   ],
   "composition": {
     "lighting_rig": "@rigs/std_dusk",
@@ -321,41 +383,117 @@ reference (as implemented by `tools/scaffold.py`):
       "feet_pivot": true
     },
     "shots": ["wide_all", "captain_closeup", "crew_lineup",
-              "walk_t0", "walk_t1", "walk_t2", "low_light", "ui_dialogue"]
+              "walk_t0", "walk_t1", "walk_t2", "low_light", "ui_dialogue"],
+    "shot_expect": {
+      "wide_all":    {"same_row_overlap_events": 0},
+      "walk_t1":     {"same_row_overlap_events": 0},
+      "low_light":   {"lit_coverage_min": 0.03},
+      "ui_dialogue": {"portrait_visible": true}
+    },
+    "action_shots": [
+      {"name": "duel_exchange", "of": "@actions/sword_duel",
+       "cast": {"attacker": "duelist", "defender": "opponent"},
+       "captures": [{"t": 0.35, "label": "contact"},
+                    {"t": 0.0,  "label": "wind_up"}],
+       "expect": {"props_attached": true, "no_ground_clip": true,
+                  "contact_within_m": 0.15}}
+    ]
   }
 }
 ```
 
-Semantics:
+All fields are optional except `id`/`type`. Fields a consumer hasn't
+implemented yet are carried through to `brief.json`/`spec.json` untouched —
+the brief is the contract; tools catch up.
 
-- `pivot`: `"feet"` = bottom-center of alpha bounds (px); `"center"` = bbox
-  center. Collider = alpha bounds shrank 10%, in px; the px→world scale
-  (`h_px` / world height) is stored in the manifest.
-- `vary` names palette regions (e.g. `coat_color`, `trim`); `method`
-  selects the transform: `"palette"` = region-masked hue remap inside the
-  alpha — deterministic numpy, but fragile on painterly art where hues
-  bleed across regions (ledger #7: skin picked up coat hues — needs a
-  tighter mask or per-part generation). Geometry-level differences are out
-  of scope — that requires a gen, not a variant.
+**Field semantics:**
+
+- **Prompt shaping:** `prompt_core` is the subject; `prompt_extra` appends
+  angle/framing detail; `neg_extra` appends to the shared negative (a
+  parallax drops "characters", a sprite drops "scenery"). `poses` entries
+  may be objects `{name, prompt_extra}` — push poses away from
+  standing-static output.
+- **`must_have` / `must_not` — dual-use checklists.** `must_have` is both
+  appended to the prompt *and* the curation checklist; `must_not` lists
+  degenerate modes (hallucinated objects, extra limbs — the classes that
+  previously needed a human eyeball). This is where "on-brief" becomes
+  data instead of a vibe.
+- **Consistency refs:** `style_anchor` = component id whose `accepted/`
+  art this must family-match (histogram check); `same_character_as` =
+  stronger — same face/hat/props (the portrait-matches-captain class).
+- **Guide quality:** `guide: depth|beauty` + `silhouette_iou_min` — alpha
+  IoU floor between painted output and the guide render at curation
+  (hardening rule 4); `beauty` routes img2img at ~0.5 denoise when depth
+  is too literal.
+- **Variants:** `method` selects the transform — `"palette"`
+  (region-masked hue remap; fragile on painterly art, ledger #7),
+  `"controlnet"` (regen through the *same* depth render — same
+  silhouette, different paint), `"modulate"` (runtime tint, free),
+  `"parts"` (per-region masks). `vary` names the regions that change;
+  `variants` gives explicit per-member targets keyed by **palette name**
+  (`@palettes/dusk.colors.sea` — dotted paths resolve into the file's
+  keys) so crew colors come from the family palette, not
+  hues hardcoded in `extract.py`.
+- **Rigged GLBs:** `skeleton` is an `@skeletons/<name>` ref — a bone-graph
+  spec (required bones, finger chains, sockets, per-joint ROM bounds), not
+  an asset. Components sharing a skeleton share the clip/retarget pool.
+  `prop: true` marks an attachable glb (no skeleton, no unit pose budget).
+- **`anims` may be objects**, not just names: `{name, loop, duration,
+  events, hand_pose, check}`. `events` are named frames (`contact`,
+  `grip`, `block`) — they become both C3 capture points and action-shot
+  sync anchors. `hand_pose` is an `@poses/<name>` ref of finger-joint
+  targets verified against the posed skeleton within `tolerance_deg` —
+  the mechanism for "gripping a sword" vs. generic splayed fingers.
+  Strings and objects mix freely; scaffold compares clips by name for
+  reuse (richer requirements on a certified clip assert only what the
+  manifest stored).
+- **`attachments`** bind a `prop` component to a skeleton `socket`
+  (`hand.r`, `back`, …) with `keep_during` listing the clips that must
+  hold it. This makes swords/props *components* — budgeted, certified,
+  reusable — rather than mesh tags inside a glb. Cast and attachment ids
+  must be declared components (scaffold-validated).
+- **`action_shots`** (composition) are multi-actor timelines:
+  `of: @actions/<name>` supplies roles + sync anchors, `cast` binds roles
+  to components, `captures` are clock-t seeks (same determinism rule as
+  `walk_t*`), `expect` holds the relational asserts (`props_attached`,
+  `no_ground_clip`, `contact_within_m`). Sync events use each actor's own
+  clip `events` — "defender.parry at attacker.sword_swing@contact ±0.08s"
+  — so a 3-frame parry window is checked against clip data, not
+  eyeballed.
+- **Gates:** `seeds`, `review: human|auto` — spend curation effort where
+  failure is expensive. `h_px`, `factor`, `tri_budget`, `anims`,
+  `collision`, `hero_art`, `min_visible_pct` as before. `pivot`:
+  `"feet"` = bottom-center of alpha bounds (px); collider = alpha bounds
+  −10%; the px→world scale (`h_px` / world height) is stored in the
+  manifest.
 - A `count: N` variant component expands inside its own folder:
   `processed/<variant_id>/` per member (`crew_01…crew_05`), listed in
   `manifest.variants`, each variant's `inputs` pinning the base artifact
   sha. Godot mirrors as `assets/components/crew/crew_01/`.
-- `layout` drives A1 placement and A2 expectations: named depth `rows`
-  with y-coords (row assignment per component class — this is the fix for
-  the walk-through bug class: captain and crew on different rows),
-  `spacing_px`, scripted `patrol` path, `light_anchor` relative to a named
-  component, `feet_pivot` foot alignment.
-- `min_visible_pct`: measured at A1 by analytic rect subtraction (see A1).
-- A brief is immutable once its components reach `certified` — change it by
-  bumping the brief file (checked in) and re-scaffolding; scaffold diff is
+- **`shot_expect`** maps shot name → metric floors
+  (`lit_coverage_min`, `same_row_overlap_events`, presence asserts). This
+  is where A2's per-shot expectations live — instead of magic constants
+  in the runner. Keys must name shots in `shots`.
+- **`layout`** drives A1 placement and A2 expectations: named depth
+  `rows` with y-coords (row assignment per component class — the fix for
+  the walk-through class), `spacing_px`, scripted `patrol` path,
+  `light_anchor` relative to a named component, `feet_pivot`.
+- **Computed by scaffold, not authored:** parallax `min_w_px` = viewport +
+  patrol_range × `factor` (pan headroom is derived, not guessed);
+  `walk_t*` seek times from `spacing_px`/`speed_px` — deterministic
+  capture points instead of `_frames(8)` luck.
+- A brief is immutable once its components reach `certified` — change it
+  by bumping the file (checked in) and re-scaffolding; scaffold diff is
   the change log.
 
 **Exit gate:** every component `type` has a handler
 (`sprite|sprite_variant|ui_image|parallax|glb`); every declared constraint
-has an implementer; every `@` ref resolves in `shared/` or `models.json`;
-component dirs exist for each uncertified id with a `brief.json` slice
-(component entry + resolved style/palette snapshot + goal + ref shas).
+has an implementer; every `@` ref resolves in `shared/` or `models.json`
+(including `variants` targets — palette names, not free hues);
+every `shot_expect` key names a shot in `shots`; every `attachments[]`
+and `action_shots[].cast` id is a declared component; component dirs exist
+for each uncertified id with a `brief.json` slice (component entry +
+resolved style/palette snapshot + goal + ref shas).
 
 ---
 
@@ -430,6 +568,15 @@ first try). No key color in the gen path → no halo class by construction.
 5. **For GLB:** budget at export (tris/mesh count — fail in Blender);
    node list vs. manifest; anim sanity strip → `sanity/` (turntable + walk
    frames) catches joint clipping before Godot adds variables.
+   **Rigged GLBs add:** skeleton graph vs `@skeletons` spec (required
+   bones present, finger chains complete, hierarchy matches); every clip
+   checked for duration, loop-seam pose diff (< ε when `loop: true`),
+   joint-clip (limbs/props through torso or ground), and ROM bounds from
+   the skeleton spec; `hand_pose` clips verified against the `@poses`
+   joint targets at the pose's `check_frames` within `tolerance_deg`;
+   attachments verified for socket existence and transform continuity —
+   the prop must follow the socket through every `keep_during` clip, a
+   sword floating off the hand is a C2 fail, not a composition finding.
 6. **`sprite_variant`:** region-masked hue remap per the brief's `vary`
    table; `inputs` records base artifact sha.
 
@@ -457,7 +604,10 @@ validator clean.
 5. **Checks on the render:** HSV histogram vs. palette (washed-out, bug #4 —
    on the isolated component, not in a busy scene); fringe-on-render; one
    frame per anim pose for joint/clip vision; `low_light` unit shot verifies
-   normal-map convention.
+   normal-map convention. Rigged GLBs add a capture at every clip `event`
+   frame (`contact`, `grip`, `block`) plus a hand close-up on `hand_pose`
+   clips — finger fidelity is checked at unit scale, not left for the duel
+   shot to reveal.
 
 **Gate:** unit render passes metrics + agent checklist → `vision.json`
 written, `manifest.status: certified`.
@@ -500,6 +650,7 @@ Runs only after all declared components are certified (and none stale).
 | Layer visibility | composition waste (#5) | analytic, per A1 |
 | Lit coverage | light placement (#6) | transform each sprite's alpha to screen space, count captured pixels above a luminance floor — floor is **per-shot** (low_light gets a lower-but-nonzero floor) or a ratio vs. the C3 lit unit render; `Image.get_data()` byte scan, not `get_pixel` |
 | Full-scene histogram | palette drift under the real rig (#4) | downsampled capture, HSV binning, delta-E vs `@palettes` — in Python (numpy), not GDScript |
+| Action sync | desync, floating props, ground clip in multi-actor shots | `action_shots`: cast binds `@actions` roles to components; one shared clock seeks all actors per capture (`t` anchors + `sync_on` resolved through each actor's clip `events`); `expect` asserts `props_attached` (socket transform continuity at the capture frame), `no_ground_clip` (bone/prop AABB below floor plane), `contact_within_m` (prop-tip distance at the contact anchor) |
 
 Plus existing metrics (draw calls, tris, frame p95, collision bodies —
 asserted on the *imported* scene for `-colonly`, anim states via seek,
@@ -560,7 +711,12 @@ sha256s + normalized content hash (strip `uid=` lines) — not byte-for-byte.
    seek-based capture).
 5. **A1 builder + A2 checks** — port patterns from `experiment/` scripts.
 6. **Publish tool** — `processed/` + `.import` → `godot/assets/`.
-7. Backlog: IP-Adapter style-lock; parallax outpaint for wide pans;
+7. **Rigged-glb tooling** — armature authoring in `blender_*.py` (the
+   current generator emits primitive meshes, not bones), clip validation
+   against `@skeletons` spec (loop-seam, ROM, joint-clip), socket/handle
+   continuity checks, action-shot clock in `runner.gd`. The schema fields
+   above are contract-level until this lands.
+8. Backlog: IP-Adapter style-lock; parallax outpaint for wide pans;
    `mobile`/`forward_plus` headless path; VLM executor for curation.
 
 Check-accumulation loop:

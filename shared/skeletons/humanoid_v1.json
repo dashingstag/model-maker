@@ -1,0 +1,28 @@
+{
+  "id": "humanoid_v1",
+  "convention": "y-up, root at feet, meters; bone names lowercase with .l/.r",
+  "bones": {
+    "required": [
+      "root", "spine", "chest", "neck", "head",
+      "shoulder.l", "upper_arm.l", "forearm.l", "hand.l",
+      "shoulder.r", "upper_arm.r", "forearm.r", "hand.r",
+      "thigh.l", "shin.l", "foot.l",
+      "thigh.r", "shin.r", "foot.r"
+    ],
+    "fingers_per_hand": 5,
+    "finger_names": ["thumb", "index", "middle", "ring", "pinky"],
+    "finger_chain": "hand.{side}.{finger}.{1..3}"
+  },
+  "sockets": {
+    "hand.r": {"bone": "hand.r", "offset": [0.0, 0.08, 0.02], "rot_deg": [0, 90, 0]},
+    "hand.l": {"bone": "hand.l", "offset": [0.0, 0.08, 0.02], "rot_deg": [0, 90, 0]},
+    "back":   {"bone": "chest",  "offset": [0.0, 0.0, 0.15]}
+  },
+  "rom_deg": {
+    "elbow":    {"min": 0,   "max": 150},
+    "shoulder": {"min": -90, "max": 160},
+    "wrist":    {"min": -70, "max": 70},
+    "knee":     {"min": 0,   "max": 140}
+  },
+  "notes": "clips must stay within rom bounds; sockets are the only legal attachment points"
+}

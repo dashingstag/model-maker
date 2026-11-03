@@ -70,7 +70,9 @@ def main(goal):
            "unit_jobs": unit_jobs,
            "composition": {"components_dir": "res://assets/components",
                            "layout": spec.get("layout", {}),
-                           "layers": layers, "shots": spec["shots"]}}
+                           "layers": layers, "shots": spec["shots"],
+                           "shot_expect": spec.get("shot_expect", {}),
+                           "action_shots": spec.get("action_shots", [])}}
     job_path = os.path.join(comp_dir, "jobs.json")
     atomic_json(job_path, job)
     print("published ->", assets)

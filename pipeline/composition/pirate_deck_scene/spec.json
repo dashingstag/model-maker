@@ -21,6 +21,45 @@
     "low_light",
     "ui_dialogue"
   ],
+  "shot_expect": {
+    "wide_all": {
+      "same_row_overlap_events": 0
+    },
+    "walk_t1": {
+      "same_row_overlap_events": 0
+    },
+    "low_light": {
+      "lit_coverage_min": 0.03
+    },
+    "ui_dialogue": {
+      "portrait_visible": true
+    }
+  },
+  "action_shots": [
+    {
+      "name": "duel_exchange",
+      "of": "@actions/sword_duel",
+      "cast": {
+        "attacker": "duelist",
+        "defender": "opponent"
+      },
+      "captures": [
+        {
+          "t": 0.35,
+          "label": "contact"
+        },
+        {
+          "t": 0.0,
+          "label": "wind_up"
+        }
+      ],
+      "expect": {
+        "props_attached": true,
+        "no_ground_clip": true,
+        "contact_within_m": 0.15
+      }
+    }
+  ],
   "layout": {
     "rows": [
       {
@@ -55,6 +94,9 @@
     "portrait",
     "bg_sky",
     "bg_deck",
-    "captain_3d"
+    "captain_3d",
+    "sword",
+    "duelist",
+    "opponent"
   ]
 }

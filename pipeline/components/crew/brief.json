@@ -3,11 +3,39 @@
   "type": "sprite_variant",
   "of": "captain",
   "count": 5,
+  "method": "palette",
   "vary": [
-    "coat_color",
+    "coat",
     "trim"
   ],
-  "method": "palette",
+  "variants": [
+    {
+      "id": "crew_01",
+      "coat": "@palettes/dusk.colors.sea",
+      "trim": "@palettes/dusk.colors.trim"
+    },
+    {
+      "id": "crew_02",
+      "coat": "@palettes/dusk.colors.sky_hi",
+      "trim": "@palettes/dusk.colors.trim"
+    },
+    {
+      "id": "crew_03",
+      "coat": "@palettes/dusk.colors.wood",
+      "trim": "@palettes/dusk.colors.canvas_modulate"
+    },
+    {
+      "id": "crew_04",
+      "coat": "@palettes/dusk.colors.pants",
+      "trim": "@palettes/dusk.colors.light_warm"
+    },
+    {
+      "id": "crew_05",
+      "coat": "@palettes/dusk.colors.coat",
+      "trim": "@palettes/dusk.colors.sea"
+    }
+  ],
+  "review": "auto",
   "goal": "pirate_deck_scene",
   "style": {
     "name": "painted_game_art",

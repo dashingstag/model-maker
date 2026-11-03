@@ -5,18 +5,71 @@
   "components": [
     {"id": "captain",    "type": "sprite",  "h_px": 384, "pivot": "feet",
      "prompt_core": "pirate captain, red coat, tricorn hat, eyepatch, orange beard, cutlass",
-     "poses": ["idle", "walk_a", "walk_b"]},
+     "must_have": ["tricorn hat", "eyepatch on right eye", "orange beard", "cutlass at hip"],
+     "must_not":  ["extra limbs", "merged background objects", "duplicate hat", "ship-body torso"],
+     "poses": ["idle", {"name": "walk_a", "prompt_extra": "mid-stride, legs apart"}, "walk_b"],
+     "guide": "depth", "silhouette_iou_min": 0.55,
+     "seeds": 4, "review": "human"},
     {"id": "crew",       "type": "sprite_variant", "of": "captain",
-     "count": 5, "vary": ["coat_color", "trim"], "method": "palette"},
+     "count": 5, "method": "palette", "vary": ["coat", "trim"],
+     "variants": [
+       {"id": "crew_01", "coat": "@palettes/dusk.colors.sea",    "trim": "@palettes/dusk.colors.trim"},
+       {"id": "crew_02", "coat": "@palettes/dusk.colors.sky_hi", "trim": "@palettes/dusk.colors.trim"},
+       {"id": "crew_03", "coat": "@palettes/dusk.colors.wood",   "trim": "@palettes/dusk.colors.canvas_modulate"},
+       {"id": "crew_04", "coat": "@palettes/dusk.colors.pants",  "trim": "@palettes/dusk.colors.light_warm"},
+       {"id": "crew_05", "coat": "@palettes/dusk.colors.coat",   "trim": "@palettes/dusk.colors.sea"}
+     ],
+     "review": "auto"},
     {"id": "portrait",   "type": "ui_image", "h_px": 256,
-     "prompt_core": "bust portrait of a pirate captain, tricorn hat, eyepatch, grey beard, dramatic rim light"},
+     "prompt_core": "bust portrait of a pirate captain, tricorn hat, eyepatch, grey beard, dramatic rim light",
+     "same_character_as": "captain",
+     "must_have": ["tricorn hat", "eyepatch", "grey beard"],
+     "must_not":  ["full body", "extra figures", "text"],
+     "seeds": 6, "review": "human"},
     {"id": "bg_sky",     "type": "parallax", "factor": 0.2,
      "hero_art": true, "min_visible_pct": 40,
-     "prompt_core": "sunset sky over the sea, orange and purple clouds, distant ship silhouettes"},
+     "prompt_core": "sunset sky over the sea, orange and purple clouds, distant ship silhouettes",
+     "prompt_extra": "seen from mid-deck, horizon high in frame",
+     "neg_extra": "characters, birds, foreground objects",
+     "seeds": 2, "review": "auto"},
     {"id": "bg_deck",    "type": "parallax", "factor": 0.6,
-     "prompt_core": "pirate ship wooden deck and railings overlooking ocean, warm dusk light, no characters"},
+     "prompt_core": "pirate ship wooden deck and railings overlooking ocean, warm dusk light, no characters",
+     "neg_extra": "characters, people, birds",
+     "seeds": 2, "review": "auto"},
     {"id": "captain_3d", "type": "glb", "tri_budget": 4000,
-     "anims": ["idle", "walk"], "collision": "capsule-approx"}
+     "anims": ["idle", "walk"], "collision": "capsule-approx"},
+    {"id": "sword",      "type": "glb", "tri_budget": 600, "prop": true},
+    {"id": "duelist",    "type": "glb", "tri_budget": 6000,
+     "skeleton": "@skeletons/humanoid_v1",
+     "anims": [
+       {"name": "idle_armed", "loop": true, "hand_pose": "@poses/grip_sword"},
+       {"name": "draw",       "duration": 0.5, "events": [{"name": "grip", "t": 0.3}]},
+       {"name": "sword_swing","duration": 0.6,
+        "events": [{"name": "contact", "t": 0.35}],
+        "hand_pose": "@poses/grip_sword"},
+       {"name": "parry",      "duration": 0.4,
+        "events": [{"name": "block", "t": 0.2}]},
+       {"name": "recover",    "duration": 0.8}
+     ],
+     "attachments": [
+       {"id": "sword_main", "component": "sword", "socket": "hand.r",
+        "keep_during": ["idle_armed", "draw", "sword_swing", "parry", "recover"]}
+     ],
+     "collision": "capsule-approx", "review": "human"},
+    {"id": "opponent",   "type": "glb", "tri_budget": 6000,
+     "skeleton": "@skeletons/humanoid_v1",
+     "anims": [
+       {"name": "idle_armed", "loop": true, "hand_pose": "@poses/grip_sword"},
+       {"name": "parry",      "duration": 0.4,
+        "events": [{"name": "block", "t": 0.2}],
+        "hand_pose": "@poses/grip_sword"},
+       {"name": "stagger",    "duration": 0.7}
+     ],
+     "attachments": [
+       {"id": "sword_main", "component": "sword", "socket": "hand.r",
+        "keep_during": ["idle_armed", "parry"]}
+     ],
+     "collision": "capsule-approx", "review": "human"}
   ],
   "composition": {
     "lighting_rig": "@rigs/std_dusk",
@@ -28,6 +81,20 @@
       "feet_pivot": true
     },
     "shots": ["wide_all", "captain_closeup", "crew_lineup",
-              "walk_t0", "walk_t1", "walk_t2", "low_light", "ui_dialogue"]
+              "walk_t0", "walk_t1", "walk_t2", "low_light", "ui_dialogue"],
+    "shot_expect": {
+      "wide_all":    {"same_row_overlap_events": 0},
+      "walk_t1":     {"same_row_overlap_events": 0},
+      "low_light":   {"lit_coverage_min": 0.03},
+      "ui_dialogue": {"portrait_visible": true}
+    },
+    "action_shots": [
+      {"name": "duel_exchange", "of": "@actions/sword_duel",
+       "cast": {"attacker": "duelist", "defender": "opponent"},
+       "captures": [{"t": 0.35, "label": "contact"},
+                    {"t": 0.0,  "label": "wind_up"}],
+       "expect": {"props_attached": true, "no_ground_clip": true,
+                  "contact_within_m": 0.15}}
+    ]
   }
 }

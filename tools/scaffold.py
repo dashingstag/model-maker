@@ -7,7 +7,7 @@
 - Creates pipeline/components/<id>/ with a brief.json slice per uncertified
   component, and pipeline/composition/<goal>/
 """
-import json, os, sys
+import json, os, re, sys
 from pipelib import FileLock, LockHeld, atomic_json
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -15,15 +15,23 @@ TYPES = {"sprite", "sprite_variant", "ui_image", "parallax", "glb"}
 # fields compared when deciding whether a certified component satisfies a
 # new brief's request (requested ⊆ certified)
 CONSTRAINT_KEYS = ("type", "h_px", "pivot", "anims", "poses", "tri_budget",
-                   "factor", "collision", "method", "of")
+                   "factor", "collision", "method", "of", "vary", "variants",
+                   "count", "skeleton", "attachments", "prop")
 LOCK_WAIT = 30  # seconds to wait for a component lock before reporting held
+REF_RE = re.compile(r"^@([a-z_]+)/([A-Za-z0-9_.\-]+)$")
 
+
+def _names(v):
+    """Normalize a clip/pose list: object entries reduce to their name."""
+    if isinstance(v, list):
+        return [x.get("name") if isinstance(x, dict) else x for x in v]
+    return v
 
 def constraint_mismatch(man, req):
     """None if the certified manifest satisfies the requested constraints."""
     cert = man.get("constraints") or man
     for k in CONSTRAINT_KEYS:
-        if k in req and k in cert and req[k] != cert[k]:
+        if k in req and k in cert and _names(req[k]) != _names(cert[k]):
             return f"{k}: brief wants {req[k]!r}, certified has {cert[k]!r}"
     return None
 
@@ -35,24 +43,74 @@ def resolve_ref(ref):
     kind, name = ref[1:].split("/", 1)
     return load(f"shared/{kind}/{name}.json")
 
+def walk_refs(v):
+    """Yield every @-ref string nested in a brief value."""
+    if isinstance(v, str):
+        if v.startswith("@"):
+            yield v
+    elif isinstance(v, dict):
+        for x in v.values():
+            yield from walk_refs(x)
+    elif isinstance(v, list):
+        for x in v:
+            yield from walk_refs(x)
+
+def check_ref(ref, errors, where):
+    """@kind/name[.key.path] — file must exist, dotted key must resolve."""
+    m = REF_RE.match(ref)
+    if not m:
+        errors.append(f"{where}: bad ref syntax {ref!r}"); return
+    kind, rest = m.group(1), m.group(2)
+    fname, _, keypath = rest.partition(".")
+    try:
+        data = load("models.json") if kind == "models" \
+            else load(f"shared/{kind}/{fname}.json")
+    except OSError:
+        errors.append(f"{where}: {ref!r} — shared/{kind}/{fname}.json not found")
+        return
+    for key in filter(None, keypath.split(".")):
+        if isinstance(data, dict) and key in data:
+            data = data[key]
+        else:
+            errors.append(f"{where}: {ref!r} — key {key!r} not found")
+            return
+
 def main(brief_path):
     brief = load(brief_path)
     goal = brief["goal"]
 
-    style = resolve_ref(brief["style"])
-    palette = resolve_ref(brief["palette"])
-    rig = resolve_ref(brief["composition"]["lighting_rig"])
-    models = load("models.json")
-
     errors = []
+    comp = brief["composition"]
+    ids = {c["id"] for c in brief["components"]}
     for c in brief["components"]:
         if c["type"] not in TYPES:
             errors.append(f"{c['id']}: unknown type {c['type']}")
+        for ref in walk_refs(c):
+            check_ref(ref, errors, c["id"])
+        for a in c.get("attachments", []):
+            if a.get("component") not in ids:
+                errors.append(f"{c['id']}: attachment {a.get('id')} — "
+                              f"component {a.get('component')!r} not declared")
+    for ref in walk_refs(comp):
+        check_ref(ref, errors, "composition")
+    for k in comp.get("shot_expect", {}):
+        if k not in comp.get("shots", []):
+            errors.append(f"shot_expect key {k!r} names no shot in 'shots'")
+    for a in comp.get("action_shots", []):
+        for role, cid in a.get("cast", {}).items():
+            if cid not in ids:
+                errors.append(f"action_shot {a.get('name')}: cast {role}="
+                              f"{cid!r} — not a declared component")
+    models = load("models.json")
     for key in ("checkpoints", "controlnets", "matting"):
         if key not in models:
             errors.append(f"models.json missing {key}")
     if errors:
         sys.exit("scaffold gate FAILED:\n  " + "\n  ".join(errors))
+
+    style = resolve_ref(brief["style"])
+    palette = resolve_ref(brief["palette"])
+    rig = resolve_ref(comp["lighting_rig"])
 
     created, reused, held, conflicts = [], [], [], []
     for c in brief["components"]:
@@ -100,6 +158,8 @@ def main(brief_path):
         atomic_json(os.path.join(comp_dir, "spec.json"),
                     {"goal": goal, "rig": rig,
                      "shots": brief["composition"]["shots"],
+                     "shot_expect": brief["composition"].get("shot_expect", {}),
+                     "action_shots": brief["composition"].get("action_shots", []),
                      "layout": brief["composition"].get("layout", {}),
                      "components": [c["id"] for c in brief["components"]]})
 
