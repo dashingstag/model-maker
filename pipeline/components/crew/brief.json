@@ -3,36 +3,49 @@
   "type": "sprite_variant",
   "of": "captain",
   "count": 5,
-  "method": "palette",
+  "method": "parts",
   "vary": [
-    "coat",
-    "trim"
+    "coat"
   ],
+  "regions": {
+    "coat": {
+      "materials": [
+        "coat"
+      ],
+      "hue": [
+        0.9,
+        0.03
+      ],
+      "min_sat": 0.3,
+      "min_val": 35,
+      "clip_below": "belt"
+    },
+    "belt": {
+      "materials": [
+        "belt"
+      ]
+    }
+  },
   "variants": [
     {
       "id": "crew_01",
-      "coat": "@palettes/dusk.colors.sea",
-      "trim": "@palettes/dusk.colors.trim"
+      "coat": "@palettes/dusk.colors.sea"
     },
     {
       "id": "crew_02",
-      "coat": "@palettes/dusk.colors.sky_hi",
-      "trim": "@palettes/dusk.colors.trim"
+      "coat": "@palettes/dusk.colors.sky_hi"
     },
     {
       "id": "crew_03",
-      "coat": "@palettes/dusk.colors.wood",
-      "trim": "@palettes/dusk.colors.canvas_modulate"
+      "coat": "@palettes/dusk.colors.wood"
     },
     {
       "id": "crew_04",
-      "coat": "@palettes/dusk.colors.pants",
-      "trim": "@palettes/dusk.colors.light_warm"
+      "coat": "@palettes/dusk.colors.pants"
     },
     {
       "id": "crew_05",
-      "coat": "@palettes/dusk.colors.coat",
-      "trim": "@palettes/dusk.colors.sea"
+      "coat": "@palettes/dusk.colors.light_warm"
     }
   ],
   "review": "auto",

@@ -1,0 +1,14 @@
+{
+  "verdict": "pass",
+  "actor": "devin (agent checklist)",
+  "ts": 1793721692.622638,
+  "checks": {
+    "subject centered and uncropped": "pass",
+    "readable at dialogue size": "pass"
+  },
+  "flags": [],
+  "note": "tricorn, eyepatch, grey beard present; identity differs from captain sprite (same_character_as not enforced in rev1 slice)",
+  "reviewed_files": [
+    "unit_render/neutral.png"
+  ]
+}

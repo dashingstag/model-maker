@@ -1,5 +1,5 @@
 {
-  "id": "duelist",
+  "id": "pirate_duelist",
   "type": "glb",
   "tri_budget": 6000,
   "skeleton": "@skeletons/humanoid_v1",
@@ -7,11 +7,14 @@
     {
       "name": "idle_armed",
       "loop": true,
+      "fps": 24,
       "hand_pose": "@poses/grip_sword"
     },
     {
       "name": "draw",
       "duration": 0.5,
+      "fps": 24,
+      "blend_in_s": 0.1,
       "events": [
         {
           "name": "grip",
@@ -22,6 +25,8 @@
     {
       "name": "sword_swing",
       "duration": 0.6,
+      "fps": 24,
+      "blend_in_s": 0.08,
       "events": [
         {
           "name": "contact",
@@ -33,6 +38,7 @@
     {
       "name": "parry",
       "duration": 0.4,
+      "fps": 24,
       "events": [
         {
           "name": "block",
@@ -42,13 +48,15 @@
     },
     {
       "name": "recover",
-      "duration": 0.8
+      "duration": 0.8,
+      "fps": 24
     }
   ],
+  "root_motion": "in_place",
   "attachments": [
     {
       "id": "sword_main",
-      "component": "sword",
+      "component": "pirate_sword",
       "socket": "hand.r",
       "keep_during": [
         "idle_armed",
@@ -61,7 +69,7 @@
   ],
   "collision": "capsule-approx",
   "review": "human",
-  "goal": "pirate_deck_scene",
+  "goal": "pirate_duel",
   "style": {
     "name": "painted_game_art",
     "suffix": "hand-painted 2d game art style, stylized, painterly brushwork, crisp readable silhouettes, rich saturated colors, game asset, masterpiece",

@@ -1,8 +1,16 @@
 {
   "id": "bg_sky",
   "type": "parallax",
-  "status": "certified",
+  "status": "needs_human",
   "rev": 1,
   "factor": 0.2,
-  "min_visible_pct": 40
+  "min_visible_pct": 40,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793721692.8134587,
+      "status": "needs_human",
+      "reason": "art-direction call: accept, or regen with must_not steamship/modern ship (2 seeds)"
+    }
+  ]
 }

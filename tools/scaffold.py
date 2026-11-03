@@ -1,6 +1,6 @@
 """Stage 0: decompose a goal brief into component folders.
 
-  python tools/scaffold.py briefs/<goal>.brief.json
+  python tools/scaffold.py briefs/<goal>.brief.json [--recertify id1,id2]
 
 - Resolves @<kind>/<name> refs against shared/ and models.json
 - Skips components already certified in the library (reuse-first)
@@ -126,7 +126,7 @@ def main(brief_path):
             mpath = os.path.join(cdir, "manifest.json")
             if os.path.exists(mpath):
                 man = json.load(open(mpath))
-                if man.get("status") == "certified":
+                if man.get("status") == "certified" and cid not in RECERTIFY:
                     bad = constraint_mismatch(man, c)
                     if bad is None:
                         reused.append(cid)
@@ -169,5 +169,10 @@ def main(brief_path):
         for x in conflicts: print("  conflict:", x)
         sys.exit(1)
 
+RECERTIFY = set()
+
 if __name__ == "__main__":
+    # --recertify id1,id2 : re-open certified components for a new rev
+    if "--recertify" in sys.argv:
+        RECERTIFY = set(sys.argv[sys.argv.index("--recertify") + 1].split(","))
     main(sys.argv[1])

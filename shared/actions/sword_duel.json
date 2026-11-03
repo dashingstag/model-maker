@@ -13,7 +13,7 @@
     "contact": {
       "actor": "attacker", "anim": "sword_swing",
       "expect": "blades within 0.15m of each other",
-      "region": "mid_blade"
+      "measure": "distance between the two props' blade_mid markers (prop glb named empties)"
     }
   }
 }

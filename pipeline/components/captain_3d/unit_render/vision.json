@@ -1,0 +1,18 @@
+{
+  "verdict": "fail",
+  "actor": "devin (agent checklist)",
+  "ts": 1793721692.988607,
+  "checks": {
+    "materials not washed out": "fail",
+    "animations play without clipping": "fail",
+    "within tri budget": "pass"
+  },
+  "flags": [
+    "unit renders blank: harness 2D bg ColorRect drawn over the 3D viewport \u2014 certification was on empty evidence"
+  ],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/neutral.png",
+    "unit_render/walk_frame.png"
+  ]
+}

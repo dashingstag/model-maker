@@ -3,10 +3,11 @@ For each pose in the character spec, emits:
   <pose>_beauty.png  - flat-shaded reference (transparent bg)
   <pose>_depth.png   - normalized depth (near=white) for ControlNet-depth
   <pose>_normal.png  - view-space normal map (usable as Light2D normal map)
+  <pose>_mask_<k>.png - optional region masks (spec "masks"), white = region
 
-Run from experiment/hybrid/:
   blender.exe --background --python tools/blender_render.py -- \
-        --spec specs/pirate_captain.json --out renders/
+        --spec <_spec.json> --glb <model.glb> --out <dir>
+Spec may set "passes" (subset of beauty/depth/normal) and "masks".
 """
 import bpy, json, math, os, sys
 
@@ -94,8 +95,25 @@ def make_normal_mat():
     nt.links.new(em.outputs["Emission"], out.inputs["Surface"])
     return m
 
+def make_flat_mat(name, value):
+    m = bpy.data.materials.new(name)
+    m.use_nodes = True
+    nt = m.node_tree; nt.nodes.clear()
+    out = nt.nodes.new("ShaderNodeOutputMaterial")
+    em = nt.nodes.new("ShaderNodeEmission")
+    em.inputs["Color"].default_value = (value, value, value, 1.0)
+    nt.links.new(em.outputs["Emission"], out.inputs["Surface"])
+    return m
+
 DEPTH_MAT = make_depth_mat()
 NORMAL_MAT = make_normal_mat()
+WHITE_MAT = make_flat_mat("_white", 1.0)
+BLACK_MAT = make_flat_mat("_black", 0.0)
+# optional region masks: {"coat": ["coat"], "trim": ["gold"]} — material
+# name prefixes rendered white, everything else black -> <pose>_mask_<k>.png
+MASKS = SPEC.get("masks", {})
+PASSES = SPEC.get("passes", ["beauty", "depth", "normal"])
+scene.view_settings.view_transform = 'Standard'
 
 # Eevee has no material_override; swap mesh materials per pass instead
 meshes = [o for o in bpy.data.objects if o.type == 'MESH' and not o.hide_render]
@@ -114,8 +132,19 @@ for pose, cfg in SPEC["poses"].items():
         pb.rotation_euler = cfg["bones"].get(pb.name, (0, 0, 0))
     bpy.context.view_layer.update()
     for suffix, mat in [("beauty", None), ("depth", DEPTH_MAT), ("normal", NORMAL_MAT)]:
+        if suffix not in PASSES:
+            continue
         set_pass(mat)
         scene.render.filepath = os.path.join(OUT, f"{pose}_{suffix}.png")
+        bpy.ops.render.render(write_still=True)
+        print("RENDERED", scene.render.filepath)
+    for key, prefixes in MASKS.items():
+        for o in meshes:
+            names = [m.name for m in orig_mats[o.name] if m]
+            hit = any(n.startswith(p) for n in names for p in prefixes)
+            o.data.materials.clear()
+            o.data.materials.append(WHITE_MAT if hit else BLACK_MAT)
+        scene.render.filepath = os.path.join(OUT, f"{pose}_mask_{key}.png")
         bpy.ops.render.render(write_still=True)
         print("RENDERED", scene.render.filepath)
 

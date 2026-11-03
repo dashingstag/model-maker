@@ -1,14 +1,70 @@
 {
+  "schema_v": 1,
   "id": "captain",
   "type": "sprite",
-  "status": "certified",
-  "rev": 1,
+  "status": "processed",
+  "rev": 2,
+  "constraints": {
+    "type": "sprite",
+    "h_px": 384,
+    "pivot": "feet",
+    "poses": [
+      "idle",
+      {
+        "name": "walk_a",
+        "prompt_extra": "mid-stride, legs apart"
+      },
+      "walk_b"
+    ]
+  },
+  "inputs": {
+    "accepted/idle.png": "sha256:7b4185a994cca4cfdd907dff902d79250ea638a1a13722aa1229a732867876ea",
+    "accepted/walk_a.png": "sha256:851523d6c035a65fbfde4f347e3d3175739a81ce3dc105b49b012c8c1bbe7a3b",
+    "accepted/walk_b.png": "sha256:b610475dea5914576acb88e225916c87ade5932278d6b2e98f307c4713e5c081"
+  },
+  "artifacts": {
+    "processed/sprite_idle.png": "sha256:837f3158918727191276520c3cd97c2ec7ba598a75d51badadbe67c8bb6727e7",
+    "processed/sprite_idle_n.png": "sha256:c675b76cdc4e241856207af7f2afd8308929b79c3399481e146322bcaaa6175c",
+    "processed/sprite_walk_a.png": "sha256:3bc886faa6a2340c2ca9b18aaf69d0f0a697d5d2bb6038abb842cfce9534cbfc",
+    "processed/sprite_walk_a_n.png": "sha256:2f1cbdf3cb5ac8279acffa456b8cc477bdc17962368b760d1d637778b3aea853",
+    "processed/sprite_walk_b.png": "sha256:0e70d3352fcd0ea1cefcb57d4e97c039340253a6a656f3a08daf02ce36c6cd37",
+    "processed/sprite_walk_b_n.png": "sha256:6026cae0e68aed34ec890a2355acfa4dfba6327388d6b6723d90e3405ba5d490"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "idle": 0.0,
+      "walk_a": 0.0,
+      "walk_b": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793721390.832287,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cpu",
+    "matting": "birefnet-general"
+  },
   "pivot": "feet",
   "h_px": 384,
+  "poses": [
+    "idle",
+    "walk_a",
+    "walk_b"
+  ],
   "fringe_px": {
     "idle": 2,
-    "walk_a": 1,
-    "walk_b": 0
+    "walk_a": 2,
+    "walk_b": 3
   },
   "collider": "alpha-bounds-10pct",
   "gate": {

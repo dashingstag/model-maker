@@ -10,9 +10,27 @@ var mod: CanvasModulate
 var rig: Dictionary
 var out_dir: String
 
+const SIM_DT := 1.0 / 60.0   # fixed sim step — never wall-clock delta
+
 func _ready() -> void:
 	var args := OS.get_cmdline_user_args()
-	job = JSON.parse_string(FileAccess.get_file_as_string(args[0]))
+	if args.is_empty() or not FileAccess.file_exists(args[0]):
+		push_error("usage: godot --path godot -- <abs job.json>")
+		get_tree().quit(2); return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(args[0]))
+	if typeof(parsed) != TYPE_DICTIONARY or not parsed.has("out_dir"):
+		push_error("invalid job file: " + args[0])
+		get_tree().quit(2); return
+	job = parsed
+	# never read assets mid-publish: wait for godot/.publish.lock to clear
+	var lock := ProjectSettings.globalize_path("res://.publish.lock")
+	var waited := 0
+	while DirAccess.dir_exists_absolute(lock) and waited < 1200:
+		await get_tree().create_timer(0.1).timeout
+		waited += 1
+	if DirAccess.dir_exists_absolute(lock):
+		push_error("publish lock still held after 120s — aborting")
+		get_tree().quit(3); return
 	rig = job.get("rig", {})
 	out_dir = job["out_dir"]
 	DirAccess.make_dir_recursive_absolute(out_dir)
@@ -179,6 +197,10 @@ func _unit_mode() -> void:
 				await _snap(udir + "/neutral.png")
 				tr.queue_free()
 			"glb":
+				# canvas items draw over 3D — hide the 2D backdrop or the
+				# capture is blank (captain_3d rev1 certified on empty frames)
+				bg.visible = false
+				mod.color = Color.WHITE
 				var n3 := Node3D.new()
 				add_child(n3)
 				var ground := MeshInstance3D.new()
@@ -203,21 +225,32 @@ func _unit_mode() -> void:
 				c3.rotation_degrees = Vector3(-10, 0, 0)
 				n3.add_child(c3)
 				c3.make_current()
-				var inst: Node3D = load(uj["assets"] + "/pirate.glb").instantiate()
+				var scn: PackedScene = load(uj["assets"] + "/" + uj.get("glb", "pirate.glb"))
+				if scn == null:
+					push_error("MISSING ASSET: glb for " + uj["id"])
+					m["missing"] = true
+					n3.queue_free()
+					comps[uj["id"]] = m
+					continue
+				var inst: Node3D = scn.instantiate()
 				n3.add_child(inst)
 				await _frames(20)
 				await _snap(udir + "/neutral.png")
-				var ap := inst.find_child("AnimationPlayer", true, false)
+				var ap: AnimationPlayer = inst.find_child("AnimationPlayer", true, false)
 				if ap:
 					m["animations"] = ap.get_animation_list()
-					if ap.has_animation("walk"):
-						ap.play("walk")
-						ap.advance(0.4)
-						await _frames(10)
-						await _snap(udir + "/walk_frame.png")
+					for anim in ap.get_animation_list():
+						# deterministic: seek to fixed fractions, paused
+						ap.play(anim); ap.pause()
+						var length := ap.get_animation(anim).length
+						for k in [0.25, 0.5]:
+							ap.seek(length * k, true)
+							await _frames(4)
+							await _snap("%s/%s_%02d.png" % [udir, anim, int(k * 100)])
 				else:
 					m["animations"] = []
 				n3.queue_free()
+				bg.visible = true
 		await _frames(8)
 		comps[uj["id"]] = m
 		bg.size = Vector2(1280, 720)
@@ -282,24 +315,29 @@ func _composition_mode() -> void:
 		    _tex(comp_dir + "/captain/sprite_walk_a_n.png")),
 		_ct(_tex(comp_dir + "/captain/sprite_walk_b.png"),
 		    _tex(comp_dir + "/captain/sprite_walk_b_n.png"))]
+	walk_frames = frame_tex
 	var frame_i := 0
-	for i in 5:
+	var crew_paths: Array = []
+	var variants: Dictionary = comp.get("variants", {})
+	for vc in variants:
+		for vid in variants[vc]:
+			crew_paths.append("%s/%s/%s" % [comp_dir, vc, vid])
+	for i in crew_paths.size():
 		var cr := _mk_sprite(
-			_tex("%s/crew/crew_%02d/sprite_idle.png" % [comp_dir, i + 1]),
+			_tex(crew_paths[i] + "/sprite_idle.png"),
 			Vector2(140 + (i + 1) * spacing, crew_y), 360, Color.WHITE,
-			_tex("%s/crew/crew_%02d/sprite_idle_n.png" % [comp_dir, i + 1]))
+			_tex(crew_paths[i] + "/sprite_idle_n.png"))
 		add_child(cr)
 		crew.append(cr)
 
 	light2d = _light()
 	add_child(light2d)
 
-	# patrol + checks over 4 seconds
+	# patrol + checks: 240 fixed sim steps (deterministic, frame-rate free)
 	var start_x := 140.0
 	for f in 240:
 		await get_tree().process_frame
-		var d := get_process_delta_time()
-		walk_t += d
+		walk_t += SIM_DT
 		captain.position.x = start_x + walk_t * patrol_speed_px
 		# walk frame swap at 6fps
 		frame_i = int(walk_t * 6.0) % 2
@@ -331,26 +369,65 @@ func _composition_mode() -> void:
 	var frame_img := get_viewport().get_texture().get_image()
 	var lit_cov := _lit_coverage(frame_img, _canvas_rect(captain))
 
-	# shots
+	# shots — walk_tN seek to t = N * spacing / speed (deterministic)
+	walk_step_s = spacing / maxf(1.0, patrol_speed_px)
 	var shots_dir := out_dir + "/shots"
 	DirAccess.make_dir_recursive_absolute(shots_dir)
+	var shot_lit := {}
 	for shot in comp["shots"]:
 		_setup_shot(shot)
 		await _frames(8)
-		await _snap("%s/%s.png" % [shots_dir, shot])
+		var img := await _snap("%s/%s.png" % [shots_dir, shot])
+		shot_lit[shot] = {
+			"lit": _lit_coverage(img, _canvas_rect(captain)
+				.intersection(Rect2(Vector2.ZERO, Vector2(img.get_size())))),
+			"portrait": dialogue != null and dialogue.visible}
 
-	report["composition"] = {
+	var metrics := {
 		"draw_calls": int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)),
 		"same_row_overlap_events": overlaps.size(),
 		"cross_row_occlusions": cross_row_events,
 		"min_crew_gap_px": snappedf(min_gap, 0.1),
 		"sky_visible_pct": snappedf(sky_vis * 100.0, 0.1),
 		"captain_lit_coverage": snappedf(lit_cov, 0.001),
+		"crew_count": crew.size(),
 		"shots": comp["shots"],
 	}
+	report["composition"] = metrics
+	report["shot_expect"] = _eval_expect(comp.get("shot_expect", {}), metrics, shot_lit)
+	if not comp.get("action_shots", []).is_empty():
+		report["action_shots"] = {"status": "not_implemented",
+			"note": "rigged-glb action clock is backlog; declared shots skipped"}
+
+## shot_expect: {shot: {metric: target}} -> per-check {value, target, pass}
+func _eval_expect(expect: Dictionary, metrics: Dictionary, shot_lit: Dictionary) -> Dictionary:
+	var out := {}
+	for shot in expect:
+		var res := {}
+		for key in expect[shot]:
+			var target = expect[shot][key]
+			var value = null
+			var ok := false
+			match key:
+				"lit_coverage_min":
+					value = snappedf(shot_lit.get(shot, {}).get("lit", 0.0), 0.001)
+					ok = value >= target
+				"same_row_overlap_events":
+					value = metrics["same_row_overlap_events"]
+					ok = value <= target
+				"portrait_visible":
+					value = shot_lit.get(shot, {}).get("portrait", false)
+					ok = value == target
+				_:
+					value = "unknown_check"
+			res[key] = {"value": value, "target": target, "pass": ok}
+		out[shot] = res
+	return out
 
 var patrol_speed_px := 110.0
 var light_offset := Vector2(40, -290)
+var walk_step_s := 1.5
+var walk_frames: Array = []
 
 func _ct(d: Texture2D, n: Texture2D) -> CanvasTexture:
 	var ct := CanvasTexture.new()
@@ -370,6 +447,12 @@ func _setup_shot(n: String) -> void:
 		"crew_lineup":
 			cam.position = Vector2(640, 500); cam.zoom = Vector2(1.5, 1.5)
 		"walk_t0", "walk_t1", "walk_t2":
+			var k := int(n.substr(6))
+			var t := k * walk_step_s
+			captain.position.x = 140.0 + t * patrol_speed_px
+			if not walk_frames.is_empty():
+				captain.texture = walk_frames[int(t * 6.0) % 2]
+			light2d.position = captain.position + light_offset
 			cam.position = captain.position + Vector2(60, -120); cam.zoom = Vector2(1.4, 1.4)
 		"low_light":
 			cam.position = Vector2(640, 360); mod.color = Color("#141424")
@@ -408,10 +491,16 @@ func _write_report() -> void:
 		"godot_version": Engine.get_version_info().get("string", "?"),
 		"job_file": FileAccess.get_file_as_string(OS.get_cmdline_user_args()[0]).sha256_text().substr(0, 12),
 		"timestamp": Time.get_datetime_string_from_system(),
+		"mode": job.get("mode"),
+		"inputs": job.get("provenance", {}),
 	}
-	var f := FileAccess.open(out_dir + "/report.json", FileAccess.WRITE)
+	# atomic: write tmp, then rename over report.json
+	var tmp := out_dir + "/report.json.tmp"
+	var f := FileAccess.open(tmp, FileAccess.WRITE)
 	f.store_string(JSON.stringify(report, "  "))
 	f.close()
+	DirAccess.remove_absolute(out_dir + "/report.json")
+	DirAccess.rename_absolute(tmp, out_dir + "/report.json")
 	print("REPORT_JSON_BEGIN")
 	print(JSON.stringify(report, "  "))
 	print("REPORT_JSON_END")

@@ -1,0 +1,47 @@
+{
+  "goal": "pirate_duel",
+  "rig": {
+    "name": "std_dusk",
+    "canvas_modulate": "#a8a8bc",
+    "light_2d": {
+      "color": "#ffbf73",
+      "energy": 2.2,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2e2e3a"
+  },
+  "shots": [],
+  "shot_expect": {},
+  "action_shots": [
+    {
+      "name": "duel_exchange",
+      "of": "@actions/sword_duel",
+      "cast": {
+        "attacker": "pirate_duelist",
+        "defender": "pirate_opponent"
+      },
+      "captures": [
+        {
+          "t": 0.0,
+          "label": "wind_up"
+        },
+        {
+          "t": 0.35,
+          "label": "contact"
+        }
+      ],
+      "expect": {
+        "props_attached": true,
+        "no_ground_clip": true,
+        "contact_within_m": 0.15
+      }
+    }
+  ],
+  "layout": {},
+  "components": [
+    "pirate_sword",
+    "pirate_duelist",
+    "pirate_opponent"
+  ]
+}

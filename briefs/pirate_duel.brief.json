@@ -1,0 +1,56 @@
+{
+  "goal": "pirate_duel",
+  "style": "@styles/painted_game_art",
+  "palette": "@palettes/dusk",
+  "status_note": "contract-level: blocked on rigged-glb tooling (WORKFLOW backlog). gen_component exits with a clear message for these glb ids until a builder is registered.",
+  "components": [
+    {"id": "pirate_sword", "type": "glb", "tri_budget": 600, "prop": true,
+     "markers": ["grip_point", "blade_mid", "blade_tip"]},
+    {"id": "pirate_duelist", "type": "glb", "tri_budget": 6000,
+     "skeleton": "@skeletons/humanoid_v1",
+     "anims": [
+       {"name": "idle_armed", "loop": true, "fps": 24, "hand_pose": "@poses/grip_sword"},
+       {"name": "draw",       "duration": 0.5, "fps": 24, "blend_in_s": 0.1,
+        "events": [{"name": "grip", "t": 0.3}]},
+       {"name": "sword_swing","duration": 0.6, "fps": 24, "blend_in_s": 0.08,
+        "events": [{"name": "contact", "t": 0.35}],
+        "hand_pose": "@poses/grip_sword"},
+       {"name": "parry",      "duration": 0.4, "fps": 24,
+        "events": [{"name": "block", "t": 0.2}]},
+       {"name": "recover",    "duration": 0.8, "fps": 24}
+     ],
+     "root_motion": "in_place",
+     "attachments": [
+       {"id": "sword_main", "component": "pirate_sword", "socket": "hand.r",
+        "keep_during": ["idle_armed", "draw", "sword_swing", "parry", "recover"]}
+     ],
+     "collision": "capsule-approx", "review": "human"},
+    {"id": "pirate_opponent", "type": "glb", "tri_budget": 6000,
+     "skeleton": "@skeletons/humanoid_v1",
+     "anims": [
+       {"name": "idle_armed", "loop": true, "fps": 24, "hand_pose": "@poses/grip_sword"},
+       {"name": "parry",      "duration": 0.4, "fps": 24,
+        "events": [{"name": "block", "t": 0.2}],
+        "hand_pose": "@poses/grip_sword"},
+       {"name": "stagger",    "duration": 0.7, "fps": 24}
+     ],
+     "root_motion": "in_place",
+     "attachments": [
+       {"id": "sword_main", "component": "pirate_sword", "socket": "hand.r",
+        "keep_during": ["idle_armed", "parry"]}
+     ],
+     "collision": "capsule-approx", "review": "human"}
+  ],
+  "composition": {
+    "lighting_rig": "@rigs/std_dusk",
+    "shots": [],
+    "action_shots": [
+      {"name": "duel_exchange", "of": "@actions/sword_duel",
+       "cast": {"attacker": "pirate_duelist", "defender": "pirate_opponent"},
+       "captures": [{"t": 0.0,  "label": "wind_up"},
+                    {"t": 0.35, "label": "contact"}],
+       "expect": {"props_attached": true, "no_ground_clip": true,
+                  "contact_within_m": 0.15}}
+    ]
+  }
+}

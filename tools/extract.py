@@ -1,25 +1,35 @@
 """C2 Extract/build — accepted/ -> processed/ + manifest.json.
 
-  venv-python tools/extract.py <component_id>
+  venv-python tools/extract.py <component_id> [--goal G] [--wait S]
 
 Per type:
   sprite         : accepted/<pose>.png (RGB w/ bg) -> rembg BiRefNet matte ->
                    despill+erode+tight crop -> processed/sprite_<pose>.png
                    (+ _n normal from _render)
-  sprite_variant : palette-shift of base's processed sprite per vary rules
+  sprite_variant : recolor the base's processed sprites per brief `variants`
+                   (targets are @palettes refs). method "parts" uses geometry
+                   region masks rendered at C1 (candidates/_render/
+                   <pose>_mask_<region>.png); method "palette" falls back to
+                   a hue-threshold mask (fragile on painterly art).
   ui_image       : center-crop -> processed/<id>.png
   parallax       : copy -> processed/bg.png (manifest carries factor)
-  glb            : validate export/pirate.glb vs tri_budget -> manifest
+  glb            : validate export/<id>.glb vs tri_budget -> manifest
+
+Re-running on a component with a manifest archives the previous processed/
++ manifest to history/rev<n>/ and bumps rev.
 """
-import json, os, sys
+import hashlib, json, os, shutil, struct, sys, time
 import numpy as np
 from PIL import Image, ImageFilter
-from scipy import ndimage
-import colorsys
-from pipelib import FileLock, LockHeld, atomic_json
+from pipelib import FileLock, LockHeld, atomic_json, name_of, resolve_ref
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS = json.load(open(os.path.join(ROOT, "models.json")))
+ENV = json.load(open(os.path.join(ROOT, "tools", "env.json")))
+CONSTRAINT_KEYS = ("type", "h_px", "pivot", "anims", "poses", "tri_budget",
+                   "factor", "collision", "method", "of", "vary", "variants",
+                   "count", "skeleton", "attachments", "prop")
+FRINGE_RATIO_MAX = 0.02
 
 _session = None
 def matte(img):
@@ -31,8 +41,25 @@ def matte(img):
     from rembg import remove
     return remove(img, session=_session)
 
+def sha(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return "sha256:" + h.hexdigest()
+
+def fringe_ratio(img):
+    """Fraction of the soft-alpha band with green spill (WORKFLOW C2)."""
+    a = np.asarray(img).astype(np.float32)
+    band = (a[..., 3] > 0) & (a[..., 3] < 255)
+    n = int(band.sum())
+    if not n:
+        return 0.0
+    spill = (a[..., 1] - np.maximum(a[..., 0], a[..., 2]) > 20) & band
+    return round(float(spill.sum()) / n, 5)
+
 def despill_erode(img):
-    """Clamp green spill on edge px, erode alpha 1px -> halo metric."""
+    """Clamp green spill on edge px, soft-erode alpha; returns (img, px, ratio)."""
     a = np.asarray(img).astype(np.float32)
     r, g, b, al = a[..., 0], a[..., 1], a[..., 2], a[..., 3]
     edge = (al > 0) & (al < 255)
@@ -44,11 +71,10 @@ def despill_erode(img):
         dtype=np.float32)
     a[..., 3] = np.where(edge, np.minimum(al, al_new + 30), al_new)
     out = Image.fromarray(a.astype(np.uint8), "RGBA")
-    # residual fringe metric: translucent px with green-cyan hue
     fa = np.asarray(out).astype(np.float32)
     tr = (fa[..., 3] > 8) & (fa[..., 3] < 128)
-    fringe = int(((fa[..., 1] > fa[..., 0] * 1.1) & (fa[..., 1] > fa[..., 2] * 1.1) & tr).sum())
-    return out, fringe
+    px = int(((fa[..., 1] > fa[..., 0] * 1.1) & (fa[..., 1] > fa[..., 2] * 1.1) & tr).sum())
+    return out, px, fringe_ratio(out)
 
 def tight_crop(img, pad=2):
     bb = img.getbbox()
@@ -56,119 +82,241 @@ def tight_crop(img, pad=2):
     return img.crop((max(0, bb[0]-pad), max(0, bb[1]-pad),
                      min(img.width, bb[2]+pad), min(img.height, bb[3]+pad)))
 
+def align_to_sprite(render_png, beauty_png, size):
+    """Crop a _render pass to the beauty alpha bbox, resize to the sprite."""
+    beauty = Image.open(beauty_png).convert("RGBA")
+    bb = beauty.split()[3].getbbox()
+    return Image.open(render_png).crop(bb).resize(size, Image.LANCZOS)
+
+def hex_rgb(h):
+    h = h.lstrip("#")
+    return np.array([int(h[i:i+2], 16) for i in (0, 2, 4)], np.float32)
+
+def recolor(a, mask, target):
+    """Shading-preserving recolor: target * (luma / mean masked luma)."""
+    if mask.sum() < 1:
+        return a
+    luma = a[..., :3] @ np.array([0.299, 0.587, 0.114], np.float32)
+    m = mask > 0.5
+    ref = max(float(luma[m].mean()), 1.0)
+    shade = (luma / ref)[..., None] * target
+    out = a.copy()
+    k = mask[..., None]
+    out[..., :3] = np.clip(a[..., :3] * (1 - k) + shade * k, 0, 255)
+    return out
+
+def hsv_arrays(a):
+    rgb = a[..., :3]
+    mx = rgb.max(-1); mn = rgb.min(-1)
+    d = np.maximum(mx - mn, 1)
+    sat = np.where(mx > 0.01, (mx - mn) / np.maximum(mx, 1), 0)
+    r_, g_, b_ = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+    hue = np.zeros_like(sat)
+    m_r = mx == r_; m_g = (mx == g_) & ~m_r; m_b = ~(m_r | m_g)
+    hue[m_r] = ((g_ - b_)[m_r] / d[m_r]) % 6
+    hue[m_g] = (b_ - r_)[m_g] / d[m_g] + 2
+    hue[m_b] = (r_ - g_)[m_b] / d[m_b] + 4
+    return hue / 6.0, sat, mx
+
+def color_gate(a, spec):
+    """Region color gate {hue:[lo,hi] (wraps), min_sat, min_val} -> 0/1."""
+    hue, sat, val = hsv_arrays(a)
+    g = np.ones(hue.shape, np.float32)
+    if "hue" in spec:
+        lo, hi = spec["hue"]
+        g *= ((hue >= lo) | (hue <= hi)) if lo > hi else ((hue >= lo) & (hue <= hi))
+    g *= sat >= spec.get("min_sat", 0)
+    g *= val >= spec.get("min_val", 0)
+    return g.astype(np.float32)
+
+def hue_mask(a):
+    """Legacy 'palette' method mask: saturated red hues (coat)."""
+    rgb = a[..., :3]
+    mx = rgb.max(-1); mn = rgb.min(-1)
+    d = np.maximum(mx - mn, 1)
+    sat = np.where(mx > 0.01, (mx - mn) / np.maximum(mx, 1), 0)
+    r_, g_, b_ = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+    hue = np.zeros_like(sat)
+    m_r = mx == r_; m_g = (mx == g_) & ~m_r; m_b = ~(m_r | m_g)
+    hue[m_r] = ((g_ - b_)[m_r] / d[m_r]) % 6
+    hue[m_g] = (b_ - r_)[m_g] / d[m_g] + 2
+    hue[m_b] = (r_ - g_)[m_b] / d[m_b] + 4
+    hue /= 6.0
+    return ((hue >= 0.90) & (sat > 0.4) & (mx < 200)).astype(np.float32)
+
 def load(cdir, *p):
     return Image.open(os.path.join(cdir, *p)).convert("RGBA")
+
+def archive_previous(cdir):
+    """Move the prior rev's processed/ + manifest into history/rev<n>/."""
+    mpath = os.path.join(cdir, "manifest.json")
+    if not os.path.exists(mpath):
+        return 1, []
+    old = json.load(open(mpath))
+    rev = int(old.get("rev", 1))
+    hdir = os.path.join(cdir, "history", f"rev{rev}")
+    os.makedirs(hdir, exist_ok=True)
+    proc = os.path.join(cdir, "processed")
+    if os.path.isdir(proc):
+        shutil.move(proc, os.path.join(hdir, "processed"))
+    shutil.copyfile(mpath, os.path.join(hdir, "manifest.json"))
+    hist = old.get("history", []) + [{"rev": rev, "ts": time.time(),
+                                      "status": old.get("status")}]
+    return rev + 1, hist
 
 def main(cid):
     cdir = os.path.join(ROOT, "pipeline", "components", cid)
     b = json.load(open(os.path.join(cdir, "brief.json")))
+    t = b["type"]
+    rev, history = archive_previous(cdir)
     proc = os.path.join(cdir, "processed")
     os.makedirs(proc, exist_ok=True)
-    t = b["type"]
-    manifest = {"id": cid, "type": t, "status": "processed", "rev": 1}
+    manifest = {"schema_v": 1, "id": cid, "type": t, "status": "processed",
+                "rev": rev,
+                "constraints": {k: b[k] for k in CONSTRAINT_KEYS if k in b},
+                "inputs": {}, "artifacts": {}, "metrics": {},
+                "gate_mode": {}, "waiver": None, "history": history,
+                "toolchain": {k: ENV.get("versions", {}).get(k)
+                              for k in ("blender", "comfyui", "comfyui_device")}}
+    manifest["toolchain"]["matting"] = MODELS["matting"].get("birefnet")
 
     if t == "sprite":
-        fringes = {}
         manifest["pivot"] = b.get("pivot", "feet")
         manifest["h_px"] = b.get("h_px")
-        for pose in b["poses"]:
-            img, fr = despill_erode(tight_crop(matte(load(cdir, "accepted", f"{pose}.png"))))
+        manifest["poses"] = [name_of(p) for p in b["poses"]]
+        fringes, ratios = {}, {}
+        for pose in manifest["poses"]:
+            src = os.path.join(cdir, "accepted", f"{pose}.png")
+            manifest["inputs"][f"accepted/{pose}.png"] = sha(src)
+            img, px, ratio = despill_erode(tight_crop(matte(load(cdir, "accepted", f"{pose}.png"))))
             img.save(os.path.join(proc, f"sprite_{pose}.png"))
-            fringes[pose] = fr
-            nrm_p = os.path.join(cdir, "candidates", "_render", f"{pose}_normal.png")
+            fringes[pose], ratios[pose] = px, ratio
+            rdir = os.path.join(cdir, "candidates", "_render")
+            nrm_p = os.path.join(rdir, f"{pose}_normal.png")
             if os.path.exists(nrm_p):
-                nrm = Image.open(nrm_p).convert("RGB")
-                beauty = Image.open(os.path.join(cdir, "candidates", "_render",
-                                    f"{pose}_beauty.png")).convert("RGBA")
-                bb = beauty.split()[3].getbbox()
-                n = nrm.crop(bb).resize(img.size, Image.LANCZOS)
+                n = align_to_sprite(nrm_p, os.path.join(rdir, f"{pose}_beauty.png"),
+                                    img.size).convert("RGB")
                 n.putalpha(img.split()[3])
                 n.save(os.path.join(proc, f"sprite_{pose}_n.png"))
         manifest["fringe_px"] = fringes
+        manifest["metrics"]["fringe_ratio"] = ratios
         manifest["collider"] = "alpha-bounds-10pct"
-        manifest["gate"] = {"fringe_ok": all(v < 50 for v in fringes.values())}
+        manifest["gate"] = {"fringe_ok": all(v <= FRINGE_RATIO_MAX for v in ratios.values())}
+        manifest["gate_mode"]["fringe_ok"] = "enforced"
 
     elif t == "sprite_variant":
         base_id = b["of"]
-        srcdir = os.path.join(ROOT, "pipeline", "components", base_id, "processed")
-        count = int(b.get("count", 5))
-        hues = [0.5, 0.62, 0.08, 0.78, 0.35]          # crew coat hues
-        trims = [(1,1,1), (0.9,0.85,0.6), (0.7,0.8,1), (1,0.8,0.7), (0.8,1,0.8)]
-        manifest["variants"] = []
-        for i in range(count):
-            for pose in ("idle", "walk_a", "walk_b"):
+        bdir = os.path.join(ROOT, "pipeline", "components", base_id)
+        srcdir = os.path.join(bdir, "processed")
+        base_man = json.load(open(os.path.join(bdir, "manifest.json")))
+        manifest["inputs"][f"{base_id}/manifest.json"] = sha(os.path.join(bdir, "manifest.json"))
+        poses = base_man.get("poses") or [
+            f[len("sprite_"):-4] for f in sorted(os.listdir(srcdir))
+            if f.startswith("sprite_") and not f.endswith("_n.png")]
+        method = b.get("method", "palette")
+        variants = b.get("variants") or [{"id": f"{cid}_{i+1:02d}"}
+                                         for i in range(int(b.get("count", 0)))]
+        mdir = os.path.join(cdir, "candidates", "_render")
+        manifest.update({"of": base_id, "method": method, "variants": [],
+                         "targets": {}})
+        coverage = {}
+        for v in variants:
+            vid = v["id"]
+            targets = {r: resolve_ref(ROOT, v[r]) if str(v[r]).startswith("@") else v[r]
+                       for r in b.get("vary", []) if r in v}
+            manifest["targets"][vid] = targets
+            outdir = os.path.join(proc, vid)
+            os.makedirs(outdir, exist_ok=True)
+            for pose in poses:
                 sp = os.path.join(srcdir, f"sprite_{pose}.png")
-                if not os.path.exists(sp): continue
+                if not os.path.exists(sp):
+                    continue
                 img = Image.open(sp).convert("RGBA")
                 a = np.asarray(img).astype(np.float32)
-                # shift red-dominant coat px toward crew hue, keep others
-                # coat-red only: hue in [0.90,1.0], saturated, opaque — skin/beard untouched
-                mx = a[..., :3].max(-1); mn = a[..., :3].min(-1)
-                sat = np.where(mx > 0.01, (mx - mn) / np.maximum(mx, 1), 0)
-                hue = np.zeros_like(sat)
-                d = np.maximum(mx - mn, 1)
-                r_, g_, b_ = a[...,0], a[...,1], a[...,2]
-                m_r = (mx == r_); m_g = (mx == g_) & ~m_r; m_b = ~(m_r | m_g)
-                hue[m_r] = ((g_ - b_)[m_r] / d[m_r]) % 6
-                hue[m_g] = (b_ - r_)[m_g] / d[m_g] + 2
-                hue[m_b] = (r_ - g_)[m_b] / d[m_b] + 4
-                hue /= 6.0
-                mask = (hue >= 0.90) & (sat > 0.4) & (mx < 200) & (a[...,3] > 128)
-                px = a[mask]
-                if len(px) == 0:
-                    continue
-                hsv = np.array([colorsys.rgb_to_hsv(*(p/255.0)) for p in px[:, :3]])
-                hsv[:, 0] = hues[i % len(hues)]
-                rgb = np.array([colorsys.hsv_to_rgb(*p) for p in hsv]) * 255
-                a[mask, 0], a[mask, 1], a[mask, 2] = rgb[:,0], rgb[:,1], rgb[:,2]
-                out = Image.fromarray(a.astype(np.uint8), "RGBA")
-                outdir = os.path.join(proc, f"crew_{i+1:02d}")
-                os.makedirs(outdir, exist_ok=True)
-                out.save(os.path.join(outdir, f"sprite_{pose}.png"))
+                alpha = (a[..., 3] > 128).astype(np.float32)
+                def geom(region):
+                    mp = os.path.join(mdir, f"{pose}_mask_{region}.png")
+                    if not os.path.exists(mp):
+                        sys.exit(f"{cid}: missing {mp} — run gen_component {cid} first")
+                    return np.asarray(align_to_sprite(
+                        mp, os.path.join(mdir, f"{pose}_beauty.png"), img.size)
+                        .convert("L"), np.float32) / 255.0
+                for region, hexcol in targets.items():
+                    if method == "parts":
+                        rspec = b.get("regions", {}).get(region, {})
+                        rspec = rspec if isinstance(rspec, dict) else {}
+                        # geometry says WHERE the region can be; the color
+                        # gate rejects painted pixels that aren't region
+                        # paint (skin-toned hands under sleeve geometry)
+                        mk = geom(region) * color_gate(a, rspec)
+                        if rspec.get("clip_below"):
+                            rows = np.where(geom(rspec["clip_below"]).max(1) > 0.5)[0]
+                            if rows.size:
+                                mk[rows.min():, :] = 0
+                        mk = np.asarray(Image.fromarray((mk * 255).astype(np.uint8))
+                                        .filter(ImageFilter.GaussianBlur(1.2)),
+                                        np.float32) / 255.0
+                    elif region == "coat":
+                        mk = hue_mask(a)
+                    else:
+                        continue  # palette method only knows the coat
+                    mk = mk * alpha
+                    coverage[f"{vid}/{pose}/{region}"] = round(float(mk.sum() / max(alpha.sum(), 1)), 4)
+                    a = recolor(a, mk, hex_rgb(hexcol))
+                Image.fromarray(a.astype(np.uint8), "RGBA").save(
+                    os.path.join(outdir, f"sprite_{pose}.png"))
                 np_ = os.path.join(srcdir, f"sprite_{pose}_n.png")
                 if os.path.exists(np_):
-                    import shutil; shutil.copyfile(np_, os.path.join(outdir, f"sprite_{pose}_n.png"))
-            manifest["variants"].append(f"crew_{i+1:02d}")
-        manifest["of"] = base_id
+                    shutil.copyfile(np_, os.path.join(outdir, f"sprite_{pose}_n.png"))
+            manifest["variants"].append(vid)
+        manifest["metrics"]["region_coverage"] = coverage
+        manifest["poses"] = poses
 
     elif t == "ui_image":
-        img = load(cdir, "accepted", "src.png").convert("RGB")
+        src = os.path.join(cdir, "accepted", "src.png")
+        manifest["inputs"]["accepted/src.png"] = sha(src)
+        img = Image.open(src).convert("RGB")
         s = min(img.size)
         img = img.crop(((img.width-s)//2, (img.height-s)//2,
                         (img.width+s)//2, (img.height+s)//2))
-        img = img.resize((b.get("h_px",256), b.get("h_px",256)), Image.LANCZOS)
+        img = img.resize((b.get("h_px", 256), b.get("h_px", 256)), Image.LANCZOS)
         img.save(os.path.join(proc, "portrait.png"))
 
     elif t == "parallax":
-        import shutil
-        shutil.copyfile(os.path.join(cdir, "accepted", "src.png"),
-                        os.path.join(proc, "bg.png"))
+        src = os.path.join(cdir, "accepted", "src.png")
+        manifest["inputs"]["accepted/src.png"] = sha(src)
+        shutil.copyfile(src, os.path.join(proc, "bg.png"))
         manifest["factor"] = b.get("factor")
         manifest["min_visible_pct"] = b.get("min_visible_pct")
 
     elif t == "glb":
-        import struct, shutil
-        shutil.copyfile(os.path.join(cdir, "export", "pirate.glb"),
-                        os.path.join(proc, "pirate.glb"))
-        d = open(os.path.join(cdir, "export", "pirate.glb"), "rb").read()
+        src = next((os.path.join(cdir, "export", n) for n in (f"{cid}.glb", "pirate.glb")
+                    if os.path.exists(os.path.join(cdir, "export", n))), None)
+        if not src:
+            sys.exit(f"{cid}: no export/{cid}.glb — run gen_component first")
+        manifest["inputs"][f"export/{os.path.basename(src)}"] = sha(src)
+        manifest["glb"] = os.path.basename(src)
+        shutil.copyfile(src, os.path.join(proc, manifest["glb"]))
+        d = open(src, "rb").read()
         clen, _ = struct.unpack("<II", d[12:20])
         j = json.loads(d[20:20+clen])
-        tris = 0
-        for m in j["meshes"]:
-            for prim in m["primitives"]:
-                if "indices" in prim:
-                    acc = j["accessors"][prim["indices"]]
-                    tris += acc["count"] // 3
-        anims = [a["name"] for a in j.get("animations", [])]
+        tris = sum(j["accessors"][p["indices"]]["count"] // 3
+                   for m in j["meshes"] for p in m["primitives"] if "indices" in p)
         manifest.update({"meshes": len(j["meshes"]), "tris": tris,
-                         "animations": anims,
+                         "animations": [a["name"] for a in j.get("animations", [])],
                          "tri_budget": b.get("tri_budget"),
                          "gate": {"tris_ok": tris <= b.get("tri_budget", 1e9)}})
+        manifest["gate_mode"]["tris_ok"] = "enforced"
 
+    for dp, _, files in os.walk(proc):
+        for f in files:
+            p = os.path.join(dp, f)
+            manifest["artifacts"][os.path.relpath(p, cdir).replace("\\", "/")] = sha(p)
     atomic_json(os.path.join(cdir, "manifest.json"), manifest)
-    print(json.dumps(manifest, indent=1)[:900])
+    print(json.dumps({k: manifest[k] for k in ("id", "type", "status", "rev")}),
+          json.dumps(manifest.get("gate", {})), json.dumps(manifest["metrics"])[:600])
 
-def acquire_locks(cid):
+def acquire_locks(cid, locks):
     """Claim the component (+ its `of` base for variants) before work."""
     cdir = os.path.join(ROOT, "pipeline", "components", cid)
     b = json.load(open(os.path.join(cdir, "brief.json")))
@@ -176,18 +324,15 @@ def acquire_locks(cid):
     if goal != "manual" and b.get("goal") not in (None, goal):
         sys.exit(f"{cid}: claimed by goal '{b['goal']}' (this run: '{goal}')")
     wait = int(sys.argv[sys.argv.index("--wait") + 1]) if "--wait" in sys.argv else 0
-    deps = {cid, b.get("of") or cid}
-    locks = []
-    for d in sorted(deps):
+    for d in sorted({cid, b.get("of") or cid}):
         locks.append(FileLock(
             os.path.join(ROOT, "pipeline", "components", d + ".lock"),
             owner=f"{goal}:extract", timeout=wait).acquire())
-    return locks
 
 if __name__ == "__main__":
     locks = []
     try:
-        locks = acquire_locks(sys.argv[1])
+        acquire_locks(sys.argv[1], locks)
         main(sys.argv[1])
     except LockHeld as e:
         sys.exit(str(e))

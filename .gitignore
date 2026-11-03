@@ -11,6 +11,12 @@ dist/
 # Godot artifacts
 .godot/
 
+# Concurrency debris: lock dirs, tombstones, atomic-write temps, staging
+*.lock/
+*.breaking-*/
+*.tmp
+.publish_staging/
+
 # Python
 __pycache__/
 *.pyc

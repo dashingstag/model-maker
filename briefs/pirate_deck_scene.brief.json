@@ -7,17 +7,26 @@
      "prompt_core": "pirate captain, red coat, tricorn hat, eyepatch, orange beard, cutlass",
      "must_have": ["tricorn hat", "eyepatch on right eye", "orange beard", "cutlass at hip"],
      "must_not":  ["extra limbs", "merged background objects", "duplicate hat", "ship-body torso"],
-     "poses": ["idle", {"name": "walk_a", "prompt_extra": "mid-stride, legs apart"}, "walk_b"],
-     "guide": "depth", "silhouette_iou_min": 0.55,
+     "poses": ["idle",
+               {"name": "walk_a", "prompt_extra": "mid-stride, legs apart",
+                "init_from": "idle", "denoise": 0.6},
+               {"name": "walk_b", "prompt_extra": "mid-stride, legs apart",
+                "init_from": "idle", "denoise": 0.6}],
+     "guide": "depth", "guide_from": "captain_3d", "silhouette_iou_min": 0.55,
      "seeds": 4, "review": "human"},
     {"id": "crew",       "type": "sprite_variant", "of": "captain",
-     "count": 5, "method": "palette", "vary": ["coat", "trim"],
+     "count": 5, "method": "parts", "vary": ["coat"],
+     "regions": {
+       "coat": {"materials": ["coat"], "hue": [0.9, 0.03], "min_sat": 0.3,
+                "min_val": 35, "clip_below": "belt"},
+       "belt": {"materials": ["belt"]}
+     },
      "variants": [
-       {"id": "crew_01", "coat": "@palettes/dusk.colors.sea",    "trim": "@palettes/dusk.colors.trim"},
-       {"id": "crew_02", "coat": "@palettes/dusk.colors.sky_hi", "trim": "@palettes/dusk.colors.trim"},
-       {"id": "crew_03", "coat": "@palettes/dusk.colors.wood",   "trim": "@palettes/dusk.colors.canvas_modulate"},
-       {"id": "crew_04", "coat": "@palettes/dusk.colors.pants",  "trim": "@palettes/dusk.colors.light_warm"},
-       {"id": "crew_05", "coat": "@palettes/dusk.colors.coat",   "trim": "@palettes/dusk.colors.sea"}
+       {"id": "crew_01", "coat": "@palettes/dusk.colors.sea"},
+       {"id": "crew_02", "coat": "@palettes/dusk.colors.sky_hi"},
+       {"id": "crew_03", "coat": "@palettes/dusk.colors.wood"},
+       {"id": "crew_04", "coat": "@palettes/dusk.colors.pants"},
+       {"id": "crew_05", "coat": "@palettes/dusk.colors.light_warm"}
      ],
      "review": "auto"},
     {"id": "portrait",   "type": "ui_image", "h_px": 256,
@@ -37,39 +46,7 @@
      "neg_extra": "characters, people, birds",
      "seeds": 2, "review": "auto"},
     {"id": "captain_3d", "type": "glb", "tri_budget": 4000,
-     "anims": ["idle", "walk"], "collision": "capsule-approx"},
-    {"id": "sword",      "type": "glb", "tri_budget": 600, "prop": true},
-    {"id": "duelist",    "type": "glb", "tri_budget": 6000,
-     "skeleton": "@skeletons/humanoid_v1",
-     "anims": [
-       {"name": "idle_armed", "loop": true, "hand_pose": "@poses/grip_sword"},
-       {"name": "draw",       "duration": 0.5, "events": [{"name": "grip", "t": 0.3}]},
-       {"name": "sword_swing","duration": 0.6,
-        "events": [{"name": "contact", "t": 0.35}],
-        "hand_pose": "@poses/grip_sword"},
-       {"name": "parry",      "duration": 0.4,
-        "events": [{"name": "block", "t": 0.2}]},
-       {"name": "recover",    "duration": 0.8}
-     ],
-     "attachments": [
-       {"id": "sword_main", "component": "sword", "socket": "hand.r",
-        "keep_during": ["idle_armed", "draw", "sword_swing", "parry", "recover"]}
-     ],
-     "collision": "capsule-approx", "review": "human"},
-    {"id": "opponent",   "type": "glb", "tri_budget": 6000,
-     "skeleton": "@skeletons/humanoid_v1",
-     "anims": [
-       {"name": "idle_armed", "loop": true, "hand_pose": "@poses/grip_sword"},
-       {"name": "parry",      "duration": 0.4,
-        "events": [{"name": "block", "t": 0.2}],
-        "hand_pose": "@poses/grip_sword"},
-       {"name": "stagger",    "duration": 0.7}
-     ],
-     "attachments": [
-       {"id": "sword_main", "component": "sword", "socket": "hand.r",
-        "keep_during": ["idle_armed", "parry"]}
-     ],
-     "collision": "capsule-approx", "review": "human"}
+     "anims": ["idle", "walk"], "collision": "capsule-approx"}
   ],
   "composition": {
     "lighting_rig": "@rigs/std_dusk",
@@ -87,14 +64,6 @@
       "walk_t1":     {"same_row_overlap_events": 0},
       "low_light":   {"lit_coverage_min": 0.03},
       "ui_dialogue": {"portrait_visible": true}
-    },
-    "action_shots": [
-      {"name": "duel_exchange", "of": "@actions/sword_duel",
-       "cast": {"attacker": "duelist", "defender": "opponent"},
-       "captures": [{"t": 0.35, "label": "contact"},
-                    {"t": 0.0,  "label": "wind_up"}],
-       "expect": {"props_attached": true, "no_ground_clip": true,
-                  "contact_within_m": 0.15}}
-    ]
+    }
   }
 }

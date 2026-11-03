@@ -1,6 +1,7 @@
 {
   "id": "grip_sword",
   "hand": "hand.r",
+  "axis": "flexion about each finger bone's local X (see skeleton finger_flexion_axis)",
   "joints_deg": {
     "thumb.1":  30, "thumb.2":  20, "thumb.3":  10,
     "index.1":  45, "index.2":  55, "index.3":  35,

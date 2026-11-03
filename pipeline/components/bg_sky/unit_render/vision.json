@@ -1,0 +1,17 @@
+{
+  "verdict": "needs_human",
+  "actor": "devin (agent checklist)",
+  "ts": 1793721692.8110871,
+  "checks": {
+    "no characters or text in the layer": "pass",
+    "colors stay in palette under the rig": "pass"
+  },
+  "flags": [
+    "anachronistic modern steamship with funnel as the dominant subject \u2014 off-theme for pirate era"
+  ],
+  "note": "art-direction call: accept, or regen with must_not steamship/modern ship (2 seeds)",
+  "reviewed_files": [
+    "unit_render/lit.png",
+    "unit_render/neutral.png"
+  ]
+}

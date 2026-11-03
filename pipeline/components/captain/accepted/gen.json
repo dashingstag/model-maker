@@ -1,1 +1,18 @@
-{"idle":{"seed":1000},"walk_a":{"seed":1100},"walk_b":{"seed":1201},"model":"dreamshaper8","controlnet":"sd15_depth"}
+{
+  "idle": {
+    "seed": 1000
+  },
+  "walk_a": {
+    "seed": 1102
+  },
+  "walk_b": {
+    "seed": 1203
+  },
+  "model": "dreamshaper8",
+  "controlnet": "sd15_depth",
+  "curation": {
+    "actor": "devin (agent checklist)",
+    "ts": 1793721375.751204,
+    "reason": "rev1 walk_a s1100 = blocky off-model figure, walk_b s1201 = pumpkin-head hallucination; re-picked best on-model candidates from existing seeds"
+  }
+}

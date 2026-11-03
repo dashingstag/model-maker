@@ -1,0 +1,14 @@
+{
+  "id": "crew",
+  "type": "sprite_variant",
+  "status": "processed",
+  "rev": 1,
+  "variants": [
+    "crew_01",
+    "crew_02",
+    "crew_03",
+    "crew_04",
+    "crew_05"
+  ],
+  "of": "captain"
+}

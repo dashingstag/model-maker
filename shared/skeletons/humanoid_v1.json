@@ -1,6 +1,9 @@
 {
   "id": "humanoid_v1",
   "convention": "y-up, root at feet, meters; bone names lowercase with .l/.r",
+  "rest_pose": "A",
+  "bone_axis": "Y along bone (head->tail), X = principal bend axis, Blender roll 0 on limbs",
+  "finger_flexion_axis": "X (positive = curl toward palm)",
   "bones": {
     "required": [
       "root", "spine", "chest", "neck", "head",

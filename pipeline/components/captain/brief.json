@@ -4,11 +4,38 @@
   "h_px": 384,
   "pivot": "feet",
   "prompt_core": "pirate captain, red coat, tricorn hat, eyepatch, orange beard, cutlass",
+  "must_have": [
+    "tricorn hat",
+    "eyepatch on right eye",
+    "orange beard",
+    "cutlass at hip"
+  ],
+  "must_not": [
+    "extra limbs",
+    "merged background objects",
+    "duplicate hat",
+    "ship-body torso"
+  ],
   "poses": [
     "idle",
-    "walk_a",
-    "walk_b"
+    {
+      "name": "walk_a",
+      "prompt_extra": "mid-stride, legs apart",
+      "init_from": "idle",
+      "denoise": 0.6
+    },
+    {
+      "name": "walk_b",
+      "prompt_extra": "mid-stride, legs apart",
+      "init_from": "idle",
+      "denoise": 0.6
+    }
   ],
+  "guide": "depth",
+  "guide_from": "captain_3d",
+  "silhouette_iou_min": 0.55,
+  "seeds": 4,
+  "review": "human",
   "goal": "pirate_deck_scene",
   "style": {
     "name": "painted_game_art",

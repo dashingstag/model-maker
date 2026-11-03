@@ -1,9 +1,48 @@
 {
-  "id": "sword",
+  "id": "pirate_opponent",
   "type": "glb",
-  "tri_budget": 600,
-  "prop": true,
-  "goal": "pirate_deck_scene",
+  "tri_budget": 6000,
+  "skeleton": "@skeletons/humanoid_v1",
+  "anims": [
+    {
+      "name": "idle_armed",
+      "loop": true,
+      "fps": 24,
+      "hand_pose": "@poses/grip_sword"
+    },
+    {
+      "name": "parry",
+      "duration": 0.4,
+      "fps": 24,
+      "events": [
+        {
+          "name": "block",
+          "t": 0.2
+        }
+      ],
+      "hand_pose": "@poses/grip_sword"
+    },
+    {
+      "name": "stagger",
+      "duration": 0.7,
+      "fps": 24
+    }
+  ],
+  "root_motion": "in_place",
+  "attachments": [
+    {
+      "id": "sword_main",
+      "component": "pirate_sword",
+      "socket": "hand.r",
+      "keep_during": [
+        "idle_armed",
+        "parry"
+      ]
+    }
+  ],
+  "collision": "capsule-approx",
+  "review": "human",
+  "goal": "pirate_duel",
   "style": {
     "name": "painted_game_art",
     "suffix": "hand-painted 2d game art style, stylized, painterly brushwork, crisp readable silhouettes, rich saturated colors, game asset, masterpiece",

@@ -1,8 +1,121 @@
 {
+  "schema_v": 1,
   "id": "crew",
   "type": "sprite_variant",
   "status": "processed",
-  "rev": 1,
+  "rev": 4,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "parts",
+    "of": "captain",
+    "vary": [
+      "coat"
+    ],
+    "variants": [
+      {
+        "id": "crew_01",
+        "coat": "@palettes/dusk.colors.sea"
+      },
+      {
+        "id": "crew_02",
+        "coat": "@palettes/dusk.colors.sky_hi"
+      },
+      {
+        "id": "crew_03",
+        "coat": "@palettes/dusk.colors.wood"
+      },
+      {
+        "id": "crew_04",
+        "coat": "@palettes/dusk.colors.pants"
+      },
+      {
+        "id": "crew_05",
+        "coat": "@palettes/dusk.colors.light_warm"
+      }
+    ],
+    "count": 5
+  },
+  "inputs": {
+    "captain/manifest.json": "sha256:f73485925499acefef5f112f0b2378ed3e432572a0c8a66c23784444cbd8927c"
+  },
+  "artifacts": {
+    "processed/crew_01/sprite_idle.png": "sha256:2fdcedbc0a681ac1ded22a7110087563d773102689df7e496091f3484c02b781",
+    "processed/crew_01/sprite_idle_n.png": "sha256:c675b76cdc4e241856207af7f2afd8308929b79c3399481e146322bcaaa6175c",
+    "processed/crew_01/sprite_walk_a.png": "sha256:acc2bb60014b90a2b061ae819578129a6c2b19bf16a4f840c87d9da39ed2626b",
+    "processed/crew_01/sprite_walk_a_n.png": "sha256:2f1cbdf3cb5ac8279acffa456b8cc477bdc17962368b760d1d637778b3aea853",
+    "processed/crew_01/sprite_walk_b.png": "sha256:ffe86f4b74c947afe9da60c36b22ef65209fca8510814a346c372dd8b0c21c62",
+    "processed/crew_01/sprite_walk_b_n.png": "sha256:6026cae0e68aed34ec890a2355acfa4dfba6327388d6b6723d90e3405ba5d490",
+    "processed/crew_02/sprite_idle.png": "sha256:afd8193f2a12bdd11d34372610de89fb6cd01e4199e0967c37e5edd5d926d7b1",
+    "processed/crew_02/sprite_idle_n.png": "sha256:c675b76cdc4e241856207af7f2afd8308929b79c3399481e146322bcaaa6175c",
+    "processed/crew_02/sprite_walk_a.png": "sha256:b199116aaaa06086b520033401fba035b73d558e69c868d516fdac6d531d4341",
+    "processed/crew_02/sprite_walk_a_n.png": "sha256:2f1cbdf3cb5ac8279acffa456b8cc477bdc17962368b760d1d637778b3aea853",
+    "processed/crew_02/sprite_walk_b.png": "sha256:5e279ed93ac035b995824e2b721a00ff5f9aff76e2e6fdda4ea42fde96a73ae4",
+    "processed/crew_02/sprite_walk_b_n.png": "sha256:6026cae0e68aed34ec890a2355acfa4dfba6327388d6b6723d90e3405ba5d490",
+    "processed/crew_03/sprite_idle.png": "sha256:d43c0867e8ee8992b123d10ca7642628f9673f016b8da91c8575907fa8111f7e",
+    "processed/crew_03/sprite_idle_n.png": "sha256:c675b76cdc4e241856207af7f2afd8308929b79c3399481e146322bcaaa6175c",
+    "processed/crew_03/sprite_walk_a.png": "sha256:062cbbb10557e919fdcaa5445f3548e9bbd87af2d611d42eeaad1a40608435c9",
+    "processed/crew_03/sprite_walk_a_n.png": "sha256:2f1cbdf3cb5ac8279acffa456b8cc477bdc17962368b760d1d637778b3aea853",
+    "processed/crew_03/sprite_walk_b.png": "sha256:f46c2f440c8e6abf3a416c081456c703a8caa12c109a8a4bbbc4489ab4d9b3cb",
+    "processed/crew_03/sprite_walk_b_n.png": "sha256:6026cae0e68aed34ec890a2355acfa4dfba6327388d6b6723d90e3405ba5d490",
+    "processed/crew_04/sprite_idle.png": "sha256:e3bb006ea0024287efa7f95119cf5970139fd07077a092253b7af193c335a830",
+    "processed/crew_04/sprite_idle_n.png": "sha256:c675b76cdc4e241856207af7f2afd8308929b79c3399481e146322bcaaa6175c",
+    "processed/crew_04/sprite_walk_a.png": "sha256:8041657c78ccb18c205ab273c9c5425e2cc4a47a0dd5e01181111bb67d95bf0c",
+    "processed/crew_04/sprite_walk_a_n.png": "sha256:2f1cbdf3cb5ac8279acffa456b8cc477bdc17962368b760d1d637778b3aea853",
+    "processed/crew_04/sprite_walk_b.png": "sha256:707f733c46b48df5747539c72386bf4186b358cf774fbdefe7791be35ebbdbab",
+    "processed/crew_04/sprite_walk_b_n.png": "sha256:6026cae0e68aed34ec890a2355acfa4dfba6327388d6b6723d90e3405ba5d490",
+    "processed/crew_05/sprite_idle.png": "sha256:07be048540948885a181dadbd726a9b2c6fa4131635fe0062885bcbd0a8cc2d4",
+    "processed/crew_05/sprite_idle_n.png": "sha256:c675b76cdc4e241856207af7f2afd8308929b79c3399481e146322bcaaa6175c",
+    "processed/crew_05/sprite_walk_a.png": "sha256:0cd9ccf93752d900debbe051996405ce4b0bb63e3d73770bbe7c0a887202a155",
+    "processed/crew_05/sprite_walk_a_n.png": "sha256:2f1cbdf3cb5ac8279acffa456b8cc477bdc17962368b760d1d637778b3aea853",
+    "processed/crew_05/sprite_walk_b.png": "sha256:b3c28346690dad6ec784187c7a23e79687f0085e8bd4e35e4d7c381109e189b5",
+    "processed/crew_05/sprite_walk_b_n.png": "sha256:6026cae0e68aed34ec890a2355acfa4dfba6327388d6b6723d90e3405ba5d490"
+  },
+  "metrics": {
+    "region_coverage": {
+      "crew_01/idle/coat": 0.1439,
+      "crew_01/walk_a/coat": 0.2087,
+      "crew_01/walk_b/coat": 0.2191,
+      "crew_02/idle/coat": 0.1439,
+      "crew_02/walk_a/coat": 0.2087,
+      "crew_02/walk_b/coat": 0.2191,
+      "crew_03/idle/coat": 0.1439,
+      "crew_03/walk_a/coat": 0.2087,
+      "crew_03/walk_b/coat": 0.2191,
+      "crew_04/idle/coat": 0.1439,
+      "crew_04/walk_a/coat": 0.2087,
+      "crew_04/walk_b/coat": 0.2191,
+      "crew_05/idle/coat": 0.1439,
+      "crew_05/walk_a/coat": 0.2087,
+      "crew_05/walk_b/coat": 0.2191
+    }
+  },
+  "gate_mode": {},
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793721215.536669,
+      "status": "processed"
+    },
+    {
+      "rev": 2,
+      "ts": 1793721301.652542,
+      "status": "processed"
+    },
+    {
+      "rev": 3,
+      "ts": 1793721431.2681215,
+      "status": "processed"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cpu",
+    "matting": "birefnet-general"
+  },
+  "of": "captain",
+  "method": "parts",
   "variants": [
     "crew_01",
     "crew_02",
@@ -10,5 +123,26 @@
     "crew_04",
     "crew_05"
   ],
-  "of": "captain"
+  "targets": {
+    "crew_01": {
+      "coat": "#1d5e6e"
+    },
+    "crew_02": {
+      "coat": "#3d2a6e"
+    },
+    "crew_03": {
+      "coat": "#6e4a2f"
+    },
+    "crew_04": {
+      "coat": "#2b2b3d"
+    },
+    "crew_05": {
+      "coat": "#ffbf73"
+    }
+  },
+  "poses": [
+    "idle",
+    "walk_a",
+    "walk_b"
+  ]
 }
