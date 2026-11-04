@@ -169,6 +169,7 @@
       },
       "name": "duel_probe",
       "of": "sword_duel",
+      "pass": true,
       "sync_on": [
         {
           "delta_s": 0.0,
@@ -217,7 +218,7 @@
     },
     "job_file": "a2e5c41d32df",
     "mode": "all",
-    "timestamp": "2026-11-05T02:56:01"
+    "timestamp": "2026-11-05T03:18:42"
   },
   "schema": "mm.report.v1",
   "shot_expect": {

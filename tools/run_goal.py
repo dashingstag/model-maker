@@ -177,6 +177,9 @@ def main(brief_path, wait, no_harness):
                if any(c.get("pass") is False for c in v.values())]
         if rep.get("composition", {}).get("missing_assets"):
             bad.append("missing_assets")
+        for e in rep.get("action_shots", []):
+            if e.get("pass") is False:
+                bad.append(f"action:{e.get('name') or e.get('of')}")
         if bad:
             print(f"run_goal: harness flags {bad} — triage before packaging")
             sys.exit(1)

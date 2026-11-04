@@ -872,6 +872,14 @@ func _run_staged_action(a: Dictionary, comp: Dictionary, shots_dir: String) -> v
 			ok = ok and gmin >= -0.02
 		chk["pass"] = ok
 		entry["checks"].append(chk)
+	var entry_pass := true
+	for c in entry["checks"]:
+		if c.get("pass") == false:
+			entry_pass = false
+	for s2 in entry.get("sync_on", []):
+		if s2.get("pass") == false:
+			entry_pass = false
+	entry["pass"] = entry_pass
 	report["action_shots"].append(entry)
 	vp.queue_free()
 

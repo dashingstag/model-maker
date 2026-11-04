@@ -1,0 +1,25 @@
+{
+  "lint:tree": {
+    "cmd": "python tools/lint_tree.py",
+    "desc": "layout/manifest/status validation across pipeline + dist"
+  },
+  "tests:unit": {
+    "cmd": "python -m unittest discover -s tools/tests",
+    "desc": "pipelib + registry unit tests"
+  },
+  "golden:{arg}": {
+    "cmd": "python tools/golden_check.py {arg}",
+    "desc": "pixelmatch diff of fresh shots vs golden/<goal>",
+    "arg_hint": "<goal>"
+  },
+  "dropin:{arg}": {
+    "cmd": "python tools/dropin_check.py {arg}",
+    "desc": "bare-project import + scene_probe instancing",
+    "arg_hint": "<goal>"
+  },
+  "map:{arg}": {
+    "cmd": "python tools/layout_map.py {arg}",
+    "desc": "render resolved layout to layout_map.png",
+    "arg_hint": "<goal>"
+  }
+}
