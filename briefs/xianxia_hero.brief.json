@@ -77,7 +77,13 @@
         {
           "name": "parry",
           "duration": 0.8,
-          "fps": 24
+          "fps": 24,
+          "events": [
+            {
+              "name": "contact",
+              "t": 0.25
+            }
+          ]
         },
         {
           "name": "recover",

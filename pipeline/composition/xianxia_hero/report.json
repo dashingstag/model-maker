@@ -168,7 +168,19 @@
         "props_attached": true
       },
       "name": "duel_probe",
-      "of": "sword_duel"
+      "of": "sword_duel",
+      "sync_on": [
+        {
+          "delta_s": 0.0,
+          "entry": "defender.parry",
+          "expected_start": 0.2,
+          "own_event_t": 0.25,
+          "pass": true,
+          "ref": "attacker.sword_swing@contact",
+          "ref_event_t": 0.45,
+          "tolerance_s": 0.08
+        }
+      ]
     }
   ],
   "composition": {
@@ -205,7 +217,7 @@
     },
     "job_file": "a2e5c41d32df",
     "mode": "all",
-    "timestamp": "2026-11-05T02:19:00"
+    "timestamp": "2026-11-05T02:56:01"
   },
   "schema": "mm.report.v1",
   "shot_expect": {

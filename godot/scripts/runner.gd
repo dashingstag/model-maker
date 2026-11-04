@@ -724,6 +724,62 @@ func _run_staged_action(a: Dictionary, comp: Dictionary, shots_dir: String) -> v
 			ba.add_child(pinst)
 		roles[role]["prop"] = pinst
 	var timeline: Array = spec.get("timeline", [])
+	# sync_on assertions: "role.anim@event" pins this entry so its own
+	# same-named event coincides with the referenced event's global time.
+	# Event times resolve from the component brief anims tables.
+	var briefs := {}
+	var sync_checks := []
+	for tl in timeline:
+		var ref: String = tl.get("sync_on", "")
+		if ref == "":
+			continue
+		var ref_role := ref.get_slice(".", 0)
+		var ref_anim := ref.get_slice(".", 1).get_slice("@", 0)
+		var ev_name := ref.get_slice("@", 1)
+		var ref_cid: String = a["cast"].get(ref_role, "")
+		var own_cid: String = a["cast"].get(tl.get("role", ""), "")
+		for cid in [ref_cid, own_cid]:
+			if cid != "" and not briefs.has(cid):
+				var bp := "res://../pipeline/components/%s/brief.json" % cid
+				var bt = JSON.parse_string(FileAccess.get_file_as_string(
+					ProjectSettings.globalize_path(bp)))
+				briefs[cid] = bt if typeof(bt) == TYPE_DICTIONARY else {}
+		var ref_start := 0.0
+		for t2 in timeline:
+			if t2.get("role") == ref_role and t2.get("anim") == ref_anim:
+				ref_start = float(t2.get("t", 0.0))
+		var ev_t := -1.0
+		for an in briefs.get(ref_cid, {}).get("anims", []):
+			if an.get("name") == ref_anim:
+				for ev in an.get("events", []):
+					if ev.get("name") == ev_name:
+						ev_t = float(ev.get("t", 0.0))
+		var own_ev_t := -1.0
+		for an2 in briefs.get(own_cid, {}).get("anims", []):
+			if an2.get("name") == tl.get("anim"):
+				for ev2 in an2.get("events", []):
+					if ev2.get("name") == ev_name:
+						own_ev_t = float(ev2.get("t", 0.0))
+		var s := {"entry": "%s.%s" % [tl.get("role"), tl.get("anim")],
+			"ref": ref, "ref_event_t": ev_t, "own_event_t": own_ev_t}
+		if ev_t < 0.0:
+			s.merge({"pass": null, "note": "ref event unresolved"})
+		elif own_ev_t < 0.0:
+			s.merge({"pass": null,
+				"note": "no '%s' event on %s" % [ev_name, tl.get("anim")],
+				"local_t_at_sync": snappedf(
+					ref_start + ev_t - float(tl.get("t", 0.0)), 0.01)})
+		else:
+			var t_sync: float = ref_start + ev_t
+			var expect_start: float = t_sync - own_ev_t
+			var delta: float = float(tl.get("t", 0.0)) - expect_start
+			var tol: float = tl.get("tolerance_s", 0.1)
+			s.merge({"expected_start": snappedf(expect_start, 0.01),
+				"delta_s": snappedf(delta, 0.001), "tolerance_s": tol,
+				"pass": absf(delta) <= tol})
+		sync_checks.append(s)
+	if sync_checks.size():
+		entry["sync_on"] = sync_checks
 	for cap in a.get("captures", []):
 		var t: float = cap.get("t", 0.0)
 		var seeks := {}
