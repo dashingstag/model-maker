@@ -1,0 +1,18 @@
+{
+  "verdict": "pass",
+  "actor": "human",
+  "ts": 1793809736.6694674,
+  "checks": {
+    "materials not washed out": "pass",
+    "animations play without clipping": "pass",
+    "within tri budget": "pass",
+    "has: straight double edge": "pass",
+    "has: disc guard": "pass",
+    "absent: curved blade": "pass"
+  },
+  "flags": [],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/neutral.png"
+  ]
+}

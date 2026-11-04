@@ -223,6 +223,12 @@ ANIM_KEYS = {
     "seated_meditate": (4.0, [(0.0, [P("seated_meditation")]),
                               (0.5, [P("seated_meditation")]),
                               (1.0, [P("seated_meditation")])]),
+    # duel clips — the action timeline anchors attacker/defender to these
+    "sword_swing": (1.0, [(0.0, []), (0.25, [P("sword_windup")]),
+                          (0.45, [P("sword_hit")]), (0.7, [P("sword_hit", 0.4)]),
+                          (1.0, [])]),
+    "parry": (0.8, [(0.0, []), (0.35, [P("parry")]), (1.0, [P("parry")])]),
+    "recover": (0.8, [(0.0, [P("sword_hit", 0.5)]), (1.0, [])]),
 }
 
 arm.animation_data_create()

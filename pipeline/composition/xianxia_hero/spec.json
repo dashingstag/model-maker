@@ -38,6 +38,47 @@
       "expect": {
         "props_attached": true
       }
+    },
+    {
+      "name": "duel_probe",
+      "of": "sword_duel",
+      "cast": {
+        "attacker": "xx_azure_sage_3d",
+        "defender": "xx_azure_sage_3d"
+      },
+      "props": {
+        "attacker": {
+          "cid": "xx_jian_3d",
+          "aim": [
+            0,
+            1.45,
+            0
+          ]
+        },
+        "defender": {
+          "cid": "xx_jian_3d",
+          "aim": [
+            0,
+            1.45,
+            0
+          ]
+        }
+      },
+      "captures": [
+        {
+          "t": 0.45,
+          "camera": "mid"
+        },
+        {
+          "t": 0.9,
+          "camera": "mid"
+        }
+      ],
+      "expect": {
+        "props_attached": true,
+        "contact_within_m": 0.15,
+        "no_ground_clip": true
+      }
     }
   ],
   "layout": {
@@ -60,6 +101,7 @@
   },
   "components": [
     "xx_azure_sage_3d",
-    "xx_sage_staff_3d"
+    "xx_sage_staff_3d",
+    "xx_jian_3d"
   ]
 }

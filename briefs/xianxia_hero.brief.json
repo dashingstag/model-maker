@@ -62,6 +62,27 @@
           "duration": 4.0,
           "loop": true,
           "fps": 24
+        },
+        {
+          "name": "sword_swing",
+          "duration": 1.0,
+          "fps": 24,
+          "events": [
+            {
+              "name": "contact",
+              "t": 0.45
+            }
+          ]
+        },
+        {
+          "name": "parry",
+          "duration": 0.8,
+          "fps": 24
+        },
+        {
+          "name": "recover",
+          "duration": 0.8,
+          "fps": 24
         }
       ],
       "root_motion": "in_place",
@@ -94,6 +115,21 @@
       "must_not": [
         "bent shaft",
         "extra gems"
+      ],
+      "review": "auto"
+    },
+    {
+      "id": "xx_jian_3d",
+      "type": "glb",
+      "prop": true,
+      "tri_budget": 800,
+      "prompt_core": "straight double-edged jian sword, silver blade, bronze disc guard, dark wrapped grip, tassel at pommel",
+      "must_have": [
+        "straight double edge",
+        "disc guard"
+      ],
+      "must_not": [
+        "curved blade"
       ],
       "review": "auto"
     }
@@ -144,6 +180,47 @@
         ],
         "expect": {
           "props_attached": true
+        }
+      },
+      {
+        "name": "duel_probe",
+        "of": "sword_duel",
+        "cast": {
+          "attacker": "xx_azure_sage_3d",
+          "defender": "xx_azure_sage_3d"
+        },
+        "props": {
+          "attacker": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          },
+          "defender": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          }
+        },
+        "captures": [
+          {
+            "t": 0.45,
+            "camera": "mid"
+          },
+          {
+            "t": 0.9,
+            "camera": "mid"
+          }
+        ],
+        "expect": {
+          "props_attached": true,
+          "contact_within_m": 0.15,
+          "no_ground_clip": true
         }
       }
     ]

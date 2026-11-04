@@ -1,7 +1,7 @@
 {
   "verdict": "pass",
-  "actor": "devin",
-  "ts": 1793806834.6359494,
+  "actor": "human",
+  "ts": 1793809288.4595172,
   "checks": {
     "materials not washed out": "pass",
     "animations play without clipping": "pass",
@@ -14,7 +14,7 @@
     "absent: merged robe layers": "pass"
   },
   "flags": [
-    "mannequin-grade rig: sphere hands have no finger geometry by design; silver-white hair/crown/indigo+silver layers verified on unit renders; 5 clips play"
+    "mannequin-grade: sphere hands, no finger joints"
   ],
   "note": null,
   "reviewed_files": [
@@ -23,10 +23,16 @@
     "unit_render/idle_25.png",
     "unit_render/idle_50.png",
     "unit_render/neutral.png",
+    "unit_render/parry_25.png",
+    "unit_render/parry_50.png",
+    "unit_render/recover_25.png",
+    "unit_render/recover_50.png",
     "unit_render/seated_meditate_25.png",
     "unit_render/seated_meditate_50.png",
     "unit_render/staff_salute_25.png",
     "unit_render/staff_salute_50.png",
+    "unit_render/sword_swing_25.png",
+    "unit_render/sword_swing_50.png",
     "unit_render/walk_25.png",
     "unit_render/walk_50.png"
   ]

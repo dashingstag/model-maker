@@ -374,29 +374,8 @@ func _composition_mode() -> void:
 					push_error("MISSING ASSET: glb for " + m["id"])
 					missing.append(m["dir"])
 					continue
-				var vp := SubViewport.new()
-				vp.size = Vector2i(360, 560)
-				vp.transparent_bg = true
-				vp.own_world_3d = true
-				add_child(vp)
-				var env3 := WorldEnvironment.new()
-				var e3 := Environment.new()
-				e3.background_mode = Environment.BG_COLOR
-				e3.background_color = Color(0, 0, 0, 0)
-				e3.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-				e3.ambient_light_color = Color(0.6, 0.62, 0.70)
-				e3.ambient_light_energy = 0.5
-				env3.environment = e3
-				vp.add_child(env3)
-				var sun := DirectionalLight3D.new()
-				sun.rotation_degrees = Vector3(-45, -25, 0)
-				sun.light_energy = 1.2
-				vp.add_child(sun)
-				var c3 := Camera3D.new()
-				c3.position = Vector3(0, 1.35, 3.4)
-				c3.look_at_from_position(c3.position, Vector3(0, 0.9, 0))
-				vp.add_child(c3)
-				c3.make_current()
+				var stage := _mk_stage3d(Vector2i(360, 560))
+				var vp: SubViewport = stage["vp"]
 				var inst: Node3D = scn.instantiate()
 				vp.add_child(inst)
 				var s := _mk_sprite(vp.get_texture(),
@@ -523,11 +502,57 @@ func _composition_mode() -> void:
 	report["shot_expect"] = _eval_expect(comp.get("shot_expect", {}), metrics, shot_lit)
 	await _run_action_shots(comp, layout, shots_dir)
 
+func _mk_stage3d(vsize: Vector2i) -> Dictionary:
+	# own-world 3D stage composited into the 2D harness — members sample it
+	# as sprite textures, staged actions read it back directly
+	var vp := SubViewport.new()
+	vp.size = vsize
+	vp.transparent_bg = true
+	vp.own_world_3d = true
+	add_child(vp)
+	var env3 := WorldEnvironment.new()
+	var e3 := Environment.new()
+	e3.background_mode = Environment.BG_COLOR
+	e3.background_color = Color(0, 0, 0, 0)
+	e3.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	e3.ambient_light_color = Color(0.6, 0.62, 0.70)
+	e3.ambient_light_energy = 0.5
+	env3.environment = e3
+	vp.add_child(env3)
+	var sun := DirectionalLight3D.new()
+	sun.rotation_degrees = Vector3(-45, -25, 0)
+	sun.light_energy = 1.2
+	vp.add_child(sun)
+	var c3 := Camera3D.new()
+	c3.position = Vector3(0, 1.35, 3.4)
+	c3.look_at_from_position(c3.position, Vector3(0, 0.9, 0))
+	vp.add_child(c3)
+	c3.make_current()
+	return {"vp": vp, "cam": c3}
+
+func _aabb_min_y(root: Node3D) -> float:
+	# lowest world-space point of every mesh under root — the floor-clip probe
+	var low := INF
+	for mi in root.find_children("", "MeshInstance3D", true, false):
+		var a: AABB = mi.get_aabb()
+		for c in [a.position, a.position + Vector3(a.size.x, 0, 0),
+				a.position + Vector3(0, a.size.y, 0), a.position + Vector3(0, 0, a.size.z),
+				a.position + Vector3(a.size.x, a.size.y, 0),
+				a.position + Vector3(a.size.x, 0, a.size.z),
+				a.position + Vector3(0, a.size.y, a.size.z), a.end]:
+			low = minf(low, (mi.global_transform * c).y)
+	return low
+
 func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) -> void:
 	# rigged-glb action clock: socket props via BoneAttachment3D, then play
 	# the named clip and capture each declared time — expect.props_attached
 	# verifies the prop stayed on the socket bone at every capture
+	if not "action_shots" in report:
+		report["action_shots"] = []
 	for a in comp.get("action_shots", []):
+		if a.has("of"):
+			await _run_staged_action(a, comp, shots_dir)
+			continue
 		var entry := {"name": a.get("name"), "captures": [],
 			"expect": a.get("expect", {}), "props_attached": []}
 		for at in layout.get("attach3d", []):
@@ -585,9 +610,195 @@ func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) 
 					var d: float = at2["node"].global_position.distance_to(bpos)
 					entry["props_attached"].append({"t": t, "dist": snappedf(d, 0.01),
 						"pass": d < 0.4})
-		if not "action_shots" in report:
-			report["action_shots"] = []
 		report["action_shots"].append(entry)
+
+func _skel_min_y(skel: Skeleton3D) -> float:
+	var low := INF
+	for i in skel.get_bone_count():
+		low = minf(low, (skel.global_transform * skel.get_bone_global_pose(i)).origin.y)
+	return low
+
+func _seg_seg_dist(p1: Vector3, q1: Vector3, p2: Vector3, q2: Vector3) -> float:
+	# closest distance between finite segments p1-q1 and p2-q2
+	var d1 := q1 - p1
+	var d2 := q2 - p2
+	var r := p1 - p2
+	var a := d1.dot(d1)
+	var e := d2.dot(d2)
+	var f := d2.dot(r)
+	var c := d1.dot(r)
+	var b := d1.dot(d2)
+	var denom := a * e - b * b
+	var s: float = clampf(0.0 if denom < 0.000001 else (b * f - c * e) / denom, 0.0, 1.0)
+	var t: float = 0.0 if e < 0.000001 else (b * s + f) / e
+	if t < 0.0:
+		t = 0.0
+		s = clampf(-c / a if a > 0.000001 else 0.0, 0.0, 1.0)
+	elif t > 1.0:
+		t = 1.0
+		s = clampf((b - c) / a if a > 0.000001 else 0.0, 0.0, 1.0)
+	return (p1 + d1 * s).distance_to(p2 + d2 * t)
+
+func _run_staged_action(a: Dictionary, comp: Dictionary, shots_dir: String) -> void:
+	# multi-actor action on one shared 3D stage: cast roles placed per the
+	# action spec (spacing_m, facing), props socket to hand.r, one clock
+	# seeks every actor's clip per capture; blade_mid marker empties give
+	# the contact measurement and bone heights give the floor-clip probe
+	var entry := {"name": a.get("name"), "of": a.get("of"),
+		"captures": [], "expect": a.get("expect", {}), "checks": []}
+	var spec_path := "res://../shared/actions/%s.json" % a.get("of", "")
+	var spec = JSON.parse_string(FileAccess.get_file_as_string(
+		ProjectSettings.globalize_path(spec_path)))
+	if typeof(spec) != TYPE_DICTIONARY:
+		entry["error"] = "unreadable action spec " + spec_path
+		report["action_shots"].append(entry)
+		return
+	var stage := _mk_stage3d(Vector2i(1280, 720))
+	var vp: SubViewport = stage["vp"]
+	vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	var cam3: Camera3D = stage["cam"]
+	cam3.position = Vector3(0, 1.3, 4.4)
+	cam3.look_at_from_position(cam3.position, Vector3(0, 0.85, 0))
+	var spacing: float = spec.get("spacing_m", 1.6)
+	var roles := {}
+	var role_ids: Array = a.get("cast", {}).keys()
+	for i in role_ids.size():
+		var role: String = role_ids[i]
+		var cid: String = a["cast"][role]
+		var scn: PackedScene = load(
+			comp["components_dir"] + "/" + cid + "/" + comp["glbs"].get(cid, ""))
+		if scn == null:
+			push_error("MISSING ASSET: glb for " + cid)
+			continue
+		var inst: Node3D = scn.instantiate()
+		var side := -1.0 if i % 2 == 0 else 1.0
+		inst.position = Vector3(side * spacing / 2.0, 0, 0)
+		inst.rotation_degrees.y = 90.0 if side < 0 else -90.0
+		vp.add_child(inst)
+		roles[role] = {"inst": inst,
+			"ap": inst.find_child("AnimationPlayer", true, false),
+			"skel": inst.find_child("Skeleton3D", true, false)}
+	for role in a.get("props", {}):
+		var pspec = a["props"][role]
+		var pcid: String = pspec if pspec is String else pspec.get("cid", "")
+		var skel: Skeleton3D = roles.get(role, {}).get("skel")
+		var pscn: PackedScene = load(
+			comp["components_dir"] + "/" + pcid + "/" + comp["glbs"].get(pcid, ""))
+		if pscn == null or skel == null:
+			continue
+		var ba := BoneAttachment3D.new()
+		ba.bone_name = "hand.r" if pspec is String else pspec.get("socket", "hand.r")
+		skel.add_child(ba)
+		var pinst: Node3D = pscn.instantiate()
+		# ba's transform tracks the bone every frame — grip offsets live on
+		# the prop instance so the socket sync can't overwrite them
+		if pspec is Dictionary and pspec.has("rot"):
+			var r: Array = pspec["rot"]
+			pinst.rotation_degrees = Vector3(r[0], r[1], r[2])
+		# `aim`: a shared contact point the blade (+Y) tracks — the holder
+		# re-aims after each seek since the bone pose moves the socket
+		if pspec is Dictionary and pspec.has("aim"):
+			var hold := Node3D.new()
+			ba.add_child(hold)
+			pinst.rotation_degrees = Vector3(90, 0, 0)
+			hold.add_child(pinst)
+			roles[role]["aim_hold"] = hold
+			var av: Array = pspec["aim"]
+			roles[role]["aim_point"] = Vector3(av[0], av[1], av[2])
+		else:
+			ba.add_child(pinst)
+		roles[role]["prop"] = pinst
+	var timeline: Array = spec.get("timeline", [])
+	for cap in a.get("captures", []):
+		var t: float = cap.get("t", 0.0)
+		var seeks := {}
+		for tl in timeline:
+			var r: String = tl.get("role", "")
+			var ap: AnimationPlayer = roles.get(r, {}).get("ap")
+			if ap == null or tl.get("t", 0.0) > t:
+				continue
+			# the latest entry started before the capture owns the role —
+			# earlier clips on the same actor are superseded
+			var local: float = t - float(tl.get("t", 0.0))
+			var anim: String = tl.get("anim", "")
+			if not ap.get_animation_list().has(anim):
+				continue
+			local = minf(local, ap.get_animation(anim).get_length())
+			ap.play(anim)
+			ap.seek(local, true)
+			ap.pause()
+			seeks[r] = {"anim": anim, "local_t": snappedf(local, 0.01)}
+		await _frames(4)
+		for role in roles:
+			var hold: Node3D = roles[role].get("aim_hold")
+			if hold:
+				hold.look_at(roles[role]["aim_point"], Vector3.UP, true)
+		await _frames(2)
+		await RenderingServer.frame_post_draw
+		var img := vp.get_texture().get_image()
+		img.save_png("%s/%s_t%s.png" % [shots_dir, a.get("name"),
+			str(t).replace(".", "p")])
+		entry["captures"].append({"t": t, "seeks": seeks})
+		var exp: Dictionary = a.get("expect", {})
+		var chk := {"t": t}
+		var ok := true
+		if exp.get("props_attached"):
+			var pa := []
+			for role in roles:
+				var sk: Skeleton3D = roles[role]["skel"]
+				var prop: Node3D = roles[role].get("prop")
+				if sk == null or prop == null:
+					continue
+				var bi := sk.find_bone("hand.r")
+				var bpos: Vector3 = sk.global_transform * sk.get_bone_global_pose(bi).origin
+				var d: float = prop.global_position.distance_to(bpos)
+				pa.append({"role": role, "dist": snappedf(d, 0.01), "pass": d < 0.4})
+				ok = ok and d < 0.4
+			chk["props_attached"] = pa
+		if exp.has("contact_within_m"):
+			# spec measures blades at blade_mid markers; the honest check is
+			# segment-to-segment (grip->tip) so a crossed bind reads ~0
+			var segs := []
+			var marks_named := []
+			for role in roles:
+				var prop2: Node3D = roles[role].get("prop")
+				var mk: Node3D = prop2.find_child("blade_mid") if prop2 else null
+				var tp: Node3D = prop2.find_child("blade_tip") if prop2 else null
+				if mk:
+					marks_named.append({"role": role,
+						"blade_mid": [snappedf(mk.global_position.x, 0.01),
+								snappedf(mk.global_position.y, 0.01),
+								snappedf(mk.global_position.z, 0.01)]})
+				if tp:
+					segs.append([prop2.global_position, tp.global_position])
+			if segs.size() >= 2:
+				var dc: float = _seg_seg_dist(segs[0][0], segs[0][1],
+						segs[1][0], segs[1][1])
+				var lim: float = exp["contact_within_m"]
+				chk["contact_within_m"] = {"dist_m": snappedf(dc, 0.01),
+					"markers": marks_named,
+					"target": lim, "pass": dc <= lim}
+				ok = ok and dc <= lim
+			else:
+				chk["contact_within_m"] = {"pass": null, "note": "blade_mid missing"}
+		if exp.get("no_ground_clip"):
+			var lows := []
+			var gmin := INF
+			for role in roles:
+				var sk2: Skeleton3D = roles[role]["skel"]
+				var ly: float = _skel_min_y(sk2) if sk2 else INF
+				var prop3: Node3D = roles[role].get("prop")
+				if prop3:
+					ly = minf(ly, _aabb_min_y(prop3))
+				gmin = minf(gmin, ly)
+				lows.append({"role": role, "min_y": snappedf(ly, 0.01)})
+			chk["no_ground_clip"] = {"min_y": snappedf(gmin, 0.01),
+				"per_role": lows, "pass": gmin >= -0.02}
+			ok = ok and gmin >= -0.02
+		chk["pass"] = ok
+		entry["checks"].append(chk)
+	report["action_shots"].append(entry)
+	vp.queue_free()
 
 func _ui_visible_count() -> int:
 	var n := 0

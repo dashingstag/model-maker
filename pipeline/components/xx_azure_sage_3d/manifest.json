@@ -3,7 +3,7 @@
   "id": "xx_azure_sage_3d",
   "type": "glb",
   "status": "certified",
-  "rev": 1,
+  "rev": 3,
   "constraints": {
     "type": "glb",
     "anims": [
@@ -49,6 +49,27 @@
         "duration": 4.0,
         "loop": true,
         "fps": 24
+      },
+      {
+        "name": "sword_swing",
+        "duration": 1.0,
+        "fps": 24,
+        "events": [
+          {
+            "name": "contact",
+            "t": 0.45
+          }
+        ]
+      },
+      {
+        "name": "parry",
+        "duration": 0.8,
+        "fps": 24
+      },
+      {
+        "name": "recover",
+        "duration": 0.8,
+        "fps": 24
       }
     ],
     "tri_budget": 15000,
@@ -69,17 +90,28 @@
     ]
   },
   "inputs": {
-    "export/xx_azure_sage_3d.glb": "sha256:3b959b0d1c88fa9e2b2cd5d0aea2f674389b914e64ce7c4fae2315e28c87b5d2"
+    "export/xx_azure_sage_3d.glb": "sha256:cc0b08728d73d10da0a35efae6df3769fb2626c9f1fd6302b8c8204c60ef843b"
   },
   "artifacts": {
-    "processed/xx_azure_sage_3d.glb": "sha256:3b959b0d1c88fa9e2b2cd5d0aea2f674389b914e64ce7c4fae2315e28c87b5d2"
+    "processed/xx_azure_sage_3d.glb": "sha256:cc0b08728d73d10da0a35efae6df3769fb2626c9f1fd6302b8c8204c60ef843b"
   },
   "metrics": {},
   "gate_mode": {
     "tris_ok": "enforced"
   },
   "waiver": null,
-  "history": [],
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793808221.727168,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1793809275.8933048,
+      "status": "certified"
+    }
+  ],
   "toolchain": {
     "blender": "4.5.15",
     "comfyui": "0.43.0",
@@ -94,14 +126,17 @@
     "walk",
     "channel_water",
     "staff_salute",
-    "seated_meditate"
+    "seated_meditate",
+    "sword_swing",
+    "parry",
+    "recover"
   ],
   "tri_budget": 15000,
   "gate": {
     "tris_ok": true
   },
   "certified": {
-    "ts": 1793806834.774731,
-    "by": "devin"
+    "ts": 1793809288.6262696,
+    "by": "human"
   }
 }

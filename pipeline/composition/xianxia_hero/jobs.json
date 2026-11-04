@@ -3,8 +3,9 @@
   "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\xianxia_hero",
   "provenance": {
     "manifests": {
-      "xx_azure_sage_3d": "sha256:64e558a8640c957fb79ecd9c87ad8a89af7b0dea44bf4f5fed4a1c1416cb5a65",
-      "xx_sage_staff_3d": "sha256:29f71a4c01abffddac341607f1113e53dd3f226fe41752d843b5936620ad0762"
+      "xx_azure_sage_3d": "sha256:00a48f6c1fba70c3454c18fc6438b09176de48fdd973c22762b99e627b725c1c",
+      "xx_sage_staff_3d": "sha256:18ea1df69f7d18e38217d6d3ec63e9ddf6ca763f3980572694ab14257908ba71",
+      "xx_jian_3d": "sha256:aee9347b3235e7323ad86ba8566dddce0de5bf470c8ebd4ef637bab17ffd237b"
     },
     "goal": "xianxia_hero"
   },
@@ -26,6 +27,13 @@
       "assets": "res://assets/components/xx_azure_sage_3d",
       "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_azure_sage_3d\\unit_render",
       "glb": "xx_azure_sage_3d.glb"
+    },
+    {
+      "id": "xx_jian_3d",
+      "type": "glb",
+      "assets": "res://assets/components/xx_jian_3d",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_jian_3d\\unit_render",
+      "glb": "xx_jian_3d.glb"
     },
     {
       "id": "xx_sage_staff_3d",
@@ -78,6 +86,7 @@
     "variants": {},
     "glbs": {
       "xx_azure_sage_3d": "xx_azure_sage_3d.glb",
+      "xx_jian_3d": "xx_jian_3d.glb",
       "xx_sage_staff_3d": "xx_sage_staff_3d.glb"
     },
     "shot_expect": {},
@@ -99,6 +108,47 @@
         ],
         "expect": {
           "props_attached": true
+        }
+      },
+      {
+        "name": "duel_probe",
+        "of": "sword_duel",
+        "cast": {
+          "attacker": "xx_azure_sage_3d",
+          "defender": "xx_azure_sage_3d"
+        },
+        "props": {
+          "attacker": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          },
+          "defender": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          }
+        },
+        "captures": [
+          {
+            "t": 0.45,
+            "camera": "mid"
+          },
+          {
+            "t": 0.9,
+            "camera": "mid"
+          }
+        ],
+        "expect": {
+          "props_attached": true,
+          "contact_within_m": 0.15,
+          "no_ground_clip": true
         }
       }
     ]

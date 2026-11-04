@@ -1,0 +1,137 @@
+{
+  "schema_v": 1,
+  "id": "xx_azure_sage_3d",
+  "type": "glb",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "glb",
+    "anims": [
+      {
+        "name": "idle",
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "walk",
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "channel_water",
+        "duration": 2.0,
+        "fps": 24,
+        "events": [
+          {
+            "name": "surge",
+            "t": 0.6
+          },
+          {
+            "name": "release",
+            "t": 1.4
+          }
+        ]
+      },
+      {
+        "name": "staff_salute",
+        "duration": 1.2,
+        "fps": 24,
+        "hand_pose": "@poses/grip_sword",
+        "events": [
+          {
+            "name": "bow",
+            "t": 0.5
+          }
+        ]
+      },
+      {
+        "name": "seated_meditate",
+        "duration": 4.0,
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "sword_swing",
+        "duration": 1.0,
+        "fps": 24,
+        "events": [
+          {
+            "name": "contact",
+            "t": 0.45
+          }
+        ]
+      },
+      {
+        "name": "parry",
+        "duration": 0.8,
+        "fps": 24
+      },
+      {
+        "name": "recover",
+        "duration": 0.8,
+        "fps": 24
+      }
+    ],
+    "tri_budget": 15000,
+    "collision": "capsule-approx",
+    "skeleton": "@skeletons/humanoid_v1",
+    "attachments": [
+      {
+        "id": "staff_main",
+        "component": "xx_sage_staff_3d",
+        "socket": "hand.r",
+        "keep_during": [
+          "idle",
+          "walk",
+          "channel_water",
+          "staff_salute"
+        ]
+      }
+    ]
+  },
+  "inputs": {
+    "export/xx_azure_sage_3d.glb": "sha256:e51d94fbb773ba03514d62e22937466baa856c1206c2db09a08adc611754fa08"
+  },
+  "artifacts": {
+    "processed/xx_azure_sage_3d.glb": "sha256:e51d94fbb773ba03514d62e22937466baa856c1206c2db09a08adc611754fa08"
+  },
+  "metrics": {},
+  "gate_mode": {
+    "tris_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793808221.727168,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "glb": "xx_azure_sage_3d.glb",
+  "meshes": 21,
+  "tris": 2476,
+  "animations": [
+    "idle",
+    "walk",
+    "channel_water",
+    "staff_salute",
+    "seated_meditate",
+    "sword_swing",
+    "parry",
+    "recover"
+  ],
+  "tri_budget": 15000,
+  "gate": {
+    "tris_ok": true
+  },
+  "certified": {
+    "ts": 1793808598.8920805,
+    "by": "human"
+  }
+}

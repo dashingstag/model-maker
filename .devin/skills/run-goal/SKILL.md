@@ -31,6 +31,8 @@ python tools/scaffold.py <brief>          # gate + create/reuse components
 - Check `pipeline/composition/<goal>/spec.json` — it holds the resolved
   rig/layout/shots snapshot; edits to `shared/` after scaffolding do NOT
   reach the in-flight run (by design — re-scaffold to pick them up).
+  Same for composition edits in the goal brief: re-run scaffold or
+  publish won't see them (publish warns on brief>spec mtime).
 
 ## 2. Component tracks
 
@@ -80,6 +82,17 @@ python tools/publish.py <goal> --wait 60
 - Parallax is manual: layers are plain sprites offset by `-cam_delta ×
   factor`, clamped so each 2560px layer always covers the view —
   `ParallaxBackground` scroll tracking does not run in this harness.
+- Multi-actor `action_shots` (`of: <action>`): all cast roles share one
+  3D stage placed per the action spec's `spacing_m`, alternating facing;
+  the latest timeline entry with `start <= capture t` owns each actor's
+  clip. `props` maps role → cid or `{cid, socket, rot, aim}`: `rot` is a
+  grip euler applied to the prop node (a BoneAttachment3D's own
+  transform is bone-synced every frame — never offset the attachment
+  itself); `aim` re-points the prop's +Y at a shared world contact point
+  after each seek — use it for blade binds instead of guessing bone-local
+  eulers. `contact_within_m` measures grip→`blade_tip` segment distance;
+  `no_ground_clip` checks lowest bone/prop-AABB y ≥ -0.02. Prop glbs
+  need `blade_mid`/`blade_tip` named empties for contact checks.
 - Outputs: `pipeline/composition/<goal>/shots/` + `report.json`.
 
 ## 4. Triage report.json — component or composition?

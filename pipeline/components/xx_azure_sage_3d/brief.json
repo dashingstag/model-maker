@@ -57,6 +57,27 @@
       "duration": 4.0,
       "loop": true,
       "fps": 24
+    },
+    {
+      "name": "sword_swing",
+      "duration": 1.0,
+      "fps": 24,
+      "events": [
+        {
+          "name": "contact",
+          "t": 0.45
+        }
+      ]
+    },
+    {
+      "name": "parry",
+      "duration": 0.8,
+      "fps": 24
+    },
+    {
+      "name": "recover",
+      "duration": 0.8,
+      "fps": 24
     }
   ],
   "root_motion": "in_place",

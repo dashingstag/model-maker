@@ -48,6 +48,7 @@ rasterization, ComfyUI device drift).
 | `run_goal` orchestrator | ⚠ partial — stages run, end-to-end driver per hardening rules |
 | rigged-GLB gen / action-shot clock | ✅ built — `blender_hero.py`/`blender_prop.py` bake pose clips; runner instances glbs via SubViewport, turntable shots, `layout.attach3d` BoneAttachment3D sockets, action clock seeks captures + `props_attached` check |
 | scene.tscn export | ❌ not built — dist manifest marks it backlog |
+| multi-actor staged actions | ✅ duel_probe: cast placement, shared clock, props_attached/no_ground_clip/contact_within_m all measured (blade segment dist 0.0 vs 0.15 bar) |
 
 ---
 
@@ -462,7 +463,16 @@ the brief is the contract; tools catch up.
   `no_ground_clip`, `contact_within_m`). Sync events use each actor's own
   clip `events` — "defender.parry at attacker.sword_swing@contact ±0.08s"
   — so a 3-frame parry window is checked against clip data, not
-  eyeballed.
+  eyeballed. `of:` actions run on one shared 3D stage (roles placed per
+  `spacing_m`, alternating facing); the latest timeline entry with
+  `start <= capture t` owns each actor. `props` maps role → prop cid or
+  `{cid, socket, rot, aim}`: `rot` is a grip euler on the prop node
+  (BoneAttachment3D overwrites its own transform every frame), `aim`
+  re-points the blade's +Y at a shared contact point after each seek —
+  `contact_within_m` measures segment-to-segment distance between the
+  two blade segments (grip→`blade_tip` marker), so a crossed bind reads
+  ~0 rather than marker-point distance. `no_ground_clip` checks the
+  lowest bone/prop-AABB point against the floor plane.
 - **Gates:** `seeds`, `review: human|auto` — spend curation effort where
   failure is expensive. `h_px`, `factor`, `tri_budget`, `anims`,
   `collision`, `hero_art`, `min_visible_pct` as before. `pivot`:

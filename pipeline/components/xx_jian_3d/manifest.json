@@ -1,0 +1,48 @@
+{
+  "schema_v": 1,
+  "id": "xx_jian_3d",
+  "type": "glb",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "glb",
+    "tri_budget": 800,
+    "prop": true
+  },
+  "inputs": {
+    "export/xx_jian_3d.glb": "sha256:ba5ff3c370a569fa87c44cafab48828dbcb3a76834b746dff9d76d6f8efb2ccb"
+  },
+  "artifacts": {
+    "processed/xx_jian_3d.glb": "sha256:ba5ff3c370a569fa87c44cafab48828dbcb3a76834b746dff9d76d6f8efb2ccb"
+  },
+  "metrics": {},
+  "gate_mode": {
+    "tris_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793809736.525227,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "glb": "xx_jian_3d.glb",
+  "meshes": 6,
+  "tris": 250,
+  "animations": [],
+  "tri_budget": 800,
+  "gate": {
+    "tris_ok": true
+  },
+  "certified": {
+    "ts": 1793809736.8316038,
+    "by": "human"
+  }
+}

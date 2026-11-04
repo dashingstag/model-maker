@@ -51,7 +51,12 @@ def pub_tree(src, dst):
 
 def main(goal, unit_only, wait):
     comp_dir = os.path.join(ROOT, "pipeline", "composition", goal)
-    spec = json.load(open(os.path.join(comp_dir, "spec.json")))
+    spec_p = os.path.join(comp_dir, "spec.json")
+    spec = json.load(open(spec_p))
+    brief_p = os.path.join(ROOT, "briefs", goal + ".brief.json")
+    if os.path.exists(brief_p) and os.path.getmtime(brief_p) > os.path.getmtime(spec_p):
+        print(f"warn: {goal}.brief.json is newer than spec.json — "
+              "composition edits need `scaffold.py` to republish")
     assets = os.path.join(GODOT, "assets", "components")
     mans, skipped = {}, []
     for cid in spec["components"]:

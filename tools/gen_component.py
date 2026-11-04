@@ -37,7 +37,8 @@ SAMPLER = {"steps": 28, "cfg": 7.0, "sampler_name": "dpmpp_2m_sde",
 GLB_BUILDERS = {"captain_3d": "blender_pirate.py",
                 "guide_humanoid": "blender_mannequin.py",
                 "xx_azure_sage_3d": "blender_hero.py",
-                "xx_sage_staff_3d": "blender_prop.py"}
+                "xx_sage_staff_3d": {"script": "blender_prop.py", "args": ["--kind", "staff"]},
+                "xx_jian_3d": {"script": "blender_prop.py", "args": ["--kind", "jian"]}}
 
 def comp_dir(cid):
     return os.path.join(ROOT, "pipeline", "components", cid)
@@ -241,11 +242,14 @@ def main():
         os.makedirs(os.path.join(cdir, "build"), exist_ok=True)
         os.makedirs(os.path.join(cdir, "export"), exist_ok=True)
         out = os.path.join(cdir, "build", f"{cid}.glb")
+        spec = GLB_BUILDERS.get(cid) if isinstance(builder, str) else builder
+        script = spec["script"] if isinstance(spec, dict) else spec
+        extra = spec.get("args", []) if isinstance(spec, dict) else []
         r = subprocess.run([BLENDER, "--background", "--python",
-                            os.path.join(ROOT, "tools", builder), "--",
+                            os.path.join(ROOT, "tools", script), "--",
                             "--out", out,
-                            "--brief", os.path.join(cdir, "brief.json")],
-                           capture_output=True, text=True)
+                            "--brief", os.path.join(cdir, "brief.json")]
+                           + extra, capture_output=True, text=True)
         if r.returncode or not os.path.exists(out):
             sys.exit(f"{cid}: blender builder failed\n{r.stderr[-2000:]}")
         shutil.copyfile(out, os.path.join(cdir, "export", f"{cid}.glb"))
