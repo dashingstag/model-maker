@@ -625,6 +625,12 @@ func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) 
 					var d: float = at2["node"].global_position.distance_to(bpos)
 					entry["props_attached"].append({"t": t, "dist": snappedf(d, 0.01),
 						"pass": d < 0.4})
+		if entry["props_attached"].size():
+			var ok1 := true
+			for p2 in entry["props_attached"]:
+				if p2.get("pass") == false:
+					ok1 = false
+			entry["pass"] = ok1
 		report["action_shots"].append(entry)
 
 func _skel_min_y(skel: Skeleton3D) -> float:

@@ -98,6 +98,36 @@ def supervise(proc, job_path, stall_s=STALL_S):
     return {"ok": rc == 0, "rc": rc}
 
 
+def comfy_preflight():
+    """Skill contract: ComfyUI up? spawn if absent; never kill one we
+    didn't spawn — detached child, we own its pid for this run only."""
+    import urllib.request
+    try:
+        urllib.request.urlopen(ENV["comfyui_url"] + "/system_stats",
+                               timeout=5)
+        return None
+    except OSError:
+        pass
+    print("run_goal: ComfyUI down — spawning (detached)")
+    kw = {"stdout": subprocess.DEVNULL, "stderr": subprocess.DEVNULL,
+          "cwd": ENV["comfyui_dir"]}
+    if os.name == "nt":
+        kw["creationflags"] = (subprocess.CREATE_NEW_PROCESS_GROUP
+                               | subprocess.DETACHED_PROCESS)
+    else:
+        kw["start_new_session"] = True
+    p = subprocess.Popen([ENV.get("comfyui_python", PY), "main.py"], **kw)
+    register_instance(ROOT, "comfyui", p.pid, {"spawned_by": "run_goal"})
+    for _ in range(120):
+        try:
+            urllib.request.urlopen(ENV["comfyui_url"] + "/system_stats",
+                                   timeout=2)
+            return p
+        except OSError:
+            time.sleep(2)
+    sys.exit("run_goal: ComfyUI failed to come up in 240s")
+
+
 def component_track(cid, wait):
     """Run the mechanical C-stages; return 'certified'|'blocked:<gate>'."""
     d = os.path.join(ROOT, "pipeline", "components", cid)
@@ -143,7 +173,19 @@ def main(brief_path, wait, no_harness):
     # 2. component tracks — mechanical stages only
     comp_dir = os.path.join(ROOT, "pipeline", "composition", goal)
     spec = json.load(open(os.path.join(comp_dir, "spec.json")))
-    states = {cid: component_track(cid, wait) for cid in spec["components"]}
+    needs_gen = any(
+        json.load(open(os.path.join(
+            ROOT, "pipeline", "components", cid, "manifest.json"))).get(
+            "status") not in ("certified", "needs_human")
+        for cid in spec["components"]
+        if os.path.exists(os.path.join(
+            ROOT, "pipeline", "components", cid, "manifest.json")))
+    if needs_gen:
+        comfy_preflight()
+    states = {}
+    for cid in spec["components"]:
+        heartbeat_instance(ROOT, "run_goal", os.getpid(), stage=f"C:{cid}")
+        states[cid] = component_track(cid, wait)
     blocked = {c: s for c, s in states.items() if s != "certified"}
     for c, s in states.items():
         print(f"  {c}: {s}")

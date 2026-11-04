@@ -10,6 +10,7 @@
         "props_attached": true
       },
       "name": "channel_sequence",
+      "pass": true,
       "props_attached": [
         {
           "dist": 0.0,
@@ -218,7 +219,7 @@
     },
     "job_file": "a2e5c41d32df",
     "mode": "all",
-    "timestamp": "2026-11-05T03:18:42"
+    "timestamp": "2026-11-05T04:01:21"
   },
   "schema": "mm.report.v1",
   "shot_expect": {

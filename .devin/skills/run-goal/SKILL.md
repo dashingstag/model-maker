@@ -25,8 +25,11 @@ the runner's heartbeat (`runner.gd` writes `.run/harness-<pid>.json` at
 each stage boundary), kills the group on a >180s stall, then
 export_scene + golden_check. It stops honestly at judgment gates:
 `blocked:vision`/`needs_human` components exit 1 with per-component
-status; finish those gates, then rerun the same command. If you must
-run stages by hand, the manual sequence is:
+status; finish those gates, then rerun the same command. It also
+preflights ComfyUI (spawns detached + polls /system_stats when any
+component actually needs generation — never kills one it didn't spawn)
+and heartbeats .run/run_goal-<pid>.json per component stage. If you
+must run stages by hand, the manual sequence is:
 
 ## 1. Preflight
 
