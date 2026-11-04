@@ -1,0 +1,33 @@
+{
+  "schema_v": 1,
+  "id": "xx_peaks_far",
+  "type": "parallax",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "parallax",
+    "factor": 0.08
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:ea076da411c670c00904b1ea3fc6eb266186afb006b12ff19ee4700cef7da0d3"
+  },
+  "artifacts": {
+    "processed/bg.png": "sha256:ea076da411c670c00904b1ea3fc6eb266186afb006b12ff19ee4700cef7da0d3"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cpu",
+    "matting": "birefnet-general"
+  },
+  "factor": 0.08,
+  "min_visible_pct": 40,
+  "certified": {
+    "ts": 1793731959.897253,
+    "by": "devin:curator"
+  }
+}

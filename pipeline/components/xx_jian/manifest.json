@@ -1,0 +1,51 @@
+{
+  "schema_v": 1,
+  "id": "xx_jian",
+  "type": "sprite",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite",
+    "h_px": 280,
+    "pivot": "center",
+    "prop": true
+  },
+  "inputs": {
+    "accepted/idle.png": "sha256:e4ef65ffc1439e4908e7ec9d84fb2cf9310d748be7470e9e5e2dacd01427cfe9"
+  },
+  "artifacts": {
+    "processed/sprite_idle.png": "sha256:fc4bfa9e8b52c16d81b7eb85c9749d8ae05af2b45eb8f18adeed181edfd330cd"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "idle": 0.00058
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "pivot": "center",
+  "h_px": 280,
+  "poses": [
+    "idle"
+  ],
+  "fringe_px": {
+    "idle": 0
+  },
+  "collider": "alpha-bounds-10pct",
+  "gate": {
+    "fringe_ok": true
+  },
+  "certified": {
+    "ts": 1793731959.341208,
+    "by": "devin:curator"
+  }
+}

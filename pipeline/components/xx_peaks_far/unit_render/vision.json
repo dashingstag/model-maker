@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "actor": "devin:curator",
+  "ts": 1793731923.7630098,
+  "checks": {
+    "no characters or text in the layer": "pass",
+    "colors stay in palette under the rig": "pass",
+    "has: floating islands": "pass",
+    "has: pagoda silhouettes": "pass",
+    "has: warm horizon glow": "pass",
+    "absent: characters": "pass",
+    "absent: text": "pass",
+    "absent: modern structures": "pass"
+  },
+  "flags": [
+    "moon reads larger than concept but palette-true"
+  ],
+  "note": "layer verified: no characters/text",
+  "reviewed_files": [
+    "unit_render/lit.png",
+    "unit_render/neutral.png"
+  ]
+}

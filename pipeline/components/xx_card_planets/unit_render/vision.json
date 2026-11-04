@@ -1,0 +1,24 @@
+{
+  "verdict": "pass",
+  "actor": "devin-rev2",
+  "ts": 1793758626.0370293,
+  "checks": {
+    "subject centered and uncropped": "pass",
+    "readable at dialogue size": "pass",
+    "has: multiple orbiting spheres": "pass",
+    "has: raised reaching arm": "pass",
+    "has: streaming white hair": "pass",
+    "absent: text": "pass",
+    "absent: letters": "pass",
+    "absent: border": "pass",
+    "absent: frame": "pass",
+    "absent: second figure": "pass"
+  },
+  "flags": [
+    "prompt_core asks nine spheres; best seed shows ~5 \u2014 counting beyond model ability, checklist item (multiple spheres) met"
+  ],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/neutral.png"
+  ]
+}

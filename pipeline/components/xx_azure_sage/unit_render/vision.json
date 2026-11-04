@@ -1,0 +1,28 @@
+{
+  "verdict": "pass",
+  "actor": "devin-rev2",
+  "ts": 1793758623.5692902,
+  "checks": {
+    "on-model across all poses (same face/outfit/props)": "pass",
+    "no halo or fringe against the lit backdrop": "pass",
+    "feet pivot sits on the ground line": "pass",
+    "normal-map lighting reads correctly in lit.png": "pass",
+    "has: silver-white hair with dark crown ornament": "pass",
+    "has: layered indigo and silver robes": "pass",
+    "has: blue-gem embroidery": "pass",
+    "has: full body head to feet": "pass",
+    "absent: extra limbs": "pass",
+    "absent: cropped feet": "pass",
+    "absent: second figure": "pass",
+    "absent: text": "pass",
+    "absent: modern clothing": "pass"
+  },
+  "flags": [
+    "staff_stance prop absent: staff repaints into energy wing \u2014 same limit as sword (ledger #13)"
+  ],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/lit.png",
+    "unit_render/neutral.png"
+  ]
+}

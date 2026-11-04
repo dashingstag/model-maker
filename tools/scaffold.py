@@ -16,7 +16,7 @@ TYPES = {"sprite", "sprite_variant", "ui_image", "parallax", "glb"}
 # new brief's request (requested ⊆ certified)
 CONSTRAINT_KEYS = ("type", "h_px", "pivot", "anims", "poses", "tri_budget",
                    "factor", "collision", "method", "of", "vary", "variants",
-                   "count", "skeleton", "attachments", "prop")
+                   "count", "skeleton", "attachments", "prop", "guide_from")
 LOCK_WAIT = 30  # seconds to wait for a component lock before reporting held
 REF_RE = re.compile(r"^@([a-z_]+)/([A-Za-z0-9_.\-]+)$")
 

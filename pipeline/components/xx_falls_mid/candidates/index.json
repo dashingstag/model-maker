@@ -1,0 +1,40 @@
+{
+  "candidates": [
+    {
+      "file": "xx_falls_mid_s5000.png",
+      "seed": 5000,
+      "prompt": "waterfalls cascading off floating cliff edges into banks of luminous mist, glowing blue spirit trees on ledges, rope bridges crossing between rocks, waterfalls, mist banks, glowing blue foliage, ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece, moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist, wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters",
+      "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, gradient background, low quality, characters, people, open sky, text, characters, text, dry cliffs",
+      "w": 768,
+      "h": 512,
+      "elapsed_s": 6.0,
+      "ts": 1793725669.301628,
+      "device": "cpu",
+      "comfyui": "0.43.0",
+      "model": "DreamShaper_8_pruned.safetensors",
+      "steps": 28,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "cn_strength": 0.85
+    },
+    {
+      "file": "xx_falls_mid_s5001.png",
+      "seed": 5001,
+      "prompt": "waterfalls cascading off floating cliff edges into banks of luminous mist, glowing blue spirit trees on ledges, rope bridges crossing between rocks, waterfalls, mist banks, glowing blue foliage, ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece, moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist, wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters",
+      "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, gradient background, low quality, characters, people, open sky, text, characters, text, dry cliffs",
+      "w": 768,
+      "h": 512,
+      "elapsed_s": 21.0,
+      "ts": 1793725690.3279245,
+      "device": "cpu",
+      "comfyui": "0.43.0",
+      "model": "DreamShaper_8_pruned.safetensors",
+      "steps": 28,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "cn_strength": 0.85
+    }
+  ]
+}

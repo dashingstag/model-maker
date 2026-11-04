@@ -1,0 +1,110 @@
+{
+  "schema_v": 1,
+  "id": "xx_f_robes",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_immortal_f",
+    "vary": [
+      "robe",
+      "sleeves",
+      "skirt"
+    ],
+    "variants": [
+      {
+        "id": "moon_gold",
+        "robe": "@palettes/xianxia_mist.colors.robe_gold",
+        "prompt_extra": "white robes with gold phoenix embroidery, translucent gold oversleeves"
+      },
+      {
+        "id": "teal_phoenix",
+        "robe": "@palettes/xianxia_mist.colors.robe_teal",
+        "prompt_extra": "deep teal robes, phoenix-feather gradient skirt, trailing ribbons",
+        "prompt_override": "female immortal cultivator, ornate teal and cyan phoenix-embroidered hanfu robes, flowing teal silk, cyan aura"
+      },
+      {
+        "id": "winged_ascension",
+        "robe": "@palettes/xianxia_mist.colors.robe_white",
+        "prompt_extra": "white ascension robes, large white feathered wings spread behind the shoulders"
+      }
+    ],
+    "count": 3
+  },
+  "inputs": {
+    "xx_immortal_f/manifest.json": "sha256:99324e9423dc1207a5696a87b9950a066f1cdf1b80b8222281174a5a752e1a1c",
+    "accepted/moon_gold_idle.png": "sha256:222e441de597ba5a15eb7ffd4a2e3a8f34c34e7dd96fcd094b70b73a5817d1a5",
+    "accepted/teal_phoenix_idle.png": "sha256:7f90947cc07e5354042a2aadf44eb1d623a3f96aae01bc2d730dec32ee96c7f1",
+    "accepted/winged_ascension_idle.png": "sha256:f9b23bfef4bb6247125b83ef238b135d0eea324e6e82d1144ec5a9a8319d8686"
+  },
+  "artifacts": {
+    "processed/moon_gold/sprite_idle.png": "sha256:d237b8b7aa544099f81e34452860c15e285e082d25abb4fe6c7c6b5ca93734a1",
+    "processed/moon_gold/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26",
+    "processed/teal_phoenix/sprite_idle.png": "sha256:a7679e7d7942a95d15a1381e54889f99a02dae244429decdef8ee93e7053619a",
+    "processed/teal_phoenix/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26",
+    "processed/winged_ascension/sprite_idle.png": "sha256:afeedc801aca2d3ab2018e4d1eeb9a76c1d60e1a73582870340f5b1efaf42737",
+    "processed/winged_ascension/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "moon_gold/idle": 0.0,
+      "teal_phoenix/idle": 1e-05,
+      "winged_ascension/idle": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793754915.6960423,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_immortal_f",
+  "method": "controlnet",
+  "variants": [
+    "moon_gold",
+    "teal_phoenix",
+    "winged_ascension"
+  ],
+  "targets": {
+    "moon_gold": {
+      "robe": "#d9b568"
+    },
+    "teal_phoenix": {
+      "robe": "#3e8a8a"
+    },
+    "winged_ascension": {
+      "robe": "#f5f0e8"
+    }
+  },
+  "fringe_px": {
+    "moon_gold/idle": 0,
+    "teal_phoenix/idle": 1,
+    "winged_ascension/idle": 0
+  },
+  "gate": {
+    "fringe_ok": true
+  },
+  "poses": [
+    "idle",
+    "sleeve_dance",
+    "sword_stance",
+    "meditate"
+  ],
+  "certified": {
+    "ts": 1793758624.2846725,
+    "by": "devin-rev2"
+  }
+}

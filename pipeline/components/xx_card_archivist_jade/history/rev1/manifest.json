@@ -1,0 +1,57 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_archivist_jade",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_card_archivist",
+    "vary": [
+      "aura",
+      "robe_trim",
+      "backdrop"
+    ],
+    "variants": [
+      {
+        "id": "spirit_gourd",
+        "aura": "@palettes/xianxia_element.colors.jade_aura",
+        "prompt_extra": "same reader, aura repainted as glowing emerald vines and spirit butterflies, gourd radiating green light"
+      }
+    ],
+    "count": 1
+  },
+  "inputs": {
+    "xx_card_archivist/manifest.json": "sha256:0ebfa94202872cfd893751351171c19744e0db0eccdd92ebf45038c4f2033aa3",
+    "accepted/spirit_gourd.png": "sha256:71b32a1c95e239145cbf5276eaabe25ae7a571a712ce5f50f3a8ddf85d610f35"
+  },
+  "artifacts": {
+    "processed/spirit_gourd/portrait.png": "sha256:66f7bd71c4c2fcf2d1e98c93353f42b9ea089a7340464bd0944792841134d245"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_card_archivist",
+  "method": "controlnet",
+  "variants": [
+    "spirit_gourd"
+  ],
+  "targets": {
+    "spirit_gourd": {
+      "aura": "#3fd87a"
+    }
+  },
+  "poses": [],
+  "certified": {
+    "ts": 1793731962.9287887,
+    "by": "devin:curator"
+  }
+}

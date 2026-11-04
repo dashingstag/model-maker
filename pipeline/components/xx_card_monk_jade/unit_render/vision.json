@@ -1,0 +1,17 @@
+{
+  "verdict": "pass",
+  "actor": "devin-rev2",
+  "ts": 1793758627.6346207,
+  "checks": {
+    "recolor confined to the declared regions": "pass",
+    "skin/face/hat untouched": "pass",
+    "each variant distinct": "pass",
+    "family resemblance to base": "pass"
+  },
+  "flags": [],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/verdant_monk/lit.png",
+    "unit_render/verdant_monk/neutral.png"
+  ]
+}

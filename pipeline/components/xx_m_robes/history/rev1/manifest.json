@@ -1,0 +1,147 @@
+{
+  "schema_v": 1,
+  "id": "xx_m_robes",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_immortal_m",
+    "vary": [
+      "robe",
+      "sash"
+    ],
+    "variants": [
+      {
+        "id": "moon_frost",
+        "robe": "@palettes/xianxia_mist.colors.robe_white",
+        "prompt_extra": "moon-white robes with silver frost embroidery, pale sash"
+      },
+      {
+        "id": "azure_crane",
+        "robe": "@palettes/xianxia_mist.colors.robe_azure",
+        "prompt_extra": "azure robes with crane embroidery, teal sash"
+      },
+      {
+        "id": "ember_tribunal",
+        "robe": "@palettes/xianxia_mist.colors.robe_cinnabar",
+        "prompt_extra": "deep cinnabar martial-cut robes, dark gold trim, black sash"
+      }
+    ],
+    "count": 3
+  },
+  "inputs": {
+    "xx_immortal_m/manifest.json": "sha256:9b8ed4f2d01801159ca0c061718684c2cc772473da29fdfba86b0fa301839773",
+    "accepted/moon_frost_idle.png": "sha256:39089f582612172c7f7af7e811adb8ad2b5b9244407df9a19dcd95ec9124bf7d",
+    "accepted/moon_frost_meditate_lotus.png": "sha256:c69b1042496d604de5f055a79dfb5ea3ee90d0284396b781f221a2e2eed2f8e9",
+    "accepted/moon_frost_sword_salute.png": "sha256:1d4146d606e0ec36fd4e5ec3f9a53327dfbc1f73cf9c5142dff8308931e16c8a",
+    "accepted/moon_frost_cloud_step.png": "sha256:bf8617b0bb01b200b4136d35cab4e7c70c1935dcc43e42b071b223c1d4780022",
+    "accepted/azure_crane_idle.png": "sha256:3f485a74840ea7f514c9502d1c1050e50229ca698281610aa91475e7fa057b29",
+    "accepted/azure_crane_meditate_lotus.png": "sha256:ee45442a5e4f24f1a02a4087c2e475437a8bf1914e1e4e4c1852a2a8cfc85a3d",
+    "accepted/azure_crane_sword_salute.png": "sha256:735b4ba9ce322b9b1b15d8942e57efc058aa08b7e4ba4b163f8725736bc0431c",
+    "accepted/azure_crane_cloud_step.png": "sha256:8e98b2f84257b0459fb470586f0a7292de2f548d93bdfa01e8d25a2a6e3359f9",
+    "accepted/ember_tribunal_idle.png": "sha256:e31d7834f0919fa2de73ca332949ac4aaadf6a0a67bf6041b31ac4036f2ad0a9",
+    "accepted/ember_tribunal_meditate_lotus.png": "sha256:d1433ed2549cf5c55f38a95407a46871ecf881587e650dab4b251cbbe8b8fd7e",
+    "accepted/ember_tribunal_sword_salute.png": "sha256:45848702e3f72b0c13bfc49a32a0b2934cf89a9aaec15209ef0e619c2d43d447",
+    "accepted/ember_tribunal_cloud_step.png": "sha256:d9971d8f0a77bf489a467d5cbd78aca50251eb1db6015373343e0aa27b4b28e6"
+  },
+  "artifacts": {
+    "processed/azure_crane/sprite_cloud_step.png": "sha256:a7226eee37c8b35988569d53d16f6b5d52cb3e5ce4d48ade685b9f9483164a09",
+    "processed/azure_crane/sprite_cloud_step_n.png": "sha256:9b6d5ddcd46d78e35a39d7ddd6da4b9caff125cd48a5bc25c77914fab39d18d0",
+    "processed/azure_crane/sprite_idle.png": "sha256:8dfbd63d81e67762aa5948613f4eb3fb123e8f48144e498bd9d995d9704508d1",
+    "processed/azure_crane/sprite_idle_n.png": "sha256:bad991bb75b759c7db76ae8613f74d8ba7394238f8e14ce09085909dafef2994",
+    "processed/azure_crane/sprite_meditate_lotus.png": "sha256:f3aa52dabf5eff9aabac36867750c34497782a25b6b60680e0973370ee9ce5ab",
+    "processed/azure_crane/sprite_meditate_lotus_n.png": "sha256:f66a6c80c51f96788be00f550d68e912fc36141892f2e0b7bd0abd5693b3e730",
+    "processed/azure_crane/sprite_sword_salute.png": "sha256:563ac83764b693c526013f1f0d54b0f06b45bde462469a2e0b6c71d6795d2bed",
+    "processed/azure_crane/sprite_sword_salute_n.png": "sha256:58cb8bb2b7002b11a5460814b1719dce7efd98d7583faa8c3b20fa109e3d46f9",
+    "processed/ember_tribunal/sprite_cloud_step.png": "sha256:8962f4c5c441fcd1d3a22d960d7e4995884cb120b7462fb2cb46408e1ec493af",
+    "processed/ember_tribunal/sprite_cloud_step_n.png": "sha256:9b6d5ddcd46d78e35a39d7ddd6da4b9caff125cd48a5bc25c77914fab39d18d0",
+    "processed/ember_tribunal/sprite_idle.png": "sha256:a033cfe975d2c52603379ec1f0728d9b4df33da077761ef8ee44a7359e9f5ccc",
+    "processed/ember_tribunal/sprite_idle_n.png": "sha256:bad991bb75b759c7db76ae8613f74d8ba7394238f8e14ce09085909dafef2994",
+    "processed/ember_tribunal/sprite_meditate_lotus.png": "sha256:ad698659e21d5f2fecb51722f5c52b293c6648f0f7939c6b331cdff3f727fe20",
+    "processed/ember_tribunal/sprite_meditate_lotus_n.png": "sha256:f66a6c80c51f96788be00f550d68e912fc36141892f2e0b7bd0abd5693b3e730",
+    "processed/ember_tribunal/sprite_sword_salute.png": "sha256:7d7adab206987c8953fdb6e498a5c07d2dfa5cb93754986458f39e0b1c8859fa",
+    "processed/ember_tribunal/sprite_sword_salute_n.png": "sha256:58cb8bb2b7002b11a5460814b1719dce7efd98d7583faa8c3b20fa109e3d46f9",
+    "processed/moon_frost/sprite_cloud_step.png": "sha256:0aecef14df8e6a9329b1c87a5e76067b77d443526ec2d2e8afeba56d9737bbbf",
+    "processed/moon_frost/sprite_cloud_step_n.png": "sha256:9b6d5ddcd46d78e35a39d7ddd6da4b9caff125cd48a5bc25c77914fab39d18d0",
+    "processed/moon_frost/sprite_idle.png": "sha256:21a97f3e3584af7fd7bc197ed94d53c837f5349a900d6a67eb1232a47ea8488f",
+    "processed/moon_frost/sprite_idle_n.png": "sha256:bad991bb75b759c7db76ae8613f74d8ba7394238f8e14ce09085909dafef2994",
+    "processed/moon_frost/sprite_meditate_lotus.png": "sha256:d6bf01812a7dd2cbc44182056b657a219b3b684fb3a3eb9163363df56983e6dc",
+    "processed/moon_frost/sprite_meditate_lotus_n.png": "sha256:f66a6c80c51f96788be00f550d68e912fc36141892f2e0b7bd0abd5693b3e730",
+    "processed/moon_frost/sprite_sword_salute.png": "sha256:978e1c31145d9f89309881d2dc07897ebf17ff487839430a275aa01c48dcc4e6",
+    "processed/moon_frost/sprite_sword_salute_n.png": "sha256:58cb8bb2b7002b11a5460814b1719dce7efd98d7583faa8c3b20fa109e3d46f9"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "moon_frost/idle": 0.0,
+      "moon_frost/meditate_lotus": 0.0,
+      "moon_frost/sword_salute": 0.0,
+      "moon_frost/cloud_step": 0.0,
+      "azure_crane/idle": 0.0,
+      "azure_crane/meditate_lotus": 0.0,
+      "azure_crane/sword_salute": 0.0,
+      "azure_crane/cloud_step": 0.0,
+      "ember_tribunal/idle": 0.0,
+      "ember_tribunal/meditate_lotus": 0.0,
+      "ember_tribunal/sword_salute": 0.0,
+      "ember_tribunal/cloud_step": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_immortal_m",
+  "method": "controlnet",
+  "variants": [
+    "moon_frost",
+    "azure_crane",
+    "ember_tribunal"
+  ],
+  "targets": {
+    "moon_frost": {
+      "robe": "#f5f0e8"
+    },
+    "azure_crane": {
+      "robe": "#4a7a9e"
+    },
+    "ember_tribunal": {
+      "robe": "#b8473a"
+    }
+  },
+  "fringe_px": {
+    "moon_frost/idle": 0,
+    "moon_frost/meditate_lotus": 0,
+    "moon_frost/sword_salute": 0,
+    "moon_frost/cloud_step": 0,
+    "azure_crane/idle": 0,
+    "azure_crane/meditate_lotus": 0,
+    "azure_crane/sword_salute": 0,
+    "azure_crane/cloud_step": 0,
+    "ember_tribunal/idle": 0,
+    "ember_tribunal/meditate_lotus": 0,
+    "ember_tribunal/sword_salute": 0,
+    "ember_tribunal/cloud_step": 0
+  },
+  "gate": {
+    "fringe_ok": true
+  },
+  "poses": [
+    "idle",
+    "meditate_lotus",
+    "sword_salute",
+    "cloud_step"
+  ],
+  "certified": {
+    "ts": 1793731960.4569428,
+    "by": "devin:curator"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "schema_v": 1,
+  "id": "xx_f_robes",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_immortal_f",
+    "vary": [
+      "robe",
+      "sleeves",
+      "skirt"
+    ],
+    "variants": [
+      {
+        "id": "moon_gold",
+        "robe": "@palettes/xianxia_mist.colors.robe_gold",
+        "prompt_extra": "white robes with gold phoenix embroidery, translucent gold oversleeves"
+      },
+      {
+        "id": "teal_phoenix",
+        "robe": "@palettes/xianxia_mist.colors.robe_teal",
+        "prompt_extra": "deep teal robes, phoenix-feather gradient skirt, trailing ribbons"
+      },
+      {
+        "id": "winged_ascension",
+        "robe": "@palettes/xianxia_mist.colors.robe_white",
+        "prompt_extra": "white ascension robes, large white feathered wings spread behind the shoulders"
+      }
+    ],
+    "count": 3
+  },
+  "inputs": {
+    "xx_immortal_f/manifest.json": "sha256:cc6827441f1dc8c2eb93f1a8a17b56844712097d29347ffe058a383fac14e923",
+    "accepted/moon_gold_idle.png": "sha256:040b68bd8dabd54b290bf232209641f504b54a79be04c2629f968769ee453f4c",
+    "accepted/moon_gold_sleeve_dance.png": "sha256:2b0c03608c0f116d2663bdee63be5a9f38ebdea836921ade4f7aaf73d67c862d",
+    "accepted/moon_gold_sword_stance.png": "sha256:e4a95cda0b92c9ee95810fa6faa2506552b5c2f469e9db3805f78acb98a04b8d",
+    "accepted/moon_gold_meditate.png": "sha256:4fc652e1b65159a1ae7ff25b2cccf0c6844fbbb1081b011258aab936da301400",
+    "accepted/teal_phoenix_idle.png": "sha256:d0ae099ea7964beb49dd18ef177520d4bbf273764f3de13f612b4f557efc38fd",
+    "accepted/teal_phoenix_sleeve_dance.png": "sha256:11b5058afeadcc575859784057bd20f974d7d1a226d259f020146729a8ed3e84",
+    "accepted/teal_phoenix_sword_stance.png": "sha256:0fb5123fc7ef504a217cbfd659a9887f5010818cf7abcc23bc0f632620bce8af",
+    "accepted/teal_phoenix_meditate.png": "sha256:d0bd2d501d01072f392d56f2f9479bc847c9d5c05657c699614b4159ebd9fa8e",
+    "accepted/winged_ascension_idle.png": "sha256:71da23e72154c189d6db3fce3ae2f34d24e4cfa38ac8acfe007bc76a6e674ef6",
+    "accepted/winged_ascension_sleeve_dance.png": "sha256:f937908edf448a65c9088704458ad29e2a2b6d5b09f1154ecbb986e1a4c45d19",
+    "accepted/winged_ascension_sword_stance.png": "sha256:c9d95f7d3e708c23c9709f9eb56d16a8d7ddba114f8e425c47c05054c4d7d995",
+    "accepted/winged_ascension_meditate.png": "sha256:b075590102e6dafc6cb694b3b1de4ada2149f2de7a1d132542b846b38bf04c2d"
+  },
+  "artifacts": {
+    "processed/moon_gold/sprite_idle.png": "sha256:4434ec79a7dde2513437664a96200e446844a274363501f4ddd29341d35c9cc4",
+    "processed/moon_gold/sprite_idle_n.png": "sha256:40e262b396f600900978dac3c1a19514ecbc4f2b37270dede9c0f342be199254",
+    "processed/moon_gold/sprite_meditate.png": "sha256:ff4991036544311fa5d67984e244677ad868bb52f3db698c3f8215d8e0bb6c7b",
+    "processed/moon_gold/sprite_meditate_n.png": "sha256:f372fabbf1637ff7eaebbf355bb15ac0391a802a8377ac04f8a52ee4705149bc",
+    "processed/moon_gold/sprite_sleeve_dance.png": "sha256:76e2fb59ec8b57047992bd2269060a4dfda63de3c8563e51a1b55d66f57d920e",
+    "processed/moon_gold/sprite_sleeve_dance_n.png": "sha256:914fc1d5971eeab14d943f3f1898745176e666887d79cf281e28aa90a5f0034b",
+    "processed/moon_gold/sprite_sword_stance.png": "sha256:f4fd573d9665bee3d98da357e871fa3a81a22524a22bb4a4afeffa6766ed10a8",
+    "processed/moon_gold/sprite_sword_stance_n.png": "sha256:4e3d4f1ca95853b4f724a3ad6fc6a746b48ff886b043a95c7699e18cee0431f7",
+    "processed/teal_phoenix/sprite_idle.png": "sha256:16dcb464e1d62b49ed618dcafa8ee43048a0f9001360d460d311400554f7de2a",
+    "processed/teal_phoenix/sprite_idle_n.png": "sha256:40e262b396f600900978dac3c1a19514ecbc4f2b37270dede9c0f342be199254",
+    "processed/teal_phoenix/sprite_meditate.png": "sha256:bf490495870da343343944f0217cc3ad27a33436c2dc9c4b803b4aafb6fb4754",
+    "processed/teal_phoenix/sprite_meditate_n.png": "sha256:f372fabbf1637ff7eaebbf355bb15ac0391a802a8377ac04f8a52ee4705149bc",
+    "processed/teal_phoenix/sprite_sleeve_dance.png": "sha256:9e924eab3a467a8881498d40401c0e5647a7b5daafd9b60ebd299c767257c9ff",
+    "processed/teal_phoenix/sprite_sleeve_dance_n.png": "sha256:914fc1d5971eeab14d943f3f1898745176e666887d79cf281e28aa90a5f0034b",
+    "processed/teal_phoenix/sprite_sword_stance.png": "sha256:ebd525d7e6eb8cdc13d6c7d650ba70ec5205965a9e29d35fe543cd7532048350",
+    "processed/teal_phoenix/sprite_sword_stance_n.png": "sha256:4e3d4f1ca95853b4f724a3ad6fc6a746b48ff886b043a95c7699e18cee0431f7",
+    "processed/winged_ascension/sprite_idle.png": "sha256:38dff6c47b5f766aa7d09b47e0c20c4f43b68539f500f27fa0602a233aad91e1",
+    "processed/winged_ascension/sprite_idle_n.png": "sha256:40e262b396f600900978dac3c1a19514ecbc4f2b37270dede9c0f342be199254",
+    "processed/winged_ascension/sprite_meditate.png": "sha256:c30579f465f17e07711536c360e64f791b156c3813c67b775865d9751df82b6a",
+    "processed/winged_ascension/sprite_meditate_n.png": "sha256:f372fabbf1637ff7eaebbf355bb15ac0391a802a8377ac04f8a52ee4705149bc",
+    "processed/winged_ascension/sprite_sleeve_dance.png": "sha256:493abcc149d59ff8d0db88e839b1ffaa5baa59e23bb34be5d9369ace0d90ea08",
+    "processed/winged_ascension/sprite_sleeve_dance_n.png": "sha256:914fc1d5971eeab14d943f3f1898745176e666887d79cf281e28aa90a5f0034b",
+    "processed/winged_ascension/sprite_sword_stance.png": "sha256:7cf696c2fab31d44a8d11b3f4b746f44700f116105e42f6a382e0ea95dde2d84",
+    "processed/winged_ascension/sprite_sword_stance_n.png": "sha256:4e3d4f1ca95853b4f724a3ad6fc6a746b48ff886b043a95c7699e18cee0431f7"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "moon_gold/idle": 0.0,
+      "moon_gold/sleeve_dance": 0.0,
+      "moon_gold/sword_stance": 0.0,
+      "moon_gold/meditate": 0.0,
+      "teal_phoenix/idle": 0.0,
+      "teal_phoenix/sleeve_dance": 0.0,
+      "teal_phoenix/sword_stance": 0.0,
+      "teal_phoenix/meditate": 0.0,
+      "winged_ascension/idle": 0.0,
+      "winged_ascension/sleeve_dance": 0.0,
+      "winged_ascension/sword_stance": 0.0,
+      "winged_ascension/meditate": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_immortal_f",
+  "method": "controlnet",
+  "variants": [
+    "moon_gold",
+    "teal_phoenix",
+    "winged_ascension"
+  ],
+  "targets": {
+    "moon_gold": {
+      "robe": "#d9b568"
+    },
+    "teal_phoenix": {
+      "robe": "#3e8a8a"
+    },
+    "winged_ascension": {
+      "robe": "#f5f0e8"
+    }
+  },
+  "fringe_px": {
+    "moon_gold/idle": 0,
+    "moon_gold/sleeve_dance": 0,
+    "moon_gold/sword_stance": 0,
+    "moon_gold/meditate": 0,
+    "teal_phoenix/idle": 0,
+    "teal_phoenix/sleeve_dance": 0,
+    "teal_phoenix/sword_stance": 1,
+    "teal_phoenix/meditate": 0,
+    "winged_ascension/idle": 0,
+    "winged_ascension/sleeve_dance": 0,
+    "winged_ascension/sword_stance": 0,
+    "winged_ascension/meditate": 0
+  },
+  "gate": {
+    "fringe_ok": true
+  },
+  "poses": [
+    "idle",
+    "sleeve_dance",
+    "sword_stance",
+    "meditate"
+  ],
+  "certified": {
+    "ts": 1793731960.64103,
+    "by": "devin:curator"
+  }
+}

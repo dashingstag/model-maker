@@ -1,0 +1,21 @@
+{
+  "verdict": "pass",
+  "actor": "devin-rev2",
+  "ts": 1793758624.4760146,
+  "checks": {
+    "recolor confined to the declared regions": "pass",
+    "skin/face/hat untouched": "pass",
+    "each variant distinct": "pass",
+    "family resemblance to base": "pass"
+  },
+  "flags": [],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/jade_topknot/lit.png",
+    "unit_render/jade_topknot/neutral.png",
+    "unit_render/long_flow/lit.png",
+    "unit_render/long_flow/neutral.png",
+    "unit_render/ribbon_halfup/lit.png",
+    "unit_render/ribbon_halfup/neutral.png"
+  ]
+}

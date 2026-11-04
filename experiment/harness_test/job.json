@@ -1,0 +1,129 @@
+{
+ "mode": "composition",
+ "out_dir": "C:/Workspace/Models/model-maker/experiment/harness_test",
+ "rig": {
+  "canvas_modulate": "#b8b0cc",
+  "light_2d": {
+   "color": "#ffd9a0",
+   "energy": 2.0,
+   "texture_scale": 3.0
+  },
+  "unit_render_bg": "#2a2a38"
+ },
+ "unit_jobs": [],
+ "composition": {
+  "components_dir": "res://assets/components",
+  "layout": {
+   "rows": [
+    {
+     "id": "terrace",
+     "y": 648
+    }
+   ],
+   "spacing_px": 220,
+   "patrol": {
+    "speed_px": 60,
+    "from_x": -100,
+    "to_x": 1250
+   },
+   "light_anchor": {
+    "offset": [
+     30,
+     -300
+    ]
+   }
+  },
+  "layers": [
+   {
+    "id": "xx_peaks_far",
+    "factor": 0.08,
+    "min_visible_pct": 40,
+    "y_off": 0
+   },
+   {
+    "id": "xx_terrace",
+    "factor": 0.55,
+    "y_off": 380
+   }
+  ],
+  "members": [
+   {
+    "id": "xx_immortal_m",
+    "kind": "sprite",
+    "dir": "res://assets/components/xx_immortal_m",
+    "x": 460,
+    "row": "terrace",
+    "y": 648,
+    "h_px": 400,
+    "walk": [
+     "cloud_step"
+    ],
+    "patrol": true
+   },
+   {
+    "id": "xx_immortal_f",
+    "kind": "sprite",
+    "dir": "res://assets/components/xx_immortal_f",
+    "x": 760,
+    "row": "terrace",
+    "y": 648,
+    "h_px": 380,
+    "walk": [],
+    "patrol": false
+   },
+   {
+    "id": "xx_card_blade",
+    "kind": "ui",
+    "dir": "res://assets/components/xx_card_blade",
+    "x": 24,
+    "y": 60,
+    "w": 300,
+    "h": 500
+   },
+   {
+    "id": "xx_azure_sage_3d",
+    "kind": "glb",
+    "dir": "res://assets/components/xx_azure_sage_3d",
+    "glb": "model.glb",
+    "x": 512,
+    "row": "terrace",
+    "y": 648
+   }
+  ],
+  "shots": [
+   "vista_all",
+   "sage_channel",
+   "walk_t1",
+   "low_light",
+   "terrace_pair"
+  ],
+  "shot_expect": {
+   "vista_all": {
+    "same_row_overlap_events": 0
+   },
+   "low_light": {
+    "lit_coverage_min": 0.05
+   },
+   "select_grid": {
+    "cards_visible": 7
+   },
+   "channel_surge": {
+    "props_attached": true
+   }
+  },
+  "action_shots": [
+   {
+    "name": "salute_sync",
+    "cast": {
+     "bearer": "xx_immortal_m"
+    },
+    "captures": [
+     {
+      "t": 0.6
+     }
+    ],
+    "expect": {}
+   }
+  ]
+ }
+}

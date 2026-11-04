@@ -44,7 +44,10 @@ it has the per-type details). Concurrency contract in practice:
   overlap non-generation work, they do NOT multiply gen throughput.
   `--wait 60` on every stage invocation when running concurrently.
 - **Never kill a ComfyUI you didn't spawn** — another run may share it.
-- Variant components (`of:`) wait for their base to reach `processed`.
+- Variant components (`of:`) wait for their base to have `accepted/` art,
+  then run `tools/gen_variant.py` (controlnet) or extract directly
+  (parts/palette). `deploy: "swap"` variants join the library, not the
+  scene — they don't appear as composition members.
 
 ## 3. Publish + harness
 
@@ -53,10 +56,24 @@ python tools/publish.py <goal> --wait 60
 <godot exe from tools/env.json> --path godot -- <abs jobs.json>
 ```
 
-- Publish holds `composition/<goal>.lock` then `godot/.publish.lock` —
-  atomic swap, safe against a concurrent reader.
+- Publish resolves `composition.layout` → explicit `members` in jobs.json
+  (rows/x per `<id>_row`/`<id>_x`, `spacing_px`, `patroller`, `walk`,
+  card `grid`, per-layer `y_off`). **Author a layout** — defaults space
+  sprites ~170px apart at y=648, which overlaps wide sprites and floats
+  them above mid-canvas floors.
+- Publish holds `composition/<goal>.lock` then `godot/.publish.lock`,
+  copies `processed/` atomically, then runs `godot --import` inside the
+  lock — without it every texture reports MISSING on the next run.
 - Harness runs **windowed, unminimized** (gl_compatibility can't render
   headless on Windows); job path goes after `--`.
+- Wide/vista shots frame the full 2× canvas (zoom 0.5 at canvas center);
+  a 1280×720 default camera sees only each layer's sky quadrant.
+- `patrol` ranges must leave sprite-width clearance from stationary
+  members (~`h_px` × aspect ≈ 300px for 384px-tall sprites) — the
+  overlap check counts rect penetration per patrol step.
+- Parallax is manual: layers are plain sprites offset by `-cam_delta ×
+  factor`, clamped so each 2560px layer always covers the view —
+  `ParallaxBackground` scroll tracking does not run in this harness.
 - Outputs: `pipeline/composition/<goal>/shots/` + `report.json`.
 
 ## 4. Triage report.json — component or composition?

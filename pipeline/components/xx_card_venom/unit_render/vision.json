@@ -1,0 +1,22 @@
+{
+  "verdict": "pass",
+  "actor": "devin-rev2",
+  "ts": 1793758625.1075826,
+  "checks": {
+    "subject centered and uncropped": "pass",
+    "readable at dialogue size": "pass",
+    "has: neck tattoos": "pass",
+    "has: glowing moth": "pass",
+    "has: spectral serpent above": "pass",
+    "absent: text": "pass",
+    "absent: letters": "pass",
+    "absent: border": "pass",
+    "absent: frame": "pass",
+    "absent: second figure": "pass"
+  },
+  "flags": [],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/neutral.png"
+  ]
+}

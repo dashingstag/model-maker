@@ -1,0 +1,65 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_mirror_jade",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_card_mirror",
+    "vary": [
+      "aura",
+      "robe_trim",
+      "backdrop"
+    ],
+    "variants": [
+      {
+        "id": "mirror_revenant",
+        "aura": "@palettes/xianxia_element.colors.spirit_cyan",
+        "prompt_extra": "same woman before the mirror, aura repainted as spectral cyan ice-shards and blue spirit flowers",
+        "denoise": 0.7,
+        "prompt_override": "woman in profile before a tall ornate bronze mirror bathed in jade-green light, detailed reflection of her face gazing back, pale spider lilies, emerald glow"
+      }
+    ],
+    "count": 1
+  },
+  "inputs": {
+    "xx_card_mirror/manifest.json": "sha256:d99cf8258c5fa9d5cd62156d754589eef8ec282d375c59f46416df73c90f18d5",
+    "accepted/mirror_revenant.png": "sha256:43adbe033910981fde27274df22e2cb0ec5c45f546bed450bd74e3e445a6d35a"
+  },
+  "artifacts": {
+    "processed/mirror_revenant/portrait.png": "sha256:816f0c0602ff5208609eac4eec9915958125ed4d4b6f2a41ddba9d6b7890aaeb"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793754208.540188,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_card_mirror",
+  "method": "controlnet",
+  "variants": [
+    "mirror_revenant"
+  ],
+  "targets": {
+    "mirror_revenant": {
+      "aura": "#7fd8e8"
+    }
+  },
+  "poses": [],
+  "certified": {
+    "ts": 1793758627.4120443,
+    "by": "devin-rev2"
+  }
+}

@@ -37,14 +37,16 @@ rasterization, ComfyUI device drift).
 | Stage | Status |
 |---|---|
 | Stage 0 scaffold (`tools/scaffold.py`) | ✅ built — @ref resolve, certified-skip, brief slices, spec.json |
-| C1 generate (`tools/gen_component.py`) | ✅ built — geometry-guided sprite path, txt2img for ui/parallax, glb build |
-| C2 extract (`tools/extract.py`) | ✅ built — rembg matting, despill, variant transform, manifest |
-| C3 unit render | ✅ built — `godot/` harness, job JSON, unit shots per component |
-| publish (`tools/publish.py`) | ✅ built — `processed/` → `godot/assets/components/`, job file |
-| A1 assemble / A2 checks / A3 shots | ✅ built — spec→jobs→`runner.gd`→`report.json` + shot set |
+| C1 generate (`tools/gen_component.py`) | ✅ built — opt-in depth guide, guideless txt2img/i2i sprite path, `prop:true` object prompts, ui/parallax txt2img, glb build |
+| C1 variants (`tools/gen_variant.py`) | ✅ built — i2i repaint per variant×pose, denoise per variant/component, seed matrix, resume-aware |
+| C2 extract (`tools/extract.py`) | ✅ built — rembg matting, despill, variant transform (`controlnet`/`parts`/`palette`), `w_px` cover-crop ui, manifest |
+| C3 unit render + vision gate (`tools/vision.py`) | ✅ built — per-item checklist verdicts, fail→demote, `certify` gate |
+| publish (`tools/publish.py`) | ✅ built — members/layout resolution, `deploy:cast|swap`, `godot --import` inside `.publish.lock` |
+| A1 assemble / A2 checks / A3 shots | ✅ built — spec→jobs→`runner.gd`→`report.json`, full-canvas wide shots, hero/visibility + overlap metrics, `not_evaluated` honesty |
 | `tools/pipelib.py` (locks, atomic_json) | ✅ built — wired into scaffold/gen/extract/publish |
-| `tools/lint_tree.py`, vision.json, waivers | ❌ not built — ledger records verdicts at run level only |
+| `tools/lint_tree.py` | ✅ built — layout/manifest/status validator |
 | `run_goal` orchestrator | ⚠ partial — stages run, end-to-end driver per hardening rules |
+| rigged-GLB gen / action-shot clock / scene.tscn export | ❌ not built — reported `not_implemented`, hero goal is its acceptance test |
 
 ---
 
@@ -508,12 +510,18 @@ sorted by id) for its duration — see the concurrency contract.
 
 | Type | Path | Budget (CPU, measured) |
 |---|---|---|
-| `sprite` (GLB-backed) | Blender multipass (beauty/depth/normal from sibling `glb` export) → ControlNet-depth + checkpoint → painted PNG (matte at C2) | ~400 s/seed |
-| `sprite` (no GLB) | txt2img "isolated on plain white" + BiRefNet matte | ~350–450 s/seed |
-| `ui_image` | txt2img 512² + `subject_bg` | ~350–450 s/seed |
-| `parallax` | txt2img **≥768 wide** + `scene_suffix` (pan headroom; gen-then-crop for wider) | ~350–450 s/seed |
-| `sprite_variant` | transform-only — no gen | seconds |
-| `glb` | `blender_pirate.py` → `build/` + `export/` | seconds |
+| `sprite` (guideless — default) | txt2img / i2i (`init_from` poses, per-pose `denoise`) + BiRefNet matte | ~6 s/seed on CUDA |
+| `sprite` (GLB-guided, opt-in) | `guide_from` → Blender depth → ControlNet + checkpoint → painted PNG | ~10 s/seed on CUDA |
+| `sprite` (`prop: true`) | object prompts: `PROP_SUFFIX` replaces the style suffix, `PROP_NEG` excludes people, `palette.prop_hints` replaces character hints | ~6 s/seed on CUDA |
+| `ui_image` | txt2img `w_px`×`h_px` aspect + `subject_bg` | ~6 s/seed on CUDA |
+| `parallax` | txt2img **≥768 wide** + `scene_suffix` | ~6 s/seed on CUDA |
+| `sprite_variant` (`controlnet`) | `tools/gen_variant.py` — i2i repaint per variant×pose from base `accepted/`; `denoise` per variant or component (0.45 keeps too much, 0.7+ repaints colorways, >0.7 risks structure collapse) | ~6 s/seed on CUDA |
+| `sprite_variant` (`parts`/`palette`) | transform-only in extract — no gen | seconds |
+| `glb` | `blender_render.py` / builder → `build/` + `export/` | seconds |
+
+**Pose-less components:** `poses` may be omitted — gen/extract default to a
+single `idle` pose. Set `prop: true` for standalone objects so prompts never
+describe a wielder (must_not alone did not stop the model drawing people).
 
 Green-screen chroma-key is **retired** — gen output is a painted RGB on a
 plain background; the alpha is derived at C2 by packaged `rembg`+

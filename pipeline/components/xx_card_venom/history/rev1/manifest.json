@@ -1,0 +1,31 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_venom",
+  "type": "ui_image",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "ui_image",
+    "h_px": 512
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:3bd0b33d2c70ddfae13a59fbb9d5793c9b72b6785b60c9871e4d2eec4b0b7dee"
+  },
+  "artifacts": {
+    "processed/portrait.png": "sha256:33923fcacb8dcc4b223db90710cf61773c67c81a64e228435dd78610d5dfa515"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "certified": {
+    "ts": 1793731961.6145792,
+    "by": "devin:curator"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "schema_v": 1,
+  "id": "xx_m_hair",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_immortal_m",
+    "vary": [
+      "hair"
+    ],
+    "variants": [
+      {
+        "id": "long_flow",
+        "prompt_extra": "very long white hair flowing loose past the waist"
+      },
+      {
+        "id": "jade_topknot",
+        "prompt_extra": "high topknot held by a carved jade crown, rest of hair down"
+      },
+      {
+        "id": "ribbon_halfup",
+        "prompt_extra": "half-up style bound with a red silk ribbon, long strands framing the face"
+      }
+    ],
+    "count": 3
+  },
+  "inputs": {
+    "xx_immortal_m/manifest.json": "sha256:b264a01659bdfb78e54994cc7b903d0cc2e5eada2cb938ccc4df1f90e80c33a7",
+    "accepted/long_flow_idle.png": "sha256:0d27057dbb01b90cf73bc05baa08c79fb6cd886d69b6413c712d65fefbebc919",
+    "accepted/jade_topknot_idle.png": "sha256:89e99f6e9ccaea18dc100526815116de14737e3b79cdb37a9356f3499ca36578",
+    "accepted/ribbon_halfup_idle.png": "sha256:df89fa3b82608a8542f26942a90aeb918daae72f00c0ac10d7095e2095d0e8a3"
+  },
+  "artifacts": {
+    "processed/jade_topknot/sprite_idle.png": "sha256:1a52c8a96e9abb52c92fc374572dcfb6d334831b508ac4619193b466b1e15173",
+    "processed/jade_topknot/sprite_idle_n.png": "sha256:53a14babbfd6d3bac53a9f6412e552d5077b4ca447e014970b5c65f26ae12967",
+    "processed/long_flow/sprite_idle.png": "sha256:34befab5d5b951d5f7c6031f028cd861cdeedc5283a13b35f6d2f9e831fa4dcf",
+    "processed/long_flow/sprite_idle_n.png": "sha256:53a14babbfd6d3bac53a9f6412e552d5077b4ca447e014970b5c65f26ae12967",
+    "processed/ribbon_halfup/sprite_idle.png": "sha256:a2fd50ebdfdab5afc755c0bca0011e0822edded0e1f0ce6be47b5aacbb956405",
+    "processed/ribbon_halfup/sprite_idle_n.png": "sha256:53a14babbfd6d3bac53a9f6412e552d5077b4ca447e014970b5c65f26ae12967"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "long_flow/idle": 0.0,
+      "jade_topknot/idle": 0.0,
+      "ribbon_halfup/idle": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793755177.5085628,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_immortal_m",
+  "method": "controlnet",
+  "variants": [
+    "long_flow",
+    "jade_topknot",
+    "ribbon_halfup"
+  ],
+  "targets": {
+    "long_flow": {},
+    "jade_topknot": {},
+    "ribbon_halfup": {}
+  },
+  "fringe_px": {
+    "long_flow/idle": 0,
+    "jade_topknot/idle": 0,
+    "ribbon_halfup/idle": 0
+  },
+  "gate": {
+    "fringe_ok": true
+  },
+  "poses": [
+    "idle",
+    "meditate_lotus",
+    "sword_salute",
+    "cloud_step"
+  ],
+  "certified": {
+    "ts": 1793758624.5982308,
+    "by": "devin-rev2"
+  }
+}

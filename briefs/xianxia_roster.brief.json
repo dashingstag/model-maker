@@ -3,99 +3,362 @@
   "style": "@styles/xianxia_dark",
   "palette": "@palettes/xianxia_element",
   "components": [
-    {"id": "xx_select_backdrop", "type": "parallax", "factor": 0.05,
-     "prompt_core": "dark ornate immortal hall interior, tall lacquered pillars fading into ink-wash haze, faint crimson brazier glow, drifting embers and talisman papers",
-     "neg_extra": "characters, people, text, bright daylight",
-     "must_have": ["deep atmospheric haze", "dark ornate architecture"],
-     "must_not": ["characters", "text", "readable signs"],
-     "seeds": 2, "review": "auto"},
-
-    {"id": "xx_card_blade", "type": "ui_image", "h_px": 512, "w_px": 340,
-     "prompt_core": "brooding swordsman seen in left profile, tattered fur-lined dark hanfu, sheathed dao blade rising over his shoulder, huge blood-red moon behind barren branches, crimson aura",
-     "must_have": ["sword silhouette over shoulder", "blood moon backdrop", "fur-lined dark robes"],
-     "must_not": ["text", "letters", "border", "frame", "second figure", "facing camera"],
-     "seeds": 4, "review": "human"},
-    {"id": "xx_card_archivist", "type": "ui_image", "h_px": 512, "w_px": 340,
-     "prompt_core": "white-haired woman reading an ornate glowing tome, decorated gourd vessel at her waist, paper talismans drifting through crimson haze, crescent moon charm behind her",
-     "style_anchor": "xx_card_blade",
-     "must_have": ["open tome", "gourd vessel", "white hair", "floating talismans"],
-     "must_not": ["text", "letters", "border", "frame", "second figure"],
-     "seeds": 4, "review": "human"},
-    {"id": "xx_card_venom", "type": "ui_image", "h_px": 512, "w_px": 340,
-     "prompt_core": "man with dark neck tattoos gazing upward at a glowing spirit moth on his fingertip, spectral serpent-dragon coiling through crimson smoke above, ornate dark collar",
-     "style_anchor": "xx_card_blade",
-     "must_have": ["neck tattoos", "glowing moth", "spectral serpent above"],
-     "must_not": ["text", "letters", "border", "frame", "second figure"],
-     "seeds": 4, "review": "human"},
-    {"id": "xx_card_mirror", "type": "ui_image", "h_px": 512, "w_px": 340,
-     "prompt_core": "woman in profile before a tall ornate bronze mirror, her reflection gazing back, red spider lilies blooming at the mirror's base, floral hair ornaments, crimson glow",
-     "style_anchor": "xx_card_blade",
-     "must_have": ["ornate mirror", "visible reflection", "red spider lilies"],
-     "must_not": ["text", "letters", "border", "frame", "third figure"],
-     "seeds": 4, "review": "human"},
-    {"id": "xx_card_monk", "type": "ui_image", "h_px": 512, "w_px": 340,
-     "prompt_core": "bald wandering monk in layered dark kasaya robes, hands pressed in prayer, large wooden bead necklace, glowing ring of runic symbols forming a halo behind his head, crimson wasteland",
-     "style_anchor": "xx_card_blade",
-     "must_have": ["prayer pose", "wooden beads", "runic halo ring", "bald head"],
-     "must_not": ["text", "letters", "border", "frame", "hair"],
-     "seeds": 4, "review": "human"},
-    {"id": "xx_card_azure_sage", "type": "ui_image", "h_px": 512, "w_px": 340,
-     "prompt_core": "silver-white haired water sage seated on a cliff edge, layered indigo and silver robes, one hand raised conjuring a glowing water orb, water-dragon aura spiraling around him, floating pagodas behind, night-blue moonlight",
-     "same_character_as": "xx_azure_sage", "style_anchor": "xx_card_blade",
-     "must_have": ["water-dragon aura", "silver-white hair", "indigo layered robes", "glowing water orb"],
-     "must_not": ["text", "letters", "border", "frame", "second figure"],
-     "seeds": 4, "review": "human"},
-    {"id": "xx_card_planets", "type": "ui_image", "h_px": 512, "w_px": 340,
-     "prompt_core": "white-haired wanderer in wind-torn pale robes reaching up toward nine ringed planets orbiting in a blood-red sky, floating rocks below, hair streaming upward",
-     "style_anchor": "xx_card_blade",
-     "must_have": ["multiple orbiting spheres", "raised reaching arm", "streaming white hair"],
-     "must_not": ["text", "letters", "border", "frame", "second figure"],
-     "seeds": 4, "review": "human"},
-
-    {"id": "xx_card_blade_jade", "type": "sprite_variant", "of": "xx_card_blade",
-     "count": 1, "deploy": "swap", "method": "controlnet", "vary": ["aura", "robe_trim", "backdrop"],
-     "variants": [{"id": "azure_blade", "aura": "@palettes/xianxia_element.colors.spirit_cyan",
-                   "prompt_extra": "same swordsman, aura repainted as flowing azure water dragons and night-blue moonlight"}],
-     "review": "auto"},
-    {"id": "xx_card_archivist_jade", "type": "sprite_variant", "of": "xx_card_archivist",
-     "count": 1, "deploy": "swap", "method": "controlnet", "vary": ["aura", "robe_trim", "backdrop"],
-     "variants": [{"id": "spirit_gourd", "aura": "@palettes/xianxia_element.colors.jade_aura",
-                   "prompt_extra": "same reader, aura repainted as glowing emerald vines and spirit butterflies, gourd radiating green light"}],
-     "review": "auto"},
-    {"id": "xx_card_venom_jade", "type": "sprite_variant", "of": "xx_card_venom",
-     "count": 1, "deploy": "swap", "method": "controlnet", "vary": ["aura", "robe_trim", "backdrop"],
-     "variants": [{"id": "jade_serpent", "aura": "@palettes/xianxia_element.colors.jade_aura",
-                   "prompt_extra": "same tattooed man, aura repainted as a luminous green serpent-dragon through jade mist"}],
-     "review": "auto"},
-    {"id": "xx_card_mirror_jade", "type": "sprite_variant", "of": "xx_card_mirror",
-     "count": 1, "deploy": "swap", "method": "controlnet", "vary": ["aura", "robe_trim", "backdrop"],
-     "variants": [{"id": "mirror_revenant", "aura": "@palettes/xianxia_element.colors.spirit_cyan",
-                   "prompt_extra": "same woman before the mirror, aura repainted as spectral cyan ice-shards and blue spirit flowers"}],
-     "review": "auto"},
-    {"id": "xx_card_monk_jade", "type": "sprite_variant", "of": "xx_card_monk",
-     "count": 1, "deploy": "swap", "method": "controlnet", "vary": ["aura", "robe_trim", "backdrop"],
-     "variants": [{"id": "verdant_monk", "aura": "@palettes/xianxia_element.colors.jade_aura",
-                   "prompt_extra": "same praying monk, aura repainted as glowing emerald runes and drifting leaves"}],
-     "review": "auto"},
-    {"id": "xx_card_planets_jade", "type": "sprite_variant", "of": "xx_card_planets",
-     "count": 1, "deploy": "swap", "method": "controlnet", "vary": ["aura", "robe_trim", "backdrop"],
-     "variants": [{"id": "tide_sage", "aura": "@palettes/xianxia_element.colors.spirit_cyan",
-                   "prompt_extra": "same wanderer, aura repainted as orbiting water-spheres and night-blue celestial tide"}],
-     "review": "auto"}
+    {
+      "id": "xx_select_backdrop",
+      "type": "parallax",
+      "factor": 0.05,
+      "prompt_core": "dark ornate immortal hall interior, tall lacquered pillars fading into ink-wash haze, faint crimson brazier glow, drifting embers and talisman papers",
+      "neg_extra": "characters, people, text, bright daylight",
+      "must_have": [
+        "deep atmospheric haze",
+        "dark ornate architecture"
+      ],
+      "must_not": [
+        "characters",
+        "text",
+        "readable signs"
+      ],
+      "seeds": 2,
+      "review": "auto"
+    },
+    {
+      "id": "xx_card_blade",
+      "type": "ui_image",
+      "h_px": 512,
+      "w_px": 340,
+      "prompt_core": "brooding swordsman seen in left profile, tattered fur-lined dark hanfu, sheathed dao blade rising over his shoulder, huge blood-red moon behind barren branches, crimson aura",
+      "must_have": [
+        "sword silhouette over shoulder",
+        "blood moon backdrop",
+        "fur-lined dark robes"
+      ],
+      "must_not": [
+        "text",
+        "letters",
+        "border",
+        "frame",
+        "second figure",
+        "facing camera"
+      ],
+      "seeds": 4,
+      "review": "human"
+    },
+    {
+      "id": "xx_card_archivist",
+      "type": "ui_image",
+      "h_px": 512,
+      "w_px": 340,
+      "prompt_core": "white-haired woman reading an ornate glowing tome, decorated gourd vessel at her waist, paper talismans drifting through crimson haze, crescent moon charm behind her",
+      "style_anchor": "xx_card_blade",
+      "must_have": [
+        "open tome",
+        "gourd vessel",
+        "white hair",
+        "floating talismans"
+      ],
+      "must_not": [
+        "text",
+        "letters",
+        "border",
+        "frame",
+        "second figure"
+      ],
+      "seeds": 4,
+      "review": "human"
+    },
+    {
+      "id": "xx_card_venom",
+      "type": "ui_image",
+      "h_px": 512,
+      "w_px": 340,
+      "prompt_core": "handsome masculine male cultivator, strong jaw, broad shoulders, dark neck tattoos, gazing upward at a glowing spirit moth on his fingertip, spectral serpent-dragon coiling through crimson smoke above, ornate dark collar",
+      "style_anchor": "xx_card_blade",
+      "must_have": [
+        "masculine male face",
+        "neck tattoos",
+        "glowing moth",
+        "spectral serpent above"
+      ],
+      "must_not": [
+        "text",
+        "letters",
+        "border",
+        "frame",
+        "second figure"
+      ],
+      "seeds": 4,
+      "review": "human"
+    },
+    {
+      "id": "xx_card_mirror",
+      "type": "ui_image",
+      "h_px": 512,
+      "w_px": 340,
+      "prompt_core": "woman in profile before a tall ornate bronze mirror, the mirror clearly showing a detailed reflection of her face gazing back, red spider lilies blooming at the mirror base, floral hair ornaments, crimson glow",
+      "style_anchor": "xx_card_blade",
+      "must_have": [
+        "ornate mirror",
+        "detailed reflection of her face in the mirror",
+        "red spider lilies"
+      ],
+      "must_not": [
+        "text",
+        "letters",
+        "border",
+        "frame",
+        "third figure"
+      ],
+      "seeds": 4,
+      "review": "human"
+    },
+    {
+      "id": "xx_card_monk",
+      "type": "ui_image",
+      "h_px": 512,
+      "w_px": 340,
+      "prompt_core": "bald wandering monk in layered dark kasaya robes, hands pressed in prayer, large wooden bead necklace, a perfect glowing ring of distinct golden runes forming a halo behind his head, crimson wasteland",
+      "style_anchor": "xx_card_blade",
+      "must_have": [
+        "prayer pose",
+        "wooden beads",
+        "halo ring of distinct glowing runes",
+        "bald head"
+      ],
+      "must_not": [
+        "text",
+        "letters",
+        "border",
+        "frame",
+        "hair"
+      ],
+      "seeds": 4,
+      "review": "human"
+    },
+    {
+      "id": "xx_card_azure_sage",
+      "type": "ui_image",
+      "h_px": 512,
+      "w_px": 340,
+      "prompt_core": "silver-white haired water sage seated on a cliff edge, layered indigo and silver robes, one hand raised conjuring a glowing water orb, water-dragon aura spiraling around him, floating pagodas behind, night-blue moonlight",
+      "same_character_as": "xx_azure_sage",
+      "style_anchor": "xx_card_blade",
+      "must_have": [
+        "water-dragon aura",
+        "silver-white hair",
+        "indigo layered robes",
+        "glowing water orb"
+      ],
+      "must_not": [
+        "text",
+        "letters",
+        "border",
+        "frame",
+        "second figure"
+      ],
+      "seeds": 4,
+      "review": "human"
+    },
+    {
+      "id": "xx_card_planets",
+      "type": "ui_image",
+      "h_px": 512,
+      "w_px": 340,
+      "prompt_core": "white-haired wanderer in wind-torn pale robes reaching up toward exactly nine distinct glowing ringed spheres of different colors in a blood-red sky, floating rocks below, hair streaming upward",
+      "style_anchor": "xx_card_blade",
+      "must_have": [
+        "nine distinct glowing spheres",
+        "raised reaching arm",
+        "streaming white hair"
+      ],
+      "must_not": [
+        "text",
+        "letters",
+        "border",
+        "frame",
+        "second figure"
+      ],
+      "seeds": 4,
+      "review": "human"
+    },
+    {
+      "id": "xx_card_blade_jade",
+      "type": "sprite_variant",
+      "of": "xx_card_blade",
+      "count": 1,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "aura",
+        "robe_trim",
+        "backdrop"
+      ],
+      "variants": [
+        {
+          "id": "azure_blade",
+          "aura": "@palettes/xianxia_element.colors.spirit_cyan",
+          "prompt_extra": "same swordsman, aura repainted as flowing azure water dragons and night-blue moonlight",
+          "denoise": 0.7,
+          "prompt_override": "brooding swordsman seen in left profile, tattered fur-lined dark hanfu, sheathed dao blade rising over his shoulder, huge pale jade-green moon behind barren branches, flowing emerald water-dragon aura, jade green rim light"
+        }
+      ],
+      "review": "auto",
+      "denoise": 0.62
+    },
+    {
+      "id": "xx_card_archivist_jade",
+      "type": "sprite_variant",
+      "of": "xx_card_archivist",
+      "count": 1,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "aura",
+        "robe_trim",
+        "backdrop"
+      ],
+      "variants": [
+        {
+          "id": "spirit_gourd",
+          "aura": "@palettes/xianxia_element.colors.jade_aura",
+          "prompt_extra": "same reader, aura repainted as glowing emerald vines and spirit butterflies, gourd radiating green light",
+          "denoise": 0.7,
+          "prompt_override": "silver-haired archivist in dark layered robes holding a glowing jade gourd, emerald wisps and jade-green spectral inscriptions swirling around, pale jade moon backdrop"
+        }
+      ],
+      "review": "auto",
+      "denoise": 0.62
+    },
+    {
+      "id": "xx_card_venom_jade",
+      "type": "sprite_variant",
+      "of": "xx_card_venom",
+      "count": 1,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "aura",
+        "robe_trim",
+        "backdrop"
+      ],
+      "variants": [
+        {
+          "id": "jade_serpent",
+          "aura": "@palettes/xianxia_element.colors.jade_aura",
+          "prompt_extra": "same tattooed man, aura repainted as a luminous green serpent-dragon through jade mist",
+          "denoise": 0.7,
+          "prompt_override": "handsome masculine male cultivator, dark neck tattoos, gazing up at a glowing jade spirit moth on his fingertip, spectral jade serpent coiling through emerald smoke above, jade green aura"
+        }
+      ],
+      "review": "auto",
+      "denoise": 0.62
+    },
+    {
+      "id": "xx_card_mirror_jade",
+      "type": "sprite_variant",
+      "of": "xx_card_mirror",
+      "count": 1,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "aura",
+        "robe_trim",
+        "backdrop"
+      ],
+      "variants": [
+        {
+          "id": "mirror_revenant",
+          "aura": "@palettes/xianxia_element.colors.spirit_cyan",
+          "prompt_extra": "same woman before the mirror, aura repainted as spectral cyan ice-shards and blue spirit flowers",
+          "denoise": 0.7,
+          "prompt_override": "woman in profile before a tall ornate bronze mirror bathed in jade-green light, detailed reflection of her face gazing back, pale spider lilies, emerald glow"
+        }
+      ],
+      "review": "auto",
+      "denoise": 0.62
+    },
+    {
+      "id": "xx_card_monk_jade",
+      "type": "sprite_variant",
+      "of": "xx_card_monk",
+      "count": 1,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "aura",
+        "robe_trim",
+        "backdrop"
+      ],
+      "variants": [
+        {
+          "id": "verdant_monk",
+          "aura": "@palettes/xianxia_element.colors.jade_aura",
+          "prompt_extra": "same praying monk, aura repainted as glowing emerald runes and drifting leaves",
+          "denoise": 0.7,
+          "prompt_override": "bald wandering monk in layered dark kasaya robes, hands in prayer, wooden beads, glowing ring of distinct jade-green runes haloing his head, emerald wasteland"
+        }
+      ],
+      "review": "auto",
+      "denoise": 0.62
+    },
+    {
+      "id": "xx_card_planets_jade",
+      "type": "sprite_variant",
+      "of": "xx_card_planets",
+      "count": 1,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "aura",
+        "robe_trim",
+        "backdrop"
+      ],
+      "variants": [
+        {
+          "id": "tide_sage",
+          "aura": "@palettes/xianxia_element.colors.spirit_cyan",
+          "prompt_extra": "same wanderer, aura repainted as orbiting water-spheres and night-blue celestial tide",
+          "denoise": 0.7,
+          "prompt_override": "white-haired wanderer in wind-torn pale robes reaching up toward exactly nine distinct glowing spheres in jade and teal tones in a deep blue night sky, hair streaming upward"
+        }
+      ],
+      "review": "auto",
+      "denoise": 0.62
+    }
   ],
   "composition": {
     "lighting_rig": "@rigs/std_xianxia",
     "layout": {
-      "grid": {"cols": 4, "rows": 2, "card_w": 300, "card_h": 500,
-               "gap": 14, "origin": [24, 60]},
-      "cards": ["xx_card_azure_sage", "xx_card_blade", "xx_card_archivist",
-                "xx_card_venom", "xx_card_mirror", "xx_card_monk",
-                "xx_card_planets"],
+      "grid": {
+        "cols": 4,
+        "rows": 2,
+        "card_w": 300,
+        "card_h": 500,
+        "gap": 14,
+        "origin": [
+          24,
+          60
+        ]
+      },
+      "cards": [
+        "xx_card_azure_sage",
+        "xx_card_blade",
+        "xx_card_archivist",
+        "xx_card_venom",
+        "xx_card_mirror",
+        "xx_card_monk",
+        "xx_card_planets"
+      ],
       "backdrop": "xx_select_backdrop"
     },
-    "shots": ["select_grid", "card_focus", "element_swap"],
+    "shots": [
+      "select_grid",
+      "card_focus",
+      "element_swap"
+    ],
     "shot_expect": {
-      "select_grid": {"lit_coverage_min": 0.04}
+      "select_grid": {
+        "lit_coverage_min": 0.04
+      }
     }
   }
 }

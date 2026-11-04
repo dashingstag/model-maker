@@ -1,0 +1,33 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_planets",
+  "type": "ui_image",
+  "status": "processed",
+  "rev": 2,
+  "constraints": {
+    "type": "ui_image",
+    "h_px": 512
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:4b3590b2bfe5e848f99d0b69e67e9f4bd0a6e7e0f2eaf03f58f4ea938d22627f"
+  },
+  "artifacts": {
+    "processed/portrait.png": "sha256:5696984e29c415e656cb936075a90c634b8ff3893cee55a7f7be0ac01dc1a461"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793754207.186237,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  }
+}

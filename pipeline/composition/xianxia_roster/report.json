@@ -1,0 +1,99 @@
+{
+  "composition": {
+    "cross_row_occlusions": 0,
+    "draw_calls": 10,
+    "focus_lit_coverage": null,
+    "glb_pending": [],
+    "hero_visible_pct": null,
+    "min_gap_px": 9999.0,
+    "missing_assets": [],
+    "patroller": null,
+    "same_row_overlap_events": 0,
+    "shots": [
+      "select_grid",
+      "card_focus",
+      "element_swap"
+    ],
+    "sprite_count": 0,
+    "ui_count": 7
+  },
+  "provenance": {
+    "godot_version": "4.6.3-stable (official)",
+    "inputs": {
+      "goal": "xianxia_roster",
+      "manifests": {
+        "xx_card_archivist": "sha256:888ad7de7a2fdc458d98dd86dd3f0dcdc68cb0ea0b070bfe8707f51433d97c44",
+        "xx_card_archivist_jade": "sha256:1bd8624b45e3a128140ed3159c36a8d04cc6d79cc8b14506dffeffe508361df9",
+        "xx_card_azure_sage": "sha256:9070aa34b0c644556884c8152935005a7ad25c131e85fd94dd7c15cf44f1069c",
+        "xx_card_blade": "sha256:0f187d47ab5e9044f9af4a2b042b464b65e37623a09c04bd2197d72b3b46d620",
+        "xx_card_blade_jade": "sha256:62b78e5b3902936649e786d0ed3aa26adb868c43091f7f040058e7557a02b331",
+        "xx_card_mirror": "sha256:06a3a49f070a2db57948e4d90f7f0794a047f06ebe30545f6537c60c45247227",
+        "xx_card_mirror_jade": "sha256:973eacbbb55a6f22ab47f32bfab0acc3b22e5b261f4940be975dae6da5676564",
+        "xx_card_monk": "sha256:f4f903a36a5f0823e9088682610d5229aebdf6689b0879862ce47db736adaa70",
+        "xx_card_monk_jade": "sha256:a2d33a41b4207e13c0a72aba156dc012a16cb911bd69be9e14553819853a722c",
+        "xx_card_planets": "sha256:b7c0771405374191fbaa6465d1ef1fbe6ecb39a4eb2d66713d06c946da472a1c",
+        "xx_card_planets_jade": "sha256:04a4645c5bf54c482d58b2b99bb3869e53c2d4b4d80c880adb950fe14f3345f5",
+        "xx_card_venom": "sha256:be2e6a672e621b988d4fdbc53ed28fd5f58742b3ced295c4580747b068965685",
+        "xx_card_venom_jade": "sha256:ade194f6e4dbb003d2a6fbae1323badfc39151dea1e4ffde1d1c96d360dbc4c1",
+        "xx_select_backdrop": "sha256:d22afbed6c9437f83fd2289a1ef3157b365c6153b4269eb33623fae698de4d14"
+      }
+    },
+    "job_file": "a9ee694c55d2",
+    "mode": "all",
+    "timestamp": "2026-11-04T11:07:37"
+  },
+  "shot_expect": {
+    "select_grid": {
+      "lit_coverage_min": {
+        "pass": true,
+        "target": 0.04,
+        "value": 0.275
+      }
+    }
+  },
+  "unit": {
+    "xx_card_archivist": {
+      "type": "ui_image"
+    },
+    "xx_card_archivist_jade/spirit_gourd": {
+      "type": "ui_image"
+    },
+    "xx_card_azure_sage": {
+      "type": "ui_image"
+    },
+    "xx_card_blade": {
+      "type": "ui_image"
+    },
+    "xx_card_blade_jade/azure_blade": {
+      "type": "ui_image"
+    },
+    "xx_card_mirror": {
+      "type": "ui_image"
+    },
+    "xx_card_mirror_jade/mirror_revenant": {
+      "type": "ui_image"
+    },
+    "xx_card_monk": {
+      "type": "ui_image"
+    },
+    "xx_card_monk_jade/verdant_monk": {
+      "type": "ui_image"
+    },
+    "xx_card_planets": {
+      "type": "ui_image"
+    },
+    "xx_card_planets_jade/tide_sage": {
+      "type": "ui_image"
+    },
+    "xx_card_venom": {
+      "type": "ui_image"
+    },
+    "xx_card_venom_jade/jade_serpent": {
+      "type": "ui_image"
+    },
+    "xx_select_backdrop": {
+      "lit_coverage": 0.362,
+      "type": "parallax"
+    }
+  }
+}

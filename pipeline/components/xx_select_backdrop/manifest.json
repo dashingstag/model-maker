@@ -1,0 +1,33 @@
+{
+  "schema_v": 1,
+  "id": "xx_select_backdrop",
+  "type": "parallax",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "parallax",
+    "factor": 0.05
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:7520c9eb7d557f3c534ac2ba78e1ab6fa67eedb69e494f0a933a92a8d0456e3b"
+  },
+  "artifacts": {
+    "processed/bg.png": "sha256:7520c9eb7d557f3c534ac2ba78e1ab6fa67eedb69e494f0a933a92a8d0456e3b"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "factor": 0.05,
+  "min_visible_pct": null,
+  "certified": {
+    "ts": 1793731962.560864,
+    "by": "devin:curator"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_venom_jade",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_card_venom",
+    "vary": [
+      "aura",
+      "robe_trim",
+      "backdrop"
+    ],
+    "variants": [
+      {
+        "id": "jade_serpent",
+        "aura": "@palettes/xianxia_element.colors.jade_aura",
+        "prompt_extra": "same tattooed man, aura repainted as a luminous green serpent-dragon through jade mist"
+      }
+    ],
+    "count": 1
+  },
+  "inputs": {
+    "xx_card_venom/manifest.json": "sha256:6d8054f6b09e1c5bc1cb7c6ca4c185e8acd1e0a810cef5f01dd02d1ba47d3b64",
+    "accepted/jade_serpent.png": "sha256:a4d5998b64ca04b19bac357116d92ba4d62475609e8c954ba4681eea81b78267"
+  },
+  "artifacts": {
+    "processed/jade_serpent/portrait.png": "sha256:5ffe972344da5726c6a7f4594535009fc28195d4a13c1f551197613c7248154d"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_card_venom",
+  "method": "controlnet",
+  "variants": [
+    "jade_serpent"
+  ],
+  "targets": {
+    "jade_serpent": {
+      "aura": "#3fd87a"
+    }
+  },
+  "poses": [],
+  "certified": {
+    "ts": 1793731963.113917,
+    "by": "devin:curator"
+  }
+}

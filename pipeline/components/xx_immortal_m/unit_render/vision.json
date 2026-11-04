@@ -1,0 +1,28 @@
+{
+  "verdict": "pass",
+  "actor": "devin-rev2",
+  "ts": 1793759666.4322598,
+  "checks": {
+    "on-model across all poses (same face/outfit/props)": "pass",
+    "no halo or fringe against the lit backdrop": "pass",
+    "feet pivot sits on the ground line": "pass",
+    "normal-map lighting reads correctly in lit.png": "pass",
+    "has: long white hair": "pass",
+    "has: flowing layered hanfu robes": "pass",
+    "has: jade waist ornament": "pass",
+    "has: full body head to feet": "pass",
+    "absent: modern clothing": "pass",
+    "absent: wings": "pass",
+    "absent: extra limbs": "pass",
+    "absent: cropped feet": "pass",
+    "absent: second figure": "pass"
+  },
+  "flags": [
+    "sword_salute prop absent: guide silhouette has sword but i2i repaints it into sleeve \u2014 DS8 prop-materialization limit (ledger #13)"
+  ],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/lit.png",
+    "unit_render/neutral.png"
+  ]
+}

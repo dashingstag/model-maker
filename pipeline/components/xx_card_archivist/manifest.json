@@ -1,0 +1,31 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_archivist",
+  "type": "ui_image",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "ui_image",
+    "h_px": 512
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:1a7e8bf5b8c0c765d3b98a6e38f7dc42142f011578ef198d1bd3c2d70c50247f"
+  },
+  "artifacts": {
+    "processed/portrait.png": "sha256:2000d6c6f3eeb02b0eea909e3556b5d528c9c50d7d1c333bfe6017f5db8af511"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "certified": {
+    "ts": 1793731961.4213138,
+    "by": "devin:curator"
+  }
+}

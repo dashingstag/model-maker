@@ -1,0 +1,25 @@
+{
+  "verdict": "pass",
+  "actor": "devin:curator",
+  "ts": 1793731942.8876395,
+  "checks": {
+    "subject centered and uncropped": "pass",
+    "readable at dialogue size": "pass",
+    "has: open tome": "pass",
+    "has: gourd vessel": "pass",
+    "has: white hair": "pass",
+    "has: floating talismans": "pass",
+    "absent: text": "pass",
+    "absent: letters": "pass",
+    "absent: border": "pass",
+    "absent: frame": "pass",
+    "absent: second figure": "pass"
+  },
+  "flags": [
+    "no floating talismans present - minor must_have miss"
+  ],
+  "note": "card verified",
+  "reviewed_files": [
+    "unit_render/neutral.png"
+  ]
+}

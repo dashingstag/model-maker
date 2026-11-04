@@ -1,0 +1,21 @@
+{
+  "verdict": "pass",
+  "actor": "devin-rev2",
+  "ts": 1793758624.177328,
+  "checks": {
+    "recolor confined to the declared regions": "pass",
+    "skin/face/hat untouched": "pass",
+    "each variant distinct": "pass",
+    "family resemblance to base": "pass"
+  },
+  "flags": [],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/moon_gold/lit.png",
+    "unit_render/moon_gold/neutral.png",
+    "unit_render/teal_phoenix/lit.png",
+    "unit_render/teal_phoenix/neutral.png",
+    "unit_render/winged_ascension/lit.png",
+    "unit_render/winged_ascension/neutral.png"
+  ]
+}

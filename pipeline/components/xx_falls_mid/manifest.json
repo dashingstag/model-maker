@@ -1,0 +1,33 @@
+{
+  "schema_v": 1,
+  "id": "xx_falls_mid",
+  "type": "parallax",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "parallax",
+    "factor": 0.25
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:2756b4caaffb09666bb779bfbfa41f9a6f82dadd81093889469404b6d4788322"
+  },
+  "artifacts": {
+    "processed/bg.png": "sha256:2756b4caaffb09666bb779bfbfa41f9a6f82dadd81093889469404b6d4788322"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cpu",
+    "matting": "birefnet-general"
+  },
+  "factor": 0.25,
+  "min_visible_pct": null,
+  "certified": {
+    "ts": 1793731960.0806277,
+    "by": "devin:curator"
+  }
+}

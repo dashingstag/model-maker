@@ -1,0 +1,57 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_planets_jade",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_card_planets",
+    "vary": [
+      "aura",
+      "robe_trim",
+      "backdrop"
+    ],
+    "variants": [
+      {
+        "id": "tide_sage",
+        "aura": "@palettes/xianxia_element.colors.spirit_cyan",
+        "prompt_extra": "same wanderer, aura repainted as orbiting water-spheres and night-blue celestial tide"
+      }
+    ],
+    "count": 1
+  },
+  "inputs": {
+    "xx_card_planets/manifest.json": "sha256:9cad0629a95ca826f70ac16a4ecbdeac1cc9c7beaa7b4bdc5ce42d94e9712a19",
+    "accepted/tide_sage.png": "sha256:f661d43e22f6ff06f982802cdbbef22540e40e1f4005482a1e68242ad267cc41"
+  },
+  "artifacts": {
+    "processed/tide_sage/portrait.png": "sha256:6acd27b038cfb6bc08bb5ebce75d2174c8c5d202b9cec682af6fb8bba496e4f3"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_card_planets",
+  "method": "controlnet",
+  "variants": [
+    "tide_sage"
+  ],
+  "targets": {
+    "tide_sage": {
+      "aura": "#7fd8e8"
+    }
+  },
+  "poses": [],
+  "certified": {
+    "ts": 1793731963.6881268,
+    "by": "devin:curator"
+  }
+}

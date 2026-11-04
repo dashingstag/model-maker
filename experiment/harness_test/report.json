@@ -1,0 +1,81 @@
+{
+  "action_shots": {
+    "note": "rigged-glb action clock is backlog; declared shots skipped",
+    "status": "not_implemented"
+  },
+  "composition": {
+    "cross_row_occlusions": 0,
+    "draw_calls": 5,
+    "focus_lit_coverage": 1.0,
+    "glb_pending": [
+      "xx_azure_sage_3d"
+    ],
+    "hero_visible_pct": 52.8,
+    "min_gap_px": -330.0,
+    "missing_assets": [
+      "res://assets/components/xx_peaks_far/bg.png",
+      "res://assets/components/xx_terrace/bg.png",
+      "res://assets/components/xx_immortal_m/sprite_idle.png",
+      "res://assets/components/xx_immortal_m/sprite_cloud_step.png",
+      "res://assets/components/xx_immortal_f/sprite_idle.png",
+      "res://assets/components/xx_card_blade/portrait.png"
+    ],
+    "patroller": "xx_immortal_m",
+    "same_row_overlap_events": 240,
+    "shots": [
+      "vista_all",
+      "sage_channel",
+      "walk_t1",
+      "low_light",
+      "terrace_pair"
+    ],
+    "sprite_count": 2,
+    "ui_count": 1
+  },
+  "glb_placement": {
+    "ids": [
+      "xx_azure_sage_3d"
+    ],
+    "note": "composition glb instancing is backlog; unit renders cover them",
+    "status": "not_implemented"
+  },
+  "provenance": {
+    "godot_version": "4.6.3-stable (official)",
+    "inputs": {
+
+    },
+    "job_file": "f6a4a400a961",
+    "mode": "composition",
+    "timestamp": "2026-11-04T01:03:27"
+  },
+  "shot_expect": {
+    "channel_surge": {
+      "props_attached": {
+        "pass": null,
+        "target": true,
+        "value": "not_evaluated"
+      }
+    },
+    "low_light": {
+      "lit_coverage_min": {
+        "pass": false,
+        "target": 0.05,
+        "value": 0.001
+      }
+    },
+    "select_grid": {
+      "cards_visible": {
+        "pass": false,
+        "target": 7.0,
+        "value": 0
+      }
+    },
+    "vista_all": {
+      "same_row_overlap_events": {
+        "pass": false,
+        "target": 0.0,
+        "value": 240
+      }
+    }
+  }
+}

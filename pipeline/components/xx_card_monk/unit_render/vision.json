@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "actor": "devin-rev2",
+  "ts": 1793758625.7211719,
+  "checks": {
+    "subject centered and uncropped": "pass",
+    "readable at dialogue size": "pass",
+    "has: prayer pose": "pass",
+    "has: wooden beads": "pass",
+    "has: runic halo ring": "pass",
+    "has: bald head": "pass",
+    "absent: text": "pass",
+    "absent: letters": "pass",
+    "absent: border": "pass",
+    "absent: frame": "pass",
+    "absent: hair": "pass"
+  },
+  "flags": [],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/neutral.png"
+  ]
+}

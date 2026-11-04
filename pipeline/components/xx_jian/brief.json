@@ -22,7 +22,7 @@
   "style": {
     "name": "xianxia_ethereal",
     "suffix": "ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece",
-    "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, gradient background, low quality",
+    "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, detailed background, scenery, landscape, gradient background, low quality",
     "subject_bg": "isolated on plain solid white background",
     "scene_suffix": "wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters"
   },
@@ -50,6 +50,7 @@
       "leaf_blue": "#6fb8d8",
       "light_warm": "#ffd9a0"
     },
-    "prompt_hints": "moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist"
+    "prompt_hints": "moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist",
+    "prop_hints": "polished silver steel, faint cyan rune glow, white silk tassel, jade inlay, subtle gold filigree"
   }
 }

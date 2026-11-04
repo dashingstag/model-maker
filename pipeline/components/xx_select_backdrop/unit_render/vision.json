@@ -1,0 +1,20 @@
+{
+  "verdict": "pass",
+  "actor": "devin:curator",
+  "ts": 1793731943.414418,
+  "checks": {
+    "no characters or text in the layer": "pass",
+    "colors stay in palette under the rig": "pass",
+    "has: deep atmospheric haze": "pass",
+    "has: dark ornate architecture": "pass",
+    "absent: characters": "pass",
+    "absent: text": "pass",
+    "absent: readable signs": "pass"
+  },
+  "flags": [],
+  "note": "backdrop verified: dark gallery, no characters/text",
+  "reviewed_files": [
+    "unit_render/lit.png",
+    "unit_render/neutral.png"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "schema_v": 1,
+  "id": "xx_azure_sage",
+  "type": "sprite",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "sprite",
+    "h_px": 400,
+    "pivot": "feet",
+    "poses": [
+      "idle",
+      {
+        "name": "seated_meditation",
+        "prompt_extra": "seated on a rock ledge, one hand raised holding a glowing water orb, water-dragon aura swirling around him",
+        "init_from": "idle",
+        "denoise": 0.62
+      },
+      {
+        "name": "channel_water",
+        "prompt_extra": "standing, palm forward, channeling a spiraling water-dragon aura",
+        "init_from": "idle",
+        "denoise": 0.58
+      },
+      {
+        "name": "staff_stance",
+        "prompt_extra": "resting one hand on an ornate silver staff topped with a glowing blue gem",
+        "init_from": "idle",
+        "denoise": 0.55
+      }
+    ],
+    "guide_from": "guide_humanoid"
+  },
+  "inputs": {
+    "accepted/idle.png": "sha256:6b4958f7365d307e398157d4eaef6fd0dfb6cedd52944825d457dbfe46f9a0d4",
+    "accepted/seated_meditation.png": "sha256:7d7f3568502bbdf94f6849a1c887dcdd58ab0f2b62855444e7436cad98644f67",
+    "accepted/channel_water.png": "sha256:41923259f798a73ce8fd98a746fe97b544163a1e89f4e87909d2fa6df7f98049",
+    "accepted/staff_stance.png": "sha256:c605727df6fbefbfb48be7de9d85927b4509a3884667bbc28f24e07e4232a618"
+  },
+  "artifacts": {
+    "processed/sprite_channel_water.png": "sha256:44bfb8a10c2972513c99fa199c69f40c748b29377ff39ef9ac14b47ed3df2097",
+    "processed/sprite_channel_water_n.png": "sha256:1610ef7ef3d3aa6f83e57ffd662f08b4afa424cf1a1ae49264390702937f21e5",
+    "processed/sprite_idle.png": "sha256:a18913db17ab2d1fb138fe4b7db9b37b43d6127c45b2fb81e51e57786dde0755",
+    "processed/sprite_idle_n.png": "sha256:02e5be232566cc94de32b9e75d31d27c06d93b850c6eb7987f918325f873b63e",
+    "processed/sprite_seated_meditation.png": "sha256:36b5e480a9538190a6129ef3d815fc8fa49c26590bef9023fb510130df84445b",
+    "processed/sprite_seated_meditation_n.png": "sha256:ac2d3e1741b47e79e5d0a1911ff405f4a04df554b13dcff91c17bbca9665774c",
+    "processed/sprite_staff_stance.png": "sha256:93c53a9468dd1a83158dd1bb18f2e855acb007ec4baccdb64efb042b71c7349d",
+    "processed/sprite_staff_stance_n.png": "sha256:f6a9c30a467a7cea8126c40870d883554dcb0c5fb0715e3f14fc10fb3f88180b"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "idle": 0.0,
+      "seated_meditation": 0.0,
+      "channel_water": 0.0,
+      "staff_stance": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793752196.9028351,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "pivot": "feet",
+  "h_px": 400,
+  "poses": [
+    "idle",
+    "seated_meditation",
+    "channel_water",
+    "staff_stance"
+  ],
+  "fringe_px": {
+    "idle": 0,
+    "seated_meditation": 0,
+    "channel_water": 0,
+    "staff_stance": 0
+  },
+  "collider": "alpha-bounds-10pct",
+  "gate": {
+    "fringe_ok": true
+  },
+  "certified": {
+    "ts": 1793758623.6776052,
+    "by": "devin-rev2"
+  }
+}

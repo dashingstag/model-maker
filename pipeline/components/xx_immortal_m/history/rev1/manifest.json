@@ -1,0 +1,90 @@
+{
+  "schema_v": 1,
+  "id": "xx_immortal_m",
+  "type": "sprite",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite",
+    "h_px": 400,
+    "pivot": "feet",
+    "poses": [
+      "idle",
+      {
+        "name": "meditate_lotus",
+        "prompt_extra": "seated in lotus position, hands in mudra, eyes closed, robes pooling around the body",
+        "init_from": "idle",
+        "denoise": 0.62
+      },
+      {
+        "name": "sword_salute",
+        "prompt_extra": "drawing a slender jian sword, blade angled downward in respectful salute, other hand raised in two-finger gesture",
+        "init_from": "idle",
+        "denoise": 0.55
+      },
+      {
+        "name": "cloud_step",
+        "prompt_extra": "weightless gliding stance, one foot forward, sleeves and sash streaming behind",
+        "init_from": "idle",
+        "denoise": 0.58
+      }
+    ]
+  },
+  "inputs": {
+    "accepted/idle.png": "sha256:048e079b405890e1335998bc8ef18130da40728f2c1acecdfb2386700e15df70",
+    "accepted/meditate_lotus.png": "sha256:0ab2d26d1ccfa29973641f10f7dbd96510a9e93e031e5fd4c3f5c48bb4905d38",
+    "accepted/sword_salute.png": "sha256:9426620b1f157dd1d5f88ea328d34c3b7e6c84745cb6e7004f097ffbe3f1d5c2",
+    "accepted/cloud_step.png": "sha256:ba9e92689b1be5ae7b088166a42ae5f3e5b8e6e82df4a33a40f8d8a83f445953"
+  },
+  "artifacts": {
+    "processed/sprite_cloud_step.png": "sha256:e50d49edc8161ec4e3cd80fe4f68ba55dfe2144cafdde5f5692173958f626f54",
+    "processed/sprite_cloud_step_n.png": "sha256:9b6d5ddcd46d78e35a39d7ddd6da4b9caff125cd48a5bc25c77914fab39d18d0",
+    "processed/sprite_idle.png": "sha256:625505d5a41c828634001703fe2f18af75ac86f87a2d700f0230b8f4af2d9f04",
+    "processed/sprite_idle_n.png": "sha256:bad991bb75b759c7db76ae8613f74d8ba7394238f8e14ce09085909dafef2994",
+    "processed/sprite_meditate_lotus.png": "sha256:27bd25ea42196b74c5b26b68b126f3bd1b3d785458fd30094149cc7875217f02",
+    "processed/sprite_meditate_lotus_n.png": "sha256:f66a6c80c51f96788be00f550d68e912fc36141892f2e0b7bd0abd5693b3e730",
+    "processed/sprite_sword_salute.png": "sha256:c7b8d201ce71812ad1527e182474bb648a46d1a1d343bdbc79233923e5efec0f",
+    "processed/sprite_sword_salute_n.png": "sha256:58cb8bb2b7002b11a5460814b1719dce7efd98d7583faa8c3b20fa109e3d46f9"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "idle": 0.0,
+      "meditate_lotus": 0.0,
+      "sword_salute": 0.0,
+      "cloud_step": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "pivot": "feet",
+  "h_px": 400,
+  "poses": [
+    "idle",
+    "meditate_lotus",
+    "sword_salute",
+    "cloud_step"
+  ],
+  "fringe_px": {
+    "idle": 0,
+    "meditate_lotus": 0,
+    "sword_salute": 0,
+    "cloud_step": 0
+  },
+  "collider": "alpha-bounds-10pct",
+  "gate": {
+    "fringe_ok": true
+  },
+  "certified": {
+    "ts": 1793758623.0275342,
+    "by": "devin-rev2"
+  }
+}

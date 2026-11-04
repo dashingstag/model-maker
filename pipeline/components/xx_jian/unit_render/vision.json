@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "actor": "devin:curator",
+  "ts": 1793731923.4893596,
+  "checks": {
+    "on-model across all poses (same face/outfit/props)": "pass",
+    "no halo or fringe against the lit backdrop": "pass",
+    "feet pivot sits on the ground line": "pass",
+    "has: straight double-edged blade": "pass",
+    "has: hilt tassel": "pass",
+    "has: full weapon visible": "pass",
+    "absent: curved blade": "pass",
+    "absent: extra blades": "pass",
+    "absent: hands holding it": "pass",
+    "absent: text": "pass"
+  },
+  "flags": [],
+  "note": "isolated prop verified: straight blade, tassel, no hands",
+  "reviewed_files": [
+    "unit_render/lit.png",
+    "unit_render/neutral.png"
+  ]
+}

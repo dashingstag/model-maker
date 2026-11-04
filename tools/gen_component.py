@@ -26,11 +26,16 @@ ENV = json.load(open(os.path.join(ROOT, "tools", "env.json")))
 BASE = ENV["comfyui_url"]
 BLENDER = ENV["blender"]
 MODELS = json.load(open(os.path.join(ROOT, "models.json")))
-POSES = json.load(open(os.path.join(ROOT, "shared", "poses", "walk_cycle.json")))["poses"]
+POSES = {}
+for _pf in sorted(os.listdir(os.path.join(ROOT, "shared", "poses"))):
+    if _pf.endswith(".json"):
+        POSES.update(json.load(open(os.path.join(ROOT, "shared", "poses", _pf)))
+                     .get("poses", {}))
 SAMPLER = {"steps": 28, "cfg": 7.0, "sampler_name": "dpmpp_2m_sde",
            "scheduler": "karras", "cn_strength": 0.85}
 # glb builders by component id; components without one need tooling first
-GLB_BUILDERS = {"captain_3d": "blender_pirate.py"}
+GLB_BUILDERS = {"captain_3d": "blender_pirate.py",
+                "guide_humanoid": "blender_mannequin.py"}
 
 def comp_dir(cid):
     return os.path.join(ROOT, "pipeline", "components", cid)
@@ -122,11 +127,43 @@ def _wf_sprite(prompt, neg, w, h, seed, prefix, depth_img, ckpt, cn):
         "10": {"class_type": "SaveImage", "inputs": {"filename_prefix": prefix, "images": ["9", 0]}},
     }}
 
+def wf_img2img(prompt, neg, w, h, seed, prefix, init_img=None, denoise=1.0):
+    """Guide-free sprite path: txt2img when init_img is None; img2img
+    (identity-lock repaint from an accepted pose) when set."""
+    ckpt = MODELS["checkpoints"]["dreamshaper8"]
+    p = {"prompt": {
+        "1": {"class_type": "CheckpointLoaderSimple", "inputs": {"ckpt_name": ckpt}},
+        "2": {"class_type": "CLIPTextEncode", "inputs": {"text": prompt, "clip": ["1", 1]}},
+        "3": {"class_type": "CLIPTextEncode", "inputs": {"text": neg, "clip": ["1", 1]}},
+        "7": {"class_type": "EmptyLatentImage", "inputs": {"width": w, "height": h, "batch_size": 1}},
+        "8": _ksampler(seed, ["1", 0], ["2", 0], ["3", 0], ["7", 0]),
+        "9": {"class_type": "VAEDecode", "inputs": {"samples": ["8", 0], "vae": ["1", 2]}},
+        "10": {"class_type": "SaveImage", "inputs": {"filename_prefix": prefix, "images": ["9", 0]}},
+    }}["prompt"]
+    if init_img:
+        p["11"] = {"class_type": "LoadImage", "inputs": {"image": init_img}}
+        p["12"] = {"class_type": "ImageScale", "inputs": {
+            "image": ["11", 0], "upscale_method": "lanczos", "width": w, "height": h,
+            "crop": "disabled"}}
+        p["13"] = {"class_type": "VAEEncode", "inputs": {"pixels": ["12", 0], "vae": ["1", 2]}}
+        p["8"]["inputs"]["latent_image"] = ["13", 0]
+        p["8"]["inputs"]["denoise"] = denoise
+    return {"prompt": p}
+
+PROP_SUFFIX = ("fantasy game prop concept art, single isolated object only, no people, "
+               "clean product presentation, painterly detail, masterpiece")
+PROP_NEG = ("person, human, character, figure, woman, female, girl, man, male, boy, "
+            "portrait, face, eyes, hair, hands, arms, body, legs, dress, robes worn, "
+            "wielder, wielding, holding")
+
 def build_prompts(b):
     style, palette = b["style"], b["palette"]
+    suffix = (style.get("prop_suffix") or PROP_SUFFIX) if b.get("prop") else style["suffix"]
+    hints = palette.get("prop_hints", palette["prompt_hints"]) if b.get("prop") else palette["prompt_hints"]
     parts = [b["prompt_core"], b.get("prompt_extra"), ", ".join(b.get("must_have", [])),
-             style["suffix"], palette["prompt_hints"]]
-    neg = [style["negative"], b.get("neg_extra"), ", ".join(b.get("must_not", []))]
+             suffix, hints]
+    neg = [style["negative"], PROP_NEG if b.get("prop") else None,
+           b.get("neg_extra"), ", ".join(b.get("must_not", []))]
     return ", ".join(p for p in parts if p), ", ".join(n for n in neg if n)
 
 def render_depths(cdir, guide, spec):
@@ -186,7 +223,9 @@ def main():
         # pose spec, so recolor never depends on painted-hue thresholds
         base = comp_dir(b["of"])
         bspec = json.load(open(os.path.join(base, "candidates", "_spec.json")))
-        guide = json.load(open(os.path.join(base, "brief.json"))).get("guide_from", "captain_3d")
+        guide = json.load(open(os.path.join(base, "brief.json"))).get("guide_from")
+        if not guide:
+            sys.exit(f"{cid}: parts masks need base '{b['of']}' to declare guide_from")
         masks = {k: (v["materials"] if isinstance(v, dict) else v)
                  for k, v in b.get("regions", {}).items()}
         spec = dict(bspec, passes=["beauty"], masks=masks)
@@ -213,9 +252,9 @@ def main():
     idx = Index(cand)
 
     if t == "sprite":
-        guide = b.get("guide_from", "captain_3d")
+        guide = b.get("guide_from")
         poses = {}
-        for i, p in enumerate(b["poses"]):
+        for i, p in enumerate(b.get("poses") or ["idle"]):
             name = name_of(p)
             o = p if isinstance(p, dict) else {}
             poses[name] = {"seed": 1000 + i * 100,
@@ -227,14 +266,17 @@ def main():
                 "camera": {"ortho_scale": 2.4, "location": [0, -4.2, 1.0], "size": [512, 640]},
                 "poses": {n: {"seed": c["seed"], "bones": c["bones"]} for n, c in poses.items()}}
         only = sys.argv[sys.argv.index("--poses") + 1].split(",") if "--poses" in sys.argv else None
-        render_depths(cdir, guide, spec)
+        if guide:
+            render_depths(cdir, guide, spec)
         w, h = spec["camera"]["size"]
         for pose, pc in poses.items():
             if only and pose not in only:
                 continue
-            depth_dst = f"{cid}_{pose}_depth.png"
-            shutil.copyfile(os.path.join(cand, "_render", f"{pose}_depth.png"),
-                            os.path.join(comfy, "input", depth_dst))
+            depth_dst = None
+            if guide:
+                depth_dst = f"{cid}_{pose}_depth.png"
+                shutil.copyfile(os.path.join(cand, "_render", f"{pose}_depth.png"),
+                                os.path.join(comfy, "input", depth_dst))
             init_dst = None
             if pc["init_from"]:
                 init_src = os.path.join(cdir, "accepted", f"{pc['init_from']}.png")
@@ -242,24 +284,35 @@ def main():
                     sys.exit(f"{cid}/{pose}: init_from '{pc['init_from']}' not accepted yet")
                 init_dst = f"{cid}_{pose}_init.png"
                 shutil.copyfile(init_src, os.path.join(comfy, "input", init_dst))
-            p_full = ", ".join(x for x in (prompt, pc["prompt_extra"],
-                                           b["style"]["subject_bg"]) if x)
+            p_full = ", ".join(x for x in (prompt, b["style"]["subject_bg"],
+                                           pc["prompt_extra"]) if x)
+            # guided i2i: the depth must be able to restructure the init
+            # silhouette, so the identity-lock repaint needs a denoise floor
+            denoise = (max(pc["denoise"], 0.75) if (guide and init_dst)
+                       else pc["denoise"] if init_dst else 1.0)
             tag = "_i2i" if init_dst else ""
             for i in range(seeds_n):
                 seed = pc["seed"] + i
                 prefix = f"{cid}_{pose}{tag}_s{seed}"
-                run_seed(idx, cand, comfy,
-                         wf_sprite(p_full, neg, w, h, seed, prefix, depth_dst,
-                                   init_dst, pc["denoise"] if init_dst else 1.0), "10",
+                wf = (wf_sprite(p_full, neg, w, h, seed, prefix, depth_dst,
+                                init_dst, denoise)
+                      if guide else
+                      wf_img2img(p_full, neg, w, h, seed, prefix,
+                                 init_dst, denoise))
+                run_seed(idx, cand, comfy, wf, "10",
                          {"file": f"{prefix}.png", "pose": pose, "seed": seed,
                           "prompt": p_full, "negative": neg, "w": w, "h": h,
-                          "guide": guide, "controlnet": MODELS["controlnets"]["sd15_depth"],
+                          "guide": guide,
+                          "controlnet": MODELS["controlnets"]["sd15_depth"] if guide else None,
                           "init_from": pc["init_from"],
-                          "denoise": pc["denoise"] if init_dst else 1.0})
+                          "denoise": denoise})
     else:
         w, h = (512, 512) if t == "ui_image" else (768, 512)
+        if t == "ui_image" and b.get("w_px"):
+            # honor card aspect (e.g. 340x512 -> 384x512 gen grid, snapped /64)
+            w = max(64, int(b["w_px"] / b.get("h_px", 512) * 512 + 31) // 64 * 64)
         extra = b["style"]["subject_bg"] if t == "ui_image" else b["style"]["scene_suffix"]
-        p_full = f"{prompt}, {extra}"
+        p_full = f"{extra}, {prompt}"
         for i in range(seeds_n):
             seed = 5000 + i
             prefix = f"{cid}_s{seed}"
@@ -277,11 +330,12 @@ def acquire_locks(cid, locks):
         sys.exit(f"{cid}: claimed by goal '{b['goal']}' (this run: '{goal}')")
     wait = int(sys.argv[sys.argv.index("--wait") + 1]) if "--wait" in sys.argv else 0
     deps = {cid}
-    if b.get("type") == "sprite":
-        deps.add(b.get("guide_from", "captain_3d"))  # depth source
+    if b.get("type") == "sprite" and b.get("guide_from"):
+        deps.add(b["guide_from"])  # depth source
     elif b.get("type") == "sprite_variant" and b.get("method") == "parts":
         base_b = json.load(open(os.path.join(comp_dir(b["of"]), "brief.json")))
-        deps |= {b["of"], base_b.get("guide_from", "captain_3d")}
+        deps |= {b["of"], base_b.get("guide_from")}
+    deps.discard(None)
     for d in sorted(deps):
         locks.append(FileLock(comp_dir(d) + ".lock",
                               owner=f"{goal}:gen_component", timeout=wait).acquire())

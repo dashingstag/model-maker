@@ -1,0 +1,8 @@
+{
+  "id": "guide_humanoid",
+  "type": "glb",
+  "infra": true,
+  "tri_budget": 4000,
+  "skeleton": "@skeletons/humanoid_v1",
+  "notes": "neutral rigged mannequin for pose/depth/normal guides (guide_from); built by tools/blender_mannequin.py — not scene content"
+}

@@ -1,0 +1,57 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_mirror_jade",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_card_mirror",
+    "vary": [
+      "aura",
+      "robe_trim",
+      "backdrop"
+    ],
+    "variants": [
+      {
+        "id": "mirror_revenant",
+        "aura": "@palettes/xianxia_element.colors.spirit_cyan",
+        "prompt_extra": "same woman before the mirror, aura repainted as spectral cyan ice-shards and blue spirit flowers"
+      }
+    ],
+    "count": 1
+  },
+  "inputs": {
+    "xx_card_mirror/manifest.json": "sha256:5ea852e2a9c0f4637ee487479b9ba97c360176b2300af04274721df15efaa89e",
+    "accepted/mirror_revenant.png": "sha256:4c6070b5710d90c0f9cf75ff493322f0880b8d7eefdcb9c7947078d8439a2c25"
+  },
+  "artifacts": {
+    "processed/mirror_revenant/portrait.png": "sha256:ebf4aed951738941b9113f30e43fe0c3920a3e7f518f8aeb2385bb3bb162acf6"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_card_mirror",
+  "method": "controlnet",
+  "variants": [
+    "mirror_revenant"
+  ],
+  "targets": {
+    "mirror_revenant": {
+      "aura": "#7fd8e8"
+    }
+  },
+  "poses": [],
+  "certified": {
+    "ts": 1793731963.2966328,
+    "by": "devin:curator"
+  }
+}

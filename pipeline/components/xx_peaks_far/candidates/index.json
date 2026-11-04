@@ -1,0 +1,40 @@
+{
+  "candidates": [
+    {
+      "file": "xx_peaks_far_s5000.png",
+      "seed": 5000,
+      "prompt": "distant floating mountain peaks crowned with ancient pagodas, rope suspension bridges between cliffs, dusk sky fading violet to peach gold, drifting stars and glowing motes, far background layer, deep atmospheric haze, small scale detail, floating islands, pagoda silhouettes, warm horizon glow, ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece, moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist, wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters",
+      "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, gradient background, low quality, characters, people, foreground objects, waterfalls close-up, characters, text, modern structures",
+      "w": 768,
+      "h": 512,
+      "elapsed_s": 7.6,
+      "ts": 1793725650.9609668,
+      "device": "cpu",
+      "comfyui": "0.43.0",
+      "model": "DreamShaper_8_pruned.safetensors",
+      "steps": 28,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "cn_strength": 0.85
+    },
+    {
+      "file": "xx_peaks_far_s5001.png",
+      "seed": 5001,
+      "prompt": "distant floating mountain peaks crowned with ancient pagodas, rope suspension bridges between cliffs, dusk sky fading violet to peach gold, drifting stars and glowing motes, far background layer, deep atmospheric haze, small scale detail, floating islands, pagoda silhouettes, warm horizon glow, ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece, moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist, wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters",
+      "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, gradient background, low quality, characters, people, foreground objects, waterfalls close-up, characters, text, modern structures",
+      "w": 768,
+      "h": 512,
+      "elapsed_s": 9.0,
+      "ts": 1793725659.9853325,
+      "device": "cpu",
+      "comfyui": "0.43.0",
+      "model": "DreamShaper_8_pruned.safetensors",
+      "steps": 28,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "cn_strength": 0.85
+    }
+  ]
+}

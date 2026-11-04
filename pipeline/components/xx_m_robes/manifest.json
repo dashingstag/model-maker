@@ -1,0 +1,110 @@
+{
+  "schema_v": 1,
+  "id": "xx_m_robes",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_immortal_m",
+    "vary": [
+      "robe",
+      "sash"
+    ],
+    "variants": [
+      {
+        "id": "moon_frost",
+        "robe": "@palettes/xianxia_mist.colors.robe_white",
+        "prompt_extra": "moon-white robes with silver frost embroidery, pale sash"
+      },
+      {
+        "id": "azure_crane",
+        "robe": "@palettes/xianxia_mist.colors.robe_azure",
+        "prompt_extra": "azure robes with crane embroidery, teal sash"
+      },
+      {
+        "id": "ember_tribunal",
+        "robe": "@palettes/xianxia_mist.colors.robe_cinnabar",
+        "prompt_extra": "deep cinnabar martial-cut robes, dark gold trim, black sash",
+        "denoise": 0.8,
+        "prompt_override": "male immortal cultivator, long flowing white hair, ornate cinnabar and ember-red layered hanfu robes with dark tribunal embroidery, ember glow"
+      }
+    ],
+    "count": 3
+  },
+  "inputs": {
+    "xx_immortal_m/manifest.json": "sha256:b264a01659bdfb78e54994cc7b903d0cc2e5eada2cb938ccc4df1f90e80c33a7",
+    "accepted/moon_frost_idle.png": "sha256:d46530d3ad0d5a00b7ba0ff87e70e5d7a9adf03029c3a7bd35baf6bd579b41f9",
+    "accepted/azure_crane_idle.png": "sha256:ba8c5f533bb7653371c10f03dceffaf62f175ad201bd3f640d2eb89a58f13fd7",
+    "accepted/ember_tribunal_idle.png": "sha256:5b21264505c285b1df324e86857398933d34f4b41a2326ccfc3d405064ea82a3"
+  },
+  "artifacts": {
+    "processed/azure_crane/sprite_idle.png": "sha256:2288de289ebb942d2347920a9d107ca822421172da48afaf18bf471f75240493",
+    "processed/azure_crane/sprite_idle_n.png": "sha256:53a14babbfd6d3bac53a9f6412e552d5077b4ca447e014970b5c65f26ae12967",
+    "processed/ember_tribunal/sprite_idle.png": "sha256:b866595caeb6eb8bc1601cf6c774f847b1f695ecb6bc22da141b02ef94b8e863",
+    "processed/ember_tribunal/sprite_idle_n.png": "sha256:53a14babbfd6d3bac53a9f6412e552d5077b4ca447e014970b5c65f26ae12967",
+    "processed/moon_frost/sprite_idle.png": "sha256:384f117766770046bd3497a6a84be5f539741941b58c4fa1c7f6f4a2aa797d6c",
+    "processed/moon_frost/sprite_idle_n.png": "sha256:53a14babbfd6d3bac53a9f6412e552d5077b4ca447e014970b5c65f26ae12967"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "moon_frost/idle": 0.0,
+      "azure_crane/idle": 0.0,
+      "ember_tribunal/idle": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793754709.0270534,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_immortal_m",
+  "method": "controlnet",
+  "variants": [
+    "moon_frost",
+    "azure_crane",
+    "ember_tribunal"
+  ],
+  "targets": {
+    "moon_frost": {
+      "robe": "#f5f0e8"
+    },
+    "azure_crane": {
+      "robe": "#4a7a9e"
+    },
+    "ember_tribunal": {
+      "robe": "#b8473a"
+    }
+  },
+  "fringe_px": {
+    "moon_frost/idle": 0,
+    "azure_crane/idle": 14,
+    "ember_tribunal/idle": 0
+  },
+  "gate": {
+    "fringe_ok": true
+  },
+  "poses": [
+    "idle",
+    "meditate_lotus",
+    "sword_salute",
+    "cloud_step"
+  ],
+  "certified": {
+    "ts": 1793758623.9868302,
+    "by": "devin-rev2"
+  }
+}

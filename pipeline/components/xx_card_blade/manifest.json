@@ -1,0 +1,31 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_blade",
+  "type": "ui_image",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "ui_image",
+    "h_px": 512
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:072490e20df34350d2b67bdd38efefe39c244516d4ff0992a6c2b2f08262b594"
+  },
+  "artifacts": {
+    "processed/portrait.png": "sha256:a0cb7d46ec71f4cd5a7f4ae1a2a17f71a2b98fb73e9381109509c2cb947ec6af"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "certified": {
+    "ts": 1793731961.2197769,
+    "by": "devin:curator"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_monk_jade",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_card_monk",
+    "vary": [
+      "aura",
+      "robe_trim",
+      "backdrop"
+    ],
+    "variants": [
+      {
+        "id": "verdant_monk",
+        "aura": "@palettes/xianxia_element.colors.jade_aura",
+        "prompt_extra": "same praying monk, aura repainted as glowing emerald runes and drifting leaves"
+      }
+    ],
+    "count": 1
+  },
+  "inputs": {
+    "xx_card_monk/manifest.json": "sha256:3debf2062926ecbf13d0b7033870961e255faddc502cf238df34dd36ab28c585",
+    "accepted/verdant_monk.png": "sha256:4f91c0f9d02acabdd778ecc2f35ba24179316c81f11fe6f7f01ab62bf86be104"
+  },
+  "artifacts": {
+    "processed/verdant_monk/portrait.png": "sha256:195fd501947f7084dd9da1beea9befb86eb1139333984b39e6ec83dcec62c645"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_card_monk",
+  "method": "controlnet",
+  "variants": [
+    "verdant_monk"
+  ],
+  "targets": {
+    "verdant_monk": {
+      "aura": "#3fd87a"
+    }
+  },
+  "poses": [],
+  "certified": {
+    "ts": 1793731963.4932265,
+    "by": "devin:curator"
+  }
+}

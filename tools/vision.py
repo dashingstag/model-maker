@@ -36,6 +36,11 @@ def cdir(cid):
 def checklist(cid):
     b = json.load(open(os.path.join(cdir(cid), "brief.json")))
     items = list(TYPE_CHECKS.get(b["type"], []))
+    # the normal-map item only applies when normals were actually built —
+    # guideless sprites ship none, so the check would be unanswerable
+    if b["type"] == "sprite" and not glob.glob(
+            os.path.join(cdir(cid), "processed", "sprite_*_n.png")):
+        items = [i for i in items if not i.startswith("normal-map")]
     items += [f"has: {x}" for x in b.get("must_have", [])]
     items += [f"absent: {x}" for x in b.get("must_not", [])]
     return items

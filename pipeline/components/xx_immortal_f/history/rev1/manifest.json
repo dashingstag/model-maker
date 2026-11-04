@@ -1,0 +1,90 @@
+{
+  "schema_v": 1,
+  "id": "xx_immortal_f",
+  "type": "sprite",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite",
+    "h_px": 380,
+    "pivot": "feet",
+    "poses": [
+      "idle",
+      {
+        "name": "sleeve_dance",
+        "prompt_extra": "mid-dance, arms raised, wide sleeves sweeping like wings, skirt swirling",
+        "init_from": "idle",
+        "denoise": 0.6
+      },
+      {
+        "name": "sword_stance",
+        "prompt_extra": "elegant two-handed low guard with a slender jian sword, sleeves trailing",
+        "init_from": "idle",
+        "denoise": 0.55
+      },
+      {
+        "name": "meditate",
+        "prompt_extra": "standing meditation, hands folded at the dantian, eyes closed, robes still",
+        "init_from": "idle",
+        "denoise": 0.6
+      }
+    ]
+  },
+  "inputs": {
+    "accepted/idle.png": "sha256:3fd776615662f55bde6dfc877861e77646b7f278dd520c2ed89fbbc5a200ce61",
+    "accepted/sleeve_dance.png": "sha256:6e2b2640181153d381ad68bb4dc163fc49b38c233694d7e51cdc0f005fc139b9",
+    "accepted/sword_stance.png": "sha256:194b900a3d853426288348cda3ad524a9f7440aeda9e5d30621a8a22ed06d136",
+    "accepted/meditate.png": "sha256:fc67da0b3e5c0b64db1a2f92787b79cf870c892fc14f4bf4ef70511edca6622a"
+  },
+  "artifacts": {
+    "processed/sprite_idle.png": "sha256:d15fd89141bc01698e8f604349fd8cad3d1cc9b1c5aa21438241dea3fa9e220c",
+    "processed/sprite_idle_n.png": "sha256:40e262b396f600900978dac3c1a19514ecbc4f2b37270dede9c0f342be199254",
+    "processed/sprite_meditate.png": "sha256:60081cd9a695a8bedaa2ea70f1b4ee5859f0ca6e53f883310acf4fae5d40e7f1",
+    "processed/sprite_meditate_n.png": "sha256:f372fabbf1637ff7eaebbf355bb15ac0391a802a8377ac04f8a52ee4705149bc",
+    "processed/sprite_sleeve_dance.png": "sha256:a270626114d1dc6c61f34fd2c3ad5d9d8e2b516de40f6b0724d4a315d299dea7",
+    "processed/sprite_sleeve_dance_n.png": "sha256:914fc1d5971eeab14d943f3f1898745176e666887d79cf281e28aa90a5f0034b",
+    "processed/sprite_sword_stance.png": "sha256:2aa151b0d94285825c2853b5e77234b147b0836f75591fea67ceafe88193edf3",
+    "processed/sprite_sword_stance_n.png": "sha256:4e3d4f1ca95853b4f724a3ad6fc6a746b48ff886b043a95c7699e18cee0431f7"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "idle": 0.0,
+      "sleeve_dance": 0.0,
+      "sword_stance": 0.0,
+      "meditate": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "pivot": "feet",
+  "h_px": 380,
+  "poses": [
+    "idle",
+    "sleeve_dance",
+    "sword_stance",
+    "meditate"
+  ],
+  "fringe_px": {
+    "idle": 0,
+    "sleeve_dance": 0,
+    "sword_stance": 0,
+    "meditate": 0
+  },
+  "collider": "alpha-bounds-10pct",
+  "gate": {
+    "fringe_ok": true
+  },
+  "certified": {
+    "ts": 1793758623.3762553,
+    "by": "devin-rev2"
+  }
+}

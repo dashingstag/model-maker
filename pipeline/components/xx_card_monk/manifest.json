@@ -1,0 +1,37 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_monk",
+  "type": "ui_image",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "ui_image",
+    "h_px": 512
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:ecf3bbb86e37d12d6fd48daf528d6b776f46a0816c2491b3fd593cc0cbda8f49"
+  },
+  "artifacts": {
+    "processed/portrait.png": "sha256:df62852a840a6a4826378304188bfdcc8c6eb6e078aab7db4e02e6fbd8411b47"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793754206.7995486,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "certified": {
+    "ts": 1793758625.829921,
+    "by": "devin-rev2"
+  }
+}

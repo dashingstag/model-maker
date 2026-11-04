@@ -1,0 +1,37 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_mirror",
+  "type": "ui_image",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "ui_image",
+    "h_px": 512
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:c059cce77cdc561c74fa1e6ec71d25be918bcf3e88459746c20e35429e736742"
+  },
+  "artifacts": {
+    "processed/portrait.png": "sha256:e5acd7c9c065a77225c606548ad45626748cb3a44311cb6df70db27c5e72075b"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793754206.5075424,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "certified": {
+    "ts": 1793758625.5196905,
+    "by": "devin-rev2"
+  }
+}

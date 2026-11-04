@@ -1,0 +1,31 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_azure_sage",
+  "type": "ui_image",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "ui_image",
+    "h_px": 512
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:1461a645997b31a9fc1c483785d39d0160a3110099e4955386ae2d72ee3f7a8d"
+  },
+  "artifacts": {
+    "processed/portrait.png": "sha256:b1bdda5a162c43f844b97d08cca38787a92578aab7965efd39693b7cb6541639"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "certified": {
+    "ts": 1793731962.3670285,
+    "by": "devin:curator"
+  }
+}

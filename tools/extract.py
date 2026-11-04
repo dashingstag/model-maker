@@ -11,7 +11,7 @@ Per type:
                    region masks rendered at C1 (candidates/_render/
                    <pose>_mask_<region>.png); method "palette" falls back to
                    a hue-threshold mask (fragile on painterly art).
-  ui_image       : center-crop -> processed/<id>.png
+  ui_image       : cover-crop to w_px x h_px (square fallback) -> processed/portrait.png
   parallax       : copy -> processed/bg.png (manifest carries factor)
   glb            : validate export/<id>.glb vs tri_budget -> manifest
 
@@ -28,7 +28,7 @@ MODELS = json.load(open(os.path.join(ROOT, "models.json")))
 ENV = json.load(open(os.path.join(ROOT, "tools", "env.json")))
 CONSTRAINT_KEYS = ("type", "h_px", "pivot", "anims", "poses", "tri_budget",
                    "factor", "collision", "method", "of", "vary", "variants",
-                   "count", "skeleton", "attachments", "prop")
+                   "count", "skeleton", "attachments", "prop", "guide_from")
 FRINGE_RATIO_MAX = 0.02
 
 _session = None
@@ -36,6 +36,12 @@ def matte(img):
     """BiRefNet matting -> RGBA (rembg session, lazily built)."""
     global _session
     if _session is None:
+        # onnxruntime loads cudnn64_9.dll by name via the process PATH; torch
+        # ships it but doesn't register its lib dir -> prepend before import
+        torch_lib = os.path.join(sys.prefix, "Lib", "site-packages",
+                                 "torch", "lib")
+        if os.path.isdir(torch_lib) and torch_lib not in os.environ["PATH"]:
+            os.environ["PATH"] = torch_lib + os.pathsep + os.environ["PATH"]
         from rembg import new_session
         _session = new_session(MODELS["matting"]["birefnet"])
     from rembg import remove
@@ -81,6 +87,17 @@ def tight_crop(img, pad=2):
     if not bb: return img
     return img.crop((max(0, bb[0]-pad), max(0, bb[1]-pad),
                      min(img.width, bb[2]+pad), min(img.height, bb[3]+pad)))
+
+def cover_crop(img, tw, th):
+    """Center-biased cover-crop to the target aspect, then resize."""
+    ta = tw / th
+    if img.width / img.height > ta:
+        nw = int(img.height * ta)
+        img = img.crop(((img.width - nw) // 2, 0, (img.width + nw) // 2, img.height))
+    else:
+        nh = int(img.width / ta)
+        img = img.crop((0, (img.height - nh) // 2, img.width, (img.height + nh) // 2))
+    return img.resize((tw, th), Image.LANCZOS)
 
 def align_to_sprite(render_png, beauty_png, size):
     """Crop a _render pass to the beauty alpha bbox, resize to the sprite."""
@@ -183,7 +200,7 @@ def main(cid):
     if t == "sprite":
         manifest["pivot"] = b.get("pivot", "feet")
         manifest["h_px"] = b.get("h_px")
-        manifest["poses"] = [name_of(p) for p in b["poses"]]
+        manifest["poses"] = [name_of(p) for p in (b.get("poses") or ["idle"])]
         fringes, ratios = {}, {}
         for pose in manifest["poses"]:
             src = os.path.join(cdir, "accepted", f"{pose}.png")
@@ -208,8 +225,12 @@ def main(cid):
         base_id = b["of"]
         bdir = os.path.join(ROOT, "pipeline", "components", base_id)
         srcdir = os.path.join(bdir, "processed")
-        base_man = json.load(open(os.path.join(bdir, "manifest.json")))
-        manifest["inputs"][f"{base_id}/manifest.json"] = sha(os.path.join(bdir, "manifest.json"))
+        bman_path = os.path.join(bdir, "manifest.json")
+        if not os.path.exists(bman_path):
+            sys.exit(f"{cid}: base '{base_id}' has no manifest.json — run "
+                     f"extract.py {base_id} first")
+        base_man = json.load(open(bman_path))
+        manifest["inputs"][f"{base_id}/manifest.json"] = sha(bman_path)
         poses = base_man.get("poses") or [
             f[len("sprite_"):-4] for f in sorted(os.listdir(srcdir))
             if f.startswith("sprite_") and not f.endswith("_n.png")]
@@ -219,68 +240,128 @@ def main(cid):
         mdir = os.path.join(cdir, "candidates", "_render")
         manifest.update({"of": base_id, "method": method, "variants": [],
                          "targets": {}})
-        coverage = {}
-        for v in variants:
-            vid = v["id"]
-            targets = {r: resolve_ref(ROOT, v[r]) if str(v[r]).startswith("@") else v[r]
-                       for r in b.get("vary", []) if r in v}
-            manifest["targets"][vid] = targets
-            outdir = os.path.join(proc, vid)
-            os.makedirs(outdir, exist_ok=True)
-            for pose in poses:
-                sp = os.path.join(srcdir, f"sprite_{pose}.png")
-                if not os.path.exists(sp):
-                    continue
-                img = Image.open(sp).convert("RGBA")
-                a = np.asarray(img).astype(np.float32)
-                alpha = (a[..., 3] > 128).astype(np.float32)
-                def geom(region):
-                    mp = os.path.join(mdir, f"{pose}_mask_{region}.png")
-                    if not os.path.exists(mp):
-                        sys.exit(f"{cid}: missing {mp} — run gen_component {cid} first")
-                    return np.asarray(align_to_sprite(
-                        mp, os.path.join(mdir, f"{pose}_beauty.png"), img.size)
-                        .convert("L"), np.float32) / 255.0
-                for region, hexcol in targets.items():
-                    if method == "parts":
-                        rspec = b.get("regions", {}).get(region, {})
-                        rspec = rspec if isinstance(rspec, dict) else {}
-                        # geometry says WHERE the region can be; the color
-                        # gate rejects painted pixels that aren't region
-                        # paint (skin-toned hands under sleeve geometry)
-                        mk = geom(region) * color_gate(a, rspec)
-                        if rspec.get("clip_below"):
-                            rows = np.where(geom(rspec["clip_below"]).max(1) > 0.5)[0]
-                            if rows.size:
-                                mk[rows.min():, :] = 0
-                        mk = np.asarray(Image.fromarray((mk * 255).astype(np.uint8))
-                                        .filter(ImageFilter.GaussianBlur(1.2)),
-                                        np.float32) / 255.0
-                    elif region == "coat":
-                        mk = hue_mask(a)
-                    else:
-                        continue  # palette method only knows the coat
-                    mk = mk * alpha
-                    coverage[f"{vid}/{pose}/{region}"] = round(float(mk.sum() / max(alpha.sum(), 1)), 4)
-                    a = recolor(a, mk, hex_rgb(hexcol))
-                Image.fromarray(a.astype(np.uint8), "RGBA").save(
-                    os.path.join(outdir, f"sprite_{pose}.png"))
-                np_ = os.path.join(srcdir, f"sprite_{pose}_n.png")
-                if os.path.exists(np_):
-                    shutil.copyfile(np_, os.path.join(outdir, f"sprite_{pose}_n.png"))
-            manifest["variants"].append(vid)
-        manifest["metrics"]["region_coverage"] = coverage
+        if method == "controlnet":
+            # regenerated art, not a recolor: the variant's own accepted/
+            # holds one curated pick per member — accepted/<vid>_<pose>.png
+            # for sprite bases, accepted/<vid>.png for ui_image bases —
+            # which then runs the same post the type's own art would.
+            bb = json.load(open(os.path.join(bdir, "brief.json")))
+            base_type = bb.get("type", "sprite")
+            if base_type not in ("sprite", "ui_image"):
+                sys.exit(f"{cid}: controlnet variants of '{base_type}' bases "
+                         f"({base_id}) are unsupported")
+            tw = bb.get("w_px") or bb.get("h_px") or b.get("w_px") \
+                or b.get("h_px") or 256
+            th = bb.get("h_px") or b.get("h_px") or 256
+            fringes, ratios = {}, {}
+            for v in variants:
+                vid = v["id"]
+                manifest["targets"][vid] = {
+                    r: resolve_ref(ROOT, v[r])
+                    if str(v[r]).startswith("@") else v[r]
+                    for r in b.get("vary", []) if r in v}
+                outdir = os.path.join(proc, vid)
+                os.makedirs(outdir, exist_ok=True)
+                if base_type == "ui_image":
+                    apath = f"accepted/{vid}.png"
+                    src = os.path.join(cdir, "accepted", f"{vid}.png")
+                    if not os.path.exists(src):
+                        sys.exit(f"{cid}: missing {apath} — curate a "
+                                 f"gen_variant candidate for variant '{vid}' "
+                                 "into accepted/ first")
+                    manifest["inputs"][apath] = sha(src)
+                    cover_crop(Image.open(src).convert("RGB"), tw, th).save(
+                        os.path.join(outdir, "portrait.png"))
+                else:
+                    for pose in poses:
+                        sp = os.path.join(srcdir, f"sprite_{pose}.png")
+                        if not os.path.exists(sp):
+                            continue
+                        apath = f"accepted/{vid}_{pose}.png"
+                        src = os.path.join(cdir, "accepted",
+                                           f"{vid}_{pose}.png")
+                        if not os.path.exists(src):
+                            sys.exit(f"{cid}: missing {apath} — curate a "
+                                     f"gen_variant candidate for variant "
+                                     f"'{vid}' pose '{pose}' first")
+                        manifest["inputs"][apath] = sha(src)
+                        img, px, ratio = despill_erode(tight_crop(matte(
+                            load(cdir, "accepted", f"{vid}_{pose}.png"))))
+                        img.save(os.path.join(outdir, f"sprite_{pose}.png"))
+                        fringes[f"{vid}/{pose}"] = px
+                        ratios[f"{vid}/{pose}"] = ratio
+                        np_ = os.path.join(srcdir, f"sprite_{pose}_n.png")
+                        if os.path.exists(np_):
+                            shutil.copyfile(np_, os.path.join(
+                                outdir, f"sprite_{pose}_n.png"))
+                manifest["variants"].append(vid)
+            if base_type == "sprite":
+                manifest["fringe_px"] = fringes
+                manifest["metrics"]["fringe_ratio"] = ratios
+                manifest["gate"] = {"fringe_ok": all(
+                    r <= FRINGE_RATIO_MAX for r in ratios.values())}
+                manifest["gate_mode"]["fringe_ok"] = "enforced"
+        else:
+            coverage = {}
+            for v in variants:
+                vid = v["id"]
+                targets = {r: resolve_ref(ROOT, v[r]) if str(v[r]).startswith("@") else v[r]
+                           for r in b.get("vary", []) if r in v}
+                manifest["targets"][vid] = targets
+                outdir = os.path.join(proc, vid)
+                os.makedirs(outdir, exist_ok=True)
+                for pose in poses:
+                    sp = os.path.join(srcdir, f"sprite_{pose}.png")
+                    if not os.path.exists(sp):
+                        continue
+                    img = Image.open(sp).convert("RGBA")
+                    a = np.asarray(img).astype(np.float32)
+                    alpha = (a[..., 3] > 128).astype(np.float32)
+                    def geom(region):
+                        mp = os.path.join(mdir, f"{pose}_mask_{region}.png")
+                        if not os.path.exists(mp):
+                            sys.exit(f"{cid}: missing {mp} — run gen_component {cid} first")
+                        return np.asarray(align_to_sprite(
+                            mp, os.path.join(mdir, f"{pose}_beauty.png"), img.size)
+                            .convert("L"), np.float32) / 255.0
+                    for region, hexcol in targets.items():
+                        if method == "parts":
+                            rspec = b.get("regions", {}).get(region, {})
+                            rspec = rspec if isinstance(rspec, dict) else {}
+                            # geometry says WHERE the region can be; the color
+                            # gate rejects painted pixels that aren't region
+                            # paint (skin-toned hands under sleeve geometry)
+                            mk = geom(region) * color_gate(a, rspec)
+                            if rspec.get("clip_below"):
+                                rows = np.where(geom(rspec["clip_below"]).max(1) > 0.5)[0]
+                                if rows.size:
+                                    mk[rows.min():, :] = 0
+                            mk = np.asarray(Image.fromarray((mk * 255).astype(np.uint8))
+                                            .filter(ImageFilter.GaussianBlur(1.2)),
+                                            np.float32) / 255.0
+                        elif region == "coat":
+                            mk = hue_mask(a)
+                        else:
+                            continue  # palette method only knows the coat
+                        mk = mk * alpha
+                        coverage[f"{vid}/{pose}/{region}"] = round(float(mk.sum() / max(alpha.sum(), 1)), 4)
+                        a = recolor(a, mk, hex_rgb(hexcol))
+                    Image.fromarray(a.astype(np.uint8), "RGBA").save(
+                        os.path.join(outdir, f"sprite_{pose}.png"))
+                    np_ = os.path.join(srcdir, f"sprite_{pose}_n.png")
+                    if os.path.exists(np_):
+                        shutil.copyfile(np_, os.path.join(outdir, f"sprite_{pose}_n.png"))
+                manifest["variants"].append(vid)
+            manifest["metrics"]["region_coverage"] = coverage
         manifest["poses"] = poses
 
     elif t == "ui_image":
         src = os.path.join(cdir, "accepted", "src.png")
         manifest["inputs"]["accepted/src.png"] = sha(src)
         img = Image.open(src).convert("RGB")
-        s = min(img.size)
-        img = img.crop(((img.width-s)//2, (img.height-s)//2,
-                        (img.width+s)//2, (img.height+s)//2))
-        img = img.resize((b.get("h_px", 256), b.get("h_px", 256)), Image.LANCZOS)
-        img.save(os.path.join(proc, "portrait.png"))
+        tw, th = b.get("w_px", b.get("h_px", 256)), b.get("h_px", 256)
+        # cover-crop to the target aspect, then resize (center-biased)
+        cover_crop(img, tw, th).save(os.path.join(proc, "portrait.png"))
 
     elif t == "parallax":
         src = os.path.join(cdir, "accepted", "src.png")

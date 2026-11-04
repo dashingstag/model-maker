@@ -57,33 +57,19 @@
     "rows": [
       {
         "id": "terrace",
-        "y": 648
-      },
-      {
-        "id": "ledge",
-        "y": 590
+        "y": 1050
       }
     ],
-    "xx_immortal_m_row": "terrace",
-    "xx_immortal_f_row": "terrace",
-    "xx_azure_sage_row": "terrace",
-    "xx_immortal_m_x": 460,
-    "xx_immortal_f_x": 760,
-    "xx_azure_sage_x": 240,
-    "spacing_px": 220,
+    "spacing_px": 520,
+    "xx_azure_sage_x": 420,
+    "xx_immortal_m_x": 980,
+    "xx_immortal_f_x": 1540,
+    "patroller": "xx_immortal_m",
     "patrol": {
-      "speed_px": 60,
-      "from_x": -100,
-      "to_x": 1250
-    },
-    "light_anchor": {
-      "of": "xx_immortal_m",
-      "offset": [
-        30,
-        -300
-      ]
-    },
-    "feet_pivot": true
+      "speed_px": 110,
+      "from_x": 780,
+      "to_x": 1200
+    }
   },
   "components": [
     "xx_peaks_far",

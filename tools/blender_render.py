@@ -126,10 +126,15 @@ def set_pass(mat):
         o.data.materials.append(mat if mat else (mats[0] if mats else DEPTH_MAT))
 
 # ---------- render loop ----------
+props = {o.name: o for o in bpy.data.objects if o.name.startswith("prop_")}
+
 for pose, cfg in SPEC["poses"].items():
     for pb in arm.pose.bones:
         pb.rotation_mode = 'XYZ'
         pb.rotation_euler = cfg["bones"].get(pb.name, (0, 0, 0))
+        pb.location = cfg.get("loc", {}).get(pb.name, (0, 0, 0))
+    for name, o in props.items():
+        o.hide_render = name[5:] not in cfg.get("props", [])
     bpy.context.view_layer.update()
     for suffix, mat in [("beauty", None), ("depth", DEPTH_MAT), ("normal", NORMAL_MAT)]:
         if suffix not in PASSES:

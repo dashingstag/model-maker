@@ -1,0 +1,24 @@
+{
+  "verdict": "pass",
+  "actor": "devin:curator",
+  "ts": 1793731923.586111,
+  "checks": {
+    "on-model across all poses (same face/outfit/props)": "pass",
+    "no halo or fringe against the lit backdrop": "pass",
+    "feet pivot sits on the ground line": "pass",
+    "has: serpentine curve": "pass",
+    "has: gold-thread edge": "pass",
+    "has: continuous ribbon": "pass",
+    "absent: hands holding it": "pass",
+    "absent: broken ribbon": "pass",
+    "absent: text": "pass"
+  },
+  "flags": [
+    "reads as coiled ornament rather than flowing ribbon"
+  ],
+  "note": "isolated prop verified",
+  "reviewed_files": [
+    "unit_render/lit.png",
+    "unit_render/neutral.png"
+  ]
+}

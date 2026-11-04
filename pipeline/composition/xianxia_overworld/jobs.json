@@ -1,0 +1,323 @@
+{
+  "mode": "all",
+  "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\xianxia_overworld",
+  "provenance": {
+    "manifests": {
+      "xx_peaks_far": "sha256:e93a97a4fd9cfe4275d94346f2acb878029307f62e0e59d34508339687c07dd4",
+      "xx_falls_mid": "sha256:3e05b6f9156f0af8f2f9d21840ff5781421a41fab16c27153d4b69c06669357f",
+      "xx_terrace": "sha256:14a4d394e9446e1ca5422cd53cd058c8c7e5c553496ea28948d085f383c07df2",
+      "xx_immortal_m": "sha256:1b888ec27d46ba9d311975937afe05a01b911c3d1e999c804f481e7b52cc3380",
+      "xx_immortal_f": "sha256:37f12f7d971768b14ee82b0cfe1131105e7bdd8584884c7ea1cba7609583b5da",
+      "xx_m_robes": "sha256:30e1dd4cbd9e1c76035f60fbbcbf979c6c2acb6032cf9f4bc515d1e4bade6ff3",
+      "xx_f_robes": "sha256:86375671e6347245d3cc34db84c1efb037a6d95f3ed4fb82f45f6faf7bf56daf",
+      "xx_m_hair": "sha256:a7215a4a79b96cd254fbadbc068c0ad8fca7ff5f551c5e2d95c39499b60293b0",
+      "xx_f_hair": "sha256:0e87baedc0b0ff59d8a2eb465a9ad6ea299b71f720786cf0cc647cc4c408bdb8",
+      "xx_azure_sage": "sha256:9bea8fd740546409aa0cebfca4808f84793ff910aeff67e9a57b72f53ddebde0",
+      "xx_sage_staff": "sha256:0925835f2ce50789594e36282086535c150a84f45ffa318a85eeb4f5e86aa0da",
+      "xx_jian": "sha256:8663844bce1214a4dea0517d89c394802b2b2bfd95df67eaa120a723e23c23aa",
+      "xx_ribbon": "sha256:5b343f550f0e59ade298fdf064c1e8ad55e311db938205f2991483d094c5ffaf"
+    },
+    "goal": "xianxia_overworld"
+  },
+  "rig": {
+    "name": "std_xianxia",
+    "canvas_modulate": "#b8b0cc",
+    "light_2d": {
+      "color": "#ffd9a0",
+      "energy": 2.0,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2a2a38"
+  },
+  "unit_jobs": [
+    {
+      "id": "xx_azure_sage",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_azure_sage",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_azure_sage\\unit_render",
+      "h_px": 400
+    },
+    {
+      "id": "xx_f_hair/ornate_updo",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_f_hair/ornate_updo",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_f_hair\\unit_render\\ornate_updo",
+      "h_px": 360
+    },
+    {
+      "id": "xx_f_hair/phoenix_crown",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_f_hair/phoenix_crown",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_f_hair\\unit_render\\phoenix_crown",
+      "h_px": 360
+    },
+    {
+      "id": "xx_f_hair/twin_waterfall",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_f_hair/twin_waterfall",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_f_hair\\unit_render\\twin_waterfall",
+      "h_px": 360
+    },
+    {
+      "id": "xx_f_robes/moon_gold",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_f_robes/moon_gold",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_f_robes\\unit_render\\moon_gold",
+      "h_px": 360
+    },
+    {
+      "id": "xx_f_robes/teal_phoenix",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_f_robes/teal_phoenix",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_f_robes\\unit_render\\teal_phoenix",
+      "h_px": 360
+    },
+    {
+      "id": "xx_f_robes/winged_ascension",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_f_robes/winged_ascension",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_f_robes\\unit_render\\winged_ascension",
+      "h_px": 360
+    },
+    {
+      "id": "xx_falls_mid",
+      "type": "parallax",
+      "assets": "res://assets/components/xx_falls_mid",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_falls_mid\\unit_render"
+    },
+    {
+      "id": "xx_immortal_f",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_immortal_f",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_immortal_f\\unit_render",
+      "h_px": 380
+    },
+    {
+      "id": "xx_immortal_m",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_immortal_m",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_immortal_m\\unit_render",
+      "h_px": 400
+    },
+    {
+      "id": "xx_jian",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_jian",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_jian\\unit_render",
+      "h_px": 280
+    },
+    {
+      "id": "xx_m_hair/long_flow",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_m_hair/long_flow",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_m_hair\\unit_render\\long_flow",
+      "h_px": 360
+    },
+    {
+      "id": "xx_m_hair/jade_topknot",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_m_hair/jade_topknot",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_m_hair\\unit_render\\jade_topknot",
+      "h_px": 360
+    },
+    {
+      "id": "xx_m_hair/ribbon_halfup",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_m_hair/ribbon_halfup",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_m_hair\\unit_render\\ribbon_halfup",
+      "h_px": 360
+    },
+    {
+      "id": "xx_m_robes/moon_frost",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_m_robes/moon_frost",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_m_robes\\unit_render\\moon_frost",
+      "h_px": 360
+    },
+    {
+      "id": "xx_m_robes/azure_crane",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_m_robes/azure_crane",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_m_robes\\unit_render\\azure_crane",
+      "h_px": 360
+    },
+    {
+      "id": "xx_m_robes/ember_tribunal",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_m_robes/ember_tribunal",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_m_robes\\unit_render\\ember_tribunal",
+      "h_px": 360
+    },
+    {
+      "id": "xx_peaks_far",
+      "type": "parallax",
+      "assets": "res://assets/components/xx_peaks_far",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_peaks_far\\unit_render"
+    },
+    {
+      "id": "xx_ribbon",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_ribbon",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_ribbon\\unit_render",
+      "h_px": 300
+    },
+    {
+      "id": "xx_sage_staff",
+      "type": "sprite",
+      "assets": "res://assets/components/xx_sage_staff",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_sage_staff\\unit_render",
+      "h_px": 300
+    },
+    {
+      "id": "xx_terrace",
+      "type": "parallax",
+      "assets": "res://assets/components/xx_terrace",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_terrace\\unit_render"
+    }
+  ],
+  "composition": {
+    "components_dir": "res://assets/components",
+    "layout": {
+      "rows": [
+        {
+          "id": "terrace",
+          "y": 1050
+        }
+      ],
+      "spacing_px": 520,
+      "xx_azure_sage_x": 420,
+      "xx_immortal_m_x": 980,
+      "xx_immortal_f_x": 1540,
+      "patroller": "xx_immortal_m",
+      "patrol": {
+        "speed_px": 110,
+        "from_x": 780,
+        "to_x": 1200
+      }
+    },
+    "members": [
+      {
+        "id": "xx_immortal_m",
+        "kind": "sprite",
+        "dir": "res://assets/components/xx_immortal_m",
+        "x": 980,
+        "row": "terrace",
+        "y": 1050,
+        "h_px": 400,
+        "walk": [
+          "cloud_step"
+        ],
+        "patrol": true
+      },
+      {
+        "id": "xx_immortal_f",
+        "kind": "sprite",
+        "dir": "res://assets/components/xx_immortal_f",
+        "x": 1540,
+        "row": "terrace",
+        "y": 1050,
+        "h_px": 380,
+        "walk": [],
+        "patrol": false
+      },
+      {
+        "id": "xx_azure_sage",
+        "kind": "sprite",
+        "dir": "res://assets/components/xx_azure_sage",
+        "x": 420,
+        "row": "terrace",
+        "y": 1050,
+        "h_px": 400,
+        "walk": [],
+        "patrol": false
+      }
+    ],
+    "dialogue": null,
+    "layers": [
+      {
+        "id": "xx_peaks_far",
+        "factor": 0.08,
+        "min_visible_pct": 40,
+        "y_off": 0
+      },
+      {
+        "id": "xx_falls_mid",
+        "factor": 0.25,
+        "min_visible_pct": null,
+        "y_off": 0
+      },
+      {
+        "id": "xx_terrace",
+        "factor": 0.55,
+        "min_visible_pct": null,
+        "y_off": 380
+      }
+    ],
+    "shots": [
+      "vista_all",
+      "terrace_pair",
+      "meditation_close",
+      "sword_salute",
+      "sleeve_dance",
+      "sage_channel",
+      "low_light"
+    ],
+    "variants": {
+      "xx_f_hair": [
+        "ornate_updo",
+        "phoenix_crown",
+        "twin_waterfall"
+      ],
+      "xx_f_robes": [
+        "moon_gold",
+        "teal_phoenix",
+        "winged_ascension"
+      ],
+      "xx_m_hair": [
+        "long_flow",
+        "jade_topknot",
+        "ribbon_halfup"
+      ],
+      "xx_m_robes": [
+        "moon_frost",
+        "azure_crane",
+        "ember_tribunal"
+      ]
+    },
+    "glbs": {},
+    "shot_expect": {
+      "vista_all": {
+        "same_row_overlap_events": 0
+      },
+      "terrace_pair": {
+        "same_row_overlap_events": 0
+      },
+      "sage_channel": {
+        "same_row_overlap_events": 0
+      },
+      "low_light": {
+        "lit_coverage_min": 0.05
+      }
+    },
+    "action_shots": [
+      {
+        "name": "salute_sync",
+        "cast": {
+          "bearer": "xx_immortal_m",
+          "witness": "xx_immortal_f"
+        },
+        "captures": [
+          {
+            "t": 0.6,
+            "camera": "terrace"
+          }
+        ],
+        "expect": {
+          "both_on_row": "terrace",
+          "min_gap_px": 80
+        }
+      }
+    ]
+  }
+}

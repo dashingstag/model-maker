@@ -41,13 +41,23 @@ python tools/publish.py <goal> --wait 60
 
 ## Per-type notes
 
-- `sprite_variant` — **transform-only**: skip C1 entirely (gen prints a
-  notice and exits); go straight to extract after the `of` base is
-  `processed`. Locks its base automatically.
-- `sprite` — C1 locks `captain_3d` too (depth source); poses from
-  `brief.json` drive Blender `_render/` depth + `_n` normals.
-- `ui_image`/`parallax` — plain txt2img; accepted file must be `src.png`.
-- `glb` — C1 is `blender_pirate.py` → `build/` + `export/`; extract
+- `sprite_variant` — route by `method`: `controlnet` generates via
+  `tools/gen_variant.py <id> --goal <g>` (i2i repaint per variant×pose,
+  needs base `accepted/` first; denoise per variant/component — 0.45
+  preserves too much, 0.7 repaints colorways); `parts`/`palette` are
+  transform-only — skip C1, go straight to extract once the `of` base is
+  `processed`. Locks its base automatically. Accepted files:
+  `accepted/<variant>_<pose>.png` (sprite bases), `accepted/<variant>.png`
+  (ui bases).
+- `sprite` — depth guide is opt-in via `guide_from` (locks the guide);
+  without it, poses run guideless i2i from `accepted/idle.png`. Warning:
+  guideless i2i at 0.55–0.62 preserves the composition skeleton — poses
+  change weakly and baked-in props do not materialize (BUG#13).
+- `sprite` + `prop: true` — object-only prompts (no wielder); pose list
+  may be omitted → single `idle` pose.
+- `ui_image`/`parallax` — plain txt2img at `w_px`×`h_px` when authored;
+  accepted file must be `src.png`.
+- `glb` — C1 is the blender builder → `build/` + `export/`; extract
   validates tris vs `tri_budget` and lists animations.
 
 ## Gates (don't skip — evidence, not vibes)

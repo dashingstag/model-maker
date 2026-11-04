@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "actor": "devin:curator",
+  "ts": 1793731923.9390602,
+  "checks": {
+    "no characters or text in the layer": "pass",
+    "colors stay in palette under the rig": "pass",
+    "has: flat stone floor strip": "pass",
+    "has: ornate railing": "pass",
+    "has: abode architecture": "pass",
+    "absent: characters": "pass",
+    "absent: text": "pass",
+    "absent: blocked floor area": "pass"
+  },
+  "flags": [
+    "auto-curated; floor strip confirmed flat in unit render (BUG#16)"
+  ],
+  "note": "layer verified: pavilion, floor strip, no characters",
+  "reviewed_files": [
+    "unit_render/lit.png",
+    "unit_render/neutral.png"
+  ]
+}

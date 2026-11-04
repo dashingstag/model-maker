@@ -1,0 +1,93 @@
+{
+  "name": "xianxia_poses",
+  "convention": "euler XYZ radians on humanoid_v1 pose bones; +X swings the limb forward (toward -Y facing); loc = pose-bone-space offset (root Y = world up); props lists which prop_* meshes render",
+  "poses": {
+    "idle": {
+      "bones": {}
+    },
+    "meditate_lotus": {
+      "loc": {"root": [0, -0.42, 0]},
+      "bones": {
+        "thigh.l": [1.30, 0, 0.55], "thigh.r": [1.30, 0, -0.55],
+        "shin.l": [1.90, 0, 0],     "shin.r": [1.90, 0, 0],
+        "upper_arm.l": [0.30, 0, -0.10], "upper_arm.r": [0.30, 0, 0.10],
+        "forearm.l": [-0.95, 0, 0],      "forearm.r": [-0.95, 0, 0],
+        "spine": [0.08, 0, 0], "head": [0.12, 0, 0]
+      }
+    },
+    "meditate": {
+      "loc": {"root": [0, -0.30, 0]},
+      "bones": {
+        "thigh.l": [1.15, 0, 0.45], "thigh.r": [1.15, 0, -0.45],
+        "shin.l": [1.75, 0, 0],     "shin.r": [1.75, 0, 0],
+        "upper_arm.l": [0.30, 0, -0.10], "upper_arm.r": [0.30, 0, 0.10],
+        "forearm.l": [-0.95, 0, 0],      "forearm.r": [-0.95, 0, 0],
+        "spine": [0.06, 0, 0], "head": [0.10, 0, 0]
+      }
+    },
+    "seated_meditation": {
+      "loc": {"root": [0, -0.42, 0]},
+      "bones": {
+        "thigh.l": [1.30, 0, 0.55], "thigh.r": [1.30, 0, -0.55],
+        "shin.l": [1.90, 0, 0],     "shin.r": [1.90, 0, 0],
+        "upper_arm.l": [0.25, 0, -0.10], "upper_arm.r": [0.25, 0, 0.10],
+        "forearm.l": [-1.05, 0, 0],      "forearm.r": [-1.05, 0, 0],
+        "spine": [0.05, 0, 0], "head": [0.15, 0, 0]
+      }
+    },
+    "sword_salute": {
+      "props": ["sword"],
+      "bones": {
+        "upper_arm.r": [0.75, 0, -0.20], "forearm.r": [1.50, 0, 0.15],
+        "upper_arm.l": [-0.05, 0, 0.15], "forearm.l": [0.25, 0, 0],
+        "thigh.l": [0.15, 0, 0], "thigh.r": [-0.10, 0, 0],
+        "head": [0.06, 0, 0]
+      }
+    },
+    "sword_stance": {
+      "props": ["sword"],
+      "bones": {
+        "upper_arm.r": [1.30, 0, -0.15], "forearm.r": [0.20, 0, 0],
+        "upper_arm.l": [0.55, 0, 0.30],  "forearm.l": [1.00, 0, -0.15],
+        "thigh.l": [0.35, 0, 0.10], "shin.l": [0.30, 0, 0],
+        "thigh.r": [-0.15, 0, -0.10], "shin.r": [0.10, 0, 0],
+        "spine": [0.08, 0, 0]
+      }
+    },
+    "cloud_step": {
+      "bones": {
+        "thigh.l": [0.55, 0, 0], "shin.l": [0.90, 0, 0],
+        "thigh.r": [-0.20, 0, 0], "shin.r": [0.15, 0, 0],
+        "upper_arm.l": [-0.30, 0, 0.20], "upper_arm.r": [0.30, 0, -0.20],
+        "forearm.l": [0.25, 0, 0], "forearm.r": [0.35, 0, 0],
+        "spine": [0.10, 0, 0]
+      }
+    },
+    "sleeve_dance": {
+      "bones": {
+        "upper_arm.l": [1.15, 0, -0.55], "upper_arm.r": [1.15, 0, 0.55],
+        "forearm.l": [0.30, 0, -0.35],   "forearm.r": [0.30, 0, 0.35],
+        "spine": [-0.08, 0, 0], "head": [-0.12, 0, 0],
+        "thigh.l": [0.20, 0, 0.15], "thigh.r": [-0.10, 0, -0.10]
+      }
+    },
+    "channel_water": {
+      "bones": {
+        "upper_arm.l": [0.85, 0, -0.15], "upper_arm.r": [0.85, 0, 0.15],
+        "forearm.l": [0.85, 0, 0.10],    "forearm.r": [0.85, 0, -0.10],
+        "spine": [0.05, 0, 0],
+        "thigh.l": [0.10, 0, 0.10], "thigh.r": [0.10, 0, -0.10]
+      }
+    },
+    "staff_stance": {
+      "props": ["staff"],
+      "bones": {
+        "upper_arm.r": [0.30, 0, -0.25], "forearm.r": [0.55, 0, 0],
+        "upper_arm.l": [-0.05, 0, 0.15], "forearm.l": [0.20, 0, 0],
+        "thigh.l": [0.25, 0, 0.10], "shin.l": [0.20, 0, 0],
+        "thigh.r": [-0.15, 0, -0.10],
+        "spine": [0.06, 0, 0]
+      }
+    }
+  }
+}

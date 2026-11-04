@@ -1,0 +1,186 @@
+{
+  "action_shots": {
+    "note": "rigged-glb action clock is backlog; declared shots skipped",
+    "status": "not_implemented"
+  },
+  "composition": {
+    "cross_row_occlusions": 0,
+    "draw_calls": 7,
+    "focus_lit_coverage": 0.999,
+    "glb_pending": [],
+    "hero_visible_pct": 52.8,
+    "min_gap_px": 31.5,
+    "missing_assets": [],
+    "patroller": "xx_immortal_m",
+    "same_row_overlap_events": 0,
+    "shots": [
+      "vista_all",
+      "terrace_pair",
+      "meditation_close",
+      "sword_salute",
+      "sleeve_dance",
+      "sage_channel",
+      "low_light"
+    ],
+    "sprite_count": 3,
+    "ui_count": 0
+  },
+  "provenance": {
+    "godot_version": "4.6.3-stable (official)",
+    "inputs": {
+      "goal": "xianxia_overworld",
+      "manifests": {
+        "xx_azure_sage": "sha256:9bea8fd740546409aa0cebfca4808f84793ff910aeff67e9a57b72f53ddebde0",
+        "xx_f_hair": "sha256:0e87baedc0b0ff59d8a2eb465a9ad6ea299b71f720786cf0cc647cc4c408bdb8",
+        "xx_f_robes": "sha256:86375671e6347245d3cc34db84c1efb037a6d95f3ed4fb82f45f6faf7bf56daf",
+        "xx_falls_mid": "sha256:3e05b6f9156f0af8f2f9d21840ff5781421a41fab16c27153d4b69c06669357f",
+        "xx_immortal_f": "sha256:37f12f7d971768b14ee82b0cfe1131105e7bdd8584884c7ea1cba7609583b5da",
+        "xx_immortal_m": "sha256:1b888ec27d46ba9d311975937afe05a01b911c3d1e999c804f481e7b52cc3380",
+        "xx_jian": "sha256:8663844bce1214a4dea0517d89c394802b2b2bfd95df67eaa120a723e23c23aa",
+        "xx_m_hair": "sha256:a7215a4a79b96cd254fbadbc068c0ad8fca7ff5f551c5e2d95c39499b60293b0",
+        "xx_m_robes": "sha256:30e1dd4cbd9e1c76035f60fbbcbf979c6c2acb6032cf9f4bc515d1e4bade6ff3",
+        "xx_peaks_far": "sha256:e93a97a4fd9cfe4275d94346f2acb878029307f62e0e59d34508339687c07dd4",
+        "xx_ribbon": "sha256:5b343f550f0e59ade298fdf064c1e8ad55e311db938205f2991483d094c5ffaf",
+        "xx_sage_staff": "sha256:0925835f2ce50789594e36282086535c150a84f45ffa318a85eeb4f5e86aa0da",
+        "xx_terrace": "sha256:14a4d394e9446e1ca5422cd53cd058c8c7e5c553496ea28948d085f383c07df2"
+      }
+    },
+    "job_file": "d565a4b19b9c",
+    "mode": "all",
+    "timestamp": "2026-11-04T11:06:34"
+  },
+  "shot_expect": {
+    "low_light": {
+      "lit_coverage_min": {
+        "pass": true,
+        "target": 0.05,
+        "value": 0.633
+      }
+    },
+    "sage_channel": {
+      "same_row_overlap_events": {
+        "pass": true,
+        "target": 0.0,
+        "value": 0
+      }
+    },
+    "terrace_pair": {
+      "same_row_overlap_events": {
+        "pass": true,
+        "target": 0.0,
+        "value": 0
+      }
+    },
+    "vista_all": {
+      "same_row_overlap_events": {
+        "pass": true,
+        "target": 0.0,
+        "value": 0
+      }
+    }
+  },
+  "unit": {
+    "xx_azure_sage": {
+      "lit_coverage": 0.964,
+      "sat_mean": 0.235,
+      "type": "sprite"
+    },
+    "xx_f_hair/ornate_updo": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.291,
+      "type": "sprite"
+    },
+    "xx_f_hair/phoenix_crown": {
+      "lit_coverage": 0.983,
+      "sat_mean": 0.325,
+      "type": "sprite"
+    },
+    "xx_f_hair/twin_waterfall": {
+      "lit_coverage": 0.999,
+      "sat_mean": 0.366,
+      "type": "sprite"
+    },
+    "xx_f_robes/moon_gold": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.322,
+      "type": "sprite"
+    },
+    "xx_f_robes/teal_phoenix": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.259,
+      "type": "sprite"
+    },
+    "xx_f_robes/winged_ascension": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.348,
+      "type": "sprite"
+    },
+    "xx_falls_mid": {
+      "lit_coverage": 0.8,
+      "type": "parallax"
+    },
+    "xx_immortal_f": {
+      "lit_coverage": 0.998,
+      "sat_mean": 0.278,
+      "type": "sprite"
+    },
+    "xx_immortal_m": {
+      "lit_coverage": 0.998,
+      "sat_mean": 0.153,
+      "type": "sprite"
+    },
+    "xx_jian": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.131,
+      "type": "sprite"
+    },
+    "xx_m_hair/jade_topknot": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.153,
+      "type": "sprite"
+    },
+    "xx_m_hair/long_flow": {
+      "lit_coverage": 0.997,
+      "sat_mean": 0.157,
+      "type": "sprite"
+    },
+    "xx_m_hair/ribbon_halfup": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.182,
+      "type": "sprite"
+    },
+    "xx_m_robes/azure_crane": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.152,
+      "type": "sprite"
+    },
+    "xx_m_robes/ember_tribunal": {
+      "lit_coverage": 0.965,
+      "sat_mean": 0.33,
+      "type": "sprite"
+    },
+    "xx_m_robes/moon_frost": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.135,
+      "type": "sprite"
+    },
+    "xx_peaks_far": {
+      "lit_coverage": 0.681,
+      "type": "parallax"
+    },
+    "xx_ribbon": {
+      "lit_coverage": 1.0,
+      "sat_mean": 0.325,
+      "type": "sprite"
+    },
+    "xx_sage_staff": {
+      "lit_coverage": 0.933,
+      "sat_mean": 0.394,
+      "type": "sprite"
+    },
+    "xx_terrace": {
+      "lit_coverage": 0.835,
+      "type": "parallax"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_blade_jade",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_card_blade",
+    "vary": [
+      "aura",
+      "robe_trim",
+      "backdrop"
+    ],
+    "variants": [
+      {
+        "id": "azure_blade",
+        "aura": "@palettes/xianxia_element.colors.spirit_cyan",
+        "prompt_extra": "same swordsman, aura repainted as flowing azure water dragons and night-blue moonlight"
+      }
+    ],
+    "count": 1
+  },
+  "inputs": {
+    "xx_card_blade/manifest.json": "sha256:1ad2550bdcb7c35d628284910cfec57ce4fee2376d6669ddd4a47f69e68584b8",
+    "accepted/azure_blade.png": "sha256:caf2bd947d6d8a810d37d64dee9598c2a373ba2b1fd5a033e76d3922bdbf2383"
+  },
+  "artifacts": {
+    "processed/azure_blade/portrait.png": "sha256:2cec3efe7991c45707bc307a17a1a64a284d1532822edea13f2cc081253583c9"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_card_blade",
+  "method": "controlnet",
+  "variants": [
+    "azure_blade"
+  ],
+  "targets": {
+    "azure_blade": {
+      "aura": "#7fd8e8"
+    }
+  },
+  "poses": [],
+  "certified": {
+    "ts": 1793731962.7460334,
+    "by": "devin:curator"
+  }
+}

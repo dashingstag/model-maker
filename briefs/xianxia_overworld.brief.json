@@ -3,140 +3,447 @@
   "style": "@styles/xianxia_ethereal",
   "palette": "@palettes/xianxia_mist",
   "components": [
-    {"id": "xx_peaks_far", "type": "parallax", "factor": 0.08,
-     "hero_art": true, "min_visible_pct": 40,
-     "prompt_core": "distant floating mountain peaks crowned with ancient pagodas, rope suspension bridges between cliffs, dusk sky fading violet to peach gold, drifting stars and glowing motes",
-     "prompt_extra": "far background layer, deep atmospheric haze, small scale detail",
-     "neg_extra": "characters, people, foreground objects, waterfalls close-up",
-     "must_have": ["floating islands", "pagoda silhouettes", "warm horizon glow"],
-     "must_not": ["characters", "text", "modern structures"],
-     "seeds": 2, "review": "auto"},
-    {"id": "xx_falls_mid", "type": "parallax", "factor": 0.25,
-     "prompt_core": "waterfalls cascading off floating cliff edges into banks of luminous mist, glowing blue spirit trees on ledges, rope bridges crossing between rocks",
-     "neg_extra": "characters, people, open sky, text",
-     "must_have": ["waterfalls", "mist banks", "glowing blue foliage"],
-     "must_not": ["characters", "text", "dry cliffs"],
-     "seeds": 2, "review": "auto"},
-    {"id": "xx_terrace", "type": "parallax", "factor": 0.55,
-     "prompt_core": "stone terrace platform of an immortal abode, ornate carved railing, pagoda roof edges, glowing spirit tree beside the platform, flat walkable stone floor along the bottom of the frame",
-     "prompt_extra": "clear flat foreground strip where characters stand, side view",
-     "neg_extra": "characters, people, clutter on the floor strip, text",
-     "must_have": ["flat stone floor strip", "ornate railing", "abode architecture"],
-     "must_not": ["characters", "text", "blocked floor area"],
-     "seeds": 2, "review": "human"},
-
-    {"id": "xx_immortal_m", "type": "sprite", "h_px": 400, "pivot": "feet",
-     "prompt_core": "male immortal cultivator, long flowing white hair, ornate white and silver layered hanfu robes, jade waist ornament, serene expression, faint ethereal glow, full body",
-     "must_have": ["long white hair", "flowing layered hanfu robes", "jade waist ornament", "full body head to feet"],
-     "must_not": ["modern clothing", "wings", "extra limbs", "cropped feet", "second figure"],
-     "poses": ["idle",
-               {"name": "meditate_lotus", "prompt_extra": "seated in lotus position, hands in mudra, eyes closed, robes pooling around the body",
-                "init_from": "idle", "denoise": 0.62},
-               {"name": "sword_salute", "prompt_extra": "drawing a slender jian sword, blade angled downward in respectful salute, other hand raised in two-finger gesture",
-                "init_from": "idle", "denoise": 0.55},
-               {"name": "cloud_step", "prompt_extra": "weightless gliding stance, one foot forward, sleeves and sash streaming behind",
-                "init_from": "idle", "denoise": 0.58}],
-     "seeds": 4, "review": "human"},
-    {"id": "xx_immortal_f", "type": "sprite", "h_px": 380, "pivot": "feet",
-     "prompt_core": "female immortal, elaborate updo with golden hairpins, flowing white and gold layered hanfu with wide feathered sleeves, graceful posture, faint golden glow, full body",
-     "must_have": ["ornate updo with golden hairpins", "wide flowing sleeves", "layered white and gold hanfu", "full body head to feet"],
-     "must_not": ["wings", "extra limbs", "cropped feet", "second figure", "modern clothing"],
-     "poses": ["idle",
-               {"name": "sleeve_dance", "prompt_extra": "mid-dance, arms raised, wide sleeves sweeping like wings, skirt swirling",
-                "init_from": "idle", "denoise": 0.6},
-               {"name": "sword_stance", "prompt_extra": "elegant two-handed low guard with a slender jian sword, sleeves trailing",
-                "init_from": "idle", "denoise": 0.55},
-               {"name": "meditate", "prompt_extra": "standing meditation, hands folded at the dantian, eyes closed, robes still",
-                "init_from": "idle", "denoise": 0.6}],
-     "style_anchor": "xx_immortal_m",
-     "seeds": 4, "review": "human"},
-
-    {"id": "xx_m_robes", "type": "sprite_variant", "of": "xx_immortal_m",
-     "count": 3, "deploy": "swap", "method": "controlnet", "vary": ["robe", "sash"],
-     "variants": [
-       {"id": "moon_frost",      "robe": "@palettes/xianxia_mist.colors.robe_white",   "prompt_extra": "moon-white robes with silver frost embroidery, pale sash"},
-       {"id": "azure_crane",     "robe": "@palettes/xianxia_mist.colors.robe_azure",   "prompt_extra": "azure robes with crane embroidery, teal sash"},
-       {"id": "ember_tribunal",  "robe": "@palettes/xianxia_mist.colors.robe_cinnabar","prompt_extra": "deep cinnabar martial-cut robes, dark gold trim, black sash"}
-     ],
-     "review": "auto"},
-    {"id": "xx_f_robes", "type": "sprite_variant", "of": "xx_immortal_f",
-     "count": 3, "deploy": "swap", "method": "controlnet", "vary": ["robe", "sleeves", "skirt"],
-     "variants": [
-       {"id": "moon_gold",        "robe": "@palettes/xianxia_mist.colors.robe_gold", "prompt_extra": "white robes with gold phoenix embroidery, translucent gold oversleeves"},
-       {"id": "teal_phoenix",     "robe": "@palettes/xianxia_mist.colors.robe_teal", "prompt_extra": "deep teal robes, phoenix-feather gradient skirt, trailing ribbons"},
-       {"id": "winged_ascension", "robe": "@palettes/xianxia_mist.colors.robe_white","prompt_extra": "white ascension robes, large white feathered wings spread behind the shoulders"}
-     ],
-     "review": "human"},
-    {"id": "xx_m_hair", "type": "sprite_variant", "of": "xx_immortal_m",
-     "count": 3, "deploy": "swap", "method": "controlnet", "vary": ["hair"],
-     "variants": [
-       {"id": "long_flow",    "prompt_extra": "very long white hair flowing loose past the waist"},
-       {"id": "jade_topknot", "prompt_extra": "high topknot held by a carved jade crown, rest of hair down"},
-       {"id": "ribbon_halfup","prompt_extra": "half-up style bound with a red silk ribbon, long strands framing the face"}
-     ],
-     "review": "auto"},
-    {"id": "xx_f_hair", "type": "sprite_variant", "of": "xx_immortal_f",
-     "count": 3, "deploy": "swap", "method": "controlnet", "vary": ["hair"],
-     "variants": [
-       {"id": "ornate_updo",    "prompt_extra": "elaborate updo with golden phoenix hairpins and dangling beads"},
-       {"id": "phoenix_crown",  "prompt_extra": "full golden phoenix crown headdress, hair swept up beneath it"},
-       {"id": "twin_waterfall", "prompt_extra": "two long black waterfall braids over the shoulders, small gold clasps"}
-     ],
-     "review": "auto"},
-
-    {"id": "xx_azure_sage", "type": "sprite", "h_px": 400, "pivot": "feet",
-     "prompt_core": "silver-white haired water sage, long hair held by a dark ornamental crown, layered indigo and silver hanfu robes with wide draped sleeves, intricate blue-gem embroidery, wisps of water-dragon aura curling around him, full body",
-     "must_have": ["silver-white hair with dark crown ornament", "layered indigo and silver robes", "blue-gem embroidery", "full body head to feet"],
-     "must_not": ["extra limbs", "cropped feet", "second figure", "text", "modern clothing"],
-     "poses": ["idle",
-               {"name": "seated_meditation", "prompt_extra": "seated on a rock ledge, one hand raised holding a glowing water orb, water-dragon aura swirling around him",
-                "init_from": "idle", "denoise": 0.62},
-               {"name": "channel_water", "prompt_extra": "standing, palm forward, channeling a spiraling water-dragon aura",
-                "init_from": "idle", "denoise": 0.58},
-               {"name": "staff_stance", "prompt_extra": "resting one hand on an ornate silver staff topped with a glowing blue gem",
-                "init_from": "idle", "denoise": 0.55}],
-     "style_anchor": "xx_immortal_m",
-     "seeds": 4, "review": "human"},
-    {"id": "xx_sage_staff", "type": "sprite", "h_px": 300, "pivot": "center", "prop": true,
-     "prompt_core": "ornate silver sage staff, twisted dark-metal shaft, large glowing blue gem held in a claw setting at the top, tassel cord, vertical orientation, full weapon in frame",
-     "must_have": ["blue gem headpiece", "silver-dark shaft", "full weapon visible"],
-     "must_not": ["hands holding it", "extra staves", "text"],
-     "seeds": 3, "review": "auto"},
-    {"id": "xx_jian", "type": "sprite", "h_px": 280, "pivot": "center", "prop": true,
-     "prompt_core": "slender double-edged jian sword, silver blade with faint cyan runes, white tassel on the hilt, vertical orientation, full weapon in frame",
-     "must_have": ["straight double-edged blade", "hilt tassel", "full weapon visible"],
-     "must_not": ["curved blade", "extra blades", "hands holding it", "text"],
-     "seeds": 3, "review": "auto"},
-    {"id": "xx_ribbon", "type": "sprite", "h_px": 300, "pivot": "center", "prop": true,
-     "prompt_core": "long flowing crimson silk spirit ribbon weapon, coiled in a serpentine curve, gold-thread edges catching light",
-     "must_have": ["serpentine curve", "gold-thread edge", "continuous ribbon"],
-     "must_not": ["hands holding it", "broken ribbon", "text"],
-     "seeds": 3, "review": "auto"}
+    {
+      "id": "xx_peaks_far",
+      "type": "parallax",
+      "factor": 0.08,
+      "hero_art": true,
+      "min_visible_pct": 40,
+      "prompt_core": "distant floating mountain peaks crowned with ancient pagodas, rope suspension bridges between cliffs, dusk sky fading violet to peach gold, drifting stars and glowing motes",
+      "prompt_extra": "far background layer, deep atmospheric haze, small scale detail",
+      "neg_extra": "characters, people, foreground objects, waterfalls close-up",
+      "must_have": [
+        "floating islands",
+        "pagoda silhouettes",
+        "warm horizon glow"
+      ],
+      "must_not": [
+        "characters",
+        "text",
+        "modern structures"
+      ],
+      "seeds": 2,
+      "review": "auto"
+    },
+    {
+      "id": "xx_falls_mid",
+      "type": "parallax",
+      "factor": 0.25,
+      "prompt_core": "waterfalls cascading off floating cliff edges into banks of luminous mist, glowing blue spirit trees on ledges, rope bridges crossing between rocks",
+      "neg_extra": "characters, people, open sky, text",
+      "must_have": [
+        "waterfalls",
+        "mist banks",
+        "glowing blue foliage"
+      ],
+      "must_not": [
+        "characters",
+        "text",
+        "dry cliffs"
+      ],
+      "seeds": 2,
+      "review": "auto"
+    },
+    {
+      "id": "xx_terrace",
+      "type": "parallax",
+      "factor": 0.55,
+      "prompt_core": "stone terrace platform of an immortal abode, ornate carved railing, pagoda roof edges, glowing spirit tree beside the platform, flat walkable stone floor along the bottom of the frame",
+      "prompt_extra": "clear flat foreground strip where characters stand, side view",
+      "neg_extra": "characters, people, clutter on the floor strip, text",
+      "must_have": [
+        "flat stone floor strip",
+        "ornate railing",
+        "abode architecture"
+      ],
+      "must_not": [
+        "characters",
+        "text",
+        "blocked floor area"
+      ],
+      "seeds": 2,
+      "review": "human"
+    },
+    {
+      "id": "xx_immortal_m",
+      "type": "sprite",
+      "h_px": 400,
+      "pivot": "feet",
+      "prompt_core": "male immortal cultivator, long flowing white hair, ornate white and silver layered hanfu robes, jade waist ornament, serene expression, faint ethereal glow, full body",
+      "must_have": [
+        "long white hair",
+        "flowing layered hanfu robes",
+        "jade waist ornament",
+        "full body head to feet"
+      ],
+      "must_not": [
+        "modern clothing",
+        "wings",
+        "extra limbs",
+        "cropped feet",
+        "second figure"
+      ],
+      "poses": [
+        "idle",
+        {
+          "name": "meditate_lotus",
+          "prompt_extra": "seated in lotus position, hands in mudra, eyes closed, robes pooling around the body",
+          "init_from": "idle",
+          "denoise": 0.62
+        },
+        {
+          "name": "sword_salute",
+          "prompt_extra": "drawing a slender jian sword, blade angled downward in respectful salute, other hand raised in two-finger gesture",
+          "init_from": "idle",
+          "denoise": 0.55
+        },
+        {
+          "name": "cloud_step",
+          "prompt_extra": "weightless gliding stance, one foot forward, sleeves and sash streaming behind",
+          "init_from": "idle",
+          "denoise": 0.58
+        }
+      ],
+      "walk": [
+        "cloud_step"
+      ],
+      "seeds": 4,
+      "review": "human",
+      "guide_from": "guide_humanoid"
+    },
+    {
+      "id": "xx_immortal_f",
+      "type": "sprite",
+      "h_px": 380,
+      "pivot": "feet",
+      "prompt_core": "female immortal, elaborate updo with golden hairpins, flowing white and gold layered hanfu with wide feathered sleeves, graceful posture, faint golden glow, full body",
+      "must_have": [
+        "ornate updo with golden hairpins",
+        "wide flowing sleeves",
+        "layered white and gold hanfu",
+        "full body head to feet"
+      ],
+      "must_not": [
+        "wings",
+        "extra limbs",
+        "cropped feet",
+        "second figure",
+        "modern clothing"
+      ],
+      "poses": [
+        "idle",
+        {
+          "name": "sleeve_dance",
+          "prompt_extra": "mid-dance, arms raised, wide sleeves sweeping like wings, skirt swirling",
+          "init_from": "idle",
+          "denoise": 0.6
+        },
+        {
+          "name": "sword_stance",
+          "prompt_extra": "elegant two-handed low guard with a slender jian sword, sleeves trailing",
+          "init_from": "idle",
+          "denoise": 0.55
+        },
+        {
+          "name": "meditate",
+          "prompt_extra": "standing meditation, hands folded at the dantian, eyes closed, robes still",
+          "init_from": "idle",
+          "denoise": 0.6
+        }
+      ],
+      "style_anchor": "xx_immortal_m",
+      "seeds": 4,
+      "review": "human",
+      "guide_from": "guide_humanoid"
+    },
+    {
+      "id": "xx_m_robes",
+      "type": "sprite_variant",
+      "of": "xx_immortal_m",
+      "count": 3,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "robe",
+        "sash"
+      ],
+      "variants": [
+        {
+          "id": "moon_frost",
+          "robe": "@palettes/xianxia_mist.colors.robe_white",
+          "prompt_extra": "moon-white robes with silver frost embroidery, pale sash"
+        },
+        {
+          "id": "azure_crane",
+          "robe": "@palettes/xianxia_mist.colors.robe_azure",
+          "prompt_extra": "azure robes with crane embroidery, teal sash"
+        },
+        {
+          "id": "ember_tribunal",
+          "robe": "@palettes/xianxia_mist.colors.robe_cinnabar",
+          "prompt_extra": "deep cinnabar martial-cut robes, dark gold trim, black sash",
+          "denoise": 0.8,
+          "prompt_override": "male immortal cultivator, long flowing white hair, ornate cinnabar and ember-red layered hanfu robes with dark tribunal embroidery, ember glow"
+        }
+      ],
+      "review": "auto",
+      "denoise": 0.7
+    },
+    {
+      "id": "xx_f_robes",
+      "type": "sprite_variant",
+      "of": "xx_immortal_f",
+      "count": 3,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "robe",
+        "sleeves",
+        "skirt"
+      ],
+      "variants": [
+        {
+          "id": "moon_gold",
+          "robe": "@palettes/xianxia_mist.colors.robe_gold",
+          "prompt_extra": "white robes with gold phoenix embroidery, translucent gold oversleeves"
+        },
+        {
+          "id": "teal_phoenix",
+          "robe": "@palettes/xianxia_mist.colors.robe_teal",
+          "prompt_extra": "deep teal robes, phoenix-feather gradient skirt, trailing ribbons",
+          "prompt_override": "female immortal cultivator, ornate teal and cyan phoenix-embroidered hanfu robes, flowing teal silk, cyan aura"
+        },
+        {
+          "id": "winged_ascension",
+          "robe": "@palettes/xianxia_mist.colors.robe_white",
+          "prompt_extra": "white ascension robes, large white feathered wings spread behind the shoulders"
+        }
+      ],
+      "review": "human",
+      "denoise": 0.7
+    },
+    {
+      "id": "xx_m_hair",
+      "type": "sprite_variant",
+      "of": "xx_immortal_m",
+      "count": 3,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "hair"
+      ],
+      "variants": [
+        {
+          "id": "long_flow",
+          "prompt_extra": "very long white hair flowing loose past the waist"
+        },
+        {
+          "id": "jade_topknot",
+          "prompt_extra": "high topknot held by a carved jade crown, rest of hair down"
+        },
+        {
+          "id": "ribbon_halfup",
+          "prompt_extra": "half-up style bound with a red silk ribbon, long strands framing the face"
+        }
+      ],
+      "review": "auto",
+      "denoise": 0.7
+    },
+    {
+      "id": "xx_f_hair",
+      "type": "sprite_variant",
+      "of": "xx_immortal_f",
+      "count": 3,
+      "deploy": "swap",
+      "method": "controlnet",
+      "vary": [
+        "hair"
+      ],
+      "variants": [
+        {
+          "id": "ornate_updo",
+          "prompt_extra": "elaborate updo with golden phoenix hairpins and dangling beads"
+        },
+        {
+          "id": "phoenix_crown",
+          "prompt_extra": "full golden phoenix crown headdress, hair swept up beneath it"
+        },
+        {
+          "id": "twin_waterfall",
+          "prompt_extra": "two long black waterfall braids over the shoulders, small gold clasps"
+        }
+      ],
+      "review": "auto",
+      "denoise": 0.7
+    },
+    {
+      "id": "xx_azure_sage",
+      "type": "sprite",
+      "h_px": 400,
+      "pivot": "feet",
+      "prompt_core": "silver-white haired water sage, long hair held by a dark ornamental crown, layered indigo and silver hanfu robes with wide draped sleeves, intricate blue-gem embroidery, wisps of water-dragon aura curling around him, full body",
+      "must_have": [
+        "silver-white hair with dark crown ornament",
+        "layered indigo and silver robes",
+        "blue-gem embroidery",
+        "full body head to feet"
+      ],
+      "must_not": [
+        "extra limbs",
+        "cropped feet",
+        "second figure",
+        "text",
+        "modern clothing"
+      ],
+      "poses": [
+        "idle",
+        {
+          "name": "seated_meditation",
+          "prompt_extra": "seated on a rock ledge, one hand raised holding a glowing water orb, water-dragon aura swirling around him",
+          "init_from": "idle",
+          "denoise": 0.62
+        },
+        {
+          "name": "channel_water",
+          "prompt_extra": "standing, palm forward, channeling a spiraling water-dragon aura",
+          "init_from": "idle",
+          "denoise": 0.58
+        },
+        {
+          "name": "staff_stance",
+          "prompt_extra": "resting one hand on an ornate silver staff topped with a glowing blue gem",
+          "init_from": "idle",
+          "denoise": 0.55
+        }
+      ],
+      "style_anchor": "xx_immortal_m",
+      "seeds": 4,
+      "review": "human",
+      "guide_from": "guide_humanoid"
+    },
+    {
+      "id": "xx_sage_staff",
+      "type": "sprite",
+      "h_px": 300,
+      "pivot": "center",
+      "prop": true,
+      "prompt_core": "ornate silver sage staff, twisted dark-metal shaft, large glowing blue gem held in a claw setting at the top, tassel cord, vertical orientation, full weapon in frame",
+      "must_have": [
+        "blue gem headpiece",
+        "silver-dark shaft",
+        "full weapon visible"
+      ],
+      "must_not": [
+        "hands holding it",
+        "extra staves",
+        "text"
+      ],
+      "seeds": 3,
+      "review": "auto"
+    },
+    {
+      "id": "xx_jian",
+      "type": "sprite",
+      "h_px": 280,
+      "pivot": "center",
+      "prop": true,
+      "prompt_core": "slender double-edged jian sword, silver blade with faint cyan runes, white tassel on the hilt, vertical orientation, full weapon in frame",
+      "must_have": [
+        "straight double-edged blade",
+        "hilt tassel",
+        "full weapon visible"
+      ],
+      "must_not": [
+        "curved blade",
+        "extra blades",
+        "hands holding it",
+        "text"
+      ],
+      "seeds": 3,
+      "review": "auto"
+    },
+    {
+      "id": "xx_ribbon",
+      "type": "sprite",
+      "h_px": 300,
+      "pivot": "center",
+      "prop": true,
+      "prompt_core": "long flowing crimson silk spirit ribbon weapon, coiled in a serpentine curve, gold-thread edges catching light",
+      "must_have": [
+        "serpentine curve",
+        "gold-thread edge",
+        "continuous ribbon"
+      ],
+      "must_not": [
+        "hands holding it",
+        "broken ribbon",
+        "text"
+      ],
+      "seeds": 3,
+      "review": "auto"
+    }
   ],
   "composition": {
     "lighting_rig": "@rigs/std_xianxia",
     "layout": {
-      "rows": [{"id": "terrace", "y": 648}, {"id": "ledge", "y": 590}],
-      "xx_immortal_m_row": "terrace", "xx_immortal_f_row": "terrace",
-      "xx_azure_sage_row": "terrace",
-      "xx_immortal_m_x": 460, "xx_immortal_f_x": 760, "xx_azure_sage_x": 240,
-      "spacing_px": 220, "patrol": {"speed_px": 60, "from_x": -100, "to_x": 1250},
-      "light_anchor": {"of": "xx_immortal_m", "offset": [30, -300]},
-      "feet_pivot": true
+      "rows": [
+        {
+          "id": "terrace",
+          "y": 1050
+        }
+      ],
+      "spacing_px": 520,
+      "xx_azure_sage_x": 420,
+      "xx_immortal_m_x": 980,
+      "xx_immortal_f_x": 1540,
+      "patroller": "xx_immortal_m",
+      "patrol": {
+        "speed_px": 110,
+        "from_x": 780,
+        "to_x": 1200
+      }
     },
-    "shots": ["vista_all", "terrace_pair", "meditation_close",
-              "sword_salute", "sleeve_dance", "sage_channel", "low_light"],
+    "shots": [
+      "vista_all",
+      "terrace_pair",
+      "meditation_close",
+      "sword_salute",
+      "sleeve_dance",
+      "sage_channel",
+      "low_light"
+    ],
     "shot_expect": {
-      "vista_all":    {"same_row_overlap_events": 0},
-      "terrace_pair": {"same_row_overlap_events": 0},
-      "sage_channel": {"same_row_overlap_events": 0},
-      "low_light":    {"lit_coverage_min": 0.05}
+      "vista_all": {
+        "same_row_overlap_events": 0
+      },
+      "terrace_pair": {
+        "same_row_overlap_events": 0
+      },
+      "sage_channel": {
+        "same_row_overlap_events": 0
+      },
+      "low_light": {
+        "lit_coverage_min": 0.05
+      }
     },
     "action_shots": [
-      {"name": "salute_sync",
-       "cast": {"bearer": "xx_immortal_m", "witness": "xx_immortal_f"},
-       "captures": [{"t": 0.6, "camera": "terrace"}],
-       "expect": {"both_on_row": "terrace", "min_gap_px": 80}}
+      {
+        "name": "salute_sync",
+        "cast": {
+          "bearer": "xx_immortal_m",
+          "witness": "xx_immortal_f"
+        },
+        "captures": [
+          {
+            "t": 0.6,
+            "camera": "terrace"
+          }
+        ],
+        "expect": {
+          "both_on_row": "terrace",
+          "min_gap_px": 80
+        }
+      }
     ]
   }
 }

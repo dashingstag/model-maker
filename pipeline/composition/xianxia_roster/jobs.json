@@ -1,0 +1,258 @@
+{
+  "mode": "all",
+  "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\xianxia_roster",
+  "provenance": {
+    "manifests": {
+      "xx_select_backdrop": "sha256:d22afbed6c9437f83fd2289a1ef3157b365c6153b4269eb33623fae698de4d14",
+      "xx_card_blade": "sha256:0f187d47ab5e9044f9af4a2b042b464b65e37623a09c04bd2197d72b3b46d620",
+      "xx_card_archivist": "sha256:888ad7de7a2fdc458d98dd86dd3f0dcdc68cb0ea0b070bfe8707f51433d97c44",
+      "xx_card_venom": "sha256:be2e6a672e621b988d4fdbc53ed28fd5f58742b3ced295c4580747b068965685",
+      "xx_card_mirror": "sha256:06a3a49f070a2db57948e4d90f7f0794a047f06ebe30545f6537c60c45247227",
+      "xx_card_monk": "sha256:f4f903a36a5f0823e9088682610d5229aebdf6689b0879862ce47db736adaa70",
+      "xx_card_azure_sage": "sha256:9070aa34b0c644556884c8152935005a7ad25c131e85fd94dd7c15cf44f1069c",
+      "xx_card_planets": "sha256:b7c0771405374191fbaa6465d1ef1fbe6ecb39a4eb2d66713d06c946da472a1c",
+      "xx_card_blade_jade": "sha256:62b78e5b3902936649e786d0ed3aa26adb868c43091f7f040058e7557a02b331",
+      "xx_card_archivist_jade": "sha256:1bd8624b45e3a128140ed3159c36a8d04cc6d79cc8b14506dffeffe508361df9",
+      "xx_card_venom_jade": "sha256:ade194f6e4dbb003d2a6fbae1323badfc39151dea1e4ffde1d1c96d360dbc4c1",
+      "xx_card_mirror_jade": "sha256:973eacbbb55a6f22ab47f32bfab0acc3b22e5b261f4940be975dae6da5676564",
+      "xx_card_monk_jade": "sha256:a2d33a41b4207e13c0a72aba156dc012a16cb911bd69be9e14553819853a722c",
+      "xx_card_planets_jade": "sha256:04a4645c5bf54c482d58b2b99bb3869e53c2d4b4d80c880adb950fe14f3345f5"
+    },
+    "goal": "xianxia_roster"
+  },
+  "rig": {
+    "name": "std_xianxia",
+    "canvas_modulate": "#b8b0cc",
+    "light_2d": {
+      "color": "#ffd9a0",
+      "energy": 2.0,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2a2a38"
+  },
+  "unit_jobs": [
+    {
+      "id": "xx_card_archivist",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_archivist",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_archivist\\unit_render"
+    },
+    {
+      "id": "xx_card_archivist_jade/spirit_gourd",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_archivist_jade/spirit_gourd",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_archivist_jade\\unit_render\\spirit_gourd",
+      "h_px": 360
+    },
+    {
+      "id": "xx_card_azure_sage",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_azure_sage",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_azure_sage\\unit_render"
+    },
+    {
+      "id": "xx_card_blade",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_blade",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_blade\\unit_render"
+    },
+    {
+      "id": "xx_card_blade_jade/azure_blade",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_blade_jade/azure_blade",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_blade_jade\\unit_render\\azure_blade",
+      "h_px": 360
+    },
+    {
+      "id": "xx_card_mirror",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_mirror",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_mirror\\unit_render"
+    },
+    {
+      "id": "xx_card_mirror_jade/mirror_revenant",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_mirror_jade/mirror_revenant",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_mirror_jade\\unit_render\\mirror_revenant",
+      "h_px": 360
+    },
+    {
+      "id": "xx_card_monk",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_monk",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_monk\\unit_render"
+    },
+    {
+      "id": "xx_card_monk_jade/verdant_monk",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_monk_jade/verdant_monk",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_monk_jade\\unit_render\\verdant_monk",
+      "h_px": 360
+    },
+    {
+      "id": "xx_card_planets",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_planets",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_planets\\unit_render"
+    },
+    {
+      "id": "xx_card_planets_jade/tide_sage",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_planets_jade/tide_sage",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_planets_jade\\unit_render\\tide_sage",
+      "h_px": 360
+    },
+    {
+      "id": "xx_card_venom",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_venom",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_venom\\unit_render"
+    },
+    {
+      "id": "xx_card_venom_jade/jade_serpent",
+      "type": "ui_image",
+      "assets": "res://assets/components/xx_card_venom_jade/jade_serpent",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_card_venom_jade\\unit_render\\jade_serpent",
+      "h_px": 360
+    },
+    {
+      "id": "xx_select_backdrop",
+      "type": "parallax",
+      "assets": "res://assets/components/xx_select_backdrop",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_select_backdrop\\unit_render"
+    }
+  ],
+  "composition": {
+    "components_dir": "res://assets/components",
+    "layout": {
+      "grid": {
+        "cols": 4,
+        "rows": 2,
+        "card_w": 300,
+        "card_h": 500,
+        "gap": 14,
+        "origin": [
+          24,
+          60
+        ]
+      },
+      "cards": [
+        "xx_card_azure_sage",
+        "xx_card_blade",
+        "xx_card_archivist",
+        "xx_card_venom",
+        "xx_card_mirror",
+        "xx_card_monk",
+        "xx_card_planets"
+      ],
+      "backdrop": "xx_select_backdrop"
+    },
+    "members": [
+      {
+        "id": "xx_card_azure_sage",
+        "kind": "ui",
+        "dir": "res://assets/components/xx_card_azure_sage",
+        "x": 24,
+        "y": 60,
+        "w": 300,
+        "h": 500
+      },
+      {
+        "id": "xx_card_blade",
+        "kind": "ui",
+        "dir": "res://assets/components/xx_card_blade",
+        "x": 338,
+        "y": 60,
+        "w": 300,
+        "h": 500
+      },
+      {
+        "id": "xx_card_archivist",
+        "kind": "ui",
+        "dir": "res://assets/components/xx_card_archivist",
+        "x": 652,
+        "y": 60,
+        "w": 300,
+        "h": 500
+      },
+      {
+        "id": "xx_card_venom",
+        "kind": "ui",
+        "dir": "res://assets/components/xx_card_venom",
+        "x": 966,
+        "y": 60,
+        "w": 300,
+        "h": 500
+      },
+      {
+        "id": "xx_card_mirror",
+        "kind": "ui",
+        "dir": "res://assets/components/xx_card_mirror",
+        "x": 24,
+        "y": 574,
+        "w": 300,
+        "h": 500
+      },
+      {
+        "id": "xx_card_monk",
+        "kind": "ui",
+        "dir": "res://assets/components/xx_card_monk",
+        "x": 338,
+        "y": 574,
+        "w": 300,
+        "h": 500
+      },
+      {
+        "id": "xx_card_planets",
+        "kind": "ui",
+        "dir": "res://assets/components/xx_card_planets",
+        "x": 652,
+        "y": 574,
+        "w": 300,
+        "h": 500
+      }
+    ],
+    "dialogue": null,
+    "layers": [
+      {
+        "id": "xx_select_backdrop",
+        "factor": 0.05,
+        "min_visible_pct": null,
+        "y_off": 0
+      }
+    ],
+    "shots": [
+      "select_grid",
+      "card_focus",
+      "element_swap"
+    ],
+    "variants": {
+      "xx_card_archivist_jade": [
+        "spirit_gourd"
+      ],
+      "xx_card_blade_jade": [
+        "azure_blade"
+      ],
+      "xx_card_mirror_jade": [
+        "mirror_revenant"
+      ],
+      "xx_card_monk_jade": [
+        "verdant_monk"
+      ],
+      "xx_card_planets_jade": [
+        "tide_sage"
+      ],
+      "xx_card_venom_jade": [
+        "jade_serpent"
+      ]
+    },
+    "glbs": {},
+    "shot_expect": {
+      "select_grid": {
+        "lit_coverage_min": 0.04
+      }
+    },
+    "action_shots": []
+  }
+}

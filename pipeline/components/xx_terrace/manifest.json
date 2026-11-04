@@ -1,0 +1,33 @@
+{
+  "schema_v": 1,
+  "id": "xx_terrace",
+  "type": "parallax",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "parallax",
+    "factor": 0.55
+  },
+  "inputs": {
+    "accepted/src.png": "sha256:8bf4b9eef55721b31556cc17cb92a096b7ad235b149230712ba13e8652a453c0"
+  },
+  "artifacts": {
+    "processed/bg.png": "sha256:8bf4b9eef55721b31556cc17cb92a096b7ad235b149230712ba13e8652a453c0"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cpu",
+    "matting": "birefnet-general"
+  },
+  "factor": 0.55,
+  "min_visible_pct": null,
+  "certified": {
+    "ts": 1793731960.2665727,
+    "by": "devin:curator"
+  }
+}

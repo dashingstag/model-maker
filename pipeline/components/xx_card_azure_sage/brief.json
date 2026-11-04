@@ -24,10 +24,10 @@
   "goal": "xianxia_roster",
   "style": {
     "name": "xianxia_dark",
-    "suffix": "dark ornate xianxia character card art, dramatic elemental aura swirling around the figure, intricate embroidered hanfu, bold ink-painterly strokes, high contrast, poster composition, upper-body focus, game asset, masterpiece",
+    "suffix": "dark ornate xianxia fantasy art, dramatic elemental aura, intricate embroidered detail, bold ink-painterly strokes, high contrast, masterpiece",
     "negative": "photorealistic, photo, 3d render, text, letters, typography, title, watermark, signature, logo, border, frame, extra limbs, deformed hands, second figure, low quality",
     "subject_bg": "full-bleed painted dark backdrop, art extends to all edges",
-    "scene_suffix": "dark atmospheric xianxia backdrop, ink wash, elemental haze, no characters"
+    "scene_suffix": "wide dark atmospheric xianxia hall interior, lacquered pillars fading into ink-wash haze, drifting embers, environmental only, no characters, no figures, no people"
   },
   "palette": {
     "name": "xianxia_element",

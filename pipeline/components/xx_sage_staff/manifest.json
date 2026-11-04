@@ -1,0 +1,51 @@
+{
+  "schema_v": 1,
+  "id": "xx_sage_staff",
+  "type": "sprite",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite",
+    "h_px": 300,
+    "pivot": "center",
+    "prop": true
+  },
+  "inputs": {
+    "accepted/idle.png": "sha256:6188926ec8898e55ec18f3670e6b42001475809e03ceb944d71644058a2b774d"
+  },
+  "artifacts": {
+    "processed/sprite_idle.png": "sha256:2dd684e65499931f5918f922ebe9dd638d89bf51d5f2180ce2c9013da2f0722c"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "idle": 0.0003
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "pivot": "center",
+  "h_px": 300,
+  "poses": [
+    "idle"
+  ],
+  "fringe_px": {
+    "idle": 16
+  },
+  "collider": "alpha-bounds-10pct",
+  "gate": {
+    "fringe_ok": true
+  },
+  "certified": {
+    "ts": 1793731959.7082136,
+    "by": "devin:curator"
+  }
+}
