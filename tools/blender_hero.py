@@ -27,28 +27,31 @@ bpy.ops.wm.read_factory_settings(use_empty=True)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 brief = json.load(open(BRIEF)) if BRIEF else {}
 
-def mat(name, rgb, rough=0.8, emit=None):
+def mat(name, rgb, rough=0.8, emit=None, metal=0.0):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     bsdf = m.node_tree.nodes["Principled BSDF"]
     bsdf.inputs["Base Color"].default_value = (*rgb, 1.0)
     bsdf.inputs["Roughness"].default_value = rough
+    bsdf.inputs["Metallic"].default_value = metal
     if emit:
         bsdf.inputs["Emission Color"].default_value = (*emit, 1.0)
         bsdf.inputs["Emission Strength"].default_value = 1.5
     return m
 
-# Azure Sage styling — indigo/silver robes, white hair, dark crown, jade gem
+# Azure Sage styling — deep indigo owns the silhouette, silver is the
+# accent layer, jade marks rank; base colors are linear so darks must be
+# genuinely low or the render washes to pastel
 MATS = {
-    "cloth":   mat("robe_indigo",  (0.16, 0.18, 0.34)),
-    "sleeve":  mat("sleeve_silver",(0.55, 0.58, 0.68)),
-    "trim":    mat("trim_silver",  (0.70, 0.72, 0.80)),
-    "skin":    mat("skin",         (0.82, 0.72, 0.64)),
-    "hair":    mat("hair_white",   (0.88, 0.90, 0.94)),
-    "crown":   mat("crown_dark",   (0.12, 0.10, 0.16), rough=0.35),
-    "gem":     mat("gem_jade",     (0.15, 0.55, 0.60), rough=0.2,
-                   emit=(0.10, 0.45, 0.55)),
-    "steel":   mat("steel",        (0.65, 0.68, 0.72)),
+    "cloth":   mat("robe_indigo",  (0.035, 0.045, 0.12)),
+    "sleeve":  mat("sleeve_indigo",(0.08, 0.10, 0.22)),
+    "trim":    mat("trim_silver",  (0.52, 0.56, 0.66)),
+    "skin":    mat("skin",         (0.62, 0.48, 0.40)),
+    "hair":    mat("hair_white",   (0.70, 0.74, 0.84)),
+    "crown":   mat("crown_dark",   (0.02, 0.02, 0.04), rough=0.3, metal=0.7),
+    "gem":     mat("gem_jade",     (0.14, 0.50, 0.34), rough=0.2,
+                   emit=(0.06, 0.38, 0.24)),
+    "steel":   mat("steel",        (0.30, 0.32, 0.38), rough=0.3, metal=0.9),
 }
 
 parts = []
@@ -91,33 +94,71 @@ def cube(name, loc, scale, material, rot=None):
     parts.append(o)
     return o
 
+def torus(name, loc, major, minor, material, rot=None):
+    bpy.ops.mesh.primitive_torus_add(major_radius=major, minor_radius=minor,
+                                     major_segments=12, minor_segments=6,
+                                     location=loc, rotation=rot or (0, 0, 0))
+    o = bpy.context.object
+    o.name = name
+    o.data.materials.append(material)
+    parts.append(o)
+    return o
+
 # ---------------- body (~1.75m, origin at feet, faces -Y) ----------------
 sphere("pelvis", (0, 0, 0.98), (0.15, 0.11, 0.12), MATS["cloth"])
 sphere("chest_m", (0, 0, 1.33), (0.17, 0.12, 0.16), MATS["cloth"])
-sphere("head_m", (0, 0, 1.64), (0.12, 0.11, 0.13), MATS["skin"])
+sphere("head_m", (0, 0, 1.64), (0.11, 0.10, 0.145), MATS["skin"])
+cube("jaw_m", (0, -0.045, 1.565), (0.055, 0.045, 0.035), MATS["skin"])
 cyl("neck_m", (0, 0, 1.48), 0.05, 0.10, MATS["skin"])
-# silver-white hair: crown knot + long fall down the back
-sphere("topknot", (0, 0.01, 1.80), (0.04, 0.04, 0.055), MATS["hair"])
-cone("hair_fall", (0, 0.10, 1.52), 0.045, 0.085, 0.55, MATS["hair"],
+# silver-white hair: elongated topknot + wide fall + face-framing locks
+cone("topknot", (0, 0.01, 1.82), 0.05, 0.018, 0.13, MATS["hair"])
+cone("hair_fall", (0, 0.10, 1.40), 0.055, 0.13, 0.75, MATS["hair"],
      rot=(0.35, 0, 0))
-sphere("hair_cap", (0, 0.02, 1.68), (0.125, 0.115, 0.13), MATS["hair"])
-# dark crown ornament + jade brow gem
-cube("crown", (0, -0.02, 1.86), (0.05, 0.03, 0.05), MATS["crown"])
-sphere("brow_gem", (0, -0.115, 1.70), (0.02, 0.012, 0.02), MATS["gem"])
-# wide sleeves (upper arm -> elbow flare)
-cone("sleeve_up_l", (-0.26, 0, 1.36), 0.075, 0.10, 0.28, MATS["cloth"], rot=(0, 0.5, 0))
-cone("sleeve_lo_l", (-0.50, 0, 1.18), 0.17, 0.07, 0.32, MATS["sleeve"], rot=(0, 0.6, 0))
-cone("sleeve_up_r", ( 0.26, 0, 1.36), 0.075, 0.10, 0.28, MATS["cloth"], rot=(0, -0.5, 0))
-cone("sleeve_lo_r", ( 0.50, 0, 1.18), 0.17, 0.07, 0.32, MATS["sleeve"], rot=(0, -0.6, 0))
-sphere("hand_l", (-0.60, 0, 1.06), (0.05, 0.045, 0.05), MATS["skin"])
-sphere("hand_r", ( 0.60, 0, 1.06), (0.05, 0.045, 0.05), MATS["skin"])
-# layered robes: inner hakama + outer draped layer + sash
-cone("hakama_l", (-0.11, 0, 0.55), 0.17, 0.13, 0.85, MATS["cloth"])
-cone("hakama_r", ( 0.11, 0, 0.55), 0.17, 0.13, 0.85, MATS["cloth"])
-cone("robe_outer", (0, 0.02, 0.85), 0.30, 0.19, 0.95, MATS["trim"])
-cyl("sash", (0, 0, 1.05), 0.155, 0.07, MATS["gem"])
-cube("foot_l", (-0.11, -0.05, 0.04), (0.06, 0.12, 0.04), MATS["crown"])
-cube("foot_r", ( 0.11, -0.05, 0.04), (0.06, 0.12, 0.04), MATS["crown"])
+sphere("hair_cap", (0, 0.02, 1.69), (0.125, 0.115, 0.135), MATS["hair"])
+cone("lock_l", (-0.085, -0.055, 1.55), 0.018, 0.008, 0.28, MATS["hair"],
+     rot=(-0.12, 0, 0))
+cone("lock_r", ( 0.085, -0.055, 1.55), 0.018, 0.008, 0.28, MATS["hair"],
+     rot=(-0.12, 0, 0))
+# tall guan crown: metal band + fin + hairpin through the knot
+cyl("crown", (0, -0.01, 1.865), 0.045, 0.07, MATS["crown"])
+cube("crown_fin", (0, -0.01, 1.93), (0.018, 0.05, 0.035), MATS["crown"])
+cyl("hairpin", (0, 0.01, 1.845), 0.008, 0.20, MATS["steel"],
+    rot=(0, 1.5708, 0))
+sphere("brow_gem", (0, -0.105, 1.70), (0.028, 0.014, 0.028), MATS["gem"])
+# arms have substance: thin upper-arm sleeve + forearm under the cuff
+cyl("up_arm_l", (-0.27, 0, 1.35), 0.045, 0.24, MATS["cloth"], rot=(0, 0.6, 0))
+cyl("up_arm_r", ( 0.27, 0, 1.35), 0.045, 0.24, MATS["cloth"], rot=(0, -0.6, 0))
+cyl("forearm_l", (-0.48, 0, 1.19), 0.035, 0.22, MATS["skin"], rot=(0, 0.65, 0))
+cyl("forearm_r", ( 0.48, 0, 1.19), 0.035, 0.22, MATS["skin"], rot=(0, -0.65, 0))
+# stacked sleeves hugging the arm line + silver cuff ring at the rim
+cone("sleeve_up_l", (-0.26, 0, 1.36), 0.085, 0.11, 0.28, MATS["sleeve"], rot=(0, 0.5, 0))
+cone("sleeve_lo_l", (-0.49, 0, 1.19), 0.135, 0.065, 0.30, MATS["sleeve"], rot=(0, 0.62, 0))
+torus("cuff_l", (-0.575, 0, 1.095), 0.075, 0.012, MATS["trim"], rot=(0, 0.62, 0))
+cone("sleeve_up_r", ( 0.26, 0, 1.36), 0.085, 0.11, 0.28, MATS["sleeve"], rot=(0, -0.5, 0))
+cone("sleeve_lo_r", ( 0.49, 0, 1.19), 0.135, 0.065, 0.30, MATS["sleeve"], rot=(0, -0.62, 0))
+torus("cuff_r", ( 0.575, 0, 1.095), 0.075, 0.012, MATS["trim"], rot=(0, -0.62, 0))
+sphere("hand_l", (-0.615, 0, 1.045), (0.05, 0.045, 0.05), MATS["skin"])
+sphere("hand_r", ( 0.615, 0, 1.045), (0.05, 0.045, 0.05), MATS["skin"])
+# collar lapels + shoulder mantle over the chest-neck seam
+cube("lapel_l", (-0.045, -0.10, 1.40), (0.035, 0.02, 0.11), MATS["trim"],
+     rot=(0, 0.35, 0))
+cube("lapel_r", ( 0.045, -0.10, 1.40), (0.035, 0.02, 0.11), MATS["trim"],
+     rot=(0, -0.35, 0))
+cone("mantle", (0, 0.01, 1.42), 0.24, 0.14, 0.16, MATS["trim"])
+# layered lower robes: fitted waist + thigh-driven skirt gores + apron
+cone("hakama_l", (-0.11, 0, 0.50), 0.18, 0.14, 0.90, MATS["trim"])
+cone("hakama_r", ( 0.11, 0, 0.50), 0.18, 0.14, 0.90, MATS["trim"])
+cone("robe_up", (0, 0.01, 1.16), 0.16, 0.21, 0.28, MATS["cloth"])
+cone("skirt_l", (-0.13, 0.01, 0.62), 0.24, 0.15, 0.80, MATS["cloth"])
+cone("skirt_r", ( 0.13, 0.01, 0.62), 0.24, 0.15, 0.80, MATS["cloth"])
+cube("apron_f", (0, -0.14, 0.72), (0.09, 0.025, 0.42), MATS["sleeve"])
+# exposed jade sash: wide band + knot + hanging ribbon tails
+cyl("sash", (0, 0, 1.05), 0.235, 0.07, MATS["gem"])
+cube("sash_knot", (0, -0.225, 1.05), (0.05, 0.03, 0.045), MATS["gem"])
+cone("sash_tail_l", (-0.05, -0.16, 0.78), 0.028, 0.05, 0.48, MATS["gem"])
+cone("sash_tail_r", ( 0.05, -0.16, 0.78), 0.028, 0.05, 0.48, MATS["gem"])
+cube("foot_l", (-0.11, -0.06, 0.04), (0.06, 0.16, 0.04), MATS["crown"])
+cube("foot_r", ( 0.11, -0.06, 0.04), (0.06, 0.16, 0.04), MATS["crown"])
 
 # ---------------- armature (humanoid_v1 names) ----------------
 bpy.ops.object.armature_add(location=(0, 0, 0))
@@ -157,13 +198,23 @@ ft_r    = bone("foot.r", (0.11, 0, 0.10), (0.11, -0.16, 0.04), sn_r)
 bpy.ops.object.mode_set(mode='OBJECT')
 
 BONE_OF = {
-    "pelvis": "root", "chest_m": "chest", "head_m": "head", "neck_m": "neck",
+    "pelvis": "root", "chest_m": "chest", "head_m": "head", "jaw_m": "head",
+    "neck_m": "neck",
     "topknot": "head", "hair_fall": "head", "hair_cap": "head",
-    "crown": "head", "brow_gem": "head",
-    "sleeve_up_l": "upper_arm.l", "sleeve_lo_l": "forearm.l", "hand_l": "hand.l",
-    "sleeve_up_r": "upper_arm.r", "sleeve_lo_r": "forearm.r", "hand_r": "hand.r",
-    "hakama_l": "thigh.l", "hakama_r": "thigh.r", "robe_outer": "root",
-    "sash": "root",
+    "lock_l": "head", "lock_r": "head",
+    "crown": "head", "crown_fin": "head", "hairpin": "head",
+    "brow_gem": "head",
+    "up_arm_l": "upper_arm.l", "up_arm_r": "upper_arm.r",
+    "forearm_l": "forearm.l", "forearm_r": "forearm.r",
+    "sleeve_up_l": "upper_arm.l", "sleeve_lo_l": "forearm.l",
+    "cuff_l": "forearm.l", "hand_l": "hand.l",
+    "sleeve_up_r": "upper_arm.r", "sleeve_lo_r": "forearm.r",
+    "cuff_r": "forearm.r", "hand_r": "hand.r",
+    "lapel_l": "chest", "lapel_r": "chest", "mantle": "chest",
+    "hakama_l": "thigh.l", "hakama_r": "thigh.r",
+    "robe_up": "root", "skirt_l": "thigh.l", "skirt_r": "thigh.r",
+    "apron_f": "root", "sash": "root", "sash_knot": "root",
+    "sash_tail_l": "root", "sash_tail_r": "root",
     "foot_l": "foot.l", "foot_r": "foot.r",
 }
 for o in parts:

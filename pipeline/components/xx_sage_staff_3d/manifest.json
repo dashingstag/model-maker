@@ -3,24 +3,30 @@
   "id": "xx_sage_staff_3d",
   "type": "glb",
   "status": "certified",
-  "rev": 1,
+  "rev": 2,
   "constraints": {
     "type": "glb",
     "tri_budget": 1500,
     "prop": true
   },
   "inputs": {
-    "export/xx_sage_staff_3d.glb": "sha256:0fcaa845a54a886301d43b0c742c3d74fda6e0c4bd8030900d475a0fab4c7f65"
+    "export/xx_sage_staff_3d.glb": "sha256:b1917e7a19203367510e61b42ddaf4b6816fd83a124cdff5b428a8adf8e3145f"
   },
   "artifacts": {
-    "processed/xx_sage_staff_3d.glb": "sha256:0fcaa845a54a886301d43b0c742c3d74fda6e0c4bd8030900d475a0fab4c7f65"
+    "processed/xx_sage_staff_3d.glb": "sha256:b1917e7a19203367510e61b42ddaf4b6816fd83a124cdff5b428a8adf8e3145f"
   },
   "metrics": {},
   "gate_mode": {
     "tris_ok": "enforced"
   },
   "waiver": null,
-  "history": [],
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793823215.645431,
+      "status": "certified"
+    }
+  ],
   "toolchain": {
     "blender": "4.5.15",
     "comfyui": "0.43.0",
@@ -36,7 +42,7 @@
     "tris_ok": true
   },
   "certified": {
-    "ts": 1793808599.1127787,
-    "by": "devin"
+    "ts": 1793823317.6995945,
+    "by": "agent"
   }
 }

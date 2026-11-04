@@ -17,20 +17,21 @@ KIND = argv[argv.index("--kind") + 1] if "--kind" in argv else "staff"
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 
-def mat(name, rgb, rough=0.8, emit=None):
+def mat(name, rgb, rough=0.8, emit=None, metal=0.0):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     bsdf = m.node_tree.nodes["Principled BSDF"]
     bsdf.inputs["Base Color"].default_value = (*rgb, 1.0)
     bsdf.inputs["Roughness"].default_value = rough
+    bsdf.inputs["Metallic"].default_value = metal
     if emit:
         bsdf.inputs["Emission Color"].default_value = (*emit, 1.0)
         bsdf.inputs["Emission Strength"].default_value = 2.0
     return m
 
-metal = mat("staff_metal", (0.16, 0.15, 0.20), rough=0.35)
+metal = mat("staff_metal", (0.16, 0.15, 0.20), rough=0.35, metal=0.85)
 gem   = mat("staff_gem",   (0.15, 0.55, 0.70), rough=0.15, emit=(0.10, 0.45, 0.60))
-cord  = mat("tassel",      (0.20, 0.55, 0.50))
+cord  = mat("tassel",      (0.12, 0.14, 0.30))
 
 if KIND == "staff":
     GRIP_Z = 0.65   # origin at grip — shaft runs -0.45 .. +1.25
@@ -81,15 +82,16 @@ if KIND == "staff":
     bpy.ops.object.empty_add(type='PLAIN_AXES', location=(0, 0, GRIP_Z + 1.25))
     bpy.context.object.name = "blade_tip"
 else:  # jian — straight double-edged sword, grip at guard base
-    jian_steel = mat("jian_steel", (0.72, 0.75, 0.80), rough=0.25)
-    bronze = mat("jian_guard", (0.45, 0.32, 0.15), rough=0.4)
-    grip_m = mat("jian_grip", (0.15, 0.12, 0.10), rough=0.7)
+    jian_steel = mat("jian_steel", (0.60, 0.64, 0.72), rough=0.25, metal=0.9)
+    bronze = mat("jian_guard", (0.16, 0.17, 0.22), rough=0.35, metal=0.85)
+    jade_pm = mat("jian_pommel", (0.14, 0.50, 0.34), rough=0.2, emit=(0.06, 0.38, 0.24))
+    grip_m = mat("jian_grip", (0.10, 0.12, 0.26), rough=0.7)
 
     # blade: long thin box, tapered toward the tip (scale-z shear via cone)
     bpy.ops.mesh.primitive_cube_add(location=(0, 0, 0.55))
     blade = bpy.context.object
     blade.name = "jian_blade"
-    blade.scale = (0.016, 0.004, 0.55)
+    blade.scale = (0.022, 0.004, 0.55)
     bpy.ops.object.transform_apply(scale=True)
     blade.data.materials.append(jian_steel)
     # tip
@@ -115,7 +117,7 @@ else:  # jian — straight double-edged sword, grip at guard base
                                          location=(0, 0, -0.15))
     pom = bpy.context.object
     pom.name = "jian_pommel"
-    pom.data.materials.append(bronze)
+    pom.data.materials.append(jade_pm)
     bpy.ops.mesh.primitive_cone_add(vertices=8, radius1=0.018, radius2=0.006,
                                     depth=0.10, location=(0, 0, -0.22))
     tas = bpy.context.object

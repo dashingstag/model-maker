@@ -3,7 +3,7 @@
   "id": "xx_azure_sage_3d",
   "type": "glb",
   "status": "certified",
-  "rev": 3,
+  "rev": 4,
   "constraints": {
     "type": "glb",
     "anims": [
@@ -64,7 +64,13 @@
       {
         "name": "parry",
         "duration": 0.8,
-        "fps": 24
+        "fps": 24,
+        "events": [
+          {
+            "name": "contact",
+            "t": 0.25
+          }
+        ]
       },
       {
         "name": "recover",
@@ -90,10 +96,10 @@
     ]
   },
   "inputs": {
-    "export/xx_azure_sage_3d.glb": "sha256:cc0b08728d73d10da0a35efae6df3769fb2626c9f1fd6302b8c8204c60ef843b"
+    "export/xx_azure_sage_3d.glb": "sha256:97a982df3d903d452d06b55bb2ad88a9112092fcd7bc6546776e060585b00bed"
   },
   "artifacts": {
-    "processed/xx_azure_sage_3d.glb": "sha256:cc0b08728d73d10da0a35efae6df3769fb2626c9f1fd6302b8c8204c60ef843b"
+    "processed/xx_azure_sage_3d.glb": "sha256:97a982df3d903d452d06b55bb2ad88a9112092fcd7bc6546776e060585b00bed"
   },
   "metrics": {},
   "gate_mode": {
@@ -110,6 +116,11 @@
       "rev": 2,
       "ts": 1793809275.8933048,
       "status": "certified"
+    },
+    {
+      "rev": 3,
+      "ts": 1793823143.4712965,
+      "status": "certified"
     }
   ],
   "toolchain": {
@@ -119,8 +130,8 @@
     "matting": "birefnet-general"
   },
   "glb": "xx_azure_sage_3d.glb",
-  "meshes": 21,
-  "tris": 2476,
+  "meshes": 41,
+  "tris": 3140,
   "animations": [
     "idle",
     "walk",
@@ -136,7 +147,7 @@
     "tris_ok": true
   },
   "certified": {
-    "ts": 1793809288.6262696,
-    "by": "human"
+    "ts": 1793823316.89175,
+    "by": "agent"
   }
 }

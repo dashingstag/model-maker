@@ -3,17 +3,17 @@
   "id": "xx_jian_3d",
   "type": "glb",
   "status": "certified",
-  "rev": 2,
+  "rev": 3,
   "constraints": {
     "type": "glb",
     "tri_budget": 800,
     "prop": true
   },
   "inputs": {
-    "export/xx_jian_3d.glb": "sha256:ba5ff3c370a569fa87c44cafab48828dbcb3a76834b746dff9d76d6f8efb2ccb"
+    "export/xx_jian_3d.glb": "sha256:dea8b955b1e23549a161a2c92aa3120788daab1a2fb1abc94041a75e1b29462a"
   },
   "artifacts": {
-    "processed/xx_jian_3d.glb": "sha256:ba5ff3c370a569fa87c44cafab48828dbcb3a76834b746dff9d76d6f8efb2ccb"
+    "processed/xx_jian_3d.glb": "sha256:dea8b955b1e23549a161a2c92aa3120788daab1a2fb1abc94041a75e1b29462a"
   },
   "metrics": {},
   "gate_mode": {
@@ -24,6 +24,11 @@
     {
       "rev": 1,
       "ts": 1793809736.525227,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1793823213.5355427,
       "status": "certified"
     }
   ],
@@ -42,7 +47,7 @@
     "tris_ok": true
   },
   "certified": {
-    "ts": 1793809736.8316038,
-    "by": "human"
+    "ts": 1793823317.285283,
+    "by": "agent"
   }
 }

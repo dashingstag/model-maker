@@ -237,8 +237,11 @@ func _unit_mode() -> void:
 				var n3 := Node3D.new()
 				add_child(n3)
 				var ground := MeshInstance3D.new()
-				var pm := PlaneMesh.new(); pm.size = Vector2(20, 20)
+				var pm := PlaneMesh.new(); pm.size = Vector2(6, 6)
 				ground.mesh = pm
+				var gm := StandardMaterial3D.new()
+				gm.albedo_color = Color(0.09, 0.09, 0.12)
+				ground.material_override = gm
 				n3.add_child(ground)
 				var sun := DirectionalLight3D.new()
 				sun.rotation_degrees = Vector3(-50, -30, 0)
@@ -247,15 +250,15 @@ func _unit_mode() -> void:
 				var env := WorldEnvironment.new()
 				var e := Environment.new()
 				e.background_mode = Environment.BG_COLOR
-				e.background_color = Color(0.18, 0.18, 0.23)
+				e.background_color = Color(0.10, 0.10, 0.14)
 				e.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 				e.ambient_light_color = Color(0.55, 0.58, 0.65)
-				e.ambient_light_energy = 0.4
+				e.ambient_light_energy = 0.3
 				env.environment = e
 				n3.add_child(env)
 				var c3 := Camera3D.new()
-				c3.position = Vector3(0, 1.5, 4.5)
-				c3.rotation_degrees = Vector3(-10, 0, 0)
+				c3.position = Vector3(0, 1.05, 2.8)
+				c3.look_at_from_position(c3.position, Vector3(0, 0.85, 0))
 				n3.add_child(c3)
 				c3.make_current()
 				var scn: PackedScene = load(uj["assets"] + "/" + uj.get("glb", "pirate.glb"))
@@ -676,9 +679,12 @@ func _run_staged_action(a: Dictionary, comp: Dictionary, shots_dir: String) -> v
 		return
 	var stage := _mk_stage3d(Vector2i(1280, 720))
 	var vp: SubViewport = stage["vp"]
+	# staged actions are standalone captures — opaque dark stage, not a
+	# composite over the 2D canvas (pale robes review on dark, not white)
+	vp.transparent_bg = false
 	vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	var cam3: Camera3D = stage["cam"]
-	cam3.position = Vector3(0, 1.3, 4.4)
+	cam3.position = Vector3(0, 1.15, 3.0)
 	cam3.look_at_from_position(cam3.position, Vector3(0, 0.85, 0))
 	var spacing: float = spec.get("spacing_m", 1.6)
 	var roles := {}

@@ -1,7 +1,7 @@
 {
   "verdict": "pass",
-  "actor": "human",
-  "ts": 1793809288.4595172,
+  "actor": "agent",
+  "ts": 1793823312.5821621,
   "checks": {
     "materials not washed out": "pass",
     "animations play without clipping": "pass",
