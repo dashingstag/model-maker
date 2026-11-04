@@ -790,8 +790,12 @@ func _run_staged_action(a: Dictionary, comp: Dictionary, shots_dir: String) -> v
 				var dc: float = _seg_seg_dist(segs[0][0], segs[0][1],
 						segs[1][0], segs[1][1])
 				var lim: float = exp["contact_within_m"]
+				var aimed: bool = false
+				for pspec2 in a.get("props", {}).values():
+					if pspec2 is Dictionary and pspec2.has("aim"):
+						aimed = true
 				chk["contact_within_m"] = {"dist_m": snappedf(dc, 0.01),
-					"markers": marks_named,
+					"markers": marks_named, "aimed": aimed,
 					"target": lim, "pass": dc <= lim}
 				ok = ok and dc <= lim
 			else:

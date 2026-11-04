@@ -197,12 +197,38 @@ def main(goal):
 
     mp = os.path.join(dist, "manifest.json")
     man = json.load(open(mp)) if os.path.exists(mp) else {"goal": goal}
+    man["schema"] = "mm.dist.v1"
     man["scene_tscn"] = "scene.tscn"
     spec_p = os.path.join(ROOT, "pipeline", "composition", goal, "spec.json")
     spec = json.load(open(spec_p)) if os.path.exists(spec_p) else {}
     man["components"] = {cid: comp.get("glbs", {}).get(cid, "")
                          for cid in spec.get("components",
                                             [m["id"] for m in members])}
+    # provenance: input manifest shas + toolchain from the harness report —
+    # the package is self-describing for drop-in validation
+    rep_p = os.path.join(ROOT, "pipeline", "composition", goal, "report.json")
+    try:
+        prov = json.load(open(rep_p))["provenance"]
+        man["provenance"] = {
+            "inputs": prov.get("inputs", {}),
+            "godot_version": prov.get("godot_version"),
+            "job_file_sha": prov.get("job_file"),
+            "timestamp": prov.get("timestamp")}
+        man["report"] = os.path.relpath(rep_p, dist)
+    except (OSError, ValueError, KeyError):
+        pass
+    # known issues from component flags (needs_human etc.) travel with the
+    # package — a waiver is explicit data, not an omission
+    issues = []
+    for cid in man["components"]:
+        b_p = os.path.join(ROOT, "pipeline", "components", cid, "manifest.json")
+        try:
+            cm = json.load(open(b_p))
+            for fl in cm.get("flags", []):
+                issues.append({"component": cid, "flag": fl})
+        except (OSError, ValueError):
+            continue
+    man["known_issues"] = issues
     atomic_json(mp, man)
     print(f"{goal}: scene.tscn -> {out} "
           f"({len(members)} members, {len(comp.get('layers', []))} layers)")
