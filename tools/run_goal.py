@@ -159,6 +159,8 @@ def main(brief_path, wait, no_harness):
     if r.returncode:
         sys.exit("run_goal: publish blocked")
 
+    run([PY, tool("layout_map.py"), goal], cwd=ROOT)
+
     # 4. supervised harness
     if not no_harness:
         job_p = os.path.join(comp_dir, "jobs.json")

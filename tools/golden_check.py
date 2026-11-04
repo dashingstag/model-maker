@@ -17,14 +17,25 @@ from PIL import Image, ImageChops
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+try:
+    from pixelmatch.contrib.PIL import pixelmatch as _pixelmatch
+except ImportError:  # perceptual diff unavailable — raw channel fallback
+    _pixelmatch = None
+
 
 def diff(a_path, b_path, tol):
-    a = Image.open(a_path).convert("RGB")
-    b = Image.open(b_path).convert("RGB")
+    a = Image.open(a_path).convert("RGBA")
+    b = Image.open(b_path).convert("RGBA")
     if a.size != b.size:
         return {"changed": 1.0, "note": f"size {a.size} != {b.size}"}
-    d = ImageChops.difference(a, b)
-    w, h = d.size
+    w, h = a.size
+    if _pixelmatch:
+        # OKLab perceptual distance + anti-aliased-pixel detection:
+        # AA/font-rasterization noise no longer counts as drift.
+        n = _pixelmatch(a, b, None, threshold=tol / 255.0,
+                        diff_mask=True)
+        return {"changed": n / (w * h)}
+    d = ImageChops.difference(a.convert("RGB"), b.convert("RGB"))
     px = d.load()
     changed = sum(
         1 for y in range(h) for x in range(w)

@@ -235,6 +235,11 @@ def main():
         render_depths(cdir, guide, spec)
         print("parts masks ->", os.path.join(cand, "_render")); return
     if t == "glb":
+        if b.get("provider"):
+            sys.path.insert(0, ROOT)
+            from tools.providers.base import generate as provider_generate
+            out, name = provider_generate(cid, cdir, b, ENV)
+            print(f"glb provider={name} ->", out); return
         builder = GLB_BUILDERS.get(cid)
         if not builder:
             sys.exit(f"{cid}: no glb builder registered (skeleton/prop tooling is "
