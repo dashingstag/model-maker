@@ -47,7 +47,7 @@ rasterization, ComfyUI device drift).
 | `tools/lint_tree.py` | ✅ built — layout/manifest/status validator |
 | `run_goal` orchestrator | ⚠ partial — stages run, end-to-end driver per hardening rules |
 | rigged-GLB gen / action-shot clock | ✅ built — `blender_hero.py`/`blender_prop.py` bake pose clips; runner instances glbs via SubViewport, turntable shots, `layout.attach3d` BoneAttachment3D sockets, action clock seeks captures + `props_attached` check |
-| scene.tscn export | ❌ not built — dist manifest marks it backlog |
+| scene.tscn export | ✅ `tools/export_scene.py` emits dist/<goal>/scene.tscn — static composition (layers/members/props/light + glb SubViewport composites); probe-validated loads |
 | multi-actor staged actions | ✅ duel_probe: cast placement, shared clock, props_attached/no_ground_clip/contact_within_m all measured (blade segment dist 0.0 vs 0.15 bar) |
 
 ---

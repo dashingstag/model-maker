@@ -94,6 +94,12 @@ python tools/publish.py <goal> --wait 60
   `no_ground_clip` checks lowest bone/prop-AABB y ≥ -0.02. Prop glbs
   need `blade_mid`/`blade_tip` named empties for contact checks.
 - Outputs: `pipeline/composition/<goal>/shots/` + `report.json`.
+- Scene export: `python tools/export_scene.py <goal>` writes
+  `dist/<goal>/scene.tscn` — a static composition (layers, members,
+  attached props, rig light, glb SubViewport composites) referencing
+  `res://assets/components/`. Validate with
+  `godot --path godot -s scripts/scene_probe.gd -- <abs scene.tscn> [out.png]`
+  — reports the instantiated tree and optionally snaps a frame.
 
 ## 4. Triage report.json — component or composition?
 
