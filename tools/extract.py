@@ -45,7 +45,14 @@ def matte(img):
         from rembg import new_session
         _session = new_session(MODELS["matting"]["birefnet"])
     from rembg import remove
-    return remove(img, session=_session)
+    try:
+        return remove(img, session=_session)
+    except Exception:
+        # cuDNN teardown intermittently corrupts the CUDA session mid-loop
+        # (ledger #35) — rebuild and retry once; a hard abort still leaves
+        # extraction rerunnable to completion
+        _session = None
+        return matte(img)
 
 def sha(path):
     h = hashlib.sha256()

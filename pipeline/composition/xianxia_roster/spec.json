@@ -26,13 +26,14 @@
     "grid": {
       "cols": 4,
       "rows": 2,
-      "card_w": 300,
-      "card_h": 500,
-      "gap": 14,
+      "card_w": 360,
+      "card_h": 600,
+      "gap": 48,
       "origin": [
-        24,
-        60
-      ]
+        488,
+        96
+      ],
+      "center": true
     },
     "cards": [
       "xx_card_azure_sage",

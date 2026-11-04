@@ -38,16 +38,16 @@
         "xx_select_backdrop": "sha256:d22afbed6c9437f83fd2289a1ef3157b365c6153b4269eb33623fae698de4d14"
       }
     },
-    "job_file": "a9ee694c55d2",
+    "job_file": "8d03056daa2d",
     "mode": "all",
-    "timestamp": "2026-11-04T11:07:37"
+    "timestamp": "2026-11-04T22:20:53"
   },
   "shot_expect": {
     "select_grid": {
       "lit_coverage_min": {
         "pass": true,
         "target": 0.04,
-        "value": 0.275
+        "value": 0.302
       }
     }
   },

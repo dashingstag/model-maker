@@ -3,10 +3,10 @@
   "type": "ui_image",
   "h_px": 512,
   "w_px": 340,
-  "prompt_core": "white-haired wanderer in wind-torn pale robes reaching up toward nine ringed planets orbiting in a blood-red sky, floating rocks below, hair streaming upward",
+  "prompt_core": "white-haired wanderer in wind-torn pale robes reaching up toward exactly nine small glowing planet orbs arranged in a ring above her palm, floating rocks below, hair streaming upward",
   "style_anchor": "xx_card_blade",
   "must_have": [
-    "multiple orbiting spheres",
+    "nine distinct glowing spheres",
     "raised reaching arm",
     "streaming white hair"
   ],

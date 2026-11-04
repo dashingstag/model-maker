@@ -149,12 +149,16 @@ def main(goal, unit_only, wait):
     cols = max(1, int(grid.get("cols", 3)))
     gx, gy = grid.get("origin", [24, 60])
     cw, ch, gap = grid.get("card_w", 300), grid.get("card_h", 500), grid.get("gap", 14)
+    grid_w = cols * cw + (cols - 1) * gap
     for i, cid in enumerate(cards):
         if cid in mans and mans[cid]["type"] == "ui_image":
+            # short last row: center it within the declared grid width
+            row_i, n = i // cols, min(cols, len(cards) - (i // cols) * cols)
+            cx = gx + (grid_w - (n * cw + (n - 1) * gap)) / 2 if grid.get("center") else gx
             members.append({"id": cid, "kind": "ui",
                             "dir": f"res://assets/components/{cid}",
-                            "x": gx + (i % cols) * (cw + gap),
-                            "y": gy + (i // cols) * (ch + gap),
+                            "x": cx + (i % cols) * (cw + gap),
+                            "y": gy + row_i * (ch + gap),
                             "w": cw, "h": ch})
     dialogue = layout.get("dialogue") or next(
         (c for c in spec["components"]

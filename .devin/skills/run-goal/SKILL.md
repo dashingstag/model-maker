@@ -71,6 +71,12 @@ python tools/publish.py <goal> --wait 60
 - `patrol` ranges must leave sprite-width clearance from stationary
   members (~`h_px` × aspect ≈ 300px for 384px-tall sprites) — the
   overlap check counts rect penetration per patrol step.
+- `layout.attach` sockets certified prop components onto host sprites:
+  `{prop, to, offset, h_px}` — offsets are from the host's feet pivot;
+  props ride the patroller and keep separate provenance.
+- Card grids: `grid.center: true` centers each row within the declared
+  grid width (including the short last row); author card sizes for the
+  2× composition canvas (2560×1440), not the 1280×720 capture.
 - Parallax is manual: layers are plain sprites offset by `-cam_delta ×
   factor`, clamped so each 2560px layer always covers the view —
   `ParallaxBackground` scroll tracking does not run in this harness.

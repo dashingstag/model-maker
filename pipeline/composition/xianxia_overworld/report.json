@@ -5,7 +5,7 @@
   },
   "composition": {
     "cross_row_occlusions": 0,
-    "draw_calls": 7,
+    "draw_calls": 10,
     "focus_lit_coverage": 0.999,
     "glb_pending": [],
     "hero_visible_pct": 52.8,
@@ -45,16 +45,16 @@
         "xx_terrace": "sha256:14a4d394e9446e1ca5422cd53cd058c8c7e5c553496ea28948d085f383c07df2"
       }
     },
-    "job_file": "d565a4b19b9c",
+    "job_file": "7ca5e8a0d97d",
     "mode": "all",
-    "timestamp": "2026-11-04T11:06:34"
+    "timestamp": "2026-11-04T22:32:32"
   },
   "shot_expect": {
     "low_light": {
       "lit_coverage_min": {
         "pass": true,
         "target": 0.05,
-        "value": 0.633
+        "value": 0.663
       }
     },
     "sage_channel": {

@@ -129,13 +129,14 @@
       "grid": {
         "cols": 4,
         "rows": 2,
-        "card_w": 300,
-        "card_h": 500,
-        "gap": 14,
+        "card_w": 360,
+        "card_h": 600,
+        "gap": 48,
         "origin": [
-          24,
-          60
-        ]
+          488,
+          96
+        ],
+        "center": true
       },
       "cards": [
         "xx_card_azure_sage",
@@ -153,64 +154,64 @@
         "id": "xx_card_azure_sage",
         "kind": "ui",
         "dir": "res://assets/components/xx_card_azure_sage",
-        "x": 24,
-        "y": 60,
-        "w": 300,
-        "h": 500
+        "x": 488.0,
+        "y": 96,
+        "w": 360,
+        "h": 600
       },
       {
         "id": "xx_card_blade",
         "kind": "ui",
         "dir": "res://assets/components/xx_card_blade",
-        "x": 338,
-        "y": 60,
-        "w": 300,
-        "h": 500
+        "x": 896.0,
+        "y": 96,
+        "w": 360,
+        "h": 600
       },
       {
         "id": "xx_card_archivist",
         "kind": "ui",
         "dir": "res://assets/components/xx_card_archivist",
-        "x": 652,
-        "y": 60,
-        "w": 300,
-        "h": 500
+        "x": 1304.0,
+        "y": 96,
+        "w": 360,
+        "h": 600
       },
       {
         "id": "xx_card_venom",
         "kind": "ui",
         "dir": "res://assets/components/xx_card_venom",
-        "x": 966,
-        "y": 60,
-        "w": 300,
-        "h": 500
+        "x": 1712.0,
+        "y": 96,
+        "w": 360,
+        "h": 600
       },
       {
         "id": "xx_card_mirror",
         "kind": "ui",
         "dir": "res://assets/components/xx_card_mirror",
-        "x": 24,
-        "y": 574,
-        "w": 300,
-        "h": 500
+        "x": 692.0,
+        "y": 744,
+        "w": 360,
+        "h": 600
       },
       {
         "id": "xx_card_monk",
         "kind": "ui",
         "dir": "res://assets/components/xx_card_monk",
-        "x": 338,
-        "y": 574,
-        "w": 300,
-        "h": 500
+        "x": 1100.0,
+        "y": 744,
+        "w": 360,
+        "h": 600
       },
       {
         "id": "xx_card_planets",
         "kind": "ui",
         "dir": "res://assets/components/xx_card_planets",
-        "x": 652,
-        "y": 574,
-        "w": 300,
-        "h": 500
+        "x": 1508.0,
+        "y": 744,
+        "w": 360,
+        "h": 600
       }
     ],
     "dialogue": null,

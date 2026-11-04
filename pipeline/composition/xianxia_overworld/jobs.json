@@ -194,7 +194,36 @@
         "speed_px": 110,
         "from_x": 780,
         "to_x": 1200
-      }
+      },
+      "attach": [
+        {
+          "prop": "xx_jian",
+          "to": "xx_immortal_m",
+          "offset": [
+            95,
+            -55
+          ],
+          "h_px": 300
+        },
+        {
+          "prop": "xx_ribbon",
+          "to": "xx_immortal_f",
+          "offset": [
+            -115,
+            -85
+          ],
+          "h_px": 180
+        },
+        {
+          "prop": "xx_sage_staff",
+          "to": "xx_azure_sage",
+          "offset": [
+            100,
+            -45
+          ],
+          "h_px": 320
+        }
+      ]
     },
     "members": [
       {

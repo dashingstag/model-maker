@@ -372,6 +372,22 @@ func _composition_mode() -> void:
 	light2d = _light()
 	add_child(light2d)
 
+	# socketed props — certified prop components drawn riding their host
+	# sprite (layout.attach entries); props stay separate members for
+	# provenance, offsets are authored per pairing in the brief
+	attached_props = []
+	for at in layout.get("attach", []):
+		var tgt: String = at.get("to", "")
+		var pdir: String = comp_dir + "/" + at.get("prop", "")
+		if not sprites.has(tgt):
+			continue
+		var off := Vector2(at.get("offset", [0, 0])[0], at.get("offset", [0, 0])[1])
+		var ps := _mk_sprite(_tex(pdir + "/sprite_idle.png"),
+			sprites[tgt].position + off, at.get("h_px", 240.0), Color.WHITE,
+			_opt_tex(pdir + "/sprite_idle_n.png"))
+		add_child(ps)
+		attached_props.append({"s": ps, "to": tgt, "off": off})
+
 	# overlap checks — patroller sim when a member patrols, else a static
 	# same-row penetration pass. Deterministic either way (fixed SIM_DT).
 	if patroller:
@@ -383,6 +399,9 @@ func _composition_mode() -> void:
 			if not patrol_frames.is_empty():
 				patroller.texture = patrol_frames[int(walk_t * 6.0) % patrol_frames.size()]
 			light2d.position = patroller.position + light_offset
+			for a in attached_props:
+				if a["to"] == patroller_id:
+					a["s"].position = patroller.position + a["off"]
 			var cr := _canvas_rect(patroller)
 			for id2 in sprites:
 				if id2 == patroller_id or member_rows.get(id2) != member_rows.get(patroller_id):
@@ -522,6 +541,7 @@ func _eval_expect(expect: Dictionary, metrics: Dictionary, shot_lit: Dictionary)
 var patrol_speed_px := 110.0
 var light_offset := Vector2(40, -290)
 var pbg_layers := {}
+var attached_props := []
 var walk_step_s := 1.5
 
 func _ct(d: Texture2D, n: Texture2D) -> CanvasTexture:
@@ -559,6 +579,9 @@ func _setup_shot(n: String, sspec := {}) -> void:
 			if not patrol_frames.is_empty():
 				patroller.texture = patrol_frames[int(t * 6.0) % patrol_frames.size()]
 			light2d.position = patroller.position + light_offset
+			for a in attached_props:
+				if a["to"] == patroller_id:
+					a["s"].position = patroller.position + a["off"]
 			cam.position = patroller.position + Vector2(60, -120)
 			cam.zoom = Vector2(1.4, 1.4)
 	elif "low_light" in n:
@@ -587,8 +610,17 @@ func _setup_shot(n: String, sspec := {}) -> void:
 		cam.position = sprites[focus].position + Vector2(off[0], off[1])
 		cam.zoom = Vector2(z, z)
 	elif "pair" in n or "lineup" in n:
-		cam.position = Vector2(640, 500)
-		cam.zoom = Vector2(1.4, 1.4)
+		# frame the sprite row's extent rather than a fixed point —
+		# layouts place members across the 2x canvas
+		var mn := Vector2(1e9, 1e9)
+		var mx := Vector2(-1e9, -1e9)
+		for s2 in sprites.values():
+			mn = mn.min(s2.position)
+			mx = mx.max(s2.position)
+		if not sprites.is_empty():
+			cam.position = (mn + mx) / 2.0 + Vector2(0, -160)
+			var z := clampf(1280.0 / (mx.x - mn.x + 300.0), 0.5, 1.9)
+			cam.zoom = Vector2(z, z)
 	else:
 		# wide/vista/all/grid/select: layers are painted on a 2x canvas —
 		# a 1280x720 frame only sees the top-left quadrant (empty sky)
