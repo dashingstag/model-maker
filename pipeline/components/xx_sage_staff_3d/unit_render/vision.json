@@ -1,0 +1,21 @@
+{
+  "verdict": "pass",
+  "actor": "devin",
+  "ts": 1793806846.8400993,
+  "checks": {
+    "materials not washed out": "pass",
+    "animations play without clipping": "pass",
+    "within tri budget": "pass",
+    "has: blue gem headpiece": "pass",
+    "has: straight shaft": "pass",
+    "absent: bent shaft": "pass",
+    "absent: extra gems": "pass"
+  },
+  "flags": [
+    "glowing cyan gem in 4-prong claw, twist rings, tassel; static prop so anim item is vacuous"
+  ],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/neutral.png"
+  ]
+}

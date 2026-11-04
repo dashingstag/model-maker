@@ -1,0 +1,42 @@
+{
+  "schema_v": 1,
+  "id": "xx_sage_staff_3d",
+  "type": "glb",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "glb",
+    "tri_budget": 1500,
+    "prop": true
+  },
+  "inputs": {
+    "export/xx_sage_staff_3d.glb": "sha256:0fcaa845a54a886301d43b0c742c3d74fda6e0c4bd8030900d475a0fab4c7f65"
+  },
+  "artifacts": {
+    "processed/xx_sage_staff_3d.glb": "sha256:0fcaa845a54a886301d43b0c742c3d74fda6e0c4bd8030900d475a0fab4c7f65"
+  },
+  "metrics": {},
+  "gate_mode": {
+    "tris_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "glb": "xx_sage_staff_3d.glb",
+  "meshes": 13,
+  "tris": 1248,
+  "animations": [],
+  "tri_budget": 1500,
+  "gate": {
+    "tris_ok": true
+  },
+  "certified": {
+    "ts": 1793806846.9729564,
+    "by": "devin"
+  }
+}

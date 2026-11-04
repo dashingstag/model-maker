@@ -49,7 +49,14 @@
     ],
     "xx_azure_sage_3d_row": "ground",
     "xx_azure_sage_3d_x": 512,
-    "feet_pivot": true
+    "feet_pivot": true,
+    "attach3d": [
+      {
+        "prop": "xx_sage_staff_3d",
+        "to": "xx_azure_sage_3d",
+        "socket": "hand.r"
+      }
+    ]
   },
   "components": [
     "xx_azure_sage_3d",

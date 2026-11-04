@@ -1,0 +1,81 @@
+{
+  "action_shots": [
+    {
+      "anim": "channel_water",
+      "captures": [
+        0.6,
+        1.4
+      ],
+      "expect": {
+        "props_attached": true
+      },
+      "name": "channel_sequence",
+      "props_attached": [
+        {
+          "dist": 0.0,
+          "pass": true,
+          "t": 0.6
+        },
+        {
+          "dist": 0.0,
+          "pass": true,
+          "t": 1.4
+        }
+      ]
+    }
+  ],
+  "composition": {
+    "cross_row_occlusions": 0,
+    "draw_calls": 23,
+    "focus_lit_coverage": 0.281,
+    "glb_placed": [
+      "xx_azure_sage_3d"
+    ],
+    "hero_visible_pct": null,
+    "min_gap_px": 9999.0,
+    "missing_assets": [],
+    "patroller": null,
+    "same_row_overlap_events": 0,
+    "shots": [
+      "turntable_front",
+      "turntable_side",
+      "turntable_back",
+      "channel_surge",
+      "staff_attach_close"
+    ],
+    "sprite_count": 1,
+    "ui_count": 0
+  },
+  "provenance": {
+    "godot_version": "4.6.3-stable (official)",
+    "inputs": {
+      "goal": "xianxia_hero",
+      "manifests": {
+        "xx_azure_sage_3d": "sha256:64e558a8640c957fb79ecd9c87ad8a89af7b0dea44bf4f5fed4a1c1416cb5a65",
+        "xx_sage_staff_3d": "sha256:29f71a4c01abffddac341607f1113e53dd3f226fe41752d843b5936620ad0762"
+      }
+    },
+    "job_file": "dcb5a86ed891",
+    "mode": "all",
+    "timestamp": "2026-11-04T23:47:38"
+  },
+  "shot_expect": {
+
+  },
+  "unit": {
+    "xx_azure_sage_3d": {
+      "animations": [
+        "channel_water",
+        "idle",
+        "seated_meditate",
+        "staff_salute",
+        "walk"
+      ],
+      "type": "glb"
+    },
+    "xx_sage_staff_3d": {
+      "animations": [],
+      "type": "glb"
+    }
+  }
+}

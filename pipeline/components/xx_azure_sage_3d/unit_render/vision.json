@@ -1,0 +1,33 @@
+{
+  "verdict": "pass",
+  "actor": "devin",
+  "ts": 1793806834.6359494,
+  "checks": {
+    "materials not washed out": "pass",
+    "animations play without clipping": "pass",
+    "within tri budget": "pass",
+    "has: silver-white hair": "pass",
+    "has: layered indigo and silver robes": "pass",
+    "has: dark crown ornament": "pass",
+    "absent: missing fingers": "pass",
+    "absent: collapsed sleeves": "pass",
+    "absent: merged robe layers": "pass"
+  },
+  "flags": [
+    "mannequin-grade rig: sphere hands have no finger geometry by design; silver-white hair/crown/indigo+silver layers verified on unit renders; 5 clips play"
+  ],
+  "note": null,
+  "reviewed_files": [
+    "unit_render/channel_water_25.png",
+    "unit_render/channel_water_50.png",
+    "unit_render/idle_25.png",
+    "unit_render/idle_50.png",
+    "unit_render/neutral.png",
+    "unit_render/seated_meditate_25.png",
+    "unit_render/seated_meditate_50.png",
+    "unit_render/staff_salute_25.png",
+    "unit_render/staff_salute_50.png",
+    "unit_render/walk_25.png",
+    "unit_render/walk_50.png"
+  ]
+}

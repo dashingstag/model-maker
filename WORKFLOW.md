@@ -46,7 +46,8 @@ rasterization, ComfyUI device drift).
 | `tools/pipelib.py` (locks, atomic_json) | ✅ built — wired into scaffold/gen/extract/publish |
 | `tools/lint_tree.py` | ✅ built — layout/manifest/status validator |
 | `run_goal` orchestrator | ⚠ partial — stages run, end-to-end driver per hardening rules |
-| rigged-GLB gen / action-shot clock / scene.tscn export | ❌ not built — reported `not_implemented`, hero goal is its acceptance test |
+| rigged-GLB gen / action-shot clock | ✅ built — `blender_hero.py`/`blender_prop.py` bake pose clips; runner instances glbs via SubViewport, turntable shots, `layout.attach3d` BoneAttachment3D sockets, action clock seeks captures + `props_attached` check |
+| scene.tscn export | ❌ not built — dist manifest marks it backlog |
 
 ---
 

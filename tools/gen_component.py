@@ -35,7 +35,9 @@ SAMPLER = {"steps": 28, "cfg": 7.0, "sampler_name": "dpmpp_2m_sde",
            "scheduler": "karras", "cn_strength": 0.85}
 # glb builders by component id; components without one need tooling first
 GLB_BUILDERS = {"captain_3d": "blender_pirate.py",
-                "guide_humanoid": "blender_mannequin.py"}
+                "guide_humanoid": "blender_mannequin.py",
+                "xx_azure_sage_3d": "blender_hero.py",
+                "xx_sage_staff_3d": "blender_prop.py"}
 
 def comp_dir(cid):
     return os.path.join(ROOT, "pipeline", "components", cid)
@@ -240,7 +242,9 @@ def main():
         os.makedirs(os.path.join(cdir, "export"), exist_ok=True)
         out = os.path.join(cdir, "build", f"{cid}.glb")
         r = subprocess.run([BLENDER, "--background", "--python",
-                            os.path.join(ROOT, "tools", builder), "--", "--out", out],
+                            os.path.join(ROOT, "tools", builder), "--",
+                            "--out", out,
+                            "--brief", os.path.join(cdir, "brief.json")],
                            capture_output=True, text=True)
         if r.returncode or not os.path.exists(out):
             sys.exit(f"{cid}: blender builder failed\n{r.stderr[-2000:]}")

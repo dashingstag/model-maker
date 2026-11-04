@@ -340,7 +340,7 @@ func _composition_mode() -> void:
 	dialogue_img = dlg if dlg else ""
 
 	mod.color = _mod_color()
-	var glb_pending := []
+	glb_nodes = {}
 	for m in comp.get("members", []):
 		match m.get("kind"):
 			"sprite", "variant":
@@ -367,7 +367,46 @@ func _composition_mode() -> void:
 				ui_nodes.append(tr)
 				member_rows[m["id"]] = "ui"
 			"glb":
-				glb_pending.append(m["id"])
+				# canvas items can't draw 3D — render the model inside a
+				# SubViewport and composite its texture as a sprite
+				var scn: PackedScene = load(m["dir"] + "/" + m.get("glb", ""))
+				if scn == null:
+					push_error("MISSING ASSET: glb for " + m["id"])
+					missing.append(m["dir"])
+					continue
+				var vp := SubViewport.new()
+				vp.size = Vector2i(360, 560)
+				vp.transparent_bg = true
+				vp.own_world_3d = true
+				add_child(vp)
+				var env3 := WorldEnvironment.new()
+				var e3 := Environment.new()
+				e3.background_mode = Environment.BG_COLOR
+				e3.background_color = Color(0, 0, 0, 0)
+				e3.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+				e3.ambient_light_color = Color(0.6, 0.62, 0.70)
+				e3.ambient_light_energy = 0.5
+				env3.environment = e3
+				vp.add_child(env3)
+				var sun := DirectionalLight3D.new()
+				sun.rotation_degrees = Vector3(-45, -25, 0)
+				sun.light_energy = 1.2
+				vp.add_child(sun)
+				var c3 := Camera3D.new()
+				c3.position = Vector3(0, 1.35, 3.4)
+				c3.look_at_from_position(c3.position, Vector3(0, 0.9, 0))
+				vp.add_child(c3)
+				c3.make_current()
+				var inst: Node3D = scn.instantiate()
+				vp.add_child(inst)
+				var s := _mk_sprite(vp.get_texture(),
+					Vector2(m["x"], m["y"]), m.get("h_px", 384))
+				add_child(s)
+				sprites[m["id"]] = s
+				member_rows[m["id"]] = m.get("row")
+				glb_nodes[m["id"]] = {"inst": inst, "vp": vp,
+					"ap": inst.find_child("AnimationPlayer", true, false),
+					"skel": inst.find_child("Skeleton3D", true, false)}
 
 	light2d = _light()
 	add_child(light2d)
@@ -477,18 +516,78 @@ func _composition_mode() -> void:
 		"ui_count": ui_nodes.size(),
 		"patroller": patroller_id if patroller else null,
 		"missing_assets": missing,
-		"glb_pending": glb_pending,
+		"glb_placed": glb_nodes.keys(),
 		"shots": comp["shots"],
 	}
 	report["composition"] = metrics
 	report["shot_expect"] = _eval_expect(comp.get("shot_expect", {}), metrics, shot_lit)
-	if not comp.get("action_shots", []).is_empty():
-		report["action_shots"] = {"status": "not_implemented",
-			"note": "rigged-glb action clock is backlog; declared shots skipped"}
-	if not glb_pending.is_empty():
-		report["glb_placement"] = {"status": "not_implemented",
-			"ids": glb_pending,
-			"note": "composition glb instancing is backlog; unit renders cover them"}
+	await _run_action_shots(comp, layout, shots_dir)
+
+func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) -> void:
+	# rigged-glb action clock: socket props via BoneAttachment3D, then play
+	# the named clip and capture each declared time — expect.props_attached
+	# verifies the prop stayed on the socket bone at every capture
+	for a in comp.get("action_shots", []):
+		var entry := {"name": a.get("name"), "captures": [],
+			"expect": a.get("expect", {}), "props_attached": []}
+		for at in layout.get("attach3d", []):
+			var tgt: String = at.get("to", "")
+			var pg = comp.get("glbs", {}).get(at.get("prop", ""))
+			if not glb_nodes.has(tgt) or pg == null:
+				continue
+			var skel: Skeleton3D = glb_nodes[tgt]["skel"]
+			var pscn: PackedScene = load(
+				comp["components_dir"] + "/" + at["prop"] + "/" + pg)
+			if skel == null or pscn == null:
+				continue
+			var ba := BoneAttachment3D.new()
+			ba.bone_name = at.get("socket", "hand.r")
+			skel.add_child(ba)
+			var pinst: Node3D = pscn.instantiate()
+			ba.add_child(pinst)
+			attached3d.append({"to": tgt, "node": pinst, "ba": ba, "skel": skel})
+		# pick the clip sharing the longest leading token with the shot name
+		var aps := []
+		for role in a.get("cast", {}).values():
+			if glb_nodes.has(role) and glb_nodes[role]["ap"]:
+				aps.append(glb_nodes[role]["ap"])
+		var token: String = a.get("name", "").split("_")[0]
+		for ap in aps:
+			var clips: PackedStringArray = ap.get_animation_list()
+			var anim: String = ""
+			for c in clips:
+				if c.begins_with(token):
+					anim = c; break
+			if anim == "" and not clips.is_empty():
+				anim = clips[0]
+			if anim != "":
+				ap.play(anim)
+				ap.pause()
+				entry["anim"] = anim
+		for cap in a.get("captures", []):
+			var t: float = cap.get("t", 0.0)
+			for ap in aps:
+				ap.seek(t, true)
+			# frame the cast member
+			for role in a.get("cast", {}).values():
+				if sprites.has(role):
+					cam.position = sprites[role].position + Vector2(0, -160)
+					cam.zoom = Vector2(1.6, 1.6)
+			await _frames(8)
+			await _snap("%s/%s_t%s.png" % [shots_dir, a.get("name"),
+				str(t).replace(".", "p")])
+			entry["captures"].append(t)
+			if entry["expect"].get("props_attached"):
+				for at2 in attached3d:
+					var sk: Skeleton3D = at2["skel"]
+					var bi := sk.find_bone(at2["ba"].bone_name)
+					var bpos := sk.global_transform * sk.get_bone_global_pose(bi).origin
+					var d: float = at2["node"].global_position.distance_to(bpos)
+					entry["props_attached"].append({"t": t, "dist": snappedf(d, 0.01),
+						"pass": d < 0.4})
+		if not "action_shots" in report:
+			report["action_shots"] = []
+		report["action_shots"].append(entry)
 
 func _ui_visible_count() -> int:
 	var n := 0
@@ -542,6 +641,8 @@ var patrol_speed_px := 110.0
 var light_offset := Vector2(40, -290)
 var pbg_layers := {}
 var attached_props := []
+var glb_nodes := {}       # member id -> {inst, vp, ap, skel}
+var attached3d := []
 var walk_step_s := 1.5
 
 func _ct(d: Texture2D, n: Texture2D) -> CanvasTexture:
@@ -603,6 +704,15 @@ func _setup_shot(n: String, sspec := {}) -> void:
 				light2d.position = sprites[f].position + Vector2(30, -120)
 		elif light2d:
 			light2d.position = Vector2(640, 480)
+	elif "turntable_" in n:
+		var yaw: float = {"turntable_front": 0.0, "turntable_side": 90.0,
+			"turntable_back": 180.0}.get(n, 0.0)
+		for g in glb_nodes.values():
+			g["inst"].rotation_degrees.y = yaw
+		var any_spr: Sprite2D = sprites.values()[0] if not sprites.is_empty() else null
+		if any_spr:
+			cam.position = any_spr.position + Vector2(0, -160)
+			cam.zoom = Vector2(1.6, 1.6)
 	elif "dialogue" in n:
 		_show_dialogue()
 	elif focus != "" and sprites.has(focus):
