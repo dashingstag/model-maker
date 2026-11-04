@@ -45,7 +45,9 @@ rasterization, ComfyUI device drift).
 | A1 assemble / A2 checks / A3 shots | ✅ built — spec→jobs→`runner.gd`→`report.json`, full-canvas wide shots, hero/visibility + overlap metrics, `not_evaluated` honesty |
 | `tools/pipelib.py` (locks, atomic_json) | ✅ built — wired into scaffold/gen/extract/publish |
 | `tools/lint_tree.py` | ✅ built — layout/manifest/status validator |
-| `run_goal` orchestrator | ⚠ partial — stages run, end-to-end driver per hardening rules |
+| `run_goal` orchestrator | ✅ `tools/run_goal.py` — supervised end-to-end driver: scaffold → C-tracks → publish → supervised harness (`.run/` heartbeat, process-group reap, stall kill) → export → golden diff |
+| golden diff | ✅ `tools/golden_check.py` — per-shot changed-pixel fraction vs `golden/<goal>/`, `--tol`/`--max-changed` bands, `--write` blesses |
+| instance registry | ✅ `.run/<kind>-<pid>.json` records (pipelib `register_instance`/`heartbeat_instance`/`instances`) — runner.gd beats per stage; stale pids reaped |
 | rigged-GLB gen / action-shot clock | ✅ built — `blender_hero.py`/`blender_prop.py` bake pose clips; runner instances glbs via SubViewport, turntable shots, `layout.attach3d` BoneAttachment3D sockets, action clock seeks captures + `props_attached` check |
 | scene.tscn export | ✅ `tools/export_scene.py` emits dist/<goal>/scene.tscn — static composition (layers/members/props/light + glb SubViewport composites); probe-validated loads |
 | multi-actor staged actions | ✅ duel_probe: cast placement, shared clock, props_attached/no_ground_clip/contact_within_m all measured (blade segment dist 0.0 vs 0.15 bar) |

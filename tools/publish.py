@@ -194,7 +194,8 @@ def main(goal, unit_only, wait):
     for cid in mans:
         mp = os.path.join(ROOT, "pipeline", "components", cid, "manifest.json")
         manifest_sha[cid] = "sha256:" + hashlib.sha256(open(mp, "rb").read()).hexdigest()
-    job = {"mode": "unit" if unit_only else "all", "out_dir": comp_dir,
+    job = {"schema": "mm.jobs.v1",
+           "mode": "unit" if unit_only else "all", "out_dir": comp_dir,
            "provenance": {"manifests": manifest_sha, "goal": goal},
            "rig": spec["rig"], "unit_jobs": unit_jobs,
            "composition": {"components_dir": "res://assets/components",

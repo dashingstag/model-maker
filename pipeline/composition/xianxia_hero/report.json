@@ -201,10 +201,11 @@
         "xx_sage_staff_3d": "sha256:18ea1df69f7d18e38217d6d3ec63e9ddf6ca763f3980572694ab14257908ba71"
       }
     },
-    "job_file": "3a626de177f0",
+    "job_file": "a2e5c41d32df",
     "mode": "all",
-    "timestamp": "2026-11-05T00:29:32"
+    "timestamp": "2026-11-05T02:09:04"
   },
+  "schema": "mm.report.v1",
   "shot_expect": {
 
   },

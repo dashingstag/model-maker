@@ -13,7 +13,20 @@ triggers:
   - model
 ---
 
-Orchestrate a full goal run. Sequence:
+Orchestrate a full goal run. The preferred driver is:
+
+```bash
+python tools/run_goal.py briefs/<goal>.brief.json [--wait 60]
+```
+
+It runs the whole sequence below under supervision — sweeps stale
+`.run/` harness records, spawns Godot in its own process group, polls
+the runner's heartbeat (`runner.gd` writes `.run/harness-<pid>.json` at
+each stage boundary), kills the group on a >180s stall, then
+export_scene + golden_check. It stops honestly at judgment gates:
+`blocked:vision`/`needs_human` components exit 1 with per-component
+status; finish those gates, then rerun the same command. If you must
+run stages by hand, the manual sequence is:
 
 ## 1. Preflight
 

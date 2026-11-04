@@ -6,7 +6,32 @@ import json, os, subprocess, sys, tempfile, threading, time, unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import pipelib
-from pipelib import FileLock, LockHeld, atomic_json, name_of, resolve_ref
+from pipelib import (FileLock, LockHeld, atomic_json, name_of, resolve_ref,
+                     register_instance, heartbeat_instance, instances)
+
+
+class RegistryTest(unittest.TestCase):
+    def test_register_heartbeat_reap(self):
+        with tempfile.TemporaryDirectory() as d:
+            register_instance(d, "harness", os.getpid(), {"stage": "unit"})
+            recs = instances(d)
+            self.assertEqual(len(recs), 1)
+            self.assertTrue(recs[0]["alive"])
+            heartbeat_instance(d, "harness", os.getpid(), stage="report")
+            recs = instances(d, "harness")
+            self.assertEqual(recs[0]["stage"], "report")
+
+    def test_dead_pid_reaped(self):
+        dead = subprocess.Popen([sys.executable, "-c", "pass"])
+        dead.wait()
+        dead = dead.pid
+        with tempfile.TemporaryDirectory() as d:
+            os.makedirs(os.path.join(d, ".run"))
+            atomic_json(os.path.join(d, ".run", f"harness-{dead}.json"),
+                        {"kind": "harness", "pid": dead,
+                         "heartbeat": time.time()})
+            self.assertEqual(instances(d), [])
+            self.assertFalse(os.listdir(os.path.join(d, ".run")))
 
 
 class AtomicJsonTest(unittest.TestCase):

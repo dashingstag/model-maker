@@ -156,7 +156,7 @@ def main(brief_path):
     with FileLock(comp_dir + ".lock", owner=f"{goal}:scaffold",
                   timeout=LOCK_WAIT):
         atomic_json(os.path.join(comp_dir, "spec.json"),
-                    {"goal": goal, "rig": rig,
+                    {"schema": "mm.spec.v1", "goal": goal, "rig": rig,
                      "shots": brief["composition"]["shots"],
                      "shot_expect": brief["composition"].get("shot_expect", {}),
                      "action_shots": brief["composition"].get("action_shots", []),

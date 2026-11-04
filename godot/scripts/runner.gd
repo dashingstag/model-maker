@@ -43,15 +43,30 @@ func _ready() -> void:
 	await _frames(10)
 	print("RUNNER ready, mode=", job["mode"], " units=", job.get("unit_jobs", []).size())
 	if job["mode"] in ["unit", "all"]:
+		_beat("unit")
 		await _unit_mode()
 	if job["mode"] in ["composition", "all"]:
+		_beat("composition")
 		await _composition_mode()
+	_beat("report")
 	_write_report()
 	get_tree().quit()
 
 func _frames(n: int) -> void:
 	for i in n:
 		await get_tree().process_frame
+
+func _beat(stage: String) -> void:
+	# .run/harness-<pid>.json — the supervisor's liveness/progress probe.
+	# If this stops advancing while the pid is alive, the run is wedged.
+	var rec := {"kind": "harness", "pid": OS.get_process_id(),
+		"heartbeat": Time.get_unix_time_from_system(), "stage": stage}
+	var p := "res://../.run"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(p))
+	var f := FileAccess.open("%s/harness-%d.json" % [p, rec["pid"]], FileAccess.WRITE)
+	if f:
+		f.store_string(JSON.stringify(rec))
+		f.close()
 
 func _snap(path: String) -> Image:
 	await RenderingServer.frame_post_draw
@@ -997,6 +1012,7 @@ func _show_dialogue() -> void:
 	dialogue.visible = true
 
 func _write_report() -> void:
+	report["schema"] = "mm.report.v1"
 	report["provenance"] = {
 		"godot_version": Engine.get_version_info().get("string", "?"),
 		"job_file": FileAccess.get_file_as_string(OS.get_cmdline_user_args()[0]).sha256_text().substr(0, 12),

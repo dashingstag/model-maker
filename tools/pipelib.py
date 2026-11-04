@@ -185,3 +185,73 @@ def resolve_ref(root, ref):
     for k in filter(None, keypath.split(".")):
         data = data[k]
     return data
+
+
+# --- instance registry (borrowed from mixar's discovery records) -----------
+# Long-running helpers (harness runs, publishers) register a .run/<kind>-<pid>
+# .json record with a heartbeat; supervisors read the registry to find and
+# reap stale workers instead of probing process tables blind.
+
+def _pid_alive(pid):
+    """Windows-correct liveness: os.kill(pid, 0) is unreliable on win32."""
+    if os.name != "nt":
+        try:
+            os.kill(pid, 0)
+            return True
+        except OSError:
+            return False
+    import ctypes
+    k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    h = k32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+    if not h:
+        return ctypes.get_last_error() == 5  # access denied == alive
+    code = ctypes.c_ulong(259)               # STILL_ACTIVE
+    ok = k32.GetExitCodeProcess(h, ctypes.byref(code))
+    k32.CloseHandle(h)
+    return bool(ok) and code.value == 259
+
+
+def register_instance(root, kind, pid, meta=None):
+    run_dir = os.path.join(root, ".run")
+    os.makedirs(run_dir, exist_ok=True)
+    rec = {"kind": kind, "pid": pid, "started": time.time(),
+           "heartbeat": time.time(), **(meta or {})}
+    atomic_json(os.path.join(run_dir, f"{kind}-{pid}.json"), rec)
+    return rec
+
+
+def heartbeat_instance(root, kind, pid, **fields):
+    rec = os.path.join(root, ".run", f"{kind}-{pid}.json")
+    if not os.path.exists(rec):
+        return
+    try:
+        data = json.load(open(rec))
+    except (OSError, ValueError):
+        data = {"kind": kind, "pid": pid}
+    data.update(fields, heartbeat=time.time())
+    atomic_json(rec, data)
+
+
+def instances(root, kind=None, live_only=True):
+    """Read .run/*.json; stale-pid records are reaped (their writers died)."""
+    run_dir = os.path.join(root, ".run")
+    out = []
+    if not os.path.isdir(run_dir):
+        return out
+    for f in sorted(os.listdir(run_dir)):
+        if not f.endswith(".json"):
+            continue
+        p = os.path.join(run_dir, f)
+        try:
+            rec = json.load(open(p))
+        except (OSError, ValueError):
+            continue
+        if kind and rec.get("kind") != kind:
+            continue
+        alive = _pid_alive(rec.get("pid", -1))
+        if alive or not live_only:
+            rec["alive"] = alive
+            out.append(rec)
+        elif not alive:
+            os.remove(p)  # reap dead record
+    return out
