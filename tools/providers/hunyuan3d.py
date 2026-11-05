@@ -1,34 +1,63 @@
-"""hunyuan3d provider — image->3D via Tencent Hunyuan3D-2 (mymeshy adapter
-pattern). Real backend for the mannequin->production path.
+"""hunyuan3d provider — image->3D via Tencent Hunyuan3D-2-mini (mymeshy
+adapter pattern). Real backend for the mannequin->production path.
 
-Status: SKELETON — declares the contract, fails with install steps until
-weights + deps land. Options: model (mini|full), resolution, texture
-(bool), vram_budget_gb. When implemented, generate() must:
-  1. load the accepted/ concept image for <cid> (candidates/accepted pick)
-  2. run hy3dgen shape (+ paint if VRAM allows; else project the
-     reference image for albedo — mymeshy's degrade path)
-  3. cleanup/decimate/xatlas-UV via the meshproc chain
-  4. write export/<cid>.glb
+generate(): accepted/<pick>.png -> hy3dgen shape (1.3M faces) -> quadric
+decimate to tri_budget -> export/<cid>.glb. Verified on RTX 5060 Ti
+16GB: ~74s shape gen, ~5s decimation. Produces static mesh only — no
+skeleton, no texture (texgen paint stage needs the custom_rasterizer
+CUDA extension; Windows build is the known friction). Best fit today:
+prop components and organic set pieces; rigged actors still need
+retopo/rig work after this stage.
 
-Install sketch (from mymeshy): clone Tencent-Hunyuan/Hunyuan3D-2,
-pip install hy3dgen deps (ninja, pybind11, opencv-python, pymeshlab,
-pygltflib); paint needs custom_rasterizer CUDA ext ~10-12GB VRAM.
+Env contract (version pins verified 2026-11, ComfyUI venv):
+    pip install --no-deps hy3dgen
+    pip install transformers==4.49.0 diffusers==0.33.1
+    pip install trimesh pymeshlab pygltflib xatlas onnxruntime ninja \
+        pybind11 accelerate omegaconf opencv-python-headless \
+        fast-simplification
+    # checkpoint encoder keys were written for transformers 4.x naming;
+    # 5.x renames q_proj/k_proj and the load fails — do not upgrade.
+    # weights: public, snapshot_download('tencent/Hunyuan3D-2mini') ~4GB
+
+Options: subfolder (default 'hunyuan3d-dit-v2-mini'; '-turbo' and
+'-fast' variants exist), image (accepted filename, default first .png),
+tri_budget (default brief.tri_budget or 30000), texture (reserved —
+paint stage not installed).
 """
+import os
 
-def _check_env(opts):
-    try:
-        import hy3dgen  # noqa: F401
-        return True
-    except ImportError:
-        return False
+_SUBFOLDER = "hunyuan3d-dit-v2-mini"
+
+
+def _accepted_image(cdir, opts):
+    adir = os.path.join(cdir, "accepted")
+    name = opts.get("image")
+    if name:
+        return os.path.join(adir, name)
+    for f in sorted(os.listdir(adir)):
+        if f.lower().endswith(".png"):
+            return os.path.join(adir, f)
+    raise RuntimeError(f"no accepted image under {adir} for hunyuan3d")
 
 
 def generate(cid, cdir, brief, opts, env, out):
-    if not _check_env(opts):
-        raise RuntimeError(
-            f"hunyuan3d provider not installed for {cid} — install "
-            "Tencent-Hunyuan/Hunyuan3D-2 + hy3dgen deps (see module "
-            "docstring / reports/REPO_RESEARCH.md); use provider:'mock' "
-            "to keep the pipeline runnable meanwhile")
-    # TODO(real): hy3dgen shape -> paint/degrade -> meshproc -> write `out`
-    raise NotImplementedError("hunyuan3d.generate body pending weights")
+    from PIL import Image
+    import trimesh
+    from hy3dgen.shapegen import Hunyuan3DDiTFlowMatchingPipeline
+
+    src = _accepted_image(cdir, opts)
+    img = Image.open(src).convert("RGBA")
+    bg = Image.new("RGBA", img.size, (255, 255, 255, 255))
+    img = Image.alpha_composite(bg, img).convert("RGB")
+
+    pipe = Hunyuan3DDiTFlowMatchingPipeline.from_pretrained(
+        "tencent/Hunyuan3D-2mini",
+        subfolder=opts.get("subfolder", _SUBFOLDER))
+    scene = pipe(image=img)[0]
+
+    meshes = scene.geometry.values() if hasattr(scene, "geometry") else [scene]
+    mesh = trimesh.util.concatenate(list(meshes))
+    budget = int(opts.get("tri_budget") or brief.get("tri_budget") or 30000)
+    if len(mesh.faces) > budget:
+        mesh = mesh.simplify_quadric_decimation(face_count=budget)
+    mesh.export(out)

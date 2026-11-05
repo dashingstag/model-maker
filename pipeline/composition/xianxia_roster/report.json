@@ -1,9 +1,10 @@
 {
+  "action_shots": [],
   "composition": {
     "cross_row_occlusions": 0,
     "draw_calls": 10,
     "focus_lit_coverage": null,
-    "glb_pending": [],
+    "glb_placed": [],
     "hero_visible_pct": null,
     "min_gap_px": 9999.0,
     "missing_assets": [],
@@ -38,10 +39,11 @@
         "xx_select_backdrop": "sha256:d22afbed6c9437f83fd2289a1ef3157b365c6153b4269eb33623fae698de4d14"
       }
     },
-    "job_file": "8d03056daa2d",
+    "job_file": "d3bacfcfabc9",
     "mode": "all",
-    "timestamp": "2026-11-04T22:20:53"
+    "timestamp": "2026-11-05T21:46:21"
   },
+  "schema": "mm.report.v1",
   "shot_expect": {
     "select_grid": {
       "lit_coverage_min": {

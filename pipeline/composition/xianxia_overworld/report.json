@@ -1,13 +1,22 @@
 {
-  "action_shots": {
-    "note": "rigged-glb action clock is backlog; declared shots skipped",
-    "status": "not_implemented"
-  },
+  "action_shots": [
+    {
+      "captures": [
+        0.6
+      ],
+      "expect": {
+        "both_on_row": "terrace",
+        "min_gap_px": 80.0
+      },
+      "name": "salute_sync",
+      "props_attached": []
+    }
+  ],
   "composition": {
     "cross_row_occlusions": 0,
     "draw_calls": 10,
     "focus_lit_coverage": 0.999,
-    "glb_pending": [],
+    "glb_placed": [],
     "hero_visible_pct": 52.8,
     "min_gap_px": 31.5,
     "missing_assets": [],
@@ -45,10 +54,11 @@
         "xx_terrace": "sha256:14a4d394e9446e1ca5422cd53cd058c8c7e5c553496ea28948d085f383c07df2"
       }
     },
-    "job_file": "7ca5e8a0d97d",
+    "job_file": "5d78cc650503",
     "mode": "all",
-    "timestamp": "2026-11-04T22:32:32"
+    "timestamp": "2026-11-05T21:45:47"
   },
+  "schema": "mm.report.v1",
   "shot_expect": {
     "low_light": {
       "lit_coverage_min": {

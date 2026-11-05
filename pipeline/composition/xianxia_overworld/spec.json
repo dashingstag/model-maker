@@ -1,4 +1,5 @@
 {
+  "schema": "mm.spec.v1",
   "goal": "xianxia_overworld",
   "rig": {
     "name": "std_xianxia",

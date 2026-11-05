@@ -22,3 +22,4 @@ __pycache__/
 *.pyc
 .run/
 pipeline/composition/*/harness.log
+godot/reports/
