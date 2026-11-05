@@ -151,3 +151,44 @@ CUDA build, no torch env, single CLI:
    the generated shape reads badly at unit-render distance).
 4. DeepMesh/artist-retopo stays watch-list; Tripo auto_rig stays the
    documented API fallback.
+
+### 2026-11-06 follow-up — hy3dpaint venv: the verified recipe
+
+`texture: "paint"` is now REAL, verified end-to-end on the RTX 5060 Ti:
+
+- venv `C:\Workspace\hy3dpaint-venv` (py3.11, built from Blender's
+  bundled python — no system installer needed; the earlier
+  python.org/winget installer attempts both failed on this box)
+- **torch 2.7.1+cu128 + torchvision 0.22.1+cu128** — the sweet spot:
+  cu126 lacks sm_120 kernels (Blackwell `no kernel image`), torch 2.14
+  breaks the wheel ABI (`procedure not found`); cu128 is the newest cu12
+  line the visualbruno cp311 wheels still load under AND the first with
+  sm_120 kernels
+- visualbruno/ComfyUI-Hunyuan3d-2-1 cp311 wheels for
+  `custom_rasterizer` + `mesh_inpaint_processor` — the latter installs
+  TOP-LEVEL but official code imports `DifferentiableRenderer.
+  mesh_inpaint_processor` → driver aliases it in sys.modules
+- `transformers==4.46.0 diffusers==0.30.0 accelerate==1.1.1 mmgp` +
+  pymeshlab, einops, bpy==4.5.*, opencv-python-headless<4.11 (bpy forces
+  numpy<2), torchvision.functional_tensor shim for basicsr
+- **mmgp profile works**: pipeline loads CPU-resident, hooks vae/
+  text_encoder/unet, ~4min for a 30k-face mesh on 16GB
+- weights `tencent/Hunyuan3D-2.1` hunyuan3d-paintpbr-v2-1 (~8GB) +
+  facebook/dinov2-giant auto-download; RealESRGAN ckpt at
+  hy3dpaint/ckpt/ (repo-relative)
+- WinError 1314: hf cache symlinks fail without developer mode → driver
+  patches `are_symlinks_supported` to force the copy fallback
+- config paths (`hy3dpaint/cfgs/...`, `ckpt/...`) resolve against the
+  REPO ROOT — driver chdirs into hy3dpaint/ and overrides
+  multiview_cfg_path absolute
+- known cosmetic defect: torch+bpy teardown SEGFAULTs after the file is
+  written (rc=139) — provider treats success as a valid glTF-magic GLB
+  existing, not rc==0
+- quality verdict vs projection bake: REAL PBR (albedo + MR map, Godot
+  imports both); coherent back-face generation; front view picked up
+  ornate gold pauldrons/jade/patterned trim from the concept. Honest
+  note: it hallucinates surface detail the concept doesn't show (it is a
+  generative pass, not a faithful transfer) — certified comps should
+  review paint output against must_have/must_not like any other gen.
+- tools/hy3d_paint.py is the driver; provider opts: texture:'paint',
+  paint_views (6), paint_res (512)

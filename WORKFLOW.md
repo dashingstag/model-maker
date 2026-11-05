@@ -10,7 +10,8 @@ component in isolation.
 ```
 goal brief ──decompose──> component briefs
                               │  per-component track (independently gated —
-                              │  serial today on one CPU ComfyUI):
+                              │  one ComfyUI instance — GPU (CUDA) prod,
+                              │  CPU fallback; queue serializes either way):
                               │  gen ──> metric pre-filter ──> human pick ──>
                               │  extract/build ──> unit render ──> certified
                               v
@@ -95,7 +96,8 @@ model-maker/
       captain/                   # (new ids take a domain prefix: pirate_*)
         brief.json               # component slice: constraints + resolved
                                  # style/palette snapshot + goal
-        .lock                    # present while a stage owns the component
+        .lock/                   # mkdir-atomic dir w/ owner.json — present
+                                 # while a stage owns the component
         candidates/              # every generated seed — files ignored, but
           captain_s011.png       # index.json below IS checked in
           index.json             # per-candidate: seed, resolved prompt,
@@ -105,7 +107,7 @@ model-maker/
           src.png                # the curated pick — CHECKED IN (signed-off)
           gen.json               # winner's sidecar + curation score
         processed/               # extraction/build outputs — CHECKED IN
-          sprite.png  sprite_n.png
+          sprite_<pose>.png  sprite_<pose>_n.png
         unit_render/             # Godot isolation renders — CHECKED IN
           neutral.png  lit.png
           vision.json            # checklist verdicts (see Vision section)
@@ -116,6 +118,7 @@ model-maker/
       portrait/  bg_sky/  bg_deck/
       captain_3d/
         build/  export/captain_3d.glb  sanity/
+        # glb export convention: <id>.glb (legacy pirate.glb = grandfathered fallback)
 
     composition/
       <goal>/                    # one working area per brief
@@ -153,8 +156,9 @@ The single mutable file in a component folder; written atomically
   "inputs":  {"captain_3d": "sha256:…", "@styles/painted_game_art": "sha256:…"},
   "artifacts": {"processed/sprite.png": "sha256:…"},
   "metrics": {"fringe_ratio": 0.003, "palette_coverage": 0.71},
-  "toolchain": {"blender": "4.5.15", "comfy": "0.43.0", "torch": "2.15+cpu",
-                "device": "cpu", "models": {"dreamshaper8": "sha256:…"}},
+  "gate_mode": {"lit_coverage": "advisory"},
+  "toolchain": {"blender": "4.5.15", "comfy": "0.43.0", "torch": "2.14.1+cu130",
+                "device": "cuda", "models": {"dreamshaper8": "sha256:…"}},
   "waiver": null,
   "history": [{"rev": 1, "ts": "…", "reason": "…"}]
 }
@@ -534,7 +538,8 @@ resolved style/palette snapshot + goal + ref shas).
 ## Component track — one run per component
 
 Independently gated and parallel-*able* — but **serial in practice today**:
-one CPU ComfyUI instance queues prompts; GPU enablement (backlog) changes
+one ComfyUI instance queues prompts (CUDA in prod — CPU budgets below are
+worst-case fallback); device selection changes
 this. Each stage invocation locks the component (and dependency bases,
 sorted by id) for its duration — see the concurrency contract.
 
@@ -599,7 +604,7 @@ first try). No key color in the gen path → no halo class by construction.
    Runs again at C3 on the rendered frame — catches halos that only show
    against real backgrounds.
 3. **Normal-map hierarchy:** GLB-backed → reuse Blender view-space normals
-   (`postprocess2.py` path, R=+X / G=+Z / B=−Y OpenGL convention, alpha
+   (`tools/extract.py` normal-pass path, R=+X / G=+Z / B=−Y OpenGL convention, alpha
    matched to sprite); pure-2D → luminance blurred σ≈2 px *before* gradient,
    strength ≤1.5 — or ship flat normals (flat beats bad). Convention pinned
    in manifest; verified in the C3 `low_light` unit render.
@@ -741,9 +746,9 @@ sha256s + normalized content hash (strip `uid=` lines) — not byte-for-byte.
 
 ## Work backlog (ordered)
 
-1. **CUDA torch for ComfyUI** — RTX 5060 Ti idle; ~20–50× gen speedup,
-   inverts every budget above and makes batch curation trivial. Highest
-   leverage single change.
+1. ~~**CUDA torch for ComfyUI**~~ ✅ done — torch 2.14.1+cu130 on RTX
+   5060 Ti (`env.json: comfyui_device=cuda`); gen is ~seconds/image.
+   Budgets in C1 are worst-case CPU fallback.
 2. **`tools/lint_tree.py`** — gate 0 validator: layout, manifest shas,
    status/folder consistency, `@` refs resolve, no loose files.
 3. **C2 metrics** — fringe ratio, palette coverage, manifest writer.
@@ -810,3 +815,56 @@ upstream, is.
 9. **Report = provenance.** `report.json` embeds godot version, job-file
    sha, timestamp, and per-component manifest sha — that's what makes two
    runs diffable, the other half of the determinism rule.
+
+---
+
+## Brief key reference (composition + component keys in live use)
+
+`vary`/`variants`/`method` are three separate things: `vary` = which
+regions may change (`["coat","trim"]`); `variants[]` = concrete per-member
+targets (@palette refs); `method` = how the variant is produced
+(`palette` hue-remap | `parts` geometry masks | `controlnet` i2i repaint).
+
+| Key | Applies to | Consumer | Default |
+|---|---|---|---|
+| `must_have`/`must_not` | any gen | prompt build + C3 checklist | — |
+| `seeds`, `review` | any gen | gen_component/curate | 3, auto |
+| `guide`, `guide_from` | sprite | gen_component | none (guideless) |
+| `prop` | sprite/glb | gen_component/publish | false |
+| `same_character_as` | ui_image | prompt/i2i | — |
+| `provider` | glb | gen_component | builder table |
+| `deploy: cast\|swap` | sprite_variant | publish | cast |
+| `w_px`, `h_px` | ui_image/sprite | extract | — |
+| `layout.members/rows/grid/cards/patroller/dialogue/attach3d/patrol` | composition | publish→jobs | resolved |
+| `shot_expect`, `action_shots`, `cast`, `sync_on`, `tolerance_s`, `check_id`, `cap.camera` | composition | scaffold/runner/check.py | — |
+
+## Hardening rules (council run-3)
+
+10. **Shot names are a contract.** An unresolved shot name must not
+    silently capture the wide frame — report it `pass:null`-style
+    (#53: byte-identical decoys were blessed as goldens; golden blessing
+    must also verify shot distinctness).
+11. **Camera tokens are a contract.** Unknown `cap.camera` values fail
+    loudly, never fall back (#54).
+12. **must_have is a gate, not prompt decoration.** C3 vision checklist
+    verifies brief `must_have`/`must_not` semantics on the unit render —
+    certified a round medallion as a "staff" and a jade disk as a
+    "crimson ribbon" without it (#56, #57). Pose names likewise: a pose
+    sprite must depict its name (#58).
+13. **Cameras fit subject extent.** Unit/turntable/attach cameras fit
+    the rendered subject's bounds, not fixed distances (#59).
+14. **Variant members need a home in layout.** Certified variant
+    components without a `deploy`/`layout` path are unreachable in
+    composition (#55) — scaffold emits them or the brief names the
+    intent.
+
+## Doc conventions
+
+- Component ids: the `pirate_*`/`xx_*` domain-prefix rule applies to
+  **new** ids; legacy unprefixed ids (captain, crew, bg_*) are
+  grandfathered, not lint failures.
+- Transient dirs `.run/`, `.publish_staging/`, `*.lock/`, `*.tmp`,
+  `harness.log` exist but are gitignored + lint-exempt.
+- `tools/providers/` post-step (`blender_texture.py`): smart-UV +
+  projection-bake of accepted art to albedo + quadriflow retopo
+  (decimate fallback); `check.py texture:smoke` covers it headless.

@@ -2,13 +2,10 @@
 adapter pattern). Real backend for the mannequin->production path.
 
 generate(): accepted/<pick>.png -> hy3dgen shape (1.3M faces) -> quadric
-decimate to tri_budget -> Blender post-step (tools/blender_texture.py:
-optional Quadriflow retopo + smart UV + projection-bake of the accepted
-image to albedo, normal-weighted across views) -> export/<cid>.glb with
-embedded texture. Verified on RTX 5060 Ti 16GB: ~74s shape gen, ~5s
-decimate, ~40s Blender post-step. Still no skeleton — rigged actors
-need retopo/rig work after this stage; projection albedo is a degrade
-path, not PBR (Hunyuan3D-2.1 paint needs ~21GB VRAM).
+decimate to tri_budget -> texture stage -> export/<cid>.glb.
+Verified on RTX 5060 Ti 16GB: ~74s shape gen, ~5s decimate, ~40s
+projection bake, ~4min PBR paint (mmgp offload). Still no skeleton —
+rigged actors need retopo/rig work after this stage.
 
 Env contract (version pins verified 2026-11, ComfyUI venv):
     pip install --no-deps hy3dgen
@@ -22,10 +19,18 @@ Env contract (version pins verified 2026-11, ComfyUI venv):
 
 Options: subfolder (default 'hunyuan3d-dit-v2-mini'; '-turbo' and
 '-fast' variants exist), image (accepted filename, default first .png),
-tri_budget (default brief.tri_budget or 30000), texture (default true —
-projection-bakes the accepted image to albedo via Blender),
-retopo (default false — Quadriflow to tri_budget quads, for
-actor-bound meshes), view ('front'|'turntable', default front).
+tri_budget (default brief.tri_budget or 30000), texture (default
+'project' — Blender projection-bakes the accepted image to albedo;
+'paint' — Hunyuan3D-2.1 PBR multiview paint in the dedicated
+hy3dpaint-venv via mmgp offload, env hy3dpaint_python; paint_views/
+paint_res tune it), retopo (default false — Quadriflow to tri_budget
+quads, for actor-bound meshes; ignored under texture='paint', which
+remeshes itself), view ('front'|'turntable', default front),
+rig (default none): 'conform' shrinks rig_template (a rigged
+humanoid_v1 GLB) to the generated silhouette and bakes the albedo
+across — output keeps our skeleton/weights/clips; 'tokenrig' runs
+VAST-AI SkinTokens (env skintokens_python/skintokens_dir) — generates
+its OWN skeleton (31 bones, generic names), for non-humanoid assets.
 """
 import os
 import subprocess
@@ -67,23 +72,93 @@ def generate(cid, cdir, brief, opts, env, out):
     if len(mesh.faces) > budget:
         mesh = mesh.simplify_quadric_decimation(face_count=budget)
 
-    if not opts.get("texture", True) and not opts.get("retopo", False):
+    tex = opts.get("texture", "project")
+    tex = "project" if tex is True else ("paint" if tex == "paint" else None)
+    blender = env.get("blender") or "blender"
+
+    if tex == "paint":
+        # Hunyuan3D-2.1 multiview-diffusion paint in its own venv — the
+        # process can segfault at torch+bpy teardown after writing the
+        # file, so success = a non-trivial GLB existing, not rc == 0.
+        paint_py = env.get("hy3dpaint_python")
+        if not paint_py:
+            raise RuntimeError(
+                "texture='paint' needs env hy3dpaint_python "
+                "(dedicated venv, torch 2.7+cu128)")
+        raw = out + ".paint_src.glb"
+        mesh.export(raw)
+        r = subprocess.run(
+            [paint_py, os.path.join(_TOOLS, "hy3d_paint.py"),
+             raw, src, out,
+             "--views", str(opts.get("paint_views", 6)),
+             "--res", str(opts.get("paint_res", 512))],
+            capture_output=True, text=True)
+        for stale in (raw,
+                      os.path.join(os.path.dirname(raw) or ".",
+                                   "white_mesh_remesh.obj"),
+                      out.replace(".glb", ".mtl"),
+                      out.replace(".glb", ".jpg")):
+            if os.path.exists(stale):
+                os.remove(stale)
+        ok = (os.path.exists(out) and os.path.getsize(out) > 4
+              and open(out, "rb").read(4) == b"glTF")
+        if not ok:
+            raise RuntimeError(
+                f"hunyuan3d paint step failed for {cid} "
+                f"(rc={r.returncode}):\n"
+                + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+    elif tex or opts.get("retopo", False):
+        # post-step in Blender: Quadriflow retopo + projection-bake albedo
+        raw = out + ".raw.glb"
+        mesh.export(raw)
+        cmd = [blender, "--background", "--python",
+               os.path.join(_TOOLS, "blender_texture.py"), "--",
+               raw, out, src]
+        if opts.get("retopo", False):
+            cmd += ["--faces", str(budget)]
+        if opts.get("view"):
+            cmd += ["--view", str(opts["view"])]
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        if r.returncode != 0 or not os.path.exists(out):
+            raise RuntimeError(
+                f"hunyuan3d blender post-step failed for {cid}:\n"
+                + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+        os.remove(raw)
+    else:
         mesh.export(out)
         return
-    # post-step in Blender: Quadriflow retopo + projection-bake albedo
-    raw = out + ".raw.glb"
-    mesh.export(raw)
-    blender = env.get("blender") or "blender"
-    cmd = [blender, "--background", "--python",
-           os.path.join(_TOOLS, "blender_texture.py"), "--",
-           raw, out, src]
-    if opts.get("retopo", False):
-        cmd += ["--faces", str(budget)]
-    if opts.get("view"):
-        cmd += ["--view", str(opts["view"])]
-    r = subprocess.run(cmd, capture_output=True, text=True)
-    if r.returncode != 0 or not os.path.exists(out):
-        raise RuntimeError(
-            f"hunyuan3d blender post-step failed for {cid}:\n"
-            + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
-    os.remove(raw)
+
+    rig = opts.get("rig")
+    if rig == "conform":
+        template = opts.get("rig_template")
+        if not template or not os.path.exists(template):
+            raise RuntimeError(
+                f"rig='conform' needs rig_template=<rigged humanoid_v1 "
+                f"glb> for {cid}")
+        r = subprocess.run(
+            [blender, "--background", "--python",
+             os.path.join(_TOOLS, "blender_conform.py"), "--",
+             template, out, out],
+            capture_output=True, text=True)
+        if r.returncode != 0 or not os.path.exists(out):
+            raise RuntimeError(
+                f"hunyuan3d conform step failed for {cid}:\n"
+                + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+    elif rig == "tokenrig":
+        st_py = env.get("skintokens_python")
+        st_dir = env.get("skintokens_dir")
+        if not st_py or not st_dir:
+            raise RuntimeError(
+                "rig='tokenrig' needs env skintokens_python/skintokens_dir")
+        tmp = out + ".rig.glb"
+        r = subprocess.run(
+            [st_py, os.path.join(st_dir, "demo.py"),
+             "--input", out, "--output", tmp],
+            cwd=st_dir, capture_output=True, text=True)
+        if r.returncode != 0 or not os.path.exists(tmp):
+            raise RuntimeError(
+                f"hunyuan3d tokenrig step failed for {cid}:\n"
+                + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+        os.replace(tmp, out)
+    elif rig:
+        raise RuntimeError(f"unknown rig mode '{rig}' for {cid}")
