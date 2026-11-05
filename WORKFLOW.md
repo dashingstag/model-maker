@@ -493,10 +493,25 @@ the brief is the contract; tools catch up.
   (`lit_coverage_min`, `same_row_overlap_events`, presence asserts). This
   is where A2's per-shot expectations live — instead of magic constants
   in the runner. Keys must name shots in `shots`.
+- **Shot names carry framing intent.** A shot focuses a member when any
+  of its id tokens ≥4 chars appears in the name (`sage_attach_close` →
+  `xx_azure_sage_3d`); unfocused names fall back to the wide 2×-canvas
+  frame. Suffix vocabulary on glb members: `*_close` moves the member's
+  stage camera to `front_close` and zooms the composite sprite;
+  `*_attach_close` frames the socket/hand region instead;
+  `turntable_front|side|back` rotate all glb insts (yaw resets every
+  shot — turntable shots never leak rotation into later ones). Action
+  captures take an optional `camera:` key from the same vocabulary
+  (`mid`, `front_close`, `attach_close`, `wide`, `side`).
 - **`layout`** drives A1 placement and A2 expectations: named depth
   `rows` with y-coords (row assignment per component class — the fix for
   the walk-through class), `spacing_px`, scripted `patrol` path,
   `light_anchor` relative to a named component, `feet_pivot`.
+  `attach` sockets a 2D prop sprite onto a member with a pixel `offset`;
+  `attach3d` sockets a prop glb onto a member's bone **at scene setup**
+  (`{prop, to, socket, rot?}` — `rot` is a prop-local euler, same
+  convention as action props), so at-rest shots show the prop riding the
+  socket before any action runs.
 - **Computed by scaffold, not authored:** parallax `min_w_px` = viewport +
   patrol_range × `factor` (pan headroom is derived, not guessed);
   `walk_t*` seek times from `spacing_px`/`speed_px` — deterministic
