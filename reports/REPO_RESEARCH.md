@@ -63,6 +63,6 @@ Researched against the real constraints: RTX 5060 Ti 16GB, Windows, torch
 ### Recommended integration order
 
 1. `tools/recolor.py` port (sprite-tools algorithm — proven this session)
-2. **Provider post-step**: xatlas UV + Blender projection-bake (texture v1) + `quadriflow_remesh` for actor-bound meshes
+2. **Provider post-step** — ✅ DONE (`tools/blender_texture.py`, wired into `hunyuan3d.generate`): smart-UV + projection-bake of the `accepted/` image to albedo (manual ortho projection — `uv.project_from_view` needs a UI context; alpha-bbox crop; normal-weighted 4-view merge via `--view turntable`) + `quadriflow_remesh` retopo with decimate fallback (QuadriFlow overshoots `target_faces` on dense organic input). `check.py texture:smoke` covers it headless
 3. **SkinTokens provider stage** for rigged actors (new component class: `glb` + `rig: auto`), Blender conform-to-humanoid_v1 as the fallback
 4. Comfy3D nodes only if the pip path shows friction at scale

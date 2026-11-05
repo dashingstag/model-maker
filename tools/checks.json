@@ -22,6 +22,10 @@
     "desc": "render resolved layout to layout_map.png",
     "arg_hint": "<goal>"
   },
+  "texture:smoke": {
+    "cmd": "python tools/texture_smoke.py",
+    "desc": "headless Blender texture post-step on a mock GLB"
+  },
   "tests:gd": {
     "cmd": "\"C:/Workspace/Godot_v4.6.3-stable_win64.exe/Godot_v4.6.3-stable_win64_console.exe\" --headless --path godot -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests --ignoreHeadlessMode",
     "desc": "gdUnit4 GDScript suite (runner vocab/focus contracts)"

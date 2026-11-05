@@ -2,12 +2,13 @@
 adapter pattern). Real backend for the mannequin->production path.
 
 generate(): accepted/<pick>.png -> hy3dgen shape (1.3M faces) -> quadric
-decimate to tri_budget -> export/<cid>.glb. Verified on RTX 5060 Ti
-16GB: ~74s shape gen, ~5s decimation. Produces static mesh only — no
-skeleton, no texture (texgen paint stage needs the custom_rasterizer
-CUDA extension; Windows build is the known friction). Best fit today:
-prop components and organic set pieces; rigged actors still need
-retopo/rig work after this stage.
+decimate to tri_budget -> Blender post-step (tools/blender_texture.py:
+optional Quadriflow retopo + smart UV + projection-bake of the accepted
+image to albedo, normal-weighted across views) -> export/<cid>.glb with
+embedded texture. Verified on RTX 5060 Ti 16GB: ~74s shape gen, ~5s
+decimate, ~40s Blender post-step. Still no skeleton — rigged actors
+need retopo/rig work after this stage; projection albedo is a degrade
+path, not PBR (Hunyuan3D-2.1 paint needs ~21GB VRAM).
 
 Env contract (version pins verified 2026-11, ComfyUI venv):
     pip install --no-deps hy3dgen
@@ -21,12 +22,17 @@ Env contract (version pins verified 2026-11, ComfyUI venv):
 
 Options: subfolder (default 'hunyuan3d-dit-v2-mini'; '-turbo' and
 '-fast' variants exist), image (accepted filename, default first .png),
-tri_budget (default brief.tri_budget or 30000), texture (reserved —
-paint stage not installed).
+tri_budget (default brief.tri_budget or 30000), texture (default true —
+projection-bakes the accepted image to albedo via Blender),
+retopo (default false — Quadriflow to tri_budget quads, for
+actor-bound meshes), view ('front'|'turntable', default front).
 """
 import os
+import subprocess
+import sys
 
 _SUBFOLDER = "hunyuan3d-dit-v2-mini"
+_TOOLS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def _accepted_image(cdir, opts):
@@ -60,4 +66,24 @@ def generate(cid, cdir, brief, opts, env, out):
     budget = int(opts.get("tri_budget") or brief.get("tri_budget") or 30000)
     if len(mesh.faces) > budget:
         mesh = mesh.simplify_quadric_decimation(face_count=budget)
-    mesh.export(out)
+
+    if not opts.get("texture", True) and not opts.get("retopo", False):
+        mesh.export(out)
+        return
+    # post-step in Blender: Quadriflow retopo + projection-bake albedo
+    raw = out + ".raw.glb"
+    mesh.export(raw)
+    blender = env.get("blender") or "blender"
+    cmd = [blender, "--background", "--python",
+           os.path.join(_TOOLS, "blender_texture.py"), "--",
+           raw, out, src]
+    if opts.get("retopo", False):
+        cmd += ["--faces", str(budget)]
+    if opts.get("view"):
+        cmd += ["--view", str(opts["view"])]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0 or not os.path.exists(out):
+        raise RuntimeError(
+            f"hunyuan3d blender post-step failed for {cid}:\n"
+            + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+    os.remove(raw)
