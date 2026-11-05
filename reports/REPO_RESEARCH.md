@@ -66,3 +66,88 @@ Researched against the real constraints: RTX 5060 Ti 16GB, Windows, torch
 2. **Provider post-step** — ✅ DONE (`tools/blender_texture.py`, wired into `hunyuan3d.generate`): smart-UV + projection-bake of the `accepted/` image to albedo (manual ortho projection — `uv.project_from_view` needs a UI context; alpha-bbox crop; normal-weighted 4-view merge via `--view turntable`) + `quadriflow_remesh` retopo with decimate fallback (QuadriFlow overshoots `target_faces` on dense organic input). `check.py texture:smoke` covers it headless
 3. **SkinTokens provider stage** for rigged actors (new component class: `glb` + `rig: auto`), Blender conform-to-humanoid_v1 as the fallback
 4. Comfy3D nodes only if the pip path shows friction at scale
+
+## Round 3 — how to close the three hard limits (post step-2)
+
+Re-researched after the projection-bake landed. Two earlier verdicts get
+revised by new evidence; one gets confirmed harder than expected.
+
+### Texture: PBR paint may already fit in 16GB — mmgp changes the math
+
+The "21GB wall" assumed resident weights. Community evidence:
+
+- **mmgp offloading works on ≤16GB** (Tencent-Hunyuan/Hunyuan3D-2.1#15 —
+  confirmed by a user on a *mobile* 5080): `pip install mmgp`, then
+  `offload.profile(paint_pipeline.models["multiview_model"].pipeline,
+  profile_type.…)` keeps the heavy multiview diffusion CPU-side and
+  streams. deepbeepmeep/Hunyuan3D-2GP reports shape 6GB / shape+paint
+  ~24.5GB *unmanaged*, but profile 4 targets ≥6GB VRAM with sufficient
+  system RAM — we have plenty.
+- **Windows build friction is solved:** visualbruno/ComfyUI-Hunyuan3d-2-1
+  ships prebuilt cp312 wheels for `custom_rasterizer` AND
+  `mesh_inpaint_processor` (DifferentiableRenderer) — the two C++
+  extensions that blocked the pip path.
+- ComfyUI-3D-Pack caveat (issue #554): TexGen hangs traced to
+  diffusers/transformers/accelerate drift — fix is
+  `diffusers==0.30.0 transformers==4.46.0 accelerate==1.1.1`. NOTE this
+  conflicts with our hy3dgen-mini pins (4.49.0/0.33.1) — 2.1 paint
+  probably wants its own venv, not the shared ComfyUI one.
+- TRELLIS 1 remains a real alternative engine: ~11.7–12.5GB measured
+  (not the quoted 16), image→textured GLB direct, MIT. Slower/simpler
+  texture than 2.1-PBR but one-shot.
+
+**Revised verdict:** attempt Hunyuan3D-2.1 paint in a dedicated venv with
+mmgp profile 4/5 + the visualbruno wheels. Projection-bake stays as the
+`texture: "project"` degrade; `texture: "paint"` becomes the upgrade
+opt-in. Text2Tex (12GB, SD2-depth, 15min/mesh) is a text-driven fallback
+if image-conditioned paint proves immovable — but PyTorch3D is
+conda/Linux friction on Windows.
+
+### Topology: learned artist-retopo is a dead end — template-fit instead
+
+A sibling research doc (Effigy 03-retopology) audited the field:
+
+- MeshAnything V2: **S-Lab non-commercial** license, ~1.6k face cap — out.
+- Tencent BPT: territory-restricted license — out.
+- FastMesh/MeshFlow (Meta): non-commercial — out.
+- DeepMesh 0.5B: Apache-2.0, but 1B variant (~30k faces) unreleased —
+  **watch-list only**.
+- QuadGPT/PolyGen/Tripo P2.0/Meshtron: closed or API-only — out.
+- The doc's bottom line matches Blender's own docs: *no open tool emits
+  animation-ready topology* (shoulder/elbow/knee/face loops).
+
+**The guarantee is template fitting:** register a CC0 looped humanoid
+base (MakeHuman hm08-style, or our own authored humanoid_v1-compatible
+surface mesh) onto the generated silhouette via Blender
+shrinkwrap/surface-deform — topology arrives by construction. For
+non-humanoid props, QuadriFlow+decimate (already shipped) is the right
+answer — props don't need deformation loops.
+
+### Rigging: skin-tokens.cpp collapses the whole question
+
+The best find: **localai-org/skin-tokens.cpp** — a C++23/GGML port of
+SkinTokens/TokenRig by the LocalAI team. Runs on **CPU or Vulkan** — no
+CUDA build, no torch env, single CLI:
+
+- `skintokens-cli rig models/ character.glb out.glb --device vulkan` —
+  full skeleton+weights on arbitrary meshes (F16 GGUF, ~1.6GB)
+- `skintokens-cli skin` — **weights for an EXISTING skeleton**: give it a
+  GLB carrying our `humanoid_v1` armature and it re-weights the generated
+  mesh onto OUR rig — every clip, event, socket, attach3d and golden
+  check stays valid. This is the conform path, learned rather than
+  heuristic.
+- Upstream VAST-AI/SkinTokens (MIT, Qwen3-0.6B, GRPO-refined) + the
+  Aero-Ex/ComfyUI-SkinTokens node (headless bpy server — pipeline
+  already speaks ComfyUI) remain options if the GGML port lags upstream.
+
+**New integration order:**
+
+1. `skintokens-cli skin` against a GLB with `humanoid_v1` embedded →
+   generated mesh inherits the full animation contract. Probably the
+   single highest-leverage move for the xianxia_hero production path.
+2. Hunyuan3D-2.1 paint in a dedicated venv (mmgp + visualbruno wheels) —
+   `texture: "paint"` provider opt-in.
+3. Template-fit surface conform for actor silhouette quality (only if
+   the generated shape reads badly at unit-render distance).
+4. DeepMesh/artist-retopo stays watch-list; Tripo auto_rig stays the
+   documented API fallback.
