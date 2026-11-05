@@ -187,8 +187,8 @@
   ],
   "composition": {
     "cross_row_occlusions": 0,
-    "draw_calls": 43,
-    "focus_lit_coverage": 0.28,
+    "draw_calls": 54,
+    "focus_lit_coverage": 0.285,
     "glb_placed": [
       "xx_azure_sage_3d"
     ],
@@ -201,8 +201,7 @@
       "turntable_front",
       "turntable_side",
       "turntable_back",
-      "channel_surge",
-      "staff_attach_close"
+      "sage_attach_close"
     ],
     "sprite_count": 1,
     "ui_count": 0
@@ -217,9 +216,9 @@
         "xx_sage_staff_3d": "sha256:4306db5d9f066596137992612bb5ed9150ce15a77970b7f1cecba513700466e7"
       }
     },
-    "job_file": "b6471fcc0b9b",
+    "job_file": "0023720bbe2d",
     "mode": "all",
-    "timestamp": "2026-11-05T04:17:02"
+    "timestamp": "2026-11-05T21:18:07"
   },
   "schema": "mm.report.v1",
   "shot_expect": {

@@ -60,7 +60,12 @@
         {
           "prop": "xx_sage_staff_3d",
           "to": "xx_azure_sage_3d",
-          "socket": "hand.r"
+          "socket": "hand.r",
+          "rot": [
+            -80,
+            0,
+            0
+          ]
         }
       ]
     },
@@ -81,8 +86,7 @@
       "turntable_front",
       "turntable_side",
       "turntable_back",
-      "channel_surge",
-      "staff_attach_close"
+      "sage_attach_close"
     ],
     "variants": {},
     "glbs": {

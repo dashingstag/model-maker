@@ -402,6 +402,7 @@ func _composition_mode() -> void:
 				sprites[m["id"]] = s
 				member_rows[m["id"]] = m.get("row")
 				glb_nodes[m["id"]] = {"inst": inst, "vp": vp,
+					"cam": stage["cam"],
 					"ap": inst.find_child("AnimationPlayer", true, false),
 					"skel": inst.find_child("Skeleton3D", true, false)}
 
@@ -423,6 +424,26 @@ func _composition_mode() -> void:
 			_opt_tex(pdir + "/sprite_idle_n.png"))
 		add_child(ps)
 		attached_props.append({"s": ps, "to": tgt, "off": off})
+
+	# at-rest 3D props — layout.attach3d sockets a prop glb onto a member's
+	# bone for the whole scene (actions may add their own on top)
+	for at in layout.get("attach3d", []):
+		var tgt3: String = at.get("to", "")
+		var pg = comp.get("glbs", {}).get(at.get("prop", ""))
+		if not glb_nodes.has(tgt3) or pg == null:
+			continue
+		var skel3: Skeleton3D = glb_nodes[tgt3]["skel"]
+		var pscn3: PackedScene = load(comp_dir + "/" + at["prop"] + "/" + pg)
+		if skel3 == null or pscn3 == null:
+			continue
+		var ba3 := BoneAttachment3D.new()
+		ba3.bone_name = at.get("socket", "hand.r")
+		skel3.add_child(ba3)
+		var pinst3: Node3D = pscn3.instantiate()
+		var rot3: Array = at.get("rot", [0, 0, 0])
+		pinst3.rotation_degrees = Vector3(rot3[0], rot3[1], rot3[2])
+		ba3.add_child(pinst3)
+		attached3d.append({"to": tgt3, "node": pinst3, "ba": ba3, "skel": skel3})
 
 	# overlap checks — patroller sim when a member patrols, else a static
 	# same-row penetration pass. Deterministic either way (fixed SIM_DT).
@@ -488,6 +509,11 @@ func _composition_mode() -> void:
 	walk_step_s = spacing / maxf(1.0, patrol_speed_px)
 	var shots_dir := out_dir + "/shots"
 	DirAccess.make_dir_recursive_absolute(shots_dir)
+	# shots mirror THIS run's spec — stale files from older specs (e.g.
+	# retired action shots) must not linger as blessed-looking evidence
+	for stale in DirAccess.get_files_at(shots_dir):
+		if stale.ends_with(".png"):
+			DirAccess.remove_absolute(shots_dir + "/" + stale)
 	var shot_lit := {}
 	for s in comp["shots"]:
 		var shot_name: String = s if s is String else s.get("name", "shot")
@@ -561,6 +587,22 @@ func _aabb_min_y(root: Node3D) -> float:
 			low = minf(low, (mi.global_transform * c).y)
 	return low
 
+## Named capture cameras — the `camera` field on action_shots captures.
+## "mid" is the default three-quarter stage frame; the rest are
+## deliberate angles, not ad-hoc positions.
+const CAP_CAMS := {
+	"mid": [Vector3(0, 1.15, 3.0), Vector3(0, 0.9, 0)],
+	"front_close": [Vector3(0, 1.35, 1.9), Vector3(0, 1.25, 0)],
+	# frames the socketed-prop region — right hand and the shaft below it
+	"attach_close": [Vector3(0.3, 1.2, 2.4), Vector3(0.35, 0.85, 0)],
+	"wide": [Vector3(0, 1.3, 4.4), Vector3(0, 0.9, 0)],
+	"side": [Vector3(1.9, 1.2, 2.4), Vector3(0, 1.0, 0)],
+}
+
+func _cap_cam(cam3: Camera3D, name: String) -> void:
+	var c = CAP_CAMS.get(name, CAP_CAMS["mid"])
+	cam3.look_at_from_position(c[0], c[1])
+
 func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) -> void:
 	# rigged-glb action clock: socket props via BoneAttachment3D, then play
 	# the named clip and capture each declared time — expect.props_attached
@@ -573,22 +615,6 @@ func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) 
 			continue
 		var entry := {"name": a.get("name"), "captures": [],
 			"expect": a.get("expect", {}), "props_attached": []}
-		for at in layout.get("attach3d", []):
-			var tgt: String = at.get("to", "")
-			var pg = comp.get("glbs", {}).get(at.get("prop", ""))
-			if not glb_nodes.has(tgt) or pg == null:
-				continue
-			var skel: Skeleton3D = glb_nodes[tgt]["skel"]
-			var pscn: PackedScene = load(
-				comp["components_dir"] + "/" + at["prop"] + "/" + pg)
-			if skel == null or pscn == null:
-				continue
-			var ba := BoneAttachment3D.new()
-			ba.bone_name = at.get("socket", "hand.r")
-			skel.add_child(ba)
-			var pinst: Node3D = pscn.instantiate()
-			ba.add_child(pinst)
-			attached3d.append({"to": tgt, "node": pinst, "ba": ba, "skel": skel})
 		# pick the clip sharing the longest leading token with the shot name
 		var aps := []
 		for role in a.get("cast", {}).values():
@@ -611,11 +637,15 @@ func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) 
 			var t: float = cap.get("t", 0.0)
 			for ap in aps:
 				ap.seek(t, true)
-			# frame the cast member
+			# frame the cast member — sprites take the 2D camera, glbs
+			# take their stage camera through the named vocabulary
+			var cap_cam: String = cap.get("camera", "mid")
 			for role in a.get("cast", {}).values():
-				if sprites.has(role):
+				if sprites.has(role) and not glb_nodes.has(role):
 					cam.position = sprites[role].position + Vector2(0, -160)
 					cam.zoom = Vector2(1.6, 1.6)
+				elif glb_nodes.has(role):
+					_cap_cam(glb_nodes[role]["cam"], cap_cam)
 			await _frames(8)
 			await _snap("%s/%s_t%s.png" % [shots_dir, a.get("name"),
 				str(t).replace(".", "p")])
@@ -794,6 +824,7 @@ func _run_staged_action(a: Dictionary, comp: Dictionary, shots_dir: String) -> v
 		entry["sync_on"] = sync_checks
 	for cap in a.get("captures", []):
 		var t: float = cap.get("t", 0.0)
+		_cap_cam(cam3, cap.get("camera", "mid"))
 		var seeks := {}
 		for tl in timeline:
 			var r: String = tl.get("role", "")
@@ -963,13 +994,19 @@ func _ct(d: Texture2D, n: Texture2D) -> CanvasTexture:
 func _focus_from_name(n: String) -> String:
 	var best := ""
 	for id in sprites:
-		var tok: String = id.split("/")[-1].split("_")[-1]
-		if tok.length() >= 4 and tok in n and (best == "" or id.length() > best.length()):
-			best = id
+		# match any meaningful id token — glb cids end in "_3d" so the
+		# last token is useless; "sage" must find xx_azure_sage_3d
+		for tok in id.split("/")[-1].split("_"):
+			if tok.length() >= 4 and tok in n and \
+					(best == "" or id.length() > best.length()):
+				best = id
 	return best
 
 func _setup_shot(n: String, sspec := {}) -> void:
 	if dialogue: dialogue.visible = false
+	# turntable shots leave glb insts yawed — every other shot starts facing front
+	for g in glb_nodes.values():
+		g["inst"].rotation_degrees.y = 0.0
 	mod.color = _mod_color()
 	cam.zoom = Vector2.ONE
 	cam.position = Vector2(640, 360)
@@ -1021,6 +1058,16 @@ func _setup_shot(n: String, sspec := {}) -> void:
 			cam.zoom = Vector2(1.6, 1.6)
 	elif "dialogue" in n:
 		_show_dialogue()
+	elif glb_nodes.has(focus):
+		# a close on a glb member moves its stage camera AND zooms the
+		# composite — sprite-zoom alone would just enlarge a wide render
+		if "attach_close" in n:
+			_cap_cam(glb_nodes[focus]["cam"], "attach_close")
+		elif "close" in n:
+			_cap_cam(glb_nodes[focus]["cam"], "front_close")
+		var z2: float = zoom if zoom > 0.0 else 2.2
+		cam.position = sprites[focus].position + Vector2(off[0], off[1])
+		cam.zoom = Vector2(z2, z2)
 	elif focus != "" and sprites.has(focus):
 		var z := zoom if zoom > 0.0 else 1.9
 		cam.position = sprites[focus].position + Vector2(off[0], off[1])
