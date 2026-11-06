@@ -303,6 +303,7 @@ var min_gap := 9999.0
 var walk_t := 0.0
 var patroller: Sprite2D
 var patroller_id := ""
+var patroller_idle: Texture2D
 var patrol_frames: Array = []
 var dialogue: Control
 var dialogue_img := ""
@@ -372,6 +373,7 @@ func _composition_mode() -> void:
 				if m.get("patrol"):
 					patroller = s
 					patroller_id = m["id"]
+					patroller_idle = s.texture
 					for p in m.get("walk", []):
 						patrol_frames.append(_frame_tex(dir, p))
 			"ui":
@@ -518,7 +520,7 @@ func _composition_mode() -> void:
 	for s in comp["shots"]:
 		var shot_name: String = s if s is String else s.get("name", "shot")
 		var sspec: Dictionary = {} if s is String else s.get("camera", {})
-		_setup_shot(shot_name, sspec)
+		var res := _setup_shot(shot_name, sspec)
 		await _frames(8)
 		var img := await _snap("%s/%s.png" % [shots_dir, shot_name])
 		var lit_rect := Rect2(Vector2.ZERO, img.get_size())
@@ -526,7 +528,12 @@ func _composition_mode() -> void:
 			lit_rect = _canvas_rect(focus_spr).intersection(lit_rect)
 		shot_lit[shot_name] = {
 			"lit": _lit_coverage(img, lit_rect),
+			"resolve": res,
 			"dialogue": dialogue != null and dialogue.visible}
+		# unresolved names must report pass:null — the frame exists as
+		# evidence but must not certify as the named intent
+		if res.begins_with("unresolved"):
+			shot_lit[shot_name]["pass"] = null
 
 	var metrics := {
 		"draw_calls": int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)),
@@ -544,6 +551,15 @@ func _composition_mode() -> void:
 	}
 	report["composition"] = metrics
 	report["shot_expect"] = _eval_expect(comp.get("shot_expect", {}), metrics, shot_lit)
+	# shot-name contract: every declared shot's resolution (+ pass:null
+	# for unresolved) is evidence in the report, not just the PNG
+	report["shot_resolve"] = {}
+	for sn in shot_lit:
+		var sl: Dictionary = shot_lit[sn]
+		var sd := {"resolve": sl["resolve"]}
+		if "pass" in sl:
+			sd["pass"] = sl["pass"]
+		report["shot_resolve"][sn] = sd
 	await _run_action_shots(comp, layout, shots_dir)
 
 func _mk_stage3d(vsize: Vector2i) -> Dictionary:
@@ -599,9 +615,43 @@ const CAP_CAMS := {
 	"side": [Vector3(1.9, 1.2, 2.4), Vector3(0, 1.0, 0)],
 }
 
-func _cap_cam(cam3: Camera3D, name: String) -> void:
-	var c = CAP_CAMS.get(name, CAP_CAMS["mid"])
+func _cap_cam(cam3: Camera3D, name: String) -> bool:
+	# camera tokens are a contract — unknown names must fail loudly
+	# upstream, not silently fall back to "mid"
+	if not CAP_CAMS.has(name):
+		return false
+	var c: Array = CAP_CAMS[name]
 	cam3.look_at_from_position(c[0], c[1])
+	return true
+
+func _world_aabb(root: Node3D) -> AABB:
+	var bb := AABB()
+	var first := true
+	for mi in root.find_children("", "MeshInstance3D", true, false):
+		var a: AABB = mi.get_aabb()
+		for ci in 8:
+			var w: Vector3 = mi.global_transform * (a.position + Vector3(
+				a.size.x if ci & 1 else 0.0,
+				a.size.y if ci & 2 else 0.0,
+				a.size.z if ci & 4 else 0.0))
+			bb = bb.expand(w) if not first else AABB(w, Vector3.ZERO)
+			first = false
+	return bb
+
+func _cap_cam_fit(cam3: Camera3D, name: String, bb: AABB, margin := 1.15) -> bool:
+	# preset direction from CAP_CAMS, distance fit to the subject's
+	# world AABB — fixed distances crop tall props or dwarf figures
+	if not CAP_CAMS.has(name):
+		return false
+	if bb.size == Vector3.ZERO:
+		return _cap_cam(cam3, name)
+	var c: Array = CAP_CAMS[name]
+	var ctr := bb.get_center()
+	var radius := bb.size.length() / 2.0
+	var dir: Vector3 = (c[0] - c[1]).normalized()
+	var dist := radius / tan(deg_to_rad(cam3.fov) / 2.0) * margin
+	cam3.look_at_from_position(ctr + dir * dist, ctr)
+	return true
 
 func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) -> void:
 	# rigged-glb action clock: socket props via BoneAttachment3D, then play
@@ -640,12 +690,29 @@ func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) 
 			# frame the cast member — sprites take the 2D camera, glbs
 			# take their stage camera through the named vocabulary
 			var cap_cam: String = cap.get("camera", "mid")
+			if not CAP_CAMS.has(cap_cam):
+				var un: Array = entry.get("unresolved_cameras", [])
+				if cap_cam not in un:
+					un.append(cap_cam)
+					entry["unresolved_cameras"] = un
+					entry["pass"] = null
+			# fit the 2D frame to the sprite-cast union — the last role
+			# owning the camera framed co-cast members out (ledger #54)
+			var spr_bb := Rect2()
+			var first_s := true
 			for role in a.get("cast", {}).values():
 				if sprites.has(role) and not glb_nodes.has(role):
-					cam.position = sprites[role].position + Vector2(0, -160)
-					cam.zoom = Vector2(1.6, 1.6)
+					var r := _canvas_rect(sprites[role])
+					spr_bb = spr_bb.merge(r) if not first_s else r
+					first_s = false
 				elif glb_nodes.has(role):
-					_cap_cam(glb_nodes[role]["cam"], cap_cam)
+					_cap_cam_fit(glb_nodes[role]["cam"], cap_cam,
+						_world_aabb(glb_nodes[role]["inst"]))
+			if not first_s:
+				cam.position = spr_bb.get_center()
+				var zx := minf(1280.0 / (spr_bb.size.x + 240.0),
+						720.0 / (spr_bb.size.y + 200.0))
+				cam.zoom = Vector2.ONE * clampf(zx, 0.4, 1.6)
 			await _frames(8)
 			await _snap("%s/%s_t%s.png" % [shots_dir, a.get("name"),
 				str(t).replace(".", "p")])
@@ -658,7 +725,7 @@ func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) 
 					var d: float = at2["node"].global_position.distance_to(bpos)
 					entry["props_attached"].append({"t": t, "dist": snappedf(d, 0.01),
 						"pass": d < 0.4})
-		if entry["props_attached"].size():
+		if entry["props_attached"].size() and "unresolved_cameras" not in entry:
 			var ok1 := true
 			for p2 in entry["props_attached"]:
 				if p2.get("pass") == false:
@@ -824,7 +891,7 @@ func _run_staged_action(a: Dictionary, comp: Dictionary, shots_dir: String) -> v
 		entry["sync_on"] = sync_checks
 	for cap in a.get("captures", []):
 		var t: float = cap.get("t", 0.0)
-		_cap_cam(cam3, cap.get("camera", "mid"))
+		var cap_tok: String = cap.get("camera", "mid")
 		var seeks := {}
 		for tl in timeline:
 			var r: String = tl.get("role", "")
@@ -847,6 +914,20 @@ func _run_staged_action(a: Dictionary, comp: Dictionary, shots_dir: String) -> v
 			var hold: Node3D = roles[role].get("aim_hold")
 			if hold:
 				hold.look_at(roles[role]["aim_point"], Vector3.UP, true)
+		# fit the stage cam to the POSED cast union — extent measured
+		# after seeks so animated limbs/props can't crop out (ledger #59)
+		var stage_bb := AABB()
+		var first := true
+		for role in roles:
+			var ibb := _world_aabb(roles[role]["inst"])
+			if ibb.size != Vector3.ZERO:
+				stage_bb = stage_bb.merge(ibb) if not first else ibb
+				first = false
+		if not _cap_cam_fit(cam3, cap_tok, stage_bb):
+			var un: Array = entry.get("unresolved_cameras", [])
+			if cap_tok not in un:
+				un.append(cap_tok)
+				entry["unresolved_cameras"] = un
 		await _frames(2)
 		await RenderingServer.frame_post_draw
 		var img := vp.get_texture().get_image()
@@ -922,7 +1003,9 @@ func _run_staged_action(a: Dictionary, comp: Dictionary, shots_dir: String) -> v
 	for s2 in entry.get("sync_on", []):
 		if s2.get("pass") == false:
 			entry_pass = false
-	entry["pass"] = entry_pass
+	# unresolved camera tokens fail loudly: framing could not be
+	# certified even when the measured checks all passed
+	entry["pass"] = null if "unresolved_cameras" in entry else entry_pass
 	report["action_shots"].append(entry)
 	vp.queue_free()
 
@@ -1002,20 +1085,37 @@ func _focus_from_name(n: String) -> String:
 				best = id
 	return best
 
-func _setup_shot(n: String, sspec := {}) -> void:
+## Names that legitimately frame the whole canvas — anything else
+## landing in the fallback branch is an unresolved shot name and must be
+## reported (a silent wide-frame decoy once blessed three roster shots).
+const WIDE_HINTS := ["vista", "wide", "all", "grid", "select", "group",
+	"full", "scene", "roster", "terrace", "landscape", "overview"]
+
+func _setup_shot(n: String, sspec := {}) -> String:
+	# returns "ok"-family token or "unresolved:<why>" — shot names are a
+	# contract; the report must say when a name didn't drive the frame
 	if dialogue: dialogue.visible = false
 	# turntable shots leave glb insts yawed — every other shot starts facing front
 	for g in glb_nodes.values():
 		g["inst"].rotation_degrees.y = 0.0
+	# the walk sim and walk_t* shots leave the patroller in a walk frame —
+	# static shots must see idle (ledger #52)
+	if patroller and patroller_idle and not n.begins_with("walk_t"):
+		patroller.texture = patroller_idle
 	mod.color = _mod_color()
 	cam.zoom = Vector2.ONE
 	cam.position = Vector2(640, 360)
 	# explicit camera spec on a dict shot wins outright
 	var focus: String = sspec.get("focus", "")
+	var bad_focus := focus != "" and not sprites.has(focus) \
+		and not glb_nodes.has(focus)
+	if bad_focus:
+		focus = ""
 	var zoom: float = sspec.get("zoom", 0.0)
 	var off: Array = sspec.get("offset", [0, -180])
 	if focus == "":
 		focus = _focus_from_name(n)
+	var res := "ok"
 	if n.begins_with("walk_t"):
 		var t := int(n.substr(6)) * walk_step_s
 		if patroller:
@@ -1049,9 +1149,15 @@ func _setup_shot(n: String, sspec := {}) -> void:
 			light2d.position = Vector2(640, 480)
 	elif "turntable_" in n:
 		var yaw: float = {"turntable_front": 0.0, "turntable_side": 90.0,
-			"turntable_back": 180.0}.get(n, 0.0)
-		for g in glb_nodes.values():
-			g["inst"].rotation_degrees.y = yaw
+			"turntable_back": 180.0}.get(n, -1.0)
+		if yaw < 0.0:
+			res = "unresolved:turntable name"
+		else:
+			for g in glb_nodes.values():
+				g["inst"].rotation_degrees.y = yaw
+				# fit the stage cam to the yawed subject — fixed
+				# distances rendered figures ~20% of frame (ledger #59)
+				_cap_cam_fit(g["cam"], "mid", _world_aabb(g["inst"]))
 		var any_spr: Sprite2D = sprites.values()[0] if not sprites.is_empty() else null
 		if any_spr:
 			cam.position = any_spr.position + Vector2(0, -160)
@@ -1061,10 +1167,11 @@ func _setup_shot(n: String, sspec := {}) -> void:
 	elif glb_nodes.has(focus):
 		# a close on a glb member moves its stage camera AND zooms the
 		# composite — sprite-zoom alone would just enlarge a wide render
+		var bb := _world_aabb(glb_nodes[focus]["inst"])
 		if "attach_close" in n:
-			_cap_cam(glb_nodes[focus]["cam"], "attach_close")
+			_cap_cam_fit(glb_nodes[focus]["cam"], "attach_close", bb)
 		elif "close" in n:
-			_cap_cam(glb_nodes[focus]["cam"], "front_close")
+			_cap_cam_fit(glb_nodes[focus]["cam"], "front_close", bb)
 		var z2: float = zoom if zoom > 0.0 else 2.2
 		cam.position = sprites[focus].position + Vector2(off[0], off[1])
 		cam.zoom = Vector2(z2, z2)
@@ -1089,7 +1196,17 @@ func _setup_shot(n: String, sspec := {}) -> void:
 		# a 1280x720 frame only sees the top-left quadrant (empty sky)
 		cam.position = Vector2(1280, 720)
 		cam.zoom = Vector2(0.5, 0.5)
+		var wide := false
+		for h in WIDE_HINTS:
+			if h in n:
+				wide = true
+				break
+		if not wide:
+			res = "unresolved:shot name"
+	if bad_focus:
+		res = "unresolved:focus " + sspec.get("focus", "")
 	_apply_parallax()
+	return res
 
 func _apply_parallax() -> void:
 	# far layers (low factor) lag behind camera travel; (640,360) is the

@@ -45,7 +45,7 @@
       "captures": [
         {
           "t": 0.6,
-          "camera": "terrace"
+          "camera": "wide"
         }
       ],
       "expect": {

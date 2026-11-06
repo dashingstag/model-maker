@@ -4,7 +4,7 @@
   "h_px": 300,
   "pivot": "center",
   "prop": true,
-  "prompt_core": "ornate silver sage staff, twisted dark-metal shaft, large glowing blue gem held in a claw setting at the top, tassel cord, vertical orientation, full weapon in frame",
+  "prompt_core": "long dark iron staff weapon, slender twisted dark-metal pole running the full frame vertically, plain dark shaft with subtle spiral wrap, one glowing blue gem in a simple claw setting at the top end, no blade no point",
   "must_have": [
     "blue gem headpiece",
     "silver-dark shaft",
@@ -13,7 +13,19 @@
   "must_not": [
     "hands holding it",
     "extra staves",
-    "text"
+    "text",
+    "pendant",
+    "medallion",
+    "hanging ornament",
+    "round emblem",
+    "necklace",
+    "blade",
+    "sword",
+    "spear point",
+    "cage",
+    "scepter",
+    "white jade",
+    "multiple dangling ribbons"
   ],
   "seeds": 3,
   "review": "auto",
@@ -51,5 +63,8 @@
     },
     "prompt_hints": "moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist",
     "prop_hints": "polished silver steel, faint cyan rune glow, white silk tassel, jade inlay, subtle gold filigree"
+  },
+  "contract": {
+    "aspect_min": 1.5
   }
 }

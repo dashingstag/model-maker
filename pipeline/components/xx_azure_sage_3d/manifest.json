@@ -121,6 +121,11 @@
       "rev": 3,
       "ts": 1793823143.4712965,
       "status": "certified"
+    },
+    {
+      "ts": 1793987242.6441987,
+      "actor": "devin:curator",
+      "note": "rev2: shape gen + PBR paint + conform to humanoid_v1; 19 joints/8 clips intact, 41 baked albedos"
     }
   ],
   "toolchain": {

@@ -4,7 +4,7 @@
   "h_px": 300,
   "pivot": "center",
   "prop": true,
-  "prompt_core": "long flowing crimson silk spirit ribbon weapon, coiled in a serpentine curve, gold-thread edges catching light",
+  "prompt_core": "flowing deep crimson red silk ribbon weapon, one long continuous fabric band streaming in a loose S-curve, gold-thread hem edges, soft textile drape, no handle",
   "must_have": [
     "serpentine curve",
     "gold-thread edge",
@@ -13,7 +13,19 @@
   "must_not": [
     "hands holding it",
     "broken ribbon",
-    "text"
+    "text",
+    "jade",
+    "spiral disk",
+    "medallion",
+    "circular emblem",
+    "coiled ornament",
+    "gem",
+    "white ribbon",
+    "pale fabric",
+    "handle",
+    "whip",
+    "sword",
+    "tassels"
   ],
   "seeds": 3,
   "review": "auto",
@@ -51,5 +63,10 @@
     },
     "prompt_hints": "moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist",
     "prop_hints": "polished silver steel, faint cyan rune glow, white silk tassel, jade inlay, subtle gold filigree"
+  },
+  "contract": {
+    "palette_check": [
+      "ribbon_red"
+    ]
   }
 }

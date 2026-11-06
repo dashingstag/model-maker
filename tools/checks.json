@@ -26,6 +26,11 @@
     "cmd": "python tools/texture_smoke.py",
     "desc": "headless Blender texture post-step on a mock GLB"
   },
+  "contract:{arg}": {
+    "cmd": "python tools/contract_check.py {arg}",
+    "desc": "executable must_have contract: palette colors, aspect, glb bones/anims/nodes/textures",
+    "arg_hint": "<cid>"
+  },
   "tests:gd": {
     "cmd": "\"C:/Workspace/Godot_v4.6.3-stable_win64.exe/Godot_v4.6.3-stable_win64_console.exe\" --headless --path godot -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests --ignoreHeadlessMode",
     "desc": "gdUnit4 GDScript suite (runner vocab/focus contracts)"

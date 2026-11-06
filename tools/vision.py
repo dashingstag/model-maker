@@ -118,6 +118,16 @@ def certify(cid):
         bad = [g for g, ok in m.get("gate", {}).items() if ok is False]
         if bad and not m.get("waiver"):
             sys.exit(f"{cid}: cannot certify — failing gates {bad}")
+        # the brief's executable contract (tools/contract_check.py) is a
+        # gate too — must_have semantics that check mechanically refuse
+        # certification when the last run failed them
+        cp = os.path.join(d, "unit_render", "contract.json")
+        if os.path.exists(cp):
+            c = json.load(open(cp))
+            if c.get("pass") is False and not m.get("waiver"):
+                bad = [x["id"] for x in c.get("checks", [])
+                       if x.get("pass") is False]
+                sys.exit(f"{cid}: cannot certify — contract {bad}")
         m["status"] = "certified"
         m["certified"] = {"ts": time.time(), "by": v.get("actor")}
         atomic_json(mp, m)

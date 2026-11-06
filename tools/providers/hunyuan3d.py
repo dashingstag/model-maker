@@ -87,6 +87,10 @@ def generate(cid, cdir, brief, opts, env, out):
                 "(dedicated venv, torch 2.7+cu128)")
         raw = out + ".paint_src.glb"
         mesh.export(raw)
+        # if paint dies before writing `out`, a stale export there would
+        # still pass the existence check below — remove it first
+        if os.path.exists(out):
+            os.remove(out)
         r = subprocess.run(
             [paint_py, os.path.join(_TOOLS, "hy3d_paint.py"),
              raw, src, out,
@@ -138,7 +142,7 @@ def generate(cid, cdir, brief, opts, env, out):
         r = subprocess.run(
             [blender, "--background", "--python",
              os.path.join(_TOOLS, "blender_conform.py"), "--",
-             template, out, out],
+             os.path.abspath(template), out, out],
             capture_output=True, text=True)
         if r.returncode != 0 or not os.path.exists(out):
             raise RuntimeError(

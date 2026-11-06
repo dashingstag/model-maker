@@ -25,6 +25,11 @@
       "rev": 1,
       "ts": 1793823215.645431,
       "status": "certified"
+    },
+    {
+      "ts": 1793987242.6490185,
+      "actor": "devin:curator",
+      "note": "rev2: regenerated via hunyuan3d from render of prior certified prop; PBR paint; 3998 faces"
     }
   ],
   "toolchain": {

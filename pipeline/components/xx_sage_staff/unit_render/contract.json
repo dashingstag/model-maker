@@ -1,0 +1,15 @@
+{
+  "cid": "xx_sage_staff",
+  "pass": true,
+  "checks": [
+    {
+      "id": "aspect",
+      "pass": true,
+      "value": 2.636,
+      "target": [
+        1.5,
+        null
+      ]
+    }
+  ]
+}

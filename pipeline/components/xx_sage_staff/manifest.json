@@ -2,7 +2,7 @@
   "schema_v": 1,
   "id": "xx_sage_staff",
   "type": "sprite",
-  "status": "certified",
+  "status": "needs_human",
   "rev": 1,
   "constraints": {
     "type": "sprite",
@@ -24,8 +24,14 @@
   "gate_mode": {
     "fringe_ok": "enforced"
   },
-  "waiver": null,
-  "history": [],
+  "waiver": "2 regen rounds failed to produce a staff (pendants/scepters/daggers - DS8 prior). 3D source exists: pipeline/components/xx_sage_staff_3d; use xx_sage_staff_3d render or hand-authored ref for the sprite.",
+  "history": [
+    {
+      "ts": 1793985175.459197,
+      "actor": "devin:curator",
+      "note": "needs_human: 2 failed regen rounds; candidates kept in candidates/index.json"
+    }
+  ],
   "toolchain": {
     "blender": "4.5.15",
     "comfyui": "0.43.0",

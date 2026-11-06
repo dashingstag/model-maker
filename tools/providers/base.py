@@ -35,6 +35,8 @@ def provider_of(brief):
 def generate(cid, cdir, brief, env):
     name, opts = provider_of(brief)
     ad = adapter(name)
+    # subprocess stages (paint driver chdirs) need real paths, not cwd-relative
+    cdir = os.path.abspath(cdir)
     out = os.path.join(cdir, "export", f"{cid}.glb")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     ad.generate(cid, cdir, brief, opts, env, out)

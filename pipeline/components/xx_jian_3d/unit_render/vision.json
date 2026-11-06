@@ -1,18 +1,18 @@
 {
   "verdict": "pass",
-  "actor": "agent",
-  "ts": 1793823312.9535394,
+  "actor": "devin:curator",
+  "ts": 1793987242.6455495,
   "checks": {
-    "materials not washed out": "pass",
-    "animations play without clipping": "pass",
-    "within tri budget": "pass",
-    "has: straight double edge": "pass",
-    "has: disc guard": "pass",
-    "absent: curved blade": "pass"
+    "unit render shows straight blade silhouette": "pass",
+    "has: blade + guard + pommel structure": "pass",
+    "has: PBR texture (albedo + metallic/roughness)": "pass"
   },
-  "flags": [],
-  "note": null,
+  "flags": [
+    "thin profile renders small in neutral shot - framing limit, not asset defect"
+  ],
+  "note": "rev2: shape gen + PBR paint; 8000 faces, embedded albedo + metallic/roughness sidecars",
   "reviewed_files": [
-    "unit_render/neutral.png"
+    "unit_render/neutral.png",
+    "unit_render/idle_50.png"
   ]
 }

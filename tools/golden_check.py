@@ -43,22 +43,39 @@ def diff(a_path, b_path, tol):
     return {"changed": changed / (w * h)}
 
 
+def _dupes(path, names):
+    """Groups of byte-identical shots — the decoy signature of an
+    unresolved shot name capturing the same fallback frame."""
+    import hashlib
+    by_hash = {}
+    for f in names:
+        with open(os.path.join(path, f), "rb") as fh:
+            by_hash.setdefault(hashlib.md5(fh.read()).hexdigest(),
+                               []).append(f)
+    return [g for g in by_hash.values() if len(g) > 1]
+
+
 def main(goal, write, max_changed, tol, only):
     comp = os.path.join(ROOT, "pipeline", "composition", goal, "shots")
     gold = os.path.join(ROOT, "golden", goal)
     if write:
         os.makedirs(gold, exist_ok=True)
-        n = 0
-        for f in sorted(os.listdir(comp)):
-            if f.endswith(".png"):
-                Image.open(os.path.join(comp, f)).save(
-                    os.path.join(gold, f))
-                n += 1
-        print(f"{goal}: blessed {n} golden shots")
+        names = sorted(f for f in os.listdir(comp) if f.endswith(".png"))
+        for f in names:
+            Image.open(os.path.join(comp, f)).save(
+                os.path.join(gold, f))
+        print(f"{goal}: blessed {len(names)} golden shots")
+        for g in _dupes(comp, names):
+            print(f"{goal}: WARNING byte-identical shots blessed: "
+                  f"{', '.join(g)}")
         return
     names = only or sorted(
         f for f in os.listdir(gold) if f.endswith(".png"))
     report = {"goal": goal, "shots": {}}
+    fresh = [f for f in names if os.path.exists(os.path.join(comp, f))]
+    d = _dupes(comp, fresh)
+    if d:
+        report["dupes"] = d
     worst = 0.0
     for name in names:
         gp, cp = os.path.join(gold, name), os.path.join(comp, name)

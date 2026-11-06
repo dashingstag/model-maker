@@ -135,12 +135,28 @@ def main():
             m.data.materials.clear()
             m.data.materials.append(mm)
             m.hide_set(False)
+        # bake checks effective visibility incl. parents — armature-parented
+        # parts inherit OB_HIDE_RENDER, so clear it scene-wide
+        for o in bpy.data.objects:
+            o.hide_render = False
+            o.hide_viewport = False
+        # selected_to_active writes only to the active object — bake each
+        # template mesh in turn or every other part exports black
+        missed = []
+        for m in tmesh:
+            bpy.ops.object.select_all(action="DESELECT")
             m.select_set(True)
-        tgt.select_set(True)
-        bpy.context.view_layer.objects.active = tmesh[0]
-        bpy.ops.object.bake(
-            type="EMIT", use_selected_to_active=True, margin=8,
-            cage_extrusion=0.5)
+            tgt.select_set(True)
+            bpy.context.view_layer.objects.active = m
+            try:
+                bpy.ops.object.bake(
+                    type="EMIT", use_selected_to_active=True, margin=8,
+                    cage_extrusion=0.5)
+            except RuntimeError as e:
+                missed.append(m.name)
+                print("bake skipped:", m.name, "-", e)
+        if missed:
+            print("bake missed parts:", ", ".join(missed))
         tmp_pngs = []
         for m in tmesh:
             m.select_set(False)

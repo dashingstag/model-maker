@@ -1,13 +1,13 @@
 {
   "schema": "mm.jobs.v1",
-  "mode": "all",
+  "mode": "unit",
   "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\xianxia_overworld",
   "provenance": {
     "manifests": {
       "xx_peaks_far": "sha256:e93a97a4fd9cfe4275d94346f2acb878029307f62e0e59d34508339687c07dd4",
       "xx_falls_mid": "sha256:3e05b6f9156f0af8f2f9d21840ff5781421a41fab16c27153d4b69c06669357f",
       "xx_terrace": "sha256:14a4d394e9446e1ca5422cd53cd058c8c7e5c553496ea28948d085f383c07df2",
-      "xx_immortal_m": "sha256:1b888ec27d46ba9d311975937afe05a01b911c3d1e999c804f481e7b52cc3380",
+      "xx_immortal_m": "sha256:2f3345a7bcd2d171d1932a79a4f6b69493c339ac6ae53ca63382dd29c8e27637",
       "xx_immortal_f": "sha256:37f12f7d971768b14ee82b0cfe1131105e7bdd8584884c7ea1cba7609583b5da",
       "xx_m_robes": "sha256:30e1dd4cbd9e1c76035f60fbbcbf979c6c2acb6032cf9f4bc515d1e4bade6ff3",
       "xx_f_robes": "sha256:86375671e6347245d3cc34db84c1efb037a6d95f3ed4fb82f45f6faf7bf56daf",
@@ -16,7 +16,7 @@
       "xx_azure_sage": "sha256:9bea8fd740546409aa0cebfca4808f84793ff910aeff67e9a57b72f53ddebde0",
       "xx_sage_staff": "sha256:0925835f2ce50789594e36282086535c150a84f45ffa318a85eeb4f5e86aa0da",
       "xx_jian": "sha256:8663844bce1214a4dea0517d89c394802b2b2bfd95df67eaa120a723e23c23aa",
-      "xx_ribbon": "sha256:5b343f550f0e59ade298fdf064c1e8ad55e311db938205f2991483d094c5ffaf"
+      "xx_ribbon": "sha256:489a663cba99c3e58c0576e3b2146bc05a84a8b471294a0b95a41d62f3869dde"
     },
     "goal": "xianxia_overworld"
   },
@@ -340,7 +340,7 @@
         "captures": [
           {
             "t": 0.6,
-            "camera": "terrace"
+            "camera": "wide"
           }
         ],
         "expect": {

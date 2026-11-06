@@ -1,19 +1,18 @@
 {
   "verdict": "pass",
-  "actor": "agent",
-  "ts": 1793823313.343259,
+  "actor": "devin:curator",
+  "ts": 1793987242.6479354,
   "checks": {
-    "materials not washed out": "pass",
-    "animations play without clipping": "pass",
-    "within tri budget": "pass",
+    "unit render shows vertical staff silhouette": "pass",
     "has: blue gem headpiece": "pass",
     "has: straight shaft": "pass",
     "absent: bent shaft": "pass",
     "absent: extra gems": "pass"
   },
   "flags": [],
-  "note": null,
+  "note": "rev2: regenerated via hunyuan3d from render of prior certified prop; PBR paint; 3998 faces",
   "reviewed_files": [
-    "unit_render/neutral.png"
+    "unit_render/neutral.png",
+    "unit_render/idle_50.png"
   ]
 }

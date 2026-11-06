@@ -1,6 +1,6 @@
 {
   "schema": "mm.jobs.v1",
-  "mode": "all",
+  "mode": "unit",
   "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\xianxia_hero",
   "provenance": {
     "manifests": {

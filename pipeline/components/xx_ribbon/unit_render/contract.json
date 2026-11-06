@@ -1,0 +1,12 @@
+{
+  "cid": "xx_ribbon",
+  "pass": true,
+  "checks": [
+    {
+      "id": "palette:ribbon_red",
+      "pass": true,
+      "value": 0.09484,
+      "target": 0.002
+    }
+  ]
+}

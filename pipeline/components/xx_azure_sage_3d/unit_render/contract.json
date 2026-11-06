@@ -1,0 +1,66 @@
+{
+  "cid": "xx_azure_sage_3d",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:root",
+      "pass": true
+    },
+    {
+      "id": "bone:spine",
+      "pass": true
+    },
+    {
+      "id": "bone:hand.r",
+      "pass": true
+    },
+    {
+      "id": "bone:hand.l",
+      "pass": true
+    },
+    {
+      "id": "bone:foot.l",
+      "pass": true
+    },
+    {
+      "id": "bone:foot.r",
+      "pass": true
+    },
+    {
+      "id": "bone:head",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "anim:channel_water",
+      "pass": true
+    },
+    {
+      "id": "anim:staff_salute",
+      "pass": true
+    },
+    {
+      "id": "anim:seated_meditate",
+      "pass": true
+    },
+    {
+      "id": "anim:sword_swing",
+      "pass": true
+    },
+    {
+      "id": "anim:parry",
+      "pass": true
+    },
+    {
+      "id": "anim:recover",
+      "pass": true
+    }
+  ]
+}

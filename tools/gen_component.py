@@ -214,6 +214,10 @@ def main():
     b = json.load(open(os.path.join(cdir, "brief.json")))
     seeds_n = int(sys.argv[sys.argv.index("--seeds") + 1]) if "--seeds" in sys.argv \
         else int(b.get("seeds", 3))
+    # re-gen rounds need fresh seed space — index.has() would skip the
+    # old fnames even with a changed prompt (write-once candidates)
+    seed_off = int(sys.argv[sys.argv.index("--seed-offset") + 1]) \
+        if "--seed-offset" in sys.argv else 0
     comfy = sys.argv[sys.argv.index("--comfy") + 1] if "--comfy" in sys.argv else ENV["comfyui_dir"]
     cand = os.path.join(cdir, "candidates")
     os.makedirs(cand, exist_ok=True)
@@ -305,7 +309,7 @@ def main():
                        else pc["denoise"] if init_dst else 1.0)
             tag = "_i2i" if init_dst else ""
             for i in range(seeds_n):
-                seed = pc["seed"] + i
+                seed = pc["seed"] + i + seed_off
                 prefix = f"{cid}_{pose}{tag}_s{seed}"
                 wf = (wf_sprite(p_full, neg, w, h, seed, prefix, depth_dst,
                                 init_dst, denoise)
@@ -327,7 +331,7 @@ def main():
         extra = b["style"]["subject_bg"] if t == "ui_image" else b["style"]["scene_suffix"]
         p_full = f"{extra}, {prompt}"
         for i in range(seeds_n):
-            seed = 5000 + i
+            seed = 5000 + i + seed_off
             prefix = f"{cid}_s{seed}"
             run_seed(idx, cand, comfy, wf_txt2img(p_full, neg, w, h, seed, prefix), "7",
                      {"file": f"{prefix}.png", "seed": seed, "prompt": p_full,

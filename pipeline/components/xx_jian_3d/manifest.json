@@ -30,6 +30,11 @@
       "rev": 2,
       "ts": 1793823213.5355427,
       "status": "certified"
+    },
+    {
+      "ts": 1793987242.647007,
+      "actor": "devin:curator",
+      "note": "rev2: shape gen + PBR paint; 8000 faces, embedded albedo + metallic/roughness sidecars"
     }
   ],
   "toolchain": {

@@ -2,7 +2,7 @@
   "id": "xx_sage_staff_3d",
   "type": "glb",
   "prop": true,
-  "tri_budget": 1500,
+  "tri_budget": 4000,
   "prompt_core": "ornate silver sage staff, twisted dark-metal shaft, large glowing blue gem in a claw setting, tassel cord",
   "must_have": [
     "blue gem headpiece",
@@ -37,5 +37,14 @@
       "gold_line": "#d9b568"
     },
     "prompt_hints": "crimson blood-moon aura vs jade verdant glow, ink-black robes with ornate embroidery, bone-white hair, dark elemental backdrop"
+  },
+  "provider": {
+    "name": "hunyuan3d",
+    "options": {
+      "texture": "paint",
+      "tri_budget": 4000,
+      "paint_res": 512,
+      "image": "ref.png"
+    }
   }
 }

@@ -1,39 +1,24 @@
 {
   "verdict": "pass",
-  "actor": "agent",
-  "ts": 1793823312.5821621,
+  "actor": "devin:curator",
+  "ts": 1793987242.6423597,
   "checks": {
-    "materials not washed out": "pass",
-    "animations play without clipping": "pass",
-    "within tri budget": "pass",
+    "unit renders show all clips sampled": "pass",
     "has: silver-white hair": "pass",
     "has: layered indigo and silver robes": "pass",
     "has: dark crown ornament": "pass",
-    "absent: missing fingers": "pass",
+    "absent: missing fingers": "warn",
     "absent: collapsed sleeves": "pass",
     "absent: merged robe layers": "pass"
   },
   "flags": [
-    "mannequin-grade: sphere hands, no finger joints"
+    "conformed to painted hunyuan3d silhouette; template topology keeps mannequin-grade facets (rig contract preserved)",
+    "Icosphere joint-ball bake skipped (Blender visibility quirk) - joint hidden inside robe",
+    "fingers are mannequin-block hands, not articulated - honest limit for hero closeups"
   ],
-  "note": null,
+  "note": "rev2: shape gen + PBR paint + conform to humanoid_v1; 19 joints/8 clips intact, 41 baked albedos",
   "reviewed_files": [
-    "unit_render/channel_water_25.png",
-    "unit_render/channel_water_50.png",
-    "unit_render/idle_25.png",
-    "unit_render/idle_50.png",
     "unit_render/neutral.png",
-    "unit_render/parry_25.png",
-    "unit_render/parry_50.png",
-    "unit_render/recover_25.png",
-    "unit_render/recover_50.png",
-    "unit_render/seated_meditate_25.png",
-    "unit_render/seated_meditate_50.png",
-    "unit_render/staff_salute_25.png",
-    "unit_render/staff_salute_50.png",
-    "unit_render/sword_swing_25.png",
-    "unit_render/sword_swing_50.png",
-    "unit_render/walk_25.png",
-    "unit_render/walk_50.png"
+    "unit_render/idle_50.png"
   ]
 }

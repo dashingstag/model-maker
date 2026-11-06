@@ -1,0 +1,51 @@
+{
+  "schema_v": 1,
+  "id": "xx_ribbon",
+  "type": "sprite",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "sprite",
+    "h_px": 300,
+    "pivot": "center",
+    "prop": true
+  },
+  "inputs": {
+    "accepted/idle.png": "sha256:7912b8bc5c7238402b75e933410028ae572ff9d851c0de80cf0489ed1d0df193"
+  },
+  "artifacts": {
+    "processed/sprite_idle.png": "sha256:7ece20d257123c4a93acb2f3476fd1c2d8dd8ac9cea70c49a95e462cbc3db0f7"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "idle": 8e-05
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "pivot": "center",
+  "h_px": 300,
+  "poses": [
+    "idle"
+  ],
+  "fringe_px": {
+    "idle": 225
+  },
+  "collider": "alpha-bounds-10pct",
+  "gate": {
+    "fringe_ok": true
+  },
+  "certified": {
+    "ts": 1793731959.5222867,
+    "by": "devin:curator"
+  }
+}
