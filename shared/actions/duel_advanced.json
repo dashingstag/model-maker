@@ -1,0 +1,30 @@
+{
+  "id": "duel_advanced",
+  "roles": ["attacker", "defender"],
+  "spacing_m": 1.6,
+  "facing": "each other",
+  "timeline": [
+    { "t": 0.0,  "role": "attacker", "anim": "lunge_strike" },
+    { "t": 0.25, "role": "defender", "anim": "spinning_parry",
+      "sync_on": "attacker.lunge_strike@contact", "tolerance_s": 0.1 },
+    { "t": 1.1,  "role": "defender", "anim": "lunge_strike" },
+    { "t": 1.35, "role": "attacker", "anim": "aerial_flourish",
+      "sync_on": "defender.lunge_strike@contact", "tolerance_s": 0.12 },
+    { "t": 2.8,  "role": "attacker", "anim": "recover" },
+    { "t": 2.9,  "role": "defender", "anim": "recover" }
+  ],
+  "events": {
+    "contact": {
+      "actor": "attacker",
+      "anim": "lunge_strike",
+      "expect": "blades within 0.2m during opening exchange",
+      "measure": "distance between the two props' blade_mid markers"
+    },
+    "evade": {
+      "actor": "attacker",
+      "anim": "aerial_flourish",
+      "expect": "attacker airborne (root z > 0.25m) during counter",
+      "measure": "root bone z at flourish apex"
+    }
+  }
+}

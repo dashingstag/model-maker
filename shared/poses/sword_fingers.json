@@ -1,0 +1,15 @@
+{
+  "id": "sword_fingers",
+  "hand": "hand.r",
+  "axis": "flexion about each finger bone's local X (see skeleton finger_flexion_axis)",
+  "note": "jianjue sword-seal — index+middle extended together, ring+pinky curled, thumb across them",
+  "joints_deg": {
+    "thumb.1":  45, "thumb.2":  35, "thumb.3":  20,
+    "index.1":   5, "index.2":   8, "index.3":   5,
+    "middle.1":  5, "middle.2":  8, "middle.3":  5,
+    "ring.1":   80, "ring.2":   70, "ring.3":   50,
+    "pinky.1":  85, "pinky.2":  75, "pinky.3":  55
+  },
+  "tolerance_deg": 12,
+  "check_frames": ["seal", "cast", "channel"]
+}

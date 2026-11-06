@@ -29,9 +29,15 @@ def _rename(src, dst, tries=30):
                 raise
             time.sleep(0.1 * (i + 1))
 
+def _sha(p):
+    return hashlib.sha256(open(p, "rb").read()).hexdigest()
+
 def pub_tree(src, dst):
     """Copy into staging (same volume, outside godot/), then swap by rename.
-    Keeps existing .import sidecars so uid:// refs survive content swaps."""
+    Keeps .import sidecars only for unchanged assets — a stale one remaps to
+    whatever the old import wrote. glb sidecars are never kept: Godot extracts
+    their embedded textures into this same tree and the swap would wipe them,
+    so publish re-imports glbs every time."""
     os.makedirs(STAGING, exist_ok=True)
     tag = uuid.uuid4().hex[:8]
     tmp, old = os.path.join(STAGING, f"new-{tag}"), os.path.join(STAGING, f"old-{tag}")
@@ -39,11 +45,15 @@ def pub_tree(src, dst):
     if os.path.isdir(dst):
         for dp, _, files in os.walk(dst):
             for f in files:
-                if f.endswith(".import"):
-                    rel = os.path.relpath(os.path.join(dp, f), dst)
-                    target = os.path.join(tmp, rel)
-                    if os.path.exists(target[:-len(".import")]):
-                        shutil.copyfile(os.path.join(dp, f), target)
+                if not f.endswith(".import") or f.endswith(".glb.import"):
+                    continue
+                rel = os.path.relpath(os.path.join(dp, f), dst)
+                target = os.path.join(tmp, rel)
+                base = target[:-len(".import")]
+                old_base = os.path.join(dp, f[:-len(".import")])
+                if (os.path.exists(base) and os.path.exists(old_base)
+                        and _sha(old_base) == _sha(base)):
+                    shutil.copyfile(os.path.join(dp, f), target)
         _rename(dst, old)
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     _rename(tmp, dst)
@@ -193,7 +203,7 @@ def main(goal, unit_only, wait):
     manifest_sha = {}
     for cid in mans:
         mp = os.path.join(ROOT, "pipeline", "components", cid, "manifest.json")
-        manifest_sha[cid] = "sha256:" + hashlib.sha256(open(mp, "rb").read()).hexdigest()
+        manifest_sha[cid] = "sha256:" + _sha(mp)
     job = {"schema": "mm.jobs.v1",
            "mode": "unit" if unit_only else "all", "out_dir": comp_dir,
            "provenance": {"manifests": manifest_sha, "goal": goal},

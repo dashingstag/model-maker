@@ -89,6 +89,147 @@
           "name": "recover",
           "duration": 0.8,
           "fps": 24
+        },
+        {
+          "name": "breath",
+          "loop": true,
+          "fps": 24
+        },
+        {
+          "name": "weight_shift",
+          "loop": true,
+          "fps": 24
+        },
+        {
+          "name": "head_scan",
+          "duration": 3.0,
+          "fps": 24
+        },
+        {
+          "name": "sleeve_sway",
+          "loop": true,
+          "fps": 24
+        },
+        {
+          "name": "gaze_contemplate",
+          "duration": 3.0,
+          "fps": 24
+        },
+        {
+          "name": "wrist_channel",
+          "loop": true,
+          "fps": 24
+        },
+        {
+          "name": "formal_bow",
+          "duration": 2.4,
+          "fps": 24,
+          "events": [
+            {
+              "name": "bow",
+              "t": 1.0
+            }
+          ]
+        },
+        {
+          "name": "lunge_strike",
+          "duration": 1.2,
+          "fps": 24,
+          "hand_pose": "@poses/grip_sword",
+          "events": [
+            {
+              "name": "contact",
+              "t": 0.66
+            }
+          ]
+        },
+        {
+          "name": "spinning_parry",
+          "duration": 0.9,
+          "fps": 24,
+          "hand_pose": "@poses/grip_sword",
+          "events": [
+            {
+              "name": "contact",
+              "t": 0.35
+            },
+            {
+              "name": "deflect",
+              "t": 0.35
+            }
+          ]
+        },
+        {
+          "name": "aerial_flourish",
+          "duration": 1.6,
+          "fps": 24,
+          "events": [
+            {
+              "name": "apex",
+              "t": 0.72
+            },
+            {
+              "name": "contact",
+              "t": 0.41
+            }
+          ]
+        },
+        {
+          "name": "levitate_channel",
+          "loop": true,
+          "duration": 5.0,
+          "fps": 24,
+          "hand_pose": "@poses/sword_fingers",
+          "events": [
+            {
+              "name": "seal",
+              "t": 1.25
+            },
+            {
+              "name": "release",
+              "t": 4.5
+            }
+          ]
+        },
+        {
+          "name": "sword_form",
+          "duration": 3.0,
+          "fps": 24,
+          "hand_pose": "@poses/grip_sword",
+          "events": [
+            {
+              "name": "thrust",
+              "t": 1.35
+            },
+            {
+              "name": "low_guard",
+              "t": 2.1
+            }
+          ]
+        },
+        {
+          "name": "talisman_cast",
+          "duration": 1.4,
+          "fps": 24,
+          "hand_pose": "@poses/talisman_pinch",
+          "events": [
+            {
+              "name": "flick",
+              "t": 0.77
+            }
+          ]
+        },
+        {
+          "name": "kneel_offer",
+          "duration": 3.0,
+          "fps": 24,
+          "hand_pose": "@poses/open_palm",
+          "events": [
+            {
+              "name": "offer",
+              "t": 1.8
+            }
+          ]
         }
       ],
       "root_motion": "in_place",
@@ -106,7 +247,18 @@
         }
       ],
       "collision": "capsule-approx",
-      "review": "human"
+      "review": "human",
+      "provider": {
+        "name": "hunyuan3d",
+        "options": {
+          "texture": "paint",
+          "rig": "conform",
+          "rig_template": "pipeline/components/xx_azure_sage_3d/build/template_mannequin.glb",
+          "tri_budget": 15000,
+          "paint_res": 512,
+          "image": "idle.png"
+        }
+      }
     },
     {
       "id": "xx_sage_staff_3d",
@@ -157,7 +309,11 @@
           "prop": "xx_sage_staff_3d",
           "to": "xx_azure_sage_3d",
           "socket": "hand.r",
-          "rot": [-80, 0, 0]
+          "rot": [
+            -80,
+            0,
+            0
+          ]
         }
       ]
     },
@@ -186,6 +342,12 @@
         ],
         "expect": {
           "props_attached": true
+        },
+        "props": {
+          "sage": {
+            "cid": "xx_sage_staff_3d",
+            "socket": "hand.r"
+          }
         }
       },
       {
@@ -226,6 +388,97 @@
         "expect": {
           "props_attached": true,
           "contact_within_m": 0.15,
+          "no_ground_clip": true
+        }
+      },
+      {
+        "name": "form_kata",
+        "of": "sword_form",
+        "cast": {
+          "form": "xx_azure_sage_3d"
+        },
+        "props": {
+          "form": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          }
+        },
+        "captures": [
+          {
+            "t": 1.35,
+            "camera": "front_close"
+          },
+          {
+            "t": 2.2,
+            "camera": "front_close"
+          }
+        ],
+        "expect": {
+          "props_attached": true
+        }
+      },
+      {
+        "name": "greeting",
+        "of": "ceremony_greeting",
+        "cast": {
+          "senior": "xx_azure_sage_3d",
+          "junior": "xx_azure_sage_3d"
+        },
+        "captures": [
+          {
+            "t": 1.0,
+            "camera": "mid"
+          },
+          {
+            "t": 1.9,
+            "camera": "mid"
+          }
+        ],
+        "expect": {
+          "no_ground_clip": true
+        }
+      },
+      {
+        "name": "duel_exchange",
+        "of": "duel_advanced",
+        "cast": {
+          "attacker": "xx_azure_sage_3d",
+          "defender": "xx_azure_sage_3d"
+        },
+        "props": {
+          "attacker": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          },
+          "defender": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          }
+        },
+        "captures": [
+          {
+            "t": 0.55,
+            "camera": "mid"
+          },
+          {
+            "t": 1.8,
+            "camera": "mid"
+          }
+        ],
+        "expect": {
+          "props_attached": true,
           "no_ground_clip": true
         }
       }

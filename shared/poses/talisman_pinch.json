@@ -1,0 +1,15 @@
+{
+  "id": "talisman_pinch",
+  "hand": "hand.r",
+  "axis": "flexion about each finger bone's local X (see skeleton finger_flexion_axis)",
+  "note": "paper-talisman pinch between thumb/index/middle; ring+pinky relaxed-curled",
+  "joints_deg": {
+    "thumb.1":  35, "thumb.2":  30, "thumb.3":  15,
+    "index.1":  30, "index.2":  40, "index.3":  20,
+    "middle.1": 30, "middle.2": 40, "middle.3": 20,
+    "ring.1":   55, "ring.2":   60, "ring.3":   40,
+    "pinky.1":  60, "pinky.2":  65, "pinky.3":  45
+  },
+  "tolerance_deg": 12,
+  "check_frames": ["pinch", "flick", "release"]
+}

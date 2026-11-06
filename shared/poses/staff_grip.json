@@ -1,0 +1,15 @@
+{
+  "id": "staff_grip",
+  "hand": "hand.r",
+  "axis": "flexion about each finger bone's local X (see skeleton finger_flexion_axis)",
+  "note": "looser wrap than grip_sword — thicker shaft diameter",
+  "joints_deg": {
+    "thumb.1":  25, "thumb.2":  15, "thumb.3":   5,
+    "index.1":  35, "index.2":  45, "index.3":  25,
+    "middle.1": 55, "middle.2": 50, "middle.3": 30,
+    "ring.1":   60, "ring.2":   55, "ring.3":   35,
+    "pinky.1":  65, "pinky.2":  60, "pinky.3":  40
+  },
+  "tolerance_deg": 14,
+  "check_frames": ["grip", "plant", "salute"]
+}

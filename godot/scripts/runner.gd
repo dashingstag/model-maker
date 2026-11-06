@@ -1076,7 +1076,7 @@ func _ct(d: Texture2D, n: Texture2D) -> CanvasTexture:
 ## old "captain_closeup" convention working on any component.
 func _focus_from_name(n: String) -> String:
 	var best := ""
-	for id in sprites:
+	for id in sprites.keys() + glb_nodes.keys():
 		# match any meaningful id token — glb cids end in "_3d" so the
 		# last token is useless; "sage" must find xx_azure_sage_3d
 		for tok in id.split("/")[-1].split("_"):

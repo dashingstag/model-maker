@@ -1,0 +1,41 @@
+{
+  "id": "ceremony_greeting",
+  "roles": [
+    "senior",
+    "junior"
+  ],
+  "spacing_m": 1.8,
+  "facing": "each other",
+  "timeline": [
+    {
+      "t": 0.0,
+      "role": "junior",
+      "anim": "formal_bow"
+    },
+    {
+      "t": 0.1,
+      "role": "senior",
+      "anim": "formal_bow",
+      "sync_on": "junior.formal_bow@bow",
+      "tolerance_s": 0.15
+    },
+    {
+      "t": 2.6,
+      "role": "junior",
+      "anim": "idle"
+    },
+    {
+      "t": 3.0,
+      "role": "senior",
+      "anim": "idle"
+    }
+  ],
+  "events": {
+    "bow": {
+      "actor": "junior",
+      "anim": "formal_bow",
+      "expect": "near-unison mutual bow \u2014 junior leads by ~0.1s, both bow events land within 0.15s",
+      "measure": "head z-height drops below 0.75 * standing at bow apex"
+    }
+  }
+}

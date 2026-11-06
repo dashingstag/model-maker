@@ -84,6 +84,147 @@
       "name": "recover",
       "duration": 0.8,
       "fps": 24
+    },
+    {
+      "name": "breath",
+      "loop": true,
+      "fps": 24
+    },
+    {
+      "name": "weight_shift",
+      "loop": true,
+      "fps": 24
+    },
+    {
+      "name": "head_scan",
+      "duration": 3.0,
+      "fps": 24
+    },
+    {
+      "name": "sleeve_sway",
+      "loop": true,
+      "fps": 24
+    },
+    {
+      "name": "gaze_contemplate",
+      "duration": 3.0,
+      "fps": 24
+    },
+    {
+      "name": "wrist_channel",
+      "loop": true,
+      "fps": 24
+    },
+    {
+      "name": "formal_bow",
+      "duration": 2.4,
+      "fps": 24,
+      "events": [
+        {
+          "name": "bow",
+          "t": 1.0
+        }
+      ]
+    },
+    {
+      "name": "lunge_strike",
+      "duration": 1.2,
+      "fps": 24,
+      "hand_pose": "@poses/grip_sword",
+      "events": [
+        {
+          "name": "contact",
+          "t": 0.66
+        }
+      ]
+    },
+    {
+      "name": "spinning_parry",
+      "duration": 0.9,
+      "fps": 24,
+      "hand_pose": "@poses/grip_sword",
+      "events": [
+        {
+          "name": "contact",
+          "t": 0.35
+        },
+        {
+          "name": "deflect",
+          "t": 0.35
+        }
+      ]
+    },
+    {
+      "name": "aerial_flourish",
+      "duration": 1.6,
+      "fps": 24,
+      "events": [
+        {
+          "name": "apex",
+          "t": 0.72
+        },
+        {
+          "name": "contact",
+          "t": 0.41
+        }
+      ]
+    },
+    {
+      "name": "levitate_channel",
+      "loop": true,
+      "duration": 5.0,
+      "fps": 24,
+      "hand_pose": "@poses/sword_fingers",
+      "events": [
+        {
+          "name": "seal",
+          "t": 1.25
+        },
+        {
+          "name": "release",
+          "t": 4.5
+        }
+      ]
+    },
+    {
+      "name": "sword_form",
+      "duration": 3.0,
+      "fps": 24,
+      "hand_pose": "@poses/grip_sword",
+      "events": [
+        {
+          "name": "thrust",
+          "t": 1.35
+        },
+        {
+          "name": "low_guard",
+          "t": 2.1
+        }
+      ]
+    },
+    {
+      "name": "talisman_cast",
+      "duration": 1.4,
+      "fps": 24,
+      "hand_pose": "@poses/talisman_pinch",
+      "events": [
+        {
+          "name": "flick",
+          "t": 0.77
+        }
+      ]
+    },
+    {
+      "name": "kneel_offer",
+      "duration": 3.0,
+      "fps": 24,
+      "hand_pose": "@poses/open_palm",
+      "events": [
+        {
+          "name": "offer",
+          "t": 1.8
+        }
+      ]
     }
   ],
   "root_motion": "in_place",
@@ -146,7 +287,21 @@
         "seated_meditate",
         "sword_swing",
         "parry",
-        "recover"
+        "recover",
+        "breath",
+        "weight_shift",
+        "head_scan",
+        "sleeve_sway",
+        "gaze_contemplate",
+        "wrist_channel",
+        "formal_bow",
+        "lunge_strike",
+        "spinning_parry",
+        "aerial_flourish",
+        "levitate_channel",
+        "sword_form",
+        "talisman_cast",
+        "kneel_offer"
       ]
     }
   },

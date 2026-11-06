@@ -36,6 +36,18 @@
       "prompt_extra": "standing meditation, hands folded at the dantian, eyes closed, robes still",
       "init_from": "idle",
       "denoise": 0.6
+    },
+    {
+      "name": "hand_seal",
+      "prompt_extra": "right hand raised before chest in a two-finger sword-seal gesture, left hand at waist, sleeves draping",
+      "init_from": "idle",
+      "denoise": 0.62
+    },
+    {
+      "name": "cloud_ride",
+      "prompt_extra": "one knee raised mid-step on drifting mist, arms spread wide flowing, skirt and ribbons trailing",
+      "init_from": "idle",
+      "denoise": 0.62
     }
   ],
   "style_anchor": "xx_immortal_m",

@@ -1,0 +1,24 @@
+{
+  "id": "sword_form",
+  "roles": ["form"],
+  "spacing_m": 0.0,
+  "facing": "camera",
+  "timeline": [
+    { "t": 0.0,  "role": "form", "anim": "sword_form" },
+    { "t": 3.2,  "role": "form", "anim": "formal_bow" }
+  ],
+  "events": {
+    "thrust": {
+      "actor": "form",
+      "anim": "sword_form",
+      "expect": "blade tip extends forward at t~1.0 (lunge phase)",
+      "measure": "prop tip marker y-extent vs idle baseline"
+    },
+    "apex": {
+      "actor": "form",
+      "anim": "sword_form",
+      "expect": "blade raised overhead at t~2.2 (high-guard phase)",
+      "measure": "prop tip marker z > actor head z"
+    }
+  }
+}

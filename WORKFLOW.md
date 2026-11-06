@@ -186,8 +186,12 @@ The single mutable file in a component folder; written atomically
 7. **Godot `assets/` is a build artifact**, published with `.import`
    sidecars. `.import` files are checked in — they pin `uid://` refs and
    non-default flags (`compress/mode` lossless for `*_n.png`,
-   `process/normal_map_invert_y`). Never delete `.import` on re-publish —
-   uids must survive content swaps.
+   `process/normal_map_invert_y`). Publish keeps `.import` only for
+   sha-identical assets — uids must survive content swaps, but a stale
+   sidecar remaps to whatever the old import wrote. **Exception:** glb
+   sidecars are never kept — Godot extracts embedded textures next to the
+   glb and the tree swap would orphan them, so publish re-imports glbs
+   every time (inside `.publish.lock`).
 8. **Git policy:** `briefs/`, `shared/`, `golden/`, `reports/`,
    `godot/**/*.import`, all `*.json` manifests/indexes, and checked-in
    evidence are committed; `candidates/` binaries, `build/`, `dist/` are

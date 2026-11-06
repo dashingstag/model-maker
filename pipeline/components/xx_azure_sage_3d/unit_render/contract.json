@@ -61,6 +61,62 @@
     {
       "id": "anim:recover",
       "pass": true
+    },
+    {
+      "id": "anim:breath",
+      "pass": true
+    },
+    {
+      "id": "anim:weight_shift",
+      "pass": true
+    },
+    {
+      "id": "anim:head_scan",
+      "pass": true
+    },
+    {
+      "id": "anim:sleeve_sway",
+      "pass": true
+    },
+    {
+      "id": "anim:gaze_contemplate",
+      "pass": true
+    },
+    {
+      "id": "anim:wrist_channel",
+      "pass": true
+    },
+    {
+      "id": "anim:formal_bow",
+      "pass": true
+    },
+    {
+      "id": "anim:lunge_strike",
+      "pass": true
+    },
+    {
+      "id": "anim:spinning_parry",
+      "pass": true
+    },
+    {
+      "id": "anim:aerial_flourish",
+      "pass": true
+    },
+    {
+      "id": "anim:levitate_channel",
+      "pass": true
+    },
+    {
+      "id": "anim:sword_form",
+      "pass": true
+    },
+    {
+      "id": "anim:talisman_cast",
+      "pass": true
+    },
+    {
+      "id": "anim:kneel_offer",
+      "pass": true
     }
   ]
 }

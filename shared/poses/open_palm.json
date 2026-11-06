@@ -1,0 +1,15 @@
+{
+  "id": "open_palm",
+  "hand": "hand.l",
+  "axis": "flexion about each finger bone's local X (see skeleton finger_flexion_axis)",
+  "note": "open pushing/channeling palm — all fingers extended with slight spread",
+  "joints_deg": {
+    "thumb.1":   0, "thumb.2":   5, "thumb.3":   5,
+    "index.1":   5, "index.2":   8, "index.3":   5,
+    "middle.1":  5, "middle.2":  8, "middle.3":  5,
+    "ring.1":    5, "ring.2":    8, "ring.3":    5,
+    "pinky.1":   5, "pinky.2":   8, "pinky.3":   5
+  },
+  "tolerance_deg": 12,
+  "check_frames": ["push", "channel", "release"]
+}

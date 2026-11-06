@@ -82,6 +82,9 @@ python tools/publish.py <goal> --wait 60
 - Publish holds `composition/<goal>.lock` then `godot/.publish.lock`,
   copies `processed/` atomically, then runs `godot --import` inside the
   lock — without it every texture reports MISSING on the next run.
+  `.glb.import` sidecars are never carried over (Godot extracts glb
+  textures beside the source and the tree swap would orphan them); other
+  `.import` files are kept only when the asset is byte-identical.
 - Harness runs **windowed, unminimized** (gl_compatibility can't render
   headless on Windows); job path goes after `--`.
 - Wide/vista shots frame the full 2× canvas (zoom 0.5 at canvas center);
