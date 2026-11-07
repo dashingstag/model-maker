@@ -107,6 +107,24 @@ func _mk_sprite(tex: Texture2D, feet_pos: Vector2, h_px: float, tint := Color.WH
 	s.modulate = tint
 	return s
 
+func _cast_on_row(cast_ids: Array, row: String) -> Variant:
+	# null = unmeasurable (no cast); bool = all members on row or not
+	if cast_ids.is_empty():
+		return null
+	for id2 in cast_ids:
+		if member_rows.get(id2) != row:
+			return false
+	return true
+
+func _min_gap_px(rects: Array) -> float:
+	# horizontal gap between the two leftmost cast rects;
+	# -1 means the gap cannot be measured (fewer than two rects)
+	if rects.size() < 2:
+		return -1.0
+	var rs := rects.duplicate()
+	rs.sort_custom(func(x, y): return x.position.x < y.position.x)
+	return rs[1].position.x - rs[0].end.x
+
 func _canvas_rect(s: Sprite2D) -> Rect2:
 	var xf := s.get_global_transform_with_canvas()
 	var sz := Vector2(s.texture.get_size()) * s.scale.abs()
@@ -746,21 +764,17 @@ func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) 
 		var checks := []
 		for p2 in entry["props_attached"]:
 			checks.append(p2.get("pass"))
+		var cast_ids: Array = a.get("cast", {}).values()
 		if entry["expect"].has("both_on_row"):
-			var row_ok := true
-			for role in a.get("cast", {}).values():
-				if member_rows.get(role) != entry["expect"]["both_on_row"]:
-					row_ok = false
-			entry["both_on_row"] = entry["expect"]["both_on_row"]
-			checks.append(row_ok)
+			var row: String = entry["expect"]["both_on_row"]
+			entry["both_on_row"] = row
+			checks.append(_cast_on_row(cast_ids, row))
 		if entry["expect"].has("min_gap_px"):
 			var rs := []
-			for role in a.get("cast", {}).values():
-				if sprites.has(role):
+			for role in cast_ids:
+				if sprites.has(role) and not glb_nodes.has(role):
 					rs.append(_canvas_rect(sprites[role]))
-			rs.sort_custom(func(x, y): return x.position.x < y.position.x)
-			var gap: float = -1.0 if rs.size() < 2 else \
-				rs[1].position.x - rs[0].end.x
+			var gap := _min_gap_px(rs)
 			entry["min_gap_px"] = {"value": snappedf(gap, 0.1),
 				"target": entry["expect"]["min_gap_px"]}
 			checks.append(null if gap < 0.0 else
