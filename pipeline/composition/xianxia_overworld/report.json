@@ -61,7 +61,7 @@
         "xx_f_hair": "sha256:0e87baedc0b0ff59d8a2eb465a9ad6ea299b71f720786cf0cc647cc4c408bdb8",
         "xx_f_robes": "sha256:86375671e6347245d3cc34db84c1efb037a6d95f3ed4fb82f45f6faf7bf56daf",
         "xx_falls_mid": "sha256:3e05b6f9156f0af8f2f9d21840ff5781421a41fab16c27153d4b69c06669357f",
-        "xx_immortal_f": "sha256:37f12f7d971768b14ee82b0cfe1131105e7bdd8584884c7ea1cba7609583b5da",
+        "xx_immortal_f": "sha256:a4245c1976d0b88a9d0d4b8be2eb826190f7c6fad2db3ddf2a2f7f1cadfd5993",
         "xx_immortal_m": "sha256:23156eac456790c6fb6acd6f9a21750625d65eda197446c3fc8f7a11286a19d6",
         "xx_jian": "sha256:8663844bce1214a4dea0517d89c394802b2b2bfd95df67eaa120a723e23c23aa",
         "xx_m_hair": "sha256:a7215a4a79b96cd254fbadbc068c0ad8fca7ff5f551c5e2d95c39499b60293b0",
@@ -72,9 +72,9 @@
         "xx_terrace": "sha256:14a4d394e9446e1ca5422cd53cd058c8c7e5c553496ea28948d085f383c07df2"
       }
     },
-    "job_file": "f97079c570d9",
+    "job_file": "a36d58bf3aaf",
     "mode": "all",
-    "timestamp": "2026-11-07T10:28:33"
+    "timestamp": "2026-11-07T17:28:30"
   },
   "schema": "mm.report.v1",
   "shot_expect": {

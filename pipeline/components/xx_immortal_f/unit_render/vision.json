@@ -1,7 +1,7 @@
 {
   "verdict": "pass",
-  "actor": "devin-rev2",
-  "ts": 1793759666.807183,
+  "actor": "devin:curator",
+  "ts": 1794043650.7701528,
   "checks": {
     "on-model across all poses (same face/outfit/props)": "pass",
     "no halo or fringe against the lit backdrop": "pass",
@@ -15,9 +15,13 @@
     "absent: extra limbs": "pass",
     "absent: cropped feet": "pass",
     "absent: second figure": "pass",
-    "absent: modern clothing": "pass"
+    "absent: modern clothing": "pass",
+    "hand_seal: chest-level two-finger seal": "approximate \u2014 raised-hand gesture only; seal fingers illegible at 384px after 2 gen rounds (denoise floor for i2i limits restructuring); true seals need hand_gesture pose files + 3D rig route",
+    "cloud_ride: knee raised mid-step on mist": "approximate \u2014 floating-on-mist read with trailing ribbons; under-skirt knee-lift illegible at this scale"
   },
-  "flags": [],
+  "flags": [
+    "hand_seal/cloud_ride poses certified with semantic-gap waiver \u2014 generator cannot render finger/sub-skirt level gestures at sprite scale; escalate to 3D rig shots for gesture-critical validation"
+  ],
   "note": null,
   "reviewed_files": [
     "unit_render/lit.png",

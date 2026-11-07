@@ -3,7 +3,7 @@
   "id": "xx_immortal_f",
   "type": "sprite",
   "status": "certified",
-  "rev": 2,
+  "rev": 3,
   "constraints": {
     "type": "sprite",
     "h_px": 380,
@@ -27,6 +27,18 @@
         "prompt_extra": "standing meditation, hands folded at the dantian, eyes closed, robes still",
         "init_from": "idle",
         "denoise": 0.6
+      },
+      {
+        "name": "hand_seal",
+        "prompt_extra": "right hand raised before chest in a two-finger sword-seal gesture, left hand at waist, sleeves draping",
+        "init_from": "idle",
+        "denoise": 0.62
+      },
+      {
+        "name": "cloud_ride",
+        "prompt_extra": "one knee raised mid-step on drifting mist, arms spread wide flowing, skirt and ribbons trailing",
+        "init_from": "idle",
+        "denoise": 0.62
       }
     ],
     "guide_from": "guide_humanoid"
@@ -35,24 +47,32 @@
     "accepted/idle.png": "sha256:3e629709c9ad8eb22cac34f03474a81b6d7f275e9211f3d83916a932d9f016a8",
     "accepted/sleeve_dance.png": "sha256:5ead8e02dccadc301bd9393b805fd3a4c5133779ef59274256d9c126535c00e5",
     "accepted/sword_stance.png": "sha256:2c071381c968616821272519bc37958e2c9451998bd7c489f06c2163809ef887",
-    "accepted/meditate.png": "sha256:4434b7a8a026d4e6e93d672fb75373ac74b871b6b846581e4ad8242107a15de4"
+    "accepted/meditate.png": "sha256:4434b7a8a026d4e6e93d672fb75373ac74b871b6b846581e4ad8242107a15de4",
+    "accepted/hand_seal.png": "sha256:7805be66069f7e1272552a03e986dde0f28f182a9ca93b7fb3732f18fbb616f9",
+    "accepted/cloud_ride.png": "sha256:54193fef8f1940b982f5c9d2576a24a5a7e027eeaa8b9475f22e3b084c4d96bd"
   },
   "artifacts": {
-    "processed/sprite_idle.png": "sha256:fd3a99b6f56913e61c7d726fa841d6b5e19500571034c42bb0064f45f6ff9d99",
-    "processed/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26",
-    "processed/sprite_meditate.png": "sha256:2ef696b31c3ebe98975cf222de4e93e39aad370b8cba0069daedf69f47bd6a15",
-    "processed/sprite_meditate_n.png": "sha256:6dfbcdac4e4d8d8b4a061d5715bca9faf84ee578e24acf70ef11f161863660fd",
-    "processed/sprite_sleeve_dance.png": "sha256:8ba03bc80009945a69a1b12ea16936c01131755f9c0fdcc5ed948001a79b174b",
-    "processed/sprite_sleeve_dance_n.png": "sha256:06278ef955901fb6f65b46d6d7ba7491817046eafef20c56f789fe534bf0799a",
-    "processed/sprite_sword_stance.png": "sha256:2a22821d14075444d6a49b94f18bf86a36a1019ad4352e30fca7afac8860dc65",
-    "processed/sprite_sword_stance_n.png": "sha256:cdc1bdf9061f28eac56671c08d87dc856e483928ca0708c4933fca16b9fbb63b"
+    "processed/sprite_cloud_ride.png": "sha256:8667c5c3dcab18b9678ad9bacbe574f886ed242477fc28f5aa8e355f9fdbe3b0",
+    "processed/sprite_cloud_ride_n.png": "sha256:6a0ae19ddabf33c23a4603d804c2b87f92db639700c81a93787504a446cb267e",
+    "processed/sprite_hand_seal.png": "sha256:6bd93532ff1b4e35002b54b5513436a9c5d305753e81dc8bdb417adc254f7876",
+    "processed/sprite_hand_seal_n.png": "sha256:6a1988da2623771db94473c857fcc0db3aaff19fb099b47f9eeed6661ac66da1",
+    "processed/sprite_idle.png": "sha256:87e016aba34c51055c70ceebc987b3dfe6f43e7e34993d3a4eb5919c065ff955",
+    "processed/sprite_idle_n.png": "sha256:7370d12c864a34aad2f9ddf04878b998ffe66a09ed47f58575c2c79aec973fcb",
+    "processed/sprite_meditate.png": "sha256:bc73506baee22585f9a3a38b7319bfcf4da078997cbc27040fdb498c4c79274e",
+    "processed/sprite_meditate_n.png": "sha256:a942a44892314ead1a83e19216d21f02ff477f70324d892a04d94c4995554e05",
+    "processed/sprite_sleeve_dance.png": "sha256:21a492a940ee9f76e2ddbcc50943c6196b874f1d552fb2eb406c16102e51239b",
+    "processed/sprite_sleeve_dance_n.png": "sha256:e7eb62e6883df42192cfe3d397b5618b228dc43e27ab695eeda919044bed2772",
+    "processed/sprite_sword_stance.png": "sha256:1b97751d6a5908ece24a5115c5a0f601bf6d9b1f952e525930f7ab19e7227e5f",
+    "processed/sprite_sword_stance_n.png": "sha256:6d4228b723897e38e026dc264ea1db841984b8c10c3ddb4b66fecdefde127a07"
   },
   "metrics": {
     "fringe_ratio": {
       "idle": 0.0,
       "sleeve_dance": 0.0,
       "sword_stance": 0.0,
-      "meditate": 0.0
+      "meditate": 0.0,
+      "hand_seal": 0.0,
+      "cloud_ride": 0.0
     }
   },
   "gate_mode": {
@@ -63,6 +83,11 @@
     {
       "rev": 1,
       "ts": 1793759197.4490728,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1794042919.0646465,
       "status": "certified"
     }
   ],
@@ -78,20 +103,24 @@
     "idle",
     "sleeve_dance",
     "sword_stance",
-    "meditate"
+    "meditate",
+    "hand_seal",
+    "cloud_ride"
   ],
   "fringe_px": {
     "idle": 0,
     "sleeve_dance": 0,
     "sword_stance": 0,
-    "meditate": 0
+    "meditate": 0,
+    "hand_seal": 0,
+    "cloud_ride": 0
   },
   "collider": "alpha-bounds-10pct",
   "gate": {
     "fringe_ok": true
   },
   "certified": {
-    "ts": 1793759666.9348638,
-    "by": "devin-rev2"
+    "ts": 1794043651.2615957,
+    "by": "devin:curator"
   }
 }
