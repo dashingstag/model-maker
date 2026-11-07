@@ -330,12 +330,26 @@ def main():
             w = max(64, int(b["w_px"] / b.get("h_px", 512) * 512 + 31) // 64 * 64)
         extra = b["style"]["subject_bg"] if t == "ui_image" else b["style"]["scene_suffix"]
         p_full = f"{extra}, {prompt}"
+        init_dst = None
+        if b.get("init_from"):
+            init_src = os.path.join(cdir, "accepted", f"{b['init_from']}.png")
+            if not os.path.exists(init_src):
+                sys.exit(f"{cid}: init_from '{b['init_from']}' not accepted yet")
+            init_dst = f"{cid}_init.png"
+            shutil.copyfile(init_src, os.path.join(comfy, "input", init_dst))
+        denoise = b.get("denoise", 0.55) if init_dst else 1.0
+        tag = "_i2i" if init_dst else ""
         for i in range(seeds_n):
             seed = 5000 + i + seed_off
-            prefix = f"{cid}_s{seed}"
-            run_seed(idx, cand, comfy, wf_txt2img(p_full, neg, w, h, seed, prefix), "7",
+            prefix = f"{cid}{tag}_s{seed}"
+            run_seed(idx, cand, comfy,
+                     wf_img2img(p_full, neg, w, h, seed, prefix, init_dst, denoise)
+                     if init_dst else
+                     wf_txt2img(p_full, neg, w, h, seed, prefix),
+                     "10" if init_dst else "7",
                      {"file": f"{prefix}.png", "seed": seed, "prompt": p_full,
-                      "negative": neg, "w": w, "h": h})
+                      "negative": neg, "w": w, "h": h,
+                      "init_from": b.get("init_from"), "denoise": denoise})
 
 def acquire_locks(cid, locks):
     """Claim the component (+ its guide glb for sprites) before work.

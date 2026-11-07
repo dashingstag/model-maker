@@ -3,16 +3,16 @@
   "id": "xx_card_planets",
   "type": "ui_image",
   "status": "certified",
-  "rev": 3,
+  "rev": 4,
   "constraints": {
     "type": "ui_image",
     "h_px": 512
   },
   "inputs": {
-    "accepted/src.png": "sha256:81701a90bb4e1a9e3fb319d00a16b0db5c7074ea337b60b062cdfc4d71ba8b37"
+    "accepted/src.png": "sha256:14d2188ac398d638e8ca8b0fc146899b8fc0c56f9a6f85ad7f0c0939a0e7c333"
   },
   "artifacts": {
-    "processed/portrait.png": "sha256:581c7023a3a252f93151e4ed5ab88f6666db168b25bec88017472a7f2da03d5f"
+    "processed/portrait.png": "sha256:14d2188ac398d638e8ca8b0fc146899b8fc0c56f9a6f85ad7f0c0939a0e7c333"
   },
   "metrics": {},
   "gate_mode": {},
@@ -27,6 +27,11 @@
       "rev": 2,
       "ts": 1793758607.4565623,
       "status": "processed"
+    },
+    {
+      "rev": 3,
+      "ts": 1794052457.060069,
+      "status": "certified"
     }
   ],
   "toolchain": {
@@ -36,7 +41,7 @@
     "matting": "birefnet-general"
   },
   "certified": {
-    "ts": 1793758626.1526003,
-    "by": "devin-rev2"
+    "ts": 1794052949.4274719,
+    "by": "devin"
   }
 }

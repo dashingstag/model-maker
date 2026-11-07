@@ -56,7 +56,11 @@ python tools/publish.py <goal> --wait 60
 - `sprite` + `prop: true` — object-only prompts (no wielder); pose list
   may be omitted → single `idle` pose.
 - `ui_image`/`parallax` — plain txt2img at `w_px`×`h_px` when authored;
-  accepted file must be `src.png`.
+  accepted file must be `src.png`. Opt-in `init_from`+`denoise` runs i2i
+  from `accepted/<init_from>.png` — the composite-guide route for elements
+  the model can't produce on its own (e.g. exact counts: draw nine orbs in
+  a ring → denoise 0.26, verified 9/9 clusters in #34). Denoise floor ~0.25
+  melts flat guide art into painterly style while preserving count/layout.
 - `glb` — C1 is the blender builder → `build/` + `export/`; extract
   validates tris vs `tri_budget` and lists animations.
 

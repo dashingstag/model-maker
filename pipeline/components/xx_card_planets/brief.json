@@ -1,47 +1,49 @@
 {
-  "id": "xx_card_planets",
-  "type": "ui_image",
-  "h_px": 512,
-  "w_px": 340,
-  "prompt_core": "white-haired wanderer in wind-torn pale robes reaching up toward exactly nine small glowing planet orbs arranged in a ring above her palm, floating rocks below, hair streaming upward",
-  "style_anchor": "xx_card_blade",
-  "must_have": [
-    "nine distinct glowing spheres",
-    "raised reaching arm",
-    "streaming white hair"
-  ],
-  "must_not": [
-    "text",
-    "letters",
-    "border",
-    "frame",
-    "second figure"
-  ],
-  "seeds": 4,
-  "review": "human",
-  "goal": "xianxia_roster",
-  "style": {
-    "name": "xianxia_dark",
-    "suffix": "dark ornate xianxia fantasy art, dramatic elemental aura, intricate embroidered detail, bold ink-painterly strokes, high contrast, masterpiece",
-    "negative": "photorealistic, photo, 3d render, text, letters, typography, title, watermark, signature, logo, border, frame, extra limbs, deformed hands, second figure, low quality",
-    "subject_bg": "full-bleed painted dark backdrop, art extends to all edges",
-    "scene_suffix": "wide dark atmospheric xianxia hall interior, lacquered pillars fading into ink-wash haze, drifting embers, environmental only, no characters, no figures, no people"
+ "id": "xx_card_planets",
+ "type": "ui_image",
+ "h_px": 512,
+ "w_px": 340,
+ "prompt_core": "white-haired wanderer in wind-torn pale robes reaching up toward exactly nine small glowing planet orbs arranged in a ring above her palm, floating rocks below, hair streaming upward",
+ "style_anchor": "xx_card_blade",
+ "must_have": [
+  "nine distinct glowing spheres",
+  "raised reaching arm",
+  "streaming white hair"
+ ],
+ "must_not": [
+  "text",
+  "letters",
+  "border",
+  "frame",
+  "second figure"
+ ],
+ "seeds": 4,
+ "init_from": "guide_orbs",
+ "denoise": 0.26,
+ "review": "human",
+ "goal": "xianxia_roster",
+ "style": {
+  "name": "xianxia_dark",
+  "suffix": "dark ornate xianxia fantasy art, dramatic elemental aura, intricate embroidered detail, bold ink-painterly strokes, high contrast, masterpiece",
+  "negative": "photorealistic, photo, 3d render, text, letters, typography, title, watermark, signature, logo, border, frame, extra limbs, deformed hands, second figure, low quality",
+  "subject_bg": "full-bleed painted dark backdrop, art extends to all edges",
+  "scene_suffix": "wide dark atmospheric xianxia hall interior, lacquered pillars fading into ink-wash haze, drifting embers, environmental only, no characters, no figures, no people"
+ },
+ "palette": {
+  "name": "xianxia_element",
+  "colors": {
+   "crimson_aura": "#e03a2f",
+   "crimson_deep": "#5c1512",
+   "blood_moon": "#f2e6dd",
+   "bone_white": "#e8e0d4",
+   "ink_black": "#14100f",
+   "jade_aura": "#3fd87a",
+   "jade_deep": "#0d3a24",
+   "spirit_cyan": "#7fd8e8",
+   "night_blue": "#14283c",
+   "silver_moon": "#c8d8e8",
+   "gold_line": "#d9b568"
   },
-  "palette": {
-    "name": "xianxia_element",
-    "colors": {
-      "crimson_aura": "#e03a2f",
-      "crimson_deep": "#5c1512",
-      "blood_moon": "#f2e6dd",
-      "bone_white": "#e8e0d4",
-      "ink_black": "#14100f",
-      "jade_aura": "#3fd87a",
-      "jade_deep": "#0d3a24",
-      "spirit_cyan": "#7fd8e8",
-      "night_blue": "#14283c",
-      "silver_moon": "#c8d8e8",
-      "gold_line": "#d9b568"
-    },
-    "prompt_hints": "crimson blood-moon aura vs jade verdant glow, ink-black robes with ornate embroidery, bone-white hair, dark elemental backdrop"
-  }
+  "prompt_hints": "crimson blood-moon aura vs jade verdant glow, ink-black robes with ornate embroidery, bone-white hair, dark elemental backdrop"
+ }
 }

@@ -554,7 +554,7 @@ sorted by id) for its duration — see the concurrency contract.
 | `sprite` (guideless — default) | txt2img / i2i (`init_from` poses, per-pose `denoise`) + BiRefNet matte | ~6 s/seed on CUDA |
 | `sprite` (GLB-guided, opt-in) | `guide_from` → Blender depth → ControlNet + checkpoint → painted PNG | ~10 s/seed on CUDA |
 | `sprite` (`prop: true`) | object prompts: `PROP_SUFFIX` replaces the style suffix, `PROP_NEG` excludes people, `palette.prop_hints` replaces character hints | ~6 s/seed on CUDA |
-| `ui_image` | txt2img `w_px`×`h_px` aspect + `subject_bg` | ~6 s/seed on CUDA |
+| `ui_image` | txt2img `w_px`×`h_px` aspect + `subject_bg`; opt-in `init_from`+`denoise` → i2i from `accepted/<init_from>.png` (composite-guide route: draw structural elements the model can't count/render, repaint at ≤0.3 denoise to preserve them) | ~6 s/seed on CUDA |
 | `parallax` | txt2img **≥768 wide** + `scene_suffix` | ~6 s/seed on CUDA |
 | `sprite_variant` (`controlnet`) | `tools/gen_variant.py` — i2i repaint per variant×pose from base `accepted/`; `denoise` per variant or component (0.45 keeps too much, 0.7+ repaints colorways, >0.7 risks structure collapse) | ~6 s/seed on CUDA |
 | `sprite_variant` (`parts`/`palette`) | transform-only in extract — no gen | seconds |
