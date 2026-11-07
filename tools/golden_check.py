@@ -76,11 +76,20 @@ def main(goal, write, max_changed, tol, only):
     d = _dupes(comp, fresh)
     if d:
         report["dupes"] = d
+    # a harness run that dies before writing shots leaves stale captures
+    # that diff "clean" against old goldens — compare against jobs.json
+    # (rewritten by every publish) so a failed run can never pass
+    jobs = os.path.join(ROOT, "pipeline", "composition", goal, "jobs.json")
+    jobs_t = os.path.getmtime(jobs) if os.path.exists(jobs) else 0
     worst = 0.0
     for name in names:
         gp, cp = os.path.join(gold, name), os.path.join(comp, name)
         if not os.path.exists(cp):
             report["shots"][name] = {"pass": None, "note": "no fresh shot"}
+            continue
+        if os.path.getmtime(cp) < jobs_t:
+            report["shots"][name] = {
+                "pass": None, "note": "stale shot (older than jobs.json)"}
             continue
         r = diff(cp, gp, tol)
         r["pass"] = r.get("changed", 1.0) <= max_changed
