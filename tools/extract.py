@@ -179,7 +179,14 @@ def archive_previous(cdir):
     old = json.load(open(mpath))
     rev = int(old.get("rev", 1))
     hdir = os.path.join(cdir, "history", f"rev{rev}")
-    os.makedirs(hdir, exist_ok=True)
+    n = 2
+    while os.path.exists(hdir):
+        # a crash after archiving but before the manifest write leaves the
+        # manifest at rev<n> with history/rev<n> already taken — take a fresh
+        # name rather than nesting processed/ inside the existing archive
+        hdir = os.path.join(cdir, "history", f"rev{rev}_{n}")
+        n += 1
+    os.makedirs(hdir)
     proc = os.path.join(cdir, "processed")
     if os.path.isdir(proc):
         shutil.move(proc, os.path.join(hdir, "processed"))
