@@ -201,6 +201,12 @@ The single mutable file in a component folder; written atomically
    manifest whose `inputs` chain reaches it `stale` — derived variants,
    `spec.json`, shots, dist. Downstream gates fail on stale inputs.
    `manifest.status` transitions only via atomic manifest rewrite.
+   Variants bind concretely: extract writes `manifest.base_art` =
+   sha of every base file the variant derived from (`accepted/src.png` for
+   ui bases, `accepted/<pose>.png` / `processed/sprite_<pose>.png` for
+   sprite bases; gen-time `init_sha` in candidates/index.json is the
+   forensic record). `lint_tree` fails certified variants whose binding
+   no longer matches — a base rev bump forces re-derive + re-extract.
 10. **Locking (implemented — `tools/pipelib.py`).** Durable claim =
     `brief.json`'s `goal` field; in-flight exclusion = `<dir>.lock`
     (mkdir-atomic, `owner.json` {owner, pid, ts}, stale-swept on dead pid

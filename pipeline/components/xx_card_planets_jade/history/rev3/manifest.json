@@ -1,0 +1,70 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_planets_jade",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 3,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_card_planets",
+    "vary": [
+      "aura",
+      "robe_trim",
+      "backdrop"
+    ],
+    "variants": [
+      {
+        "id": "tide_sage",
+        "aura": "@palettes/xianxia_element.colors.spirit_cyan",
+        "prompt_extra": "same wanderer, aura repainted as orbiting water-spheres and night-blue celestial tide",
+        "denoise": 0.5,
+        "prompt_override": "white-haired wanderer in wind-torn pale robes reaching up toward exactly nine distinct glowing spheres in jade and teal tones in a deep blue night sky, hair streaming upward"
+      }
+    ],
+    "count": 1
+  },
+  "inputs": {
+    "xx_card_planets/manifest.json": "sha256:2f4e8230ab19c32a6f8fcd68340510e83a5918ab30468b020d8991371ca0cc66",
+    "accepted/tide_sage.png": "sha256:40593ba9f788abf4e809d644eae9501135ff46a066a89c1c17f8010b7979ce5c"
+  },
+  "artifacts": {
+    "processed/tide_sage/portrait.png": "sha256:40593ba9f788abf4e809d644eae9501135ff46a066a89c1c17f8010b7979ce5c"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793754209.282075,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1794054184.4267552,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_card_planets",
+  "method": "controlnet",
+  "variants": [
+    "tide_sage"
+  ],
+  "targets": {
+    "tide_sage": {
+      "aura": "#7fd8e8"
+    }
+  },
+  "poses": [],
+  "certified": {
+    "ts": 1794054186.401376,
+    "by": "devin"
+  }
+}

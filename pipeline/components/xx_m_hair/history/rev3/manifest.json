@@ -1,0 +1,150 @@
+{
+  "schema_v": 1,
+  "id": "xx_m_hair",
+  "type": "sprite_variant",
+  "status": "processed",
+  "rev": 3,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_immortal_m",
+    "vary": [
+      "hair"
+    ],
+    "variants": [
+      {
+        "id": "long_flow",
+        "prompt_extra": "very long white hair flowing loose past the waist"
+      },
+      {
+        "id": "jade_topknot",
+        "prompt_extra": "high topknot held by a carved jade crown, rest of hair down"
+      },
+      {
+        "id": "ribbon_halfup",
+        "prompt_extra": "half-up style bound with a red silk ribbon, long strands framing the face"
+      }
+    ],
+    "count": 3
+  },
+  "inputs": {
+    "xx_immortal_m/manifest.json": "sha256:23156eac456790c6fb6acd6f9a21750625d65eda197446c3fc8f7a11286a19d6",
+    "accepted/long_flow_idle.png": "sha256:0d27057dbb01b90cf73bc05baa08c79fb6cd886d69b6413c712d65fefbebc919",
+    "accepted/long_flow_meditate_lotus.png": "sha256:907aafc4095c0b6fe31ab68ac41ba09508e374f057c2cb3f1c953b9c5d53530d",
+    "accepted/long_flow_sword_salute.png": "sha256:fa307d6d5a1f7a4fc36e787921bef3544a80a16d89a6889198129ad6cc86545d",
+    "accepted/long_flow_cloud_step.png": "sha256:123a1a96d82d215a4c59401a405e6ed0901e81d93c158bc23fb915dfd12d13e1",
+    "accepted/jade_topknot_idle.png": "sha256:89e99f6e9ccaea18dc100526815116de14737e3b79cdb37a9356f3499ca36578",
+    "accepted/jade_topknot_meditate_lotus.png": "sha256:2f584d7be57195cac059f1ea712d9b260f9c28388b57472ce05e8bcfdde2c4a4",
+    "accepted/jade_topknot_sword_salute.png": "sha256:dd9531d7ed21256a765a7536df50c60cb189e08c110ce8975b37679ec0754c8f",
+    "accepted/jade_topknot_cloud_step.png": "sha256:09e76cfd7deec01ed5f8dba40fe3b472ef64fd64a7bc19bdeced7589a926b050",
+    "accepted/ribbon_halfup_idle.png": "sha256:df89fa3b82608a8542f26942a90aeb918daae72f00c0ac10d7095e2095d0e8a3",
+    "accepted/ribbon_halfup_meditate_lotus.png": "sha256:1a6726b41f659c67c531ce78260bbce90139393197c8c7a0cf25a26100d928e6",
+    "accepted/ribbon_halfup_sword_salute.png": "sha256:4aab815f298c882b93f80612589823ad47eda34989fdca4712950612228abc57",
+    "accepted/ribbon_halfup_cloud_step.png": "sha256:557ad457370494995ac4e537b6366992f9c1f05912e3f0432051856f005a6eeb"
+  },
+  "artifacts": {
+    "processed/jade_topknot/sprite_cloud_step.png": "sha256:8ef2d05e9ed34d2e345d23f48b428395e4ee06c3e90355718fe758575220bdc5",
+    "processed/jade_topknot/sprite_cloud_step_n.png": "sha256:c5f5bd9ad98e568b506713438e66edaad97ee16a319bfdbdbab240faf8cea542",
+    "processed/jade_topknot/sprite_idle.png": "sha256:a0a6e4172a12711381af7432f60be0c673c747daeef2c8e65606805db75dad49",
+    "processed/jade_topknot/sprite_idle_n.png": "sha256:4992ba3de2154b3b15db4ee5c235a9e4eed36a92b76f0c8d5a4d249c91c7b9fc",
+    "processed/jade_topknot/sprite_meditate_lotus.png": "sha256:c5da5d65d75f3c2400946072fb7f6419fc7759b411a7cbffc1343b8841aa4f98",
+    "processed/jade_topknot/sprite_meditate_lotus_n.png": "sha256:a9e07ffaeb6e27bbe98c0513c23bee04a99a7124101b10f060f914d72f766a78",
+    "processed/jade_topknot/sprite_sword_salute.png": "sha256:b7daa6a70bc37c8c88f94e3d0ca357ea71d4888205e77dbd93f961e726a61dac",
+    "processed/jade_topknot/sprite_sword_salute_n.png": "sha256:0d689dfc016465c53975e0566901e45759e00e8f3d1990ac290092421b4db32c",
+    "processed/long_flow/sprite_cloud_step.png": "sha256:c82507461af6a847a74907a9a3efef2b718767493de1eaeaa28f7608aedf522f",
+    "processed/long_flow/sprite_cloud_step_n.png": "sha256:c5f5bd9ad98e568b506713438e66edaad97ee16a319bfdbdbab240faf8cea542",
+    "processed/long_flow/sprite_idle.png": "sha256:4563d66a5efcf199c51adb3461d565ca90927c256ac06dc5d8c70e19bf6eaf05",
+    "processed/long_flow/sprite_idle_n.png": "sha256:4992ba3de2154b3b15db4ee5c235a9e4eed36a92b76f0c8d5a4d249c91c7b9fc",
+    "processed/long_flow/sprite_meditate_lotus.png": "sha256:968538685b963dd3fb2aed6809926be634f6e06eb0d6ea74351ee4396f212e62",
+    "processed/long_flow/sprite_meditate_lotus_n.png": "sha256:a9e07ffaeb6e27bbe98c0513c23bee04a99a7124101b10f060f914d72f766a78",
+    "processed/long_flow/sprite_sword_salute.png": "sha256:9175bc0dba0fe6db86722de5e29ddc9b8429fc8c365c5b02580e61f0b1511ec2",
+    "processed/long_flow/sprite_sword_salute_n.png": "sha256:0d689dfc016465c53975e0566901e45759e00e8f3d1990ac290092421b4db32c",
+    "processed/ribbon_halfup/sprite_cloud_step.png": "sha256:3e79c98e77eda13856d41b8075fb3ccc5fb0c521282ada1057d26f6e07a77530",
+    "processed/ribbon_halfup/sprite_cloud_step_n.png": "sha256:c5f5bd9ad98e568b506713438e66edaad97ee16a319bfdbdbab240faf8cea542",
+    "processed/ribbon_halfup/sprite_idle.png": "sha256:870cfba406dc4341fdf7f9e69366ea27856377c5d34ad12b118a69c08ba7e40e",
+    "processed/ribbon_halfup/sprite_idle_n.png": "sha256:4992ba3de2154b3b15db4ee5c235a9e4eed36a92b76f0c8d5a4d249c91c7b9fc",
+    "processed/ribbon_halfup/sprite_meditate_lotus.png": "sha256:135a17514af67d924c7222e0cf3e3ac505fc4187961a3c59b3a83851e08f5a40",
+    "processed/ribbon_halfup/sprite_meditate_lotus_n.png": "sha256:a9e07ffaeb6e27bbe98c0513c23bee04a99a7124101b10f060f914d72f766a78",
+    "processed/ribbon_halfup/sprite_sword_salute.png": "sha256:d021e78dea83e64c0476724a9b4a6971d0c6b4c8448a6328cd2ccfe9388ee8f7",
+    "processed/ribbon_halfup/sprite_sword_salute_n.png": "sha256:0d689dfc016465c53975e0566901e45759e00e8f3d1990ac290092421b4db32c"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "long_flow/idle": 0.0,
+      "long_flow/meditate_lotus": 0.0,
+      "long_flow/sword_salute": 5e-05,
+      "long_flow/cloud_step": 0.0,
+      "jade_topknot/idle": 0.0,
+      "jade_topknot/meditate_lotus": 0.00043,
+      "jade_topknot/sword_salute": 1e-05,
+      "jade_topknot/cloud_step": 0.0,
+      "ribbon_halfup/idle": 0.0,
+      "ribbon_halfup/meditate_lotus": 8e-05,
+      "ribbon_halfup/sword_salute": 0.0,
+      "ribbon_halfup/cloud_step": 0.00032
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793755177.5085628,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1794062613.9126737,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_immortal_m",
+  "method": "controlnet",
+  "variants": [
+    "long_flow",
+    "jade_topknot",
+    "ribbon_halfup"
+  ],
+  "targets": {
+    "long_flow": {},
+    "jade_topknot": {},
+    "ribbon_halfup": {}
+  },
+  "base_art": {
+    "accepted/idle.png": "sha256:311beda288b62110be50b97cabea516743487c7d7448d4d7ed2277740891688b",
+    "accepted/meditate_lotus.png": "sha256:344104426ce90b7c3eb3cfa7b6d053d304b3e6661d253cf29584cdbda46370c9",
+    "accepted/sword_salute.png": "sha256:33a8f720364ae4552395e0be16a3ad2bfc1ff66ae033f0adbe3f1dfefaa2cdda",
+    "accepted/cloud_step.png": "sha256:44fc66987e7642650cef4fb81eeef31ac2880c8869cfcbc6b646bf204982a254"
+  },
+  "fringe_px": {
+    "long_flow/idle": 0,
+    "long_flow/meditate_lotus": 0,
+    "long_flow/sword_salute": 0,
+    "long_flow/cloud_step": 2,
+    "jade_topknot/idle": 0,
+    "jade_topknot/meditate_lotus": 1,
+    "jade_topknot/sword_salute": 0,
+    "jade_topknot/cloud_step": 0,
+    "ribbon_halfup/idle": 0,
+    "ribbon_halfup/meditate_lotus": 0,
+    "ribbon_halfup/sword_salute": 0,
+    "ribbon_halfup/cloud_step": 13
+  },
+  "gate": {
+    "fringe_ok": true
+  },
+  "poses": [
+    "idle",
+    "meditate_lotus",
+    "sword_salute",
+    "cloud_step"
+  ]
+}

@@ -85,6 +85,20 @@ def lint_components():
                 err(f"{name}: artifact missing {rel}")
             elif sha(ap) != h:
                 err(f"{name}: artifact changed since manifest (stale) {rel}")
+        # variant freshness (#73): a certified variant's base_art sha must
+        # match the base's current files — rev-bumped bases re-derive
+        if st == "certified" and m.get("of"):
+            ba = m.get("base_art")
+            if not ba:
+                warn(f"{name}: certified variant has no base_art binding "
+                     "— re-extract to bind")
+            for rel, h in (ba or {}).items():
+                ap = os.path.join(COMP, m["of"], rel)
+                if not os.path.exists(ap):
+                    err(f"{name}: bound base file missing {rel}")
+                elif sha(ap) != h:
+                    err(f"{name}: stale variant — bound to old base {rel}; "
+                        "re-derive + re-extract")
 
 def lint_briefs():
     for f in sorted(os.listdir(os.path.join(ROOT, "briefs"))):

@@ -3,7 +3,7 @@
   "id": "xx_card_blade_jade",
   "type": "sprite_variant",
   "status": "certified",
-  "rev": 2,
+  "rev": 3,
   "constraints": {
     "type": "sprite_variant",
     "method": "controlnet",
@@ -39,6 +39,11 @@
       "rev": 1,
       "ts": 1793754207.476686,
       "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1794061699.9184835,
+      "status": "certified"
     }
   ],
   "toolchain": {
@@ -57,9 +62,12 @@
       "aura": "#7fd8e8"
     }
   },
+  "base_art": {
+    "accepted/src.png": "sha256:072490e20df34350d2b67bdd38efefe39c244516d4ff0992a6c2b2f08262b594"
+  },
   "poses": [],
   "certified": {
-    "ts": 1793758626.466053,
+    "ts": 1794061724.608835,
     "by": "devin-rev2"
   }
 }

@@ -48,7 +48,11 @@ python tools/publish.py <goal> --wait 60
   transform-only — skip C1, go straight to extract once the `of` base is
   `processed`. Locks its base automatically. Accepted files:
   `accepted/<variant>_<pose>.png` (sprite bases), `accepted/<variant>.png`
-  (ui bases).
+  (ui bases). Extract binds `manifest.base_art` = sha of every base file
+  derived from — `lint_tree` fails certified variants whose base has
+  since rev-bumped; re-derive + re-extract (#73). Extract also requires
+  variant art for *every* pose in the base manifest — new base poses
+  force a variant regen round (`--poses <new>` + curate).
 - `sprite` — depth guide is opt-in via `guide_from` (locks the guide);
   without it, poses run guideless i2i from `accepted/idle.png`. Warning:
   guideless i2i at 0.55–0.62 preserves the composition skeleton — poses

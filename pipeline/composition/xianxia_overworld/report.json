@@ -64,23 +64,23 @@
       "goal": "xianxia_overworld",
       "manifests": {
         "xx_azure_sage": "sha256:9bea8fd740546409aa0cebfca4808f84793ff910aeff67e9a57b72f53ddebde0",
-        "xx_f_hair": "sha256:0e87baedc0b0ff59d8a2eb465a9ad6ea299b71f720786cf0cc647cc4c408bdb8",
-        "xx_f_robes": "sha256:86375671e6347245d3cc34db84c1efb037a6d95f3ed4fb82f45f6faf7bf56daf",
+        "xx_f_hair": "sha256:75f24dd95c7b4d134c2f5b327080edcc8524e306ef6406999e9a24c8d0b5a1c6",
+        "xx_f_robes": "sha256:22a6cafa49d21fc27dd671bba491ec316efe9c777a58415ff3af92b0b1f1b295",
         "xx_falls_mid": "sha256:3e05b6f9156f0af8f2f9d21840ff5781421a41fab16c27153d4b69c06669357f",
         "xx_immortal_f": "sha256:a4245c1976d0b88a9d0d4b8be2eb826190f7c6fad2db3ddf2a2f7f1cadfd5993",
         "xx_immortal_m": "sha256:23156eac456790c6fb6acd6f9a21750625d65eda197446c3fc8f7a11286a19d6",
         "xx_jian": "sha256:8663844bce1214a4dea0517d89c394802b2b2bfd95df67eaa120a723e23c23aa",
-        "xx_m_hair": "sha256:a7215a4a79b96cd254fbadbc068c0ad8fca7ff5f551c5e2d95c39499b60293b0",
-        "xx_m_robes": "sha256:30e1dd4cbd9e1c76035f60fbbcbf979c6c2acb6032cf9f4bc515d1e4bade6ff3",
+        "xx_m_hair": "sha256:875d83f4a06cf232b3117ceba9257ac9bea2ff9515e76bc02f92c8897fb37c36",
+        "xx_m_robes": "sha256:2b07ed5015e7f7728f04dcc552c5560907f8df0025eedad18915829c51d2b584",
         "xx_peaks_far": "sha256:e93a97a4fd9cfe4275d94346f2acb878029307f62e0e59d34508339687c07dd4",
         "xx_ribbon": "sha256:242af85ad3febc038fb1d2762d943585db32589318722380d87aa9280f349a78",
         "xx_sage_staff": "sha256:debc502f9ce174a4daf7e56dffb5b63a45aec325734088e1beb699b4af8c4746",
         "xx_terrace": "sha256:14a4d394e9446e1ca5422cd53cd058c8c7e5c553496ea28948d085f383c07df2"
       }
     },
-    "job_file": "a36d58bf3aaf",
+    "job_file": "c9da26f9668a",
     "mode": "all",
-    "timestamp": "2026-11-07T17:50:16"
+    "timestamp": "2026-11-08T00:39:05"
   },
   "schema": "mm.report.v1",
   "shot_expect": {
@@ -171,12 +171,12 @@
     },
     "xx_f_robes/moon_gold": {
       "lit_coverage": 1.0,
-      "sat_mean": 0.322,
+      "sat_mean": 0.321,
       "type": "sprite"
     },
     "xx_f_robes/teal_phoenix": {
       "lit_coverage": 1.0,
-      "sat_mean": 0.259,
+      "sat_mean": 0.261,
       "type": "sprite"
     },
     "xx_f_robes/winged_ascension": {

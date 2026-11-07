@@ -3,7 +3,7 @@
   "id": "xx_card_mirror_jade",
   "type": "sprite_variant",
   "status": "certified",
-  "rev": 2,
+  "rev": 3,
   "constraints": {
     "type": "sprite_variant",
     "method": "controlnet",
@@ -25,7 +25,7 @@
     "count": 1
   },
   "inputs": {
-    "xx_card_mirror/manifest.json": "sha256:d99cf8258c5fa9d5cd62156d754589eef8ec282d375c59f46416df73c90f18d5",
+    "xx_card_mirror/manifest.json": "sha256:06a3a49f070a2db57948e4d90f7f0794a047f06ebe30545f6537c60c45247227",
     "accepted/mirror_revenant.png": "sha256:43adbe033910981fde27274df22e2cb0ec5c45f546bed450bd74e3e445a6d35a"
   },
   "artifacts": {
@@ -38,6 +38,11 @@
     {
       "rev": 1,
       "ts": 1793754208.540188,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1794061706.5347095,
       "status": "certified"
     }
   ],
@@ -57,9 +62,12 @@
       "aura": "#7fd8e8"
     }
   },
+  "base_art": {
+    "accepted/src.png": "sha256:c059cce77cdc561c74fa1e6ec71d25be918bcf3e88459746c20e35429e736742"
+  },
   "poses": [],
   "certified": {
-    "ts": 1793758627.4120443,
+    "ts": 1794061727.9185994,
     "by": "devin-rev2"
   }
 }

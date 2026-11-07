@@ -32,7 +32,7 @@ gen_component.Index (atomic_json, resume-aware). Locks: the variant dir
 AND the `of` base dir, acquired sorted by path, owner
 "<goal>:gen_variant:<cid>", released on exit.
 """
-import json, os, shutil, struct, sys
+import hashlib, json, os, shutil, struct, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gen_component import (ENV, MODELS, comp_dir, get, run_seed, Index,
@@ -224,6 +224,8 @@ def main(cid):
                       "w": w, "h": h, "of": base_id,
                       "init_from": os.path.relpath(init_src, bdir)
                       .replace("\\", "/"),
+                      "init_sha": "sha256:" + hashlib.sha256(
+                          open(init_src, "rb").read()).hexdigest(),
                       "denoise": den, "controlnet": cn,
                       "depth": (os.path.relpath(depth_src, bdir)
                                 .replace("\\", "/")

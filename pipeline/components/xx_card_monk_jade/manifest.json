@@ -3,7 +3,7 @@
   "id": "xx_card_monk_jade",
   "type": "sprite_variant",
   "status": "certified",
-  "rev": 2,
+  "rev": 3,
   "constraints": {
     "type": "sprite_variant",
     "method": "controlnet",
@@ -25,7 +25,7 @@
     "count": 1
   },
   "inputs": {
-    "xx_card_monk/manifest.json": "sha256:633b6da65d9e1e9283a8706bc7b7dcae8beec6b8837ab9436c539dea62c3161f",
+    "xx_card_monk/manifest.json": "sha256:f4f903a36a5f0823e9088682610d5229aebdf6689b0879862ce47db736adaa70",
     "accepted/verdant_monk.png": "sha256:e5c0d7bfa7f526f7f844b06e1eb00ec168325123fb0830c2151d9f3b33b1c496"
   },
   "artifacts": {
@@ -38,6 +38,11 @@
     {
       "rev": 1,
       "ts": 1793754208.890864,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1794061708.9509845,
       "status": "certified"
     }
   ],
@@ -57,9 +62,12 @@
       "aura": "#3fd87a"
     }
   },
+  "base_art": {
+    "accepted/src.png": "sha256:ecf3bbb86e37d12d6fd48daf528d6b776f46a0816c2491b3fd593cc0cbda8f49"
+  },
   "poses": [],
   "certified": {
-    "ts": 1793758627.7561889,
+    "ts": 1794061729.1213276,
     "by": "devin-rev2"
   }
 }

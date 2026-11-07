@@ -247,6 +247,14 @@ def main(cid):
         mdir = os.path.join(cdir, "candidates", "_render")
         manifest.update({"of": base_id, "method": method, "variants": [],
                          "targets": {}})
+
+        def bind_base(relpath):
+            # the base bytes this variant was derived from — lint flags a
+            # certified variant whose binding no longer matches the base
+            # (rev-bumped bases must re-derive their variants, #73)
+            fp = os.path.join(bdir, relpath)
+            if os.path.exists(fp):
+                manifest.setdefault("base_art", {})[relpath] = sha(fp)
         if method == "controlnet":
             # regenerated art, not a recolor: the variant's own accepted/
             # holds one curated pick per member — accepted/<vid>_<pose>.png
@@ -260,6 +268,11 @@ def main(cid):
             tw = bb.get("w_px") or bb.get("h_px") or b.get("w_px") \
                 or b.get("h_px") or 256
             th = bb.get("h_px") or b.get("h_px") or 256
+            if base_type == "ui_image":
+                bind_base("accepted/src.png")
+            else:
+                for pose in poses:
+                    bind_base(f"accepted/{pose}.png")
             fringes, ratios = {}, {}
             for v in variants:
                 vid = v["id"]
@@ -321,6 +334,7 @@ def main(cid):
                     sp = os.path.join(srcdir, f"sprite_{pose}.png")
                     if not os.path.exists(sp):
                         continue
+                    bind_base(f"processed/sprite_{pose}.png")
                     img = Image.open(sp).convert("RGBA")
                     a = np.asarray(img).astype(np.float32)
                     alpha = (a[..., 3] > 128).astype(np.float32)

@@ -1,0 +1,98 @@
+{
+  "schema_v": 1,
+  "id": "xx_f_hair",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_immortal_f",
+    "vary": [
+      "hair"
+    ],
+    "variants": [
+      {
+        "id": "ornate_updo",
+        "prompt_extra": "elaborate updo with golden phoenix hairpins and dangling beads"
+      },
+      {
+        "id": "phoenix_crown",
+        "prompt_extra": "full golden phoenix crown headdress, hair swept up beneath it"
+      },
+      {
+        "id": "twin_waterfall",
+        "prompt_extra": "two long black waterfall braids over the shoulders, small gold clasps"
+      }
+    ],
+    "count": 3
+  },
+  "inputs": {
+    "xx_immortal_f/manifest.json": "sha256:99324e9423dc1207a5696a87b9950a066f1cdf1b80b8222281174a5a752e1a1c",
+    "accepted/ornate_updo_idle.png": "sha256:ee2feef21778825d396f46da1fa7f2cb1fe4b47861e5113e6028c60b6b79b76c",
+    "accepted/phoenix_crown_idle.png": "sha256:50ea03ef836a3e28ae622951170eb27a4cecba3b7503ee654bf32a4b9c2e0e17",
+    "accepted/twin_waterfall_idle.png": "sha256:1f7f14c63cffeb07b6acfc24f7aa71cbbf1252b5c7be0377867956d6b8369efd"
+  },
+  "artifacts": {
+    "processed/ornate_updo/sprite_idle.png": "sha256:e821acdd2ea4c13119c6f1f30e975a49101663eab156a7a433f71e8866f99d66",
+    "processed/ornate_updo/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26",
+    "processed/phoenix_crown/sprite_idle.png": "sha256:505d80539b97ad11dec60e2db3a9d7f1ca05963778491f49aef8234c11f08ab9",
+    "processed/phoenix_crown/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26",
+    "processed/twin_waterfall/sprite_idle.png": "sha256:296fc51bd7b03ed0e64378b85f89f718843de101d2cae691da4a51ab3c1ef701",
+    "processed/twin_waterfall/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26"
+  },
+  "metrics": {
+    "fringe_ratio": {
+      "ornate_updo/idle": 0.0,
+      "phoenix_crown/idle": 0.0,
+      "twin_waterfall/idle": 0.0
+    }
+  },
+  "gate_mode": {
+    "fringe_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793755389.1472843,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_immortal_f",
+  "method": "controlnet",
+  "variants": [
+    "ornate_updo",
+    "phoenix_crown",
+    "twin_waterfall"
+  ],
+  "targets": {
+    "ornate_updo": {},
+    "phoenix_crown": {},
+    "twin_waterfall": {}
+  },
+  "fringe_px": {
+    "ornate_updo/idle": 0,
+    "phoenix_crown/idle": 0,
+    "twin_waterfall/idle": 0
+  },
+  "gate": {
+    "fringe_ok": true
+  },
+  "poses": [
+    "idle",
+    "sleeve_dance",
+    "sword_stance",
+    "meditate"
+  ],
+  "certified": {
+    "ts": 1793758624.9108396,
+    "by": "devin-rev2"
+  }
+}

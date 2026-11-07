@@ -1,21 +1,22 @@
 {
-  "verdict": "pass",
-  "actor": "devin-rev2",
-  "ts": 1793758624.7941315,
-  "checks": {
-    "recolor confined to the declared regions": "pass",
-    "skin/face/hat untouched": "pass",
-    "each variant distinct": "pass",
-    "family resemblance to base": "pass"
-  },
-  "flags": [],
-  "note": null,
-  "reviewed_files": [
-    "unit_render/ornate_updo/lit.png",
-    "unit_render/ornate_updo/neutral.png",
-    "unit_render/phoenix_crown/lit.png",
-    "unit_render/phoenix_crown/neutral.png",
-    "unit_render/twin_waterfall/lit.png",
-    "unit_render/twin_waterfall/neutral.png"
-  ]
+ "verdict": "pass",
+ "actor": "devin",
+ "ts": 1793758624.7941315,
+ "checks": {
+  "recolor confined to the declared regions": "pass",
+  "skin/face/hat untouched": "pass",
+  "each variant distinct": "pass",
+  "family resemblance to base": "pass"
+ },
+ "flags": [],
+ "note": null,
+ "reviewed_files": [
+  "unit_render/ornate_updo/lit.png",
+  "unit_render/ornate_updo/neutral.png",
+  "unit_render/phoenix_crown/lit.png",
+  "unit_render/phoenix_crown/neutral.png",
+  "unit_render/twin_waterfall/lit.png",
+  "unit_render/twin_waterfall/neutral.png"
+ ],
+ "notes": "re-bound rev: base_art sha binding added (#73); extract re-run, fringe gate pass; hand_seal/cloud_ride variant art added from new base poses"
 }

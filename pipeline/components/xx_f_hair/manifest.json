@@ -3,7 +3,7 @@
   "id": "xx_f_hair",
   "type": "sprite_variant",
   "status": "certified",
-  "rev": 2,
+  "rev": 3,
   "constraints": {
     "type": "sprite_variant",
     "method": "controlnet",
@@ -28,24 +28,84 @@
     "count": 3
   },
   "inputs": {
-    "xx_immortal_f/manifest.json": "sha256:99324e9423dc1207a5696a87b9950a066f1cdf1b80b8222281174a5a752e1a1c",
+    "xx_immortal_f/manifest.json": "sha256:a4245c1976d0b88a9d0d4b8be2eb826190f7c6fad2db3ddf2a2f7f1cadfd5993",
     "accepted/ornate_updo_idle.png": "sha256:ee2feef21778825d396f46da1fa7f2cb1fe4b47861e5113e6028c60b6b79b76c",
+    "accepted/ornate_updo_sleeve_dance.png": "sha256:0e5951d4928c4249ce937c121c70d7138ba3d3febb6b8186f26bb23e20ea69f9",
+    "accepted/ornate_updo_sword_stance.png": "sha256:061b3921e75f9bb98ef4a62e81eff9a7b1290b589c1bee08652331fe11bf58d0",
+    "accepted/ornate_updo_meditate.png": "sha256:3f0cef1f183ad5e1772356054096ff31107e5c4a777923d9f20b87e5c90c0eb0",
+    "accepted/ornate_updo_hand_seal.png": "sha256:999ed134e7522b5792eea165254e0ad28ef77741e5d54ac19418ca393dbe36cc",
+    "accepted/ornate_updo_cloud_ride.png": "sha256:746fbffb08e45c33c8481f8a7be73aebd2053b603ac850cff3e844ad197ca1ea",
     "accepted/phoenix_crown_idle.png": "sha256:50ea03ef836a3e28ae622951170eb27a4cecba3b7503ee654bf32a4b9c2e0e17",
-    "accepted/twin_waterfall_idle.png": "sha256:1f7f14c63cffeb07b6acfc24f7aa71cbbf1252b5c7be0377867956d6b8369efd"
+    "accepted/phoenix_crown_sleeve_dance.png": "sha256:25734ac9516d428564b611ffb604d540738e3317fa0c85e7065bbc253d6b4a63",
+    "accepted/phoenix_crown_sword_stance.png": "sha256:383657fcddd86ff356df3907b9c9e437f814e3974d79f6ee5a59acbf9cecc3cd",
+    "accepted/phoenix_crown_meditate.png": "sha256:333cd0f361acd74b11e91c2ff844e724f0c0f2dccebda034f23c968389b3db84",
+    "accepted/phoenix_crown_hand_seal.png": "sha256:74259e4b39ad45f858343724ada06e687d9da50c229e80067e7efa9695178f48",
+    "accepted/phoenix_crown_cloud_ride.png": "sha256:49f4ed4bc45f2ce4bbed73be936318e970580a4a7aea0e4a42ccd497855b9b0c",
+    "accepted/twin_waterfall_idle.png": "sha256:1f7f14c63cffeb07b6acfc24f7aa71cbbf1252b5c7be0377867956d6b8369efd",
+    "accepted/twin_waterfall_sleeve_dance.png": "sha256:171a4191f194a079f00c7c3f2c22e78484526dbd266b8e049eeb3a3838be0ce5",
+    "accepted/twin_waterfall_sword_stance.png": "sha256:e77e5ed5ea98a7d43ddaa27e49e3d096f7ca76e83d75588b0b0b5be2e656071c",
+    "accepted/twin_waterfall_meditate.png": "sha256:993aa88d61c5b218e5199f1992acf374432982c7d00236d2b08da189706e3482",
+    "accepted/twin_waterfall_hand_seal.png": "sha256:f4f3e9e3d79f02f652c8e57e3052ef97e1f8542b64f5fad443db81c5e2cb2ef3",
+    "accepted/twin_waterfall_cloud_ride.png": "sha256:2109c520691ffc80b42f02bcf7bfd043d9edc229bb53ca1208819ad4d64c5896"
   },
   "artifacts": {
-    "processed/ornate_updo/sprite_idle.png": "sha256:e821acdd2ea4c13119c6f1f30e975a49101663eab156a7a433f71e8866f99d66",
-    "processed/ornate_updo/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26",
-    "processed/phoenix_crown/sprite_idle.png": "sha256:505d80539b97ad11dec60e2db3a9d7f1ca05963778491f49aef8234c11f08ab9",
-    "processed/phoenix_crown/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26",
-    "processed/twin_waterfall/sprite_idle.png": "sha256:296fc51bd7b03ed0e64378b85f89f718843de101d2cae691da4a51ab3c1ef701",
-    "processed/twin_waterfall/sprite_idle_n.png": "sha256:3f63ea7129f5473aaff9563bde23aff7355e6362a8f150f815a9fc6342315c26"
+    "processed/ornate_updo/sprite_cloud_ride.png": "sha256:d667483f23cdae738f3554e95dd9a5bc9dc621ae9d05fa18af8833b0ca126127",
+    "processed/ornate_updo/sprite_cloud_ride_n.png": "sha256:6a0ae19ddabf33c23a4603d804c2b87f92db639700c81a93787504a446cb267e",
+    "processed/ornate_updo/sprite_hand_seal.png": "sha256:f260fbcd55308d168279b62a2f70848fbec814ddeec81ba89b443a255f2cb5ae",
+    "processed/ornate_updo/sprite_hand_seal_n.png": "sha256:6a1988da2623771db94473c857fcc0db3aaff19fb099b47f9eeed6661ac66da1",
+    "processed/ornate_updo/sprite_idle.png": "sha256:ca99adf295d1a1ff3ec1364e584660cc21e4b1cfb5dde589b3733efede0fd43f",
+    "processed/ornate_updo/sprite_idle_n.png": "sha256:7370d12c864a34aad2f9ddf04878b998ffe66a09ed47f58575c2c79aec973fcb",
+    "processed/ornate_updo/sprite_meditate.png": "sha256:b88fb26865b79e8e0bffbeb92846f97dcbb0668cb8a4e9fab1fe6a171cba4294",
+    "processed/ornate_updo/sprite_meditate_n.png": "sha256:a942a44892314ead1a83e19216d21f02ff477f70324d892a04d94c4995554e05",
+    "processed/ornate_updo/sprite_sleeve_dance.png": "sha256:d7d966d06fdc7787d3968bdff331c76d4c32d6de24ef7f413c862376c3fd4da9",
+    "processed/ornate_updo/sprite_sleeve_dance_n.png": "sha256:e7eb62e6883df42192cfe3d397b5618b228dc43e27ab695eeda919044bed2772",
+    "processed/ornate_updo/sprite_sword_stance.png": "sha256:9139698b199b822b998b05d622b2794012b8e6082d7d5435e93c5da56289700f",
+    "processed/ornate_updo/sprite_sword_stance_n.png": "sha256:6d4228b723897e38e026dc264ea1db841984b8c10c3ddb4b66fecdefde127a07",
+    "processed/phoenix_crown/sprite_cloud_ride.png": "sha256:34ada56033359114433c53703ddd478d8474f06e46dd6e8556492b96ae51358f",
+    "processed/phoenix_crown/sprite_cloud_ride_n.png": "sha256:6a0ae19ddabf33c23a4603d804c2b87f92db639700c81a93787504a446cb267e",
+    "processed/phoenix_crown/sprite_hand_seal.png": "sha256:19e6b89cdd307c17de1d38925beb23a1af91c28bd170352afb8758395bb3b06d",
+    "processed/phoenix_crown/sprite_hand_seal_n.png": "sha256:6a1988da2623771db94473c857fcc0db3aaff19fb099b47f9eeed6661ac66da1",
+    "processed/phoenix_crown/sprite_idle.png": "sha256:e8f574ac81acf52673c9f6f721105d8e6f7e02f8f47cbe86f201813887f6aabc",
+    "processed/phoenix_crown/sprite_idle_n.png": "sha256:7370d12c864a34aad2f9ddf04878b998ffe66a09ed47f58575c2c79aec973fcb",
+    "processed/phoenix_crown/sprite_meditate.png": "sha256:857a6132a9f8b719babf1feb2aa4bd1dab568495af6c91b77f414ed37fa48262",
+    "processed/phoenix_crown/sprite_meditate_n.png": "sha256:a942a44892314ead1a83e19216d21f02ff477f70324d892a04d94c4995554e05",
+    "processed/phoenix_crown/sprite_sleeve_dance.png": "sha256:c455fd1be543f70292559f67f4b3f68d08ef1e658dc3da63dfed3c98b1ef6c59",
+    "processed/phoenix_crown/sprite_sleeve_dance_n.png": "sha256:e7eb62e6883df42192cfe3d397b5618b228dc43e27ab695eeda919044bed2772",
+    "processed/phoenix_crown/sprite_sword_stance.png": "sha256:c21e1ded138e5a58e87390ee00a1697848d6cf71b209f4bcc3816b4659117f6b",
+    "processed/phoenix_crown/sprite_sword_stance_n.png": "sha256:6d4228b723897e38e026dc264ea1db841984b8c10c3ddb4b66fecdefde127a07",
+    "processed/twin_waterfall/sprite_cloud_ride.png": "sha256:3f94d5d719ee9c8bf8d5ca6f5341e1d003a530ab8a4c98f400b06e8b6a958590",
+    "processed/twin_waterfall/sprite_cloud_ride_n.png": "sha256:6a0ae19ddabf33c23a4603d804c2b87f92db639700c81a93787504a446cb267e",
+    "processed/twin_waterfall/sprite_hand_seal.png": "sha256:37ec4411f0145d8d4c9196dc73dc7b37f28cc7223b1c15067f96846e679dc371",
+    "processed/twin_waterfall/sprite_hand_seal_n.png": "sha256:6a1988da2623771db94473c857fcc0db3aaff19fb099b47f9eeed6661ac66da1",
+    "processed/twin_waterfall/sprite_idle.png": "sha256:9658a2ccd586589842cfecb9a14eabcb824f4b5d2476d24d5e8430c87e2d925b",
+    "processed/twin_waterfall/sprite_idle_n.png": "sha256:7370d12c864a34aad2f9ddf04878b998ffe66a09ed47f58575c2c79aec973fcb",
+    "processed/twin_waterfall/sprite_meditate.png": "sha256:e4a262c7095667bf1c7bb39fcd4e776be37ccf947bd2262afdbfa6e2680ebbca",
+    "processed/twin_waterfall/sprite_meditate_n.png": "sha256:a942a44892314ead1a83e19216d21f02ff477f70324d892a04d94c4995554e05",
+    "processed/twin_waterfall/sprite_sleeve_dance.png": "sha256:8de4bad777d1d5e02e6442f537b30f88ecb9b1e0c0439786cf6e80757abd9d93",
+    "processed/twin_waterfall/sprite_sleeve_dance_n.png": "sha256:e7eb62e6883df42192cfe3d397b5618b228dc43e27ab695eeda919044bed2772",
+    "processed/twin_waterfall/sprite_sword_stance.png": "sha256:8e78a715560df9dbd2934a80454a25b0fc758ff7aee32d9f6f7818eb3e813994",
+    "processed/twin_waterfall/sprite_sword_stance_n.png": "sha256:6d4228b723897e38e026dc264ea1db841984b8c10c3ddb4b66fecdefde127a07"
   },
   "metrics": {
     "fringe_ratio": {
       "ornate_updo/idle": 0.0,
+      "ornate_updo/sleeve_dance": 0.0,
+      "ornate_updo/sword_stance": 0.0,
+      "ornate_updo/meditate": 0.0,
+      "ornate_updo/hand_seal": 0.0,
+      "ornate_updo/cloud_ride": 0.0,
       "phoenix_crown/idle": 0.0,
-      "twin_waterfall/idle": 0.0
+      "phoenix_crown/sleeve_dance": 0.0,
+      "phoenix_crown/sword_stance": 0.0,
+      "phoenix_crown/meditate": 0.0,
+      "phoenix_crown/hand_seal": 0.0,
+      "phoenix_crown/cloud_ride": 0.0,
+      "twin_waterfall/idle": 0.0,
+      "twin_waterfall/sleeve_dance": 0.0,
+      "twin_waterfall/sword_stance": 0.0,
+      "twin_waterfall/meditate": 0.0,
+      "twin_waterfall/hand_seal": 0.0,
+      "twin_waterfall/cloud_ride": 0.0
     }
   },
   "gate_mode": {
@@ -56,6 +116,11 @@
     {
       "rev": 1,
       "ts": 1793755389.1472843,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1794065075.8016489,
       "status": "certified"
     }
   ],
@@ -77,10 +142,33 @@
     "phoenix_crown": {},
     "twin_waterfall": {}
   },
+  "base_art": {
+    "accepted/idle.png": "sha256:3e629709c9ad8eb22cac34f03474a81b6d7f275e9211f3d83916a932d9f016a8",
+    "accepted/sleeve_dance.png": "sha256:5ead8e02dccadc301bd9393b805fd3a4c5133779ef59274256d9c126535c00e5",
+    "accepted/sword_stance.png": "sha256:2c071381c968616821272519bc37958e2c9451998bd7c489f06c2163809ef887",
+    "accepted/meditate.png": "sha256:4434b7a8a026d4e6e93d672fb75373ac74b871b6b846581e4ad8242107a15de4",
+    "accepted/hand_seal.png": "sha256:7805be66069f7e1272552a03e986dde0f28f182a9ca93b7fb3732f18fbb616f9",
+    "accepted/cloud_ride.png": "sha256:54193fef8f1940b982f5c9d2576a24a5a7e027eeaa8b9475f22e3b084c4d96bd"
+  },
   "fringe_px": {
     "ornate_updo/idle": 0,
+    "ornate_updo/sleeve_dance": 0,
+    "ornate_updo/sword_stance": 0,
+    "ornate_updo/meditate": 0,
+    "ornate_updo/hand_seal": 0,
+    "ornate_updo/cloud_ride": 0,
     "phoenix_crown/idle": 0,
-    "twin_waterfall/idle": 0
+    "phoenix_crown/sleeve_dance": 0,
+    "phoenix_crown/sword_stance": 0,
+    "phoenix_crown/meditate": 0,
+    "phoenix_crown/hand_seal": 1,
+    "phoenix_crown/cloud_ride": 0,
+    "twin_waterfall/idle": 0,
+    "twin_waterfall/sleeve_dance": 0,
+    "twin_waterfall/sword_stance": 0,
+    "twin_waterfall/meditate": 0,
+    "twin_waterfall/hand_seal": 0,
+    "twin_waterfall/cloud_ride": 0
   },
   "gate": {
     "fringe_ok": true
@@ -89,10 +177,12 @@
     "idle",
     "sleeve_dance",
     "sword_stance",
-    "meditate"
+    "meditate",
+    "hand_seal",
+    "cloud_ride"
   ],
   "certified": {
-    "ts": 1793758624.9108396,
-    "by": "devin-rev2"
+    "ts": 1794069375.0118284,
+    "by": "devin"
   }
 }

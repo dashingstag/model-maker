@@ -1,0 +1,65 @@
+{
+  "schema_v": 1,
+  "id": "xx_card_venom_jade",
+  "type": "sprite_variant",
+  "status": "certified",
+  "rev": 2,
+  "constraints": {
+    "type": "sprite_variant",
+    "method": "controlnet",
+    "of": "xx_card_venom",
+    "vary": [
+      "aura",
+      "robe_trim",
+      "backdrop"
+    ],
+    "variants": [
+      {
+        "id": "jade_serpent",
+        "aura": "@palettes/xianxia_element.colors.jade_aura",
+        "prompt_extra": "same tattooed man, aura repainted as a luminous green serpent-dragon through jade mist",
+        "denoise": 0.7,
+        "prompt_override": "handsome masculine male cultivator, dark neck tattoos, gazing up at a glowing jade spirit moth on his fingertip, spectral jade serpent coiling through emerald smoke above, jade green aura"
+      }
+    ],
+    "count": 1
+  },
+  "inputs": {
+    "xx_card_venom/manifest.json": "sha256:ad946e1bb5e37aa8a3dbd9755f5f0e5fa66dee5444e6502fa406f395f986c0af",
+    "accepted/jade_serpent.png": "sha256:66a6976331dd952def6e29eacfa58e4de9059afc42d353e44aaaee6d530bfe6a"
+  },
+  "artifacts": {
+    "processed/jade_serpent/portrait.png": "sha256:10b57d8a2415a0a2f3a8a4ac9a7575ae708bf6d924e44ffdaeec200adf1c543a"
+  },
+  "metrics": {},
+  "gate_mode": {},
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793754208.1993687,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "of": "xx_card_venom",
+  "method": "controlnet",
+  "variants": [
+    "jade_serpent"
+  ],
+  "targets": {
+    "jade_serpent": {
+      "aura": "#3fd87a"
+    }
+  },
+  "poses": [],
+  "certified": {
+    "ts": 1793758627.0900762,
+    "by": "devin-rev2"
+  }
+}

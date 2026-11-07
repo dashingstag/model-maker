@@ -3,7 +3,7 @@
   "id": "xx_card_archivist_jade",
   "type": "sprite_variant",
   "status": "certified",
-  "rev": 2,
+  "rev": 3,
   "constraints": {
     "type": "sprite_variant",
     "method": "controlnet",
@@ -39,6 +39,11 @@
       "rev": 1,
       "ts": 1793754207.8476012,
       "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1794061702.5563447,
+      "status": "certified"
     }
   ],
   "toolchain": {
@@ -57,9 +62,12 @@
       "aura": "#3fd87a"
     }
   },
+  "base_art": {
+    "accepted/src.png": "sha256:1a7e8bf5b8c0c765d3b98a6e38f7dc42142f011578ef198d1bd3c2d70c50247f"
+  },
   "poses": [],
   "certified": {
-    "ts": 1793758626.7822037,
+    "ts": 1794061725.38835,
     "by": "devin-rev2"
   }
 }
