@@ -741,12 +741,39 @@ func _run_action_shots(comp: Dictionary, layout: Dictionary, shots_dir: String) 
 					var d: float = at2["node"].global_position.distance_to(bpos)
 					entry["props_attached"].append({"t": t, "dist": snappedf(d, 0.01),
 						"pass": d < 0.4})
-		if entry["props_attached"].size() and "unresolved_cameras" not in entry:
+		# declared expect keys are measured — unmeasurable values report
+		# null, never a silent pass (the honesty contract)
+		var checks := []
+		for p2 in entry["props_attached"]:
+			checks.append(p2.get("pass"))
+		if entry["expect"].has("both_on_row"):
+			var row_ok := true
+			for role in a.get("cast", {}).values():
+				if member_rows.get(role) != entry["expect"]["both_on_row"]:
+					row_ok = false
+			entry["both_on_row"] = entry["expect"]["both_on_row"]
+			checks.append(row_ok)
+		if entry["expect"].has("min_gap_px"):
+			var rs := []
+			for role in a.get("cast", {}).values():
+				if sprites.has(role):
+					rs.append(_canvas_rect(sprites[role]))
+			rs.sort_custom(func(x, y): return x.position.x < y.position.x)
+			var gap: float = -1.0 if rs.size() < 2 else \
+				rs[1].position.x - rs[0].end.x
+			entry["min_gap_px"] = {"value": snappedf(gap, 0.1),
+				"target": entry["expect"]["min_gap_px"]}
+			checks.append(null if gap < 0.0 else
+				gap >= entry["expect"]["min_gap_px"])
+		if checks.size() and "unresolved_cameras" not in entry:
 			var ok1 := true
-			for p2 in entry["props_attached"]:
-				if p2.get("pass") == false:
+			var has_null := false
+			for c in checks:
+				if c == null:
+					has_null = true
+				elif c == false:
 					ok1 = false
-			entry["pass"] = ok1
+			entry["pass"] = null if has_null else ok1
 		report["action_shots"].append(entry)
 
 func _skel_min_y(skel: Skeleton3D) -> float:

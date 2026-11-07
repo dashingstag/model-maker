@@ -1,6 +1,7 @@
 {
   "action_shots": [
     {
+      "both_on_row": "terrace",
       "captures": [
         0.6
       ],
@@ -8,7 +9,12 @@
         "both_on_row": "terrace",
         "min_gap_px": 80.0
       },
+      "min_gap_px": {
+        "target": 80.0,
+        "value": 229.7
+      },
       "name": "salute_sync",
+      "pass": true,
       "props_attached": []
     }
   ],
@@ -74,7 +80,7 @@
     },
     "job_file": "a36d58bf3aaf",
     "mode": "all",
-    "timestamp": "2026-11-07T17:28:30"
+    "timestamp": "2026-11-07T17:50:16"
   },
   "schema": "mm.report.v1",
   "shot_expect": {

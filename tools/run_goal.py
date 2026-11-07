@@ -62,6 +62,15 @@ def kill_pid(pid):
 
 def spawn_harness(job_path, log_path):
     """Spawn the Godot runner detached in its own group; return Popen."""
+    # parse gate: a runner that fails to load leaves Godot alive with
+    # nothing to quit — the harness hangs with no heartbeat and no error
+    # in the log. --check-only fails fast instead (ledger #70).
+    chk = run([GODOT, "--path", os.path.join(ROOT, "godot"),
+               "--check-only", "--script", "res://scripts/runner.gd"],
+              timeout=120)
+    if chk.returncode != 0 or "SCRIPT ERROR" in chk.stdout + chk.stderr:
+        sys.exit("run_goal: runner.gd failed --check-only:\n"
+                 + (chk.stdout + chk.stderr)[-2000:])
     kw = {"stdout": open(log_path, "w"), "stderr": subprocess.STDOUT}
     if os.name == "nt":
         kw["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
