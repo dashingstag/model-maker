@@ -301,6 +301,8 @@ var ui_map := {}           # ui member id -> TextureRect
 var variant_of := {}       # variant component id -> base member id
 var variant_vids := {}     # variant component id -> [variant ids]
 var _swapped := []         # [{id, node, tex}] repainted this shot
+var sprite_dirs := {}      # sprite member id -> assets dir
+var _shot_pose := ""       # sspec.pose applied this shot
 var overlaps := []
 var cross_row_events := 0
 var min_gap := 9999.0
@@ -375,6 +377,7 @@ func _composition_mode() -> void:
 					m.get("h_px", 384), Color.WHITE, _opt_tex(dir + "/sprite_idle_n.png"))
 				add_child(s)
 				sprites[m["id"]] = s
+				sprite_dirs[m["id"]] = dir
 				member_rows[m["id"]] = m.get("row")
 				if m.get("patrol"):
 					patroller = s
@@ -537,7 +540,8 @@ func _composition_mode() -> void:
 			"lit": _lit_coverage(img, lit_rect),
 			"resolve": res,
 			"dialogue": dialogue != null and dialogue.visible,
-			"swapped": _swapped.map(func(e): return e["id"])}
+			"swapped": _swapped.map(func(e): return e["id"]),
+			"pose": _shot_pose}
 		# unresolved names must report pass:null — the frame exists as
 		# evidence but must not certify as the named intent
 		if res.begins_with("unresolved"):
@@ -569,6 +573,8 @@ func _composition_mode() -> void:
 			sd["pass"] = sl["pass"]
 		if not sl.get("swapped", []).is_empty():
 			sd["swapped"] = sl["swapped"]
+		if sl.get("pose", "") != "":
+			sd["pose"] = sl["pose"]
 		report["shot_resolve"][sn] = sd
 	await _run_action_shots(comp, layout, shots_dir)
 
@@ -1128,6 +1134,7 @@ func _setup_shot(n: String, sspec := {}) -> String:
 				_swapped.append({"id": of_id, "node": node, "tex": node.texture})
 				node.texture = t
 	mod.color = _mod_color()
+	_shot_pose = ""
 	cam.zoom = Vector2.ONE
 	cam.position = Vector2(640, 360)
 	# explicit camera spec on a dict shot wins outright
@@ -1141,6 +1148,25 @@ func _setup_shot(n: String, sspec := {}) -> String:
 	if focus == "":
 		focus = _focus_from_name(n)
 	var res := "ok"
+	# sspec.pose swaps the focused sprite to a named pose frame for the
+	# capture — compositions otherwise only ever show idle; restored by
+	# _swapped at the next shot's setup
+	if focus != "" and sprites.has(focus) and sspec.get("pose"):
+		var s: Sprite2D = sprites[focus]
+		var pt: Texture2D = _opt_tex("%s/sprite_%s.png" % [
+			sprite_dirs.get(focus, ""), sspec["pose"]])
+		if pt:
+			var nt: Texture2D = _opt_tex("%s/sprite_%s_n.png" % [
+				sprite_dirs.get(focus, ""), sspec["pose"]])
+			_swapped.append({"id": focus, "node": s, "tex": s.texture})
+			if nt:
+				var ct := CanvasTexture.new()
+				ct.diffuse_texture = pt
+				ct.normal_texture = nt
+				s.texture = ct
+			else:
+				s.texture = pt
+			_shot_pose = sspec["pose"]
 	if n.begins_with("walk_t"):
 		var t := int(n.substr(6)) * walk_step_s
 		if patroller:

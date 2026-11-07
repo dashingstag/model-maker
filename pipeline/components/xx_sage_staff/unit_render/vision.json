@@ -1,22 +1,20 @@
 {
   "verdict": "pass",
   "actor": "devin:curator",
-  "ts": 1793731923.674798,
+  "ts": 1794018197.824636,
   "checks": {
-    "on-model across all poses (same face/outfit/props)": "pass",
-    "no halo or fringe against the lit backdrop": "pass",
-    "feet pivot sits on the ground line": "pass",
-    "has: blue gem headpiece": "pass",
-    "has: silver-dark shaft": "pass",
-    "has: full weapon visible": "pass",
+    "on-model across all poses (same face/outfit/props)": "pass \u2014 single idle pose from i2i render",
+    "no halo or fringe against the lit backdrop": "pass (fringe_ratio 0.0)",
+    "has: blue gem headpiece": "pass \u2014 cyan gem in claw crown at top",
+    "has: silver-dark shaft": "pass \u2014 dark ornate shaft with silver trim",
+    "has: full weapon visible": "pass \u2014 vertical full-length, aspect 2.64",
     "absent: hands holding it": "pass",
     "absent: extra staves": "pass",
     "absent: text": "pass"
   },
-  "flags": [],
-  "note": "isolated prop verified: gem head, dark shaft, no hands",
-  "reviewed_files": [
-    "unit_render/lit.png",
-    "unit_render/neutral.png"
-  ]
+  "flags": [
+    "provenance: accepted image is an i2i repaint (denoise 0.6) of a render of certified xx_sage_staff_3d \u2014 not a txt2img generation; two prior txt2img rounds produced pendants/ornaments (needs_human route superseded by the 3d-fallback i2i path)",
+    "style: cleaner geometric read than painterly card sprites; acceptable prop-level fidelity"
+  ],
+  "note": "3D-prop-render img2img route resolved the sprite after needs_human"
 }

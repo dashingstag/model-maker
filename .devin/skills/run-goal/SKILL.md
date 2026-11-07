@@ -112,6 +112,13 @@ python tools/publish.py <goal> --wait 60
   eulers. `contact_within_m` measures grip→`blade_tip` segment distance;
   `no_ground_clip` checks lowest bone/prop-AABB y ≥ -0.02. Prop glbs
   need `blade_mid`/`blade_tip` named empties for contact checks.
+- Named shots may be dicts with a `camera` spec: `focus` (member id),
+  `zoom`, `offset`, `swap` (repaint base members with their deploy:swap
+  variants), `pose` (swap the focused sprite to `sprite_<pose>.png` for
+  the capture). Unresolvable names/focus report `resolve: unresolved:*`
+  + `pass: null` — never blessed evidence. Name-based focus matches any
+  ≥4-char member-id token, so names like `card_focus` that match several
+  members resolve ambiguously — carry an explicit `focus` instead.
 - Outputs: `pipeline/composition/<goal>/shots/` + `report.json`.
 - Scene export: `python tools/export_scene.py <goal>` writes
   `dist/<goal>/scene.tscn` — a static composition (layers, members,

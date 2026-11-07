@@ -435,9 +435,9 @@
     "shots": [
       "vista_all",
       "terrace_pair",
-      "meditation_close",
-      "sword_salute",
-      "sleeve_dance",
+      {"name": "meditation_close", "camera": {"focus": "xx_immortal_m", "pose": "meditate_lotus"}},
+      {"name": "sword_salute", "camera": {"focus": "xx_immortal_m", "pose": "sword_salute"}},
+      {"name": "sleeve_dance", "camera": {"focus": "xx_immortal_f", "pose": "sleeve_dance"}},
       "sage_channel",
       "low_light"
     ],
