@@ -1,17 +1,7 @@
 {
-  "verdict": "pass",
-  "actor": "devin-rev2",
-  "ts": 1793758627.9603128,
-  "checks": {
-    "recolor confined to the declared regions": "pass",
-    "skin/face/hat untouched": "pass",
-    "each variant distinct": "pass",
-    "family resemblance to base": "pass"
-  },
-  "flags": [],
-  "note": null,
-  "reviewed_files": [
-    "unit_render/tide_sage/lit.png",
-    "unit_render/tide_sage/neutral.png"
-  ]
+ "verdict": "pass",
+ "actor": "devin",
+ "notes": "rev3: deterministic jade hue-shift of base rev4 portrait \u2014 red band (sash/trim/moon, 8.4% px) -> jade 0.40 hue; feathered face ellipse protects skin/eye-makeup from the #7 bleed class. Nine cyan orbs unchanged (already jade-adjacent). Replaces stale Nov-4 repaint which preceded the nine-orb base.",
+ "route": "certified",
+ "provenance": "hsv hue-shift of xx_card_planets processed/portrait.png (rev4)"
 }
