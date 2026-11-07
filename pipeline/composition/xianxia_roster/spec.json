@@ -14,7 +14,7 @@
   },
   "shots": [
     "select_grid",
-    "card_focus",
+    "sage_card_focus",
     "element_swap"
   ],
   "shot_expect": {

@@ -146,9 +146,15 @@ def main(goal, unit_only, wait):
     for m in members:
         m["patrol"] = m["id"] == patroller
 
-    # variants: "cast" deploy joins the scene (crew-style); "swap" stays library
+    # variants: "cast" deploy joins the scene (crew-style); "swap" stays
+    # library — the runner pulls them into the frame for *swap* shots via
+    # variant_of (variant component -> base member it repaints)
+    variant_of = {}
     v_i = 0
     for cid, vids in variants.items():
+        of = briefs.get(cid, {}).get("of")
+        if of:
+            variant_of[cid] = of
         if briefs.get(cid, {}).get("deploy", "cast") == "swap":
             continue
         row = layout.get(f"{cid}_row", row_ids[-1])
@@ -212,7 +218,8 @@ def main(goal, unit_only, wait):
                            "layout": spec.get("layout", {}),
                            "members": members, "dialogue": dialogue,
                            "layers": layers, "shots": spec["shots"],
-                           "variants": variants, "glbs": glbs,
+                           "variants": variants, "variant_of": variant_of,
+                           "glbs": glbs,
                            "shot_expect": spec.get("shot_expect", {}),
                            "action_shots": spec.get("action_shots", [])}}
     job_path = os.path.join(comp_dir, "jobs.json")

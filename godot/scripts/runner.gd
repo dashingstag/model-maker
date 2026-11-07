@@ -297,6 +297,10 @@ func _unit_mode() -> void:
 var sprites := {}          # member id -> Sprite2D
 var member_rows := {}      # member id -> layout row
 var ui_nodes := []         # card/ui TextureRects
+var ui_map := {}           # ui member id -> TextureRect
+var variant_of := {}       # variant component id -> base member id
+var variant_vids := {}     # variant component id -> [variant ids]
+var _swapped := []         # [{id, node, tex}] repainted this shot
 var overlaps := []
 var cross_row_events := 0
 var min_gap := 9999.0
@@ -357,6 +361,8 @@ func _composition_mode() -> void:
 	light_offset = Vector2(anchor[0], anchor[1])
 	var dlg = comp.get("dialogue")
 	dialogue_img = dlg if dlg else ""
+	variant_of = comp.get("variant_of", {})
+	variant_vids = comp.get("variants", {})
 
 	mod.color = _mod_color()
 	glb_nodes = {}
@@ -385,6 +391,7 @@ func _composition_mode() -> void:
 				tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 				add_child(tr)
 				ui_nodes.append(tr)
+				ui_map[m["id"]] = tr
 				member_rows[m["id"]] = "ui"
 			"glb":
 				# canvas items can't draw 3D — render the model inside a
@@ -529,7 +536,8 @@ func _composition_mode() -> void:
 		shot_lit[shot_name] = {
 			"lit": _lit_coverage(img, lit_rect),
 			"resolve": res,
-			"dialogue": dialogue != null and dialogue.visible}
+			"dialogue": dialogue != null and dialogue.visible,
+			"swapped": _swapped.map(func(e): return e["id"])}
 		# unresolved names must report pass:null — the frame exists as
 		# evidence but must not certify as the named intent
 		if res.begins_with("unresolved"):
@@ -559,6 +567,8 @@ func _composition_mode() -> void:
 		var sd := {"resolve": sl["resolve"]}
 		if "pass" in sl:
 			sd["pass"] = sl["pass"]
+		if not sl.get("swapped", []).is_empty():
+			sd["swapped"] = sl["swapped"]
 		report["shot_resolve"][sn] = sd
 	await _run_action_shots(comp, layout, shots_dir)
 
@@ -1076,7 +1086,7 @@ func _ct(d: Texture2D, n: Texture2D) -> CanvasTexture:
 ## old "captain_closeup" convention working on any component.
 func _focus_from_name(n: String) -> String:
 	var best := ""
-	for id in sprites.keys() + glb_nodes.keys():
+	for id in sprites.keys() + glb_nodes.keys() + ui_map.keys():
 		# match any meaningful id token — glb cids end in "_3d" so the
 		# last token is useless; "sage" must find xx_azure_sage_3d
 		for tok in id.split("/")[-1].split("_"):
@@ -1089,7 +1099,7 @@ func _focus_from_name(n: String) -> String:
 ## landing in the fallback branch is an unresolved shot name and must be
 ## reported (a silent wide-frame decoy once blessed three roster shots).
 const WIDE_HINTS := ["vista", "wide", "all", "grid", "select", "group",
-	"full", "scene", "roster", "terrace", "landscape", "overview"]
+	"full", "scene", "roster", "terrace", "landscape", "overview", "swap"]
 
 func _setup_shot(n: String, sspec := {}) -> String:
 	# returns "ok"-family token or "unresolved:<why>" — shot names are a
@@ -1102,13 +1112,28 @@ func _setup_shot(n: String, sspec := {}) -> String:
 	# static shots must see idle (ledger #52)
 	if patroller and patroller_idle and not n.begins_with("walk_t"):
 		patroller.texture = patroller_idle
+	_restore_swaps()
+	# *swap* shots repaint base members with their deploy:swap variants —
+	# the roster's element view (ledger #55: variants stayed library)
+	if "swap" in n or sspec.get("swap"):
+		for vcid in variant_of:
+			var of_id: String = variant_of[vcid]
+			var node = ui_map.get(of_id, sprites.get(of_id))
+			var vids: Array = variant_vids.get(vcid, [])
+			if node == null or vids.is_empty():
+				continue
+			var fname := "portrait.png" if ui_map.has(of_id) else "sprite_idle.png"
+			var t := _opt_tex("res://assets/components/%s/%s/%s" % [vcid, vids[0], fname])
+			if t:
+				_swapped.append({"id": of_id, "node": node, "tex": node.texture})
+				node.texture = t
 	mod.color = _mod_color()
 	cam.zoom = Vector2.ONE
 	cam.position = Vector2(640, 360)
 	# explicit camera spec on a dict shot wins outright
 	var focus: String = sspec.get("focus", "")
 	var bad_focus := focus != "" and not sprites.has(focus) \
-		and not glb_nodes.has(focus)
+		and not glb_nodes.has(focus) and not ui_map.has(focus)
 	if bad_focus:
 		focus = ""
 	var zoom: float = sspec.get("zoom", 0.0)
@@ -1179,6 +1204,15 @@ func _setup_shot(n: String, sspec := {}) -> String:
 		var z := zoom if zoom > 0.0 else 1.9
 		cam.position = sprites[focus].position + Vector2(off[0], off[1])
 		cam.zoom = Vector2(z, z)
+	elif focus != "" and ui_map.has(focus):
+		# card close: fill the frame with the card rect plus margin —
+		# ui members are Controls, _canvas_rect is sprite-only
+		var tr: TextureRect = ui_map[focus]
+		var rect := Rect2(tr.position, tr.size)
+		cam.position = rect.get_center()
+		var zc: float = zoom if zoom > 0.0 else minf(
+			1280.0 / rect.size.x, 720.0 / rect.size.y) * 0.85
+		cam.zoom = Vector2(zc, zc)
 	elif "pair" in n or "lineup" in n:
 		# frame the sprite row's extent rather than a fixed point —
 		# layouts place members across the 2x canvas
@@ -1207,6 +1241,11 @@ func _setup_shot(n: String, sspec := {}) -> String:
 		res = "unresolved:focus " + sspec.get("focus", "")
 	_apply_parallax()
 	return res
+
+func _restore_swaps() -> void:
+	for e in _swapped:
+		e["node"].texture = e["tex"]
+	_swapped.clear()
 
 func _apply_parallax() -> void:
 	# far layers (low factor) lag behind camera travel; (640,360) is the

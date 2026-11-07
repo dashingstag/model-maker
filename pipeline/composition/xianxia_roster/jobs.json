@@ -226,7 +226,7 @@
     ],
     "shots": [
       "select_grid",
-      "card_focus",
+      "sage_card_focus",
       "element_swap"
     ],
     "variants": {
@@ -248,6 +248,14 @@
       "xx_card_venom_jade": [
         "jade_serpent"
       ]
+    },
+    "variant_of": {
+      "xx_card_archivist_jade": "xx_card_archivist",
+      "xx_card_blade_jade": "xx_card_blade",
+      "xx_card_mirror_jade": "xx_card_mirror",
+      "xx_card_monk_jade": "xx_card_monk",
+      "xx_card_planets_jade": "xx_card_planets",
+      "xx_card_venom_jade": "xx_card_venom"
     },
     "glbs": {},
     "shot_expect": {
