@@ -28,7 +28,11 @@ quads, for actor-bound meshes; ignored under texture='paint', which
 remeshes itself), view ('front'|'turntable', default front),
 rig (default none): 'conform' shrinks rig_template (a rigged
 humanoid_v1 GLB) to the generated silhouette and bakes the albedo
-across — output keeps our skeleton/weights/clips; 'tokenrig' runs
+across — output keeps our skeleton/weights/clips; 'reskin' runs
+conform first to produce a weight source sitting on the silhouette,
+then skins the PAINTED mesh itself via nearest-conformed-part vertex
+transfer (real vertex weights; keeps the painted textures and the
+full silhouette instead of template geometry); 'tokenrig' runs
 VAST-AI SkinTokens (env skintokens_python/skintokens_dir) — generates
 its OWN skeleton (31 bones, generic names), for non-humanoid assets.
 """
@@ -148,6 +152,38 @@ def generate(cid, cdir, brief, opts, env, out):
             raise RuntimeError(
                 f"hunyuan3d conform step failed for {cid}:\n"
                 + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+    elif rig == "reskin":
+        template = opts.get("rig_template")
+        if not template or not os.path.exists(template):
+            raise RuntimeError(
+                f"rig='reskin' needs rig_template=<rigged humanoid "
+                f"glb> for {cid}")
+        painted = out + ".painted.glb"
+        conformed = out + ".conform.glb"
+        os.replace(out, painted)
+        try:
+            r = subprocess.run(
+                [blender, "--background", "--python",
+                 os.path.join(_TOOLS, "blender_conform.py"), "--",
+                 os.path.abspath(template), painted, conformed],
+                capture_output=True, text=True)
+            if r.returncode != 0 or not os.path.exists(conformed):
+                raise RuntimeError(
+                    f"hunyuan3d reskin: conform stage failed for {cid}:\n"
+                    + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+            r = subprocess.run(
+                [blender, "--background", "--python",
+                 os.path.join(_TOOLS, "blender_reskin.py"), "--",
+                 conformed, painted, out],
+                capture_output=True, text=True)
+            if r.returncode != 0 or not os.path.exists(out):
+                raise RuntimeError(
+                    f"hunyuan3d reskin stage failed for {cid}:\n"
+                    + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+        finally:
+            for tmp in (painted, conformed):
+                if os.path.exists(tmp):
+                    os.remove(tmp)
     elif rig == "tokenrig":
         st_py = env.get("skintokens_python")
         st_dir = env.get("skintokens_dir")

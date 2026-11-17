@@ -1,0 +1,44 @@
+{
+  "id": "humanoid_v2",
+  "convention": "y-up, root at feet, meters; bone names lowercase with .l/.r",
+  "rest_pose": "A",
+  "bone_axis": "Y along bone (head->tail), X = principal bend axis, Blender roll 0 on limbs",
+  "finger_flexion_axis": "X (positive = curl toward palm)",
+  "supersedes": "humanoid_v1",
+  "bones": {
+    "required": [
+      "root", "spine", "chest", "neck", "head",
+      "shoulder.l", "upper_arm.l", "forearm.l", "hand.l",
+      "shoulder.r", "upper_arm.r", "forearm.r", "hand.r",
+      "thigh.l", "shin.l", "foot.l",
+      "thigh.r", "shin.r", "foot.r"
+    ],
+    "extended": {
+      "fingers": "hand.{l|r}.{thumb|index|middle|ring|pinky}.{1..3} — knuckle .1 parents .2 parents .3; templates bind one stub per finger to .2 so mitten geometry can still articulate",
+      "skirt": ["skirt.front", "skirt.back", "skirt.l", "skirt.r"],
+      "hair": ["hair.1", "hair.2", "hair.3", "hair.4"],
+      "face": ["jaw", "eye.l", "eye.r"]
+    },
+    "parenting": {
+      "fingers": "hand.{side}",
+      "skirt.*": "root",
+      "hair.*": "head",
+      "jaw|eye.*": "head"
+    }
+  },
+  "sockets": {
+    "hand.r": {"bone": "hand.r", "offset": [0.0, 0.08, 0.02], "rot_deg": [0, 90, 0]},
+    "hand.l": {"bone": "hand.l", "offset": [0.0, 0.08, 0.02], "rot_deg": [0, 90, 0]},
+    "back":   {"bone": "chest",  "offset": [0.0, 0.0, 0.15]}
+  },
+  "rom_deg": {
+    "elbow":    {"min": 0,   "max": 150},
+    "shoulder": {"min": -90, "max": 160},
+    "wrist":    {"min": -70, "max": 70},
+    "knee":     {"min": 0,   "max": 140},
+    "finger":   {"min": 0,   "max": 100},
+    "jaw":      {"min": 0,   "max": 25}
+  },
+  "compat": "superset of v1 — v1 clips keyframe shared bone names and keep working; extended bones rest unless a clip keys them",
+  "notes": "clips must stay within rom bounds; sockets are the only legal attachment points; extended bones may be present-but-unbound when the mesh lacks the geometry (fused-hand blobs bind to hand.*, not fingers)"
+}

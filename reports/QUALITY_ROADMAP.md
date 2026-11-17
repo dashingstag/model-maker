@@ -29,13 +29,20 @@ through the same gates.
   pixel-diff vs pre-toon golden, crown/hair outline bands render. Honest
   limit confirmed: baked-in albedo specularity unchanged → motivates
   batch 4's bake split.
-- [ ] **2. humanoid_v2 rig** — bind declared finger chains (30 bones),
-  skirt panels, hair chains, jaw + eye bones. Old clips keep working
-  (shared bone names); fingers default relaxed until clips add keys.
-- [ ] **3. Real geometry** — spike: QuadriFlow retopo on existing hy3d
-  sage sculpt (#60 notes 6x overshoot) → decision: tune / better
-  retopologizer / denser conform template. Then weight-transfer +
-  part-merge toward the 15k budget.
+- [x] **2. humanoid_v2 rig** — `shared/skeletons/humanoid_v2.json`: v1
+  superset (+30 finger, 4 skirt, 4 hair, jaw, 2 eyes = 60 joints).
+  `blender_hero` emits chains + finger stubs on v2 briefs; gesture
+  tables (`@poses/*.json` joints_deg) key into clips via
+  `CLIP_GESTURES`; skirt/hair keys added to shared poses (inert on
+  v1). **Done** — sage rev8 certified: skirt carries ~4.4k verts,
+  hair.2 90, jaw 12; fingers present-but-unbound (fused mitten).
+- [x] **3. Real geometry** — QuadriFlow confirmed no-op on the
+  non-manifold shell cloud (985 islands; extends #60) → retopo
+  rejected. Route shipped: `rig: "reskin"` chains conform→
+  `blender_reskin` (nearest-conformed-part BVH transfer, top-2 id²
+  blend, 0.06 m grab cap on detail bones). Painted mesh keeps its
+  textures + silhouette; certified at 14,588 tris. Honest limit:
+  blob deformation, fused hands, smeary face.
 - [ ] **4. Texture/material maps** — extend conform bake: packed 2K
   atlas, AO/lightmap for the toon ramp, metallic mask (gems vs cloth).
 - [ ] **5. Face** — template eye spheres + iris slot, brow/lash cards,
@@ -67,3 +74,10 @@ through the same gates.
   are prerequisites for batch 1's payoff.** Next: batch 3's retopo
   spike is a decision point — run it before batch 2 depth, since its
   outcome shapes how much rig investment pays off.
+
+- 2026-11-14 — batches 2+3 landed (sage rev8). Reskin made batch 1's
+  toon outline finally legible (bright painted albedo contrasts the
+  hull). QuadriFlow route rejected; `rig:"reskin"` is the geometry
+  path. v2 bones drive real verts (skirt ~4.4k). Remaining gap to
+  target: bake split (4), face (5), deformation smoothness at
+  extremes — the last is a mesh-topology property, not a rig one.

@@ -1,490 +1,491 @@
 {
-  "goal": "xianxia_hero",
-  "style": "@styles/xianxia_ethereal",
-  "palette": "@palettes/xianxia_element",
-  "components": [
+ "goal": "xianxia_hero",
+ "style": "@styles/xianxia_ethereal",
+ "palette": "@palettes/xianxia_element",
+ "components": [
+  {
+   "id": "xx_azure_sage_3d",
+   "type": "glb",
+   "tri_budget": 15000,
+   "skeleton": "@skeletons/humanoid_v1",
+   "prompt_core": "silver-white haired water sage, dark ornamental crown, layered indigo and silver hanfu robes with wide draped sleeves, blue-gem embroidery",
+   "must_have": [
+    "silver-white hair",
+    "layered indigo and silver robes",
+    "dark crown ornament"
+   ],
+   "must_not": [
+    "missing fingers",
+    "collapsed sleeves",
+    "merged robe layers"
+   ],
+   "anims": [
     {
-      "id": "xx_azure_sage_3d",
-      "type": "glb",
-      "tri_budget": 15000,
-      "skeleton": "@skeletons/humanoid_v1",
-      "prompt_core": "silver-white haired water sage, dark ornamental crown, layered indigo and silver hanfu robes with wide draped sleeves, blue-gem embroidery",
-      "must_have": [
-        "silver-white hair",
-        "layered indigo and silver robes",
-        "dark crown ornament"
-      ],
-      "must_not": [
-        "missing fingers",
-        "collapsed sleeves",
-        "merged robe layers"
-      ],
-      "anims": [
-        {
-          "name": "idle",
-          "loop": true,
-          "fps": 24
-        },
-        {
-          "name": "walk",
-          "loop": true,
-          "fps": 24
-        },
-        {
-          "name": "channel_water",
-          "duration": 2.0,
-          "fps": 24,
-          "events": [
-            {
-              "name": "surge",
-              "t": 0.6
-            },
-            {
-              "name": "release",
-              "t": 1.4
-            }
-          ]
-        },
-        {
-          "name": "staff_salute",
-          "duration": 1.2,
-          "fps": 24,
-          "hand_pose": "@poses/grip_sword",
-          "events": [
-            {
-              "name": "bow",
-              "t": 0.5
-            }
-          ]
-        },
-        {
-          "name": "seated_meditate",
-          "duration": 4.0,
-          "loop": true,
-          "fps": 24
-        },
-        {
-          "name": "sword_swing",
-          "duration": 1.0,
-          "fps": 24,
-          "events": [
-            {
-              "name": "contact",
-              "t": 0.45
-            }
-          ]
-        },
-        {
-          "name": "parry",
-          "duration": 0.8,
-          "fps": 24,
-          "events": [
-            {
-              "name": "contact",
-              "t": 0.25
-            }
-          ]
-        },
-        {
-          "name": "recover",
-          "duration": 0.8,
-          "fps": 24
-        },
-        {
-          "name": "breath",
-          "loop": true,
-          "fps": 24
-        },
-        {
-          "name": "weight_shift",
-          "loop": true,
-          "fps": 24
-        },
-        {
-          "name": "head_scan",
-          "duration": 3.0,
-          "fps": 24
-        },
-        {
-          "name": "sleeve_sway",
-          "loop": true,
-          "fps": 24
-        },
-        {
-          "name": "gaze_contemplate",
-          "duration": 3.0,
-          "fps": 24
-        },
-        {
-          "name": "wrist_channel",
-          "loop": true,
-          "fps": 24
-        },
-        {
-          "name": "formal_bow",
-          "duration": 2.4,
-          "fps": 24,
-          "events": [
-            {
-              "name": "bow",
-              "t": 1.0
-            }
-          ]
-        },
-        {
-          "name": "lunge_strike",
-          "duration": 1.2,
-          "fps": 24,
-          "hand_pose": "@poses/grip_sword",
-          "events": [
-            {
-              "name": "contact",
-              "t": 0.66
-            }
-          ]
-        },
-        {
-          "name": "spinning_parry",
-          "duration": 0.9,
-          "fps": 24,
-          "hand_pose": "@poses/grip_sword",
-          "events": [
-            {
-              "name": "contact",
-              "t": 0.35
-            },
-            {
-              "name": "deflect",
-              "t": 0.35
-            }
-          ]
-        },
-        {
-          "name": "aerial_flourish",
-          "duration": 1.6,
-          "fps": 24,
-          "events": [
-            {
-              "name": "apex",
-              "t": 0.72
-            },
-            {
-              "name": "contact",
-              "t": 0.41
-            }
-          ]
-        },
-        {
-          "name": "levitate_channel",
-          "loop": true,
-          "duration": 5.0,
-          "fps": 24,
-          "hand_pose": "@poses/sword_fingers",
-          "events": [
-            {
-              "name": "seal",
-              "t": 1.25
-            },
-            {
-              "name": "release",
-              "t": 4.5
-            }
-          ]
-        },
-        {
-          "name": "sword_form",
-          "duration": 3.0,
-          "fps": 24,
-          "hand_pose": "@poses/grip_sword",
-          "events": [
-            {
-              "name": "thrust",
-              "t": 1.35
-            },
-            {
-              "name": "low_guard",
-              "t": 2.1
-            }
-          ]
-        },
-        {
-          "name": "talisman_cast",
-          "duration": 1.4,
-          "fps": 24,
-          "hand_pose": "@poses/talisman_pinch",
-          "events": [
-            {
-              "name": "flick",
-              "t": 0.77
-            }
-          ]
-        },
-        {
-          "name": "kneel_offer",
-          "duration": 3.0,
-          "fps": 24,
-          "hand_pose": "@poses/open_palm",
-          "events": [
-            {
-              "name": "offer",
-              "t": 1.8
-            }
-          ]
-        }
-      ],
-      "root_motion": "in_place",
-      "attachments": [
-        {
-          "id": "staff_main",
-          "component": "xx_sage_staff_3d",
-          "socket": "hand.r",
-          "keep_during": [
-            "idle",
-            "walk",
-            "channel_water",
-            "staff_salute"
-          ]
-        }
-      ],
-      "collision": "capsule-approx",
-      "review": "human",
-      "provider": {
-        "name": "hunyuan3d",
-        "options": {
-          "texture": "paint",
-          "rig": "conform",
-          "rig_template": "pipeline/components/xx_azure_sage_3d/build/template_mannequin.glb",
-          "tri_budget": 15000,
-          "paint_res": 512,
-          "image": "idle.png"
-        }
-      },
-      "material": "toon"
+     "name": "idle",
+     "loop": true,
+     "fps": 24
     },
     {
-      "id": "xx_sage_staff_3d",
-      "type": "glb",
-      "prop": true,
-      "tri_budget": 1500,
-      "prompt_core": "ornate silver sage staff, twisted dark-metal shaft, large glowing blue gem in a claw setting, tassel cord",
-      "must_have": [
-        "blue gem headpiece",
-        "straight shaft"
-      ],
-      "must_not": [
-        "bent shaft",
-        "extra gems"
-      ],
-      "review": "auto",
-      "material": "toon"
+     "name": "walk",
+     "loop": true,
+     "fps": 24
     },
     {
-      "id": "xx_jian_3d",
-      "type": "glb",
-      "prop": true,
-      "tri_budget": 800,
-      "prompt_core": "straight double-edged jian sword, silver blade, bronze disc guard, dark wrapped grip, tassel at pommel",
-      "must_have": [
-        "straight double edge",
-        "disc guard"
-      ],
-      "must_not": [
-        "curved blade"
-      ],
-      "review": "auto",
-      "material": "toon"
-    }
-  ],
-  "composition": {
-    "lighting_rig": "@rigs/std_xianxia",
-    "layout": {
-      "rows": [
-        {
-          "id": "ground",
-          "y": 648
-        }
-      ],
-      "xx_azure_sage_3d_row": "ground",
-      "xx_azure_sage_3d_x": 512,
-      "feet_pivot": true,
-      "attach3d": [
-        {
-          "prop": "xx_sage_staff_3d",
-          "to": "xx_azure_sage_3d",
-          "socket": "hand.r",
-          "rot": [
-            -80,
-            0,
-            0
-          ]
-        }
-      ]
-    },
-    "shots": [
-      "turntable_front",
-      "turntable_side",
-      "turntable_back",
-      "sage_attach_close"
-    ],
-    "shot_expect": {},
-    "action_shots": [
+     "name": "channel_water",
+     "duration": 2.0,
+     "fps": 24,
+     "events": [
       {
-        "name": "channel_sequence",
-        "cast": {
-          "sage": "xx_azure_sage_3d"
-        },
-        "captures": [
-          {
-            "t": 0.6,
-            "camera": "front_close"
-          },
-          {
-            "t": 1.4,
-            "camera": "front_close"
-          }
-        ],
-        "expect": {
-          "props_attached": true
-        },
-        "props": {
-          "sage": {
-            "cid": "xx_sage_staff_3d",
-            "socket": "hand.r"
-          }
-        }
+       "name": "surge",
+       "t": 0.6
       },
       {
-        "name": "duel_probe",
-        "of": "sword_duel",
-        "cast": {
-          "attacker": "xx_azure_sage_3d",
-          "defender": "xx_azure_sage_3d"
-        },
-        "props": {
-          "attacker": {
-            "cid": "xx_jian_3d",
-            "aim": [
-              0,
-              1.45,
-              0
-            ]
-          },
-          "defender": {
-            "cid": "xx_jian_3d",
-            "aim": [
-              0,
-              1.45,
-              0
-            ]
-          }
-        },
-        "captures": [
-          {
-            "t": 0.45,
-            "camera": "mid"
-          },
-          {
-            "t": 0.9,
-            "camera": "mid"
-          }
-        ],
-        "expect": {
-          "props_attached": true,
-          "contact_within_m": 0.15,
-          "no_ground_clip": true
-        }
-      },
-      {
-        "name": "form_kata",
-        "of": "sword_form",
-        "cast": {
-          "form": "xx_azure_sage_3d"
-        },
-        "props": {
-          "form": {
-            "cid": "xx_jian_3d",
-            "aim": [
-              0,
-              1.45,
-              0
-            ]
-          }
-        },
-        "captures": [
-          {
-            "t": 1.35,
-            "camera": "front_close"
-          },
-          {
-            "t": 2.2,
-            "camera": "front_close"
-          }
-        ],
-        "expect": {
-          "props_attached": true
-        }
-      },
-      {
-        "name": "greeting",
-        "of": "ceremony_greeting",
-        "cast": {
-          "senior": "xx_azure_sage_3d",
-          "junior": "xx_azure_sage_3d"
-        },
-        "captures": [
-          {
-            "t": 1.0,
-            "camera": "mid"
-          },
-          {
-            "t": 1.9,
-            "camera": "mid"
-          }
-        ],
-        "expect": {
-          "no_ground_clip": true
-        }
-      },
-      {
-        "name": "duel_exchange",
-        "of": "duel_advanced",
-        "cast": {
-          "attacker": "xx_azure_sage_3d",
-          "defender": "xx_azure_sage_3d"
-        },
-        "props": {
-          "attacker": {
-            "cid": "xx_jian_3d",
-            "aim": [
-              0,
-              1.45,
-              0
-            ]
-          },
-          "defender": {
-            "cid": "xx_jian_3d",
-            "aim": [
-              0,
-              1.45,
-              0
-            ]
-          }
-        },
-        "captures": [
-          {
-            "t": 0.55,
-            "camera": "mid"
-          },
-          {
-            "t": 1.8,
-            "camera": "mid"
-          }
-        ],
-        "expect": {
-          "props_attached": true,
-          "no_ground_clip": true
-        }
+       "name": "release",
+       "t": 1.4
       }
-    ]
+     ]
+    },
+    {
+     "name": "staff_salute",
+     "duration": 1.2,
+     "fps": 24,
+     "hand_pose": "@poses/grip_sword",
+     "events": [
+      {
+       "name": "bow",
+       "t": 0.5
+      }
+     ]
+    },
+    {
+     "name": "seated_meditate",
+     "duration": 4.0,
+     "loop": true,
+     "fps": 24
+    },
+    {
+     "name": "sword_swing",
+     "duration": 1.0,
+     "fps": 24,
+     "events": [
+      {
+       "name": "contact",
+       "t": 0.45
+      }
+     ]
+    },
+    {
+     "name": "parry",
+     "duration": 0.8,
+     "fps": 24,
+     "events": [
+      {
+       "name": "contact",
+       "t": 0.25
+      }
+     ]
+    },
+    {
+     "name": "recover",
+     "duration": 0.8,
+     "fps": 24
+    },
+    {
+     "name": "breath",
+     "loop": true,
+     "fps": 24
+    },
+    {
+     "name": "weight_shift",
+     "loop": true,
+     "fps": 24
+    },
+    {
+     "name": "head_scan",
+     "duration": 3.0,
+     "fps": 24
+    },
+    {
+     "name": "sleeve_sway",
+     "loop": true,
+     "fps": 24
+    },
+    {
+     "name": "gaze_contemplate",
+     "duration": 3.0,
+     "fps": 24
+    },
+    {
+     "name": "wrist_channel",
+     "loop": true,
+     "fps": 24
+    },
+    {
+     "name": "formal_bow",
+     "duration": 2.4,
+     "fps": 24,
+     "events": [
+      {
+       "name": "bow",
+       "t": 1.0
+      }
+     ]
+    },
+    {
+     "name": "lunge_strike",
+     "duration": 1.2,
+     "fps": 24,
+     "hand_pose": "@poses/grip_sword",
+     "events": [
+      {
+       "name": "contact",
+       "t": 0.66
+      }
+     ]
+    },
+    {
+     "name": "spinning_parry",
+     "duration": 0.9,
+     "fps": 24,
+     "hand_pose": "@poses/grip_sword",
+     "events": [
+      {
+       "name": "contact",
+       "t": 0.35
+      },
+      {
+       "name": "deflect",
+       "t": 0.35
+      }
+     ]
+    },
+    {
+     "name": "aerial_flourish",
+     "duration": 1.6,
+     "fps": 24,
+     "events": [
+      {
+       "name": "apex",
+       "t": 0.72
+      },
+      {
+       "name": "contact",
+       "t": 0.41
+      }
+     ]
+    },
+    {
+     "name": "levitate_channel",
+     "loop": true,
+     "duration": 5.0,
+     "fps": 24,
+     "hand_pose": "@poses/sword_fingers",
+     "events": [
+      {
+       "name": "seal",
+       "t": 1.25
+      },
+      {
+       "name": "release",
+       "t": 4.5
+      }
+     ]
+    },
+    {
+     "name": "sword_form",
+     "duration": 3.0,
+     "fps": 24,
+     "hand_pose": "@poses/grip_sword",
+     "events": [
+      {
+       "name": "thrust",
+       "t": 1.35
+      },
+      {
+       "name": "low_guard",
+       "t": 2.1
+      }
+     ]
+    },
+    {
+     "name": "talisman_cast",
+     "duration": 1.4,
+     "fps": 24,
+     "hand_pose": "@poses/talisman_pinch",
+     "events": [
+      {
+       "name": "flick",
+       "t": 0.77
+      }
+     ]
+    },
+    {
+     "name": "kneel_offer",
+     "duration": 3.0,
+     "fps": 24,
+     "hand_pose": "@poses/open_palm",
+     "events": [
+      {
+       "name": "offer",
+       "t": 1.8
+      }
+     ]
+    }
+   ],
+   "root_motion": "in_place",
+   "attachments": [
+    {
+     "id": "staff_main",
+     "component": "xx_sage_staff_3d",
+     "socket": "hand.r",
+     "keep_during": [
+      "idle",
+      "walk",
+      "channel_water",
+      "staff_salute"
+     ]
+    }
+   ],
+   "collision": "capsule-approx",
+   "review": "human",
+   "provider": {
+    "name": "hunyuan3d",
+    "options": {
+     "texture": "paint",
+     "rig": "conform",
+     "rig_template": "pipeline/components/xx_azure_sage_3d/build/template_mannequin.glb",
+     "tri_budget": 15000,
+     "paint_res": 512,
+     "image": "idle.png"
+    }
+   },
+   "material": "toon"
+  },
+  {
+   "id": "xx_sage_staff_3d",
+   "type": "glb",
+   "prop": true,
+   "tri_budget": 1500,
+   "prompt_core": "ornate silver sage staff, twisted dark-metal shaft, large glowing blue gem in a claw setting, tassel cord",
+   "must_have": [
+    "blue gem headpiece",
+    "straight shaft"
+   ],
+   "must_not": [
+    "bent shaft",
+    "extra gems"
+   ],
+   "review": "auto",
+   "material": "toon"
+  },
+  {
+   "id": "xx_jian_3d",
+   "type": "glb",
+   "prop": true,
+   "tri_budget": 800,
+   "prompt_core": "straight double-edged jian sword, silver blade, bronze disc guard, dark wrapped grip, tassel at pommel",
+   "must_have": [
+    "straight double edge",
+    "disc guard"
+   ],
+   "must_not": [
+    "curved blade"
+   ],
+   "review": "auto",
+   "material": "toon"
   }
+ ],
+ "composition": {
+  "lighting_rig": "@rigs/std_xianxia",
+  "layout": {
+   "rows": [
+    {
+     "id": "ground",
+     "y": 648
+    }
+   ],
+   "xx_azure_sage_3d_row": "ground",
+   "xx_azure_sage_3d_x": 512,
+   "feet_pivot": true,
+   "attach3d": [
+    {
+     "prop": "xx_sage_staff_3d",
+     "to": "xx_azure_sage_3d",
+     "socket": "hand.r",
+     "rot": [
+      -80,
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  "shots": [
+   "turntable_front",
+   "turntable_side",
+   "turntable_back",
+   "sage_attach_close"
+  ],
+  "shot_expect": {},
+  "action_shots": [
+   {
+    "name": "channel_sequence",
+    "cast": {
+     "sage": "xx_azure_sage_3d"
+    },
+    "captures": [
+     {
+      "t": 0.6,
+      "camera": "front_close"
+     },
+     {
+      "t": 1.4,
+      "camera": "front_close"
+     }
+    ],
+    "expect": {
+     "props_attached": true
+    },
+    "props": {
+     "sage": {
+      "cid": "xx_sage_staff_3d",
+      "socket": "hand.r"
+     }
+    }
+   },
+   {
+    "name": "duel_probe",
+    "of": "sword_duel",
+    "cast": {
+     "attacker": "xx_azure_sage_3d",
+     "defender": "xx_azure_sage_3d"
+    },
+    "props": {
+     "attacker": {
+      "cid": "xx_jian_3d",
+      "aim": [
+       0,
+       1.45,
+       0
+      ]
+     },
+     "defender": {
+      "cid": "xx_jian_3d",
+      "aim": [
+       0,
+       1.45,
+       0
+      ]
+     }
+    },
+    "captures": [
+     {
+      "t": 0.45,
+      "camera": "mid"
+     },
+     {
+      "t": 0.9,
+      "camera": "mid"
+     }
+    ],
+    "expect": {
+     "props_attached": true,
+     "contact_within_m": 0.15,
+     "no_ground_clip": true
+    }
+   },
+   {
+    "name": "form_kata",
+    "of": "sword_form",
+    "cast": {
+     "form": "xx_azure_sage_3d"
+    },
+    "props": {
+     "form": {
+      "cid": "xx_jian_3d",
+      "aim": [
+       0,
+       1.45,
+       0
+      ]
+     }
+    },
+    "captures": [
+     {
+      "t": 1.35,
+      "camera": "front_close"
+     },
+     {
+      "t": 2.2,
+      "camera": "front_close"
+     }
+    ],
+    "expect": {
+     "props_attached": true
+    }
+   },
+   {
+    "name": "greeting",
+    "of": "ceremony_greeting",
+    "cast": {
+     "senior": "xx_azure_sage_3d",
+     "junior": "xx_azure_sage_3d"
+    },
+    "captures": [
+     {
+      "t": 1.0,
+      "camera": "mid"
+     },
+     {
+      "t": 1.9,
+      "camera": "mid"
+     }
+    ],
+    "expect": {
+     "no_ground_clip": true
+    }
+   },
+   {
+    "name": "duel_exchange",
+    "of": "duel_advanced",
+    "cast": {
+     "attacker": "xx_azure_sage_3d",
+     "defender": "xx_azure_sage_3d"
+    },
+    "props": {
+     "attacker": {
+      "cid": "xx_jian_3d",
+      "aim": [
+       0,
+       1.45,
+       0
+      ]
+     },
+     "defender": {
+      "cid": "xx_jian_3d",
+      "aim": [
+       0,
+       1.45,
+       0
+      ]
+     }
+    },
+    "captures": [
+     {
+      "t": 0.55,
+      "camera": "mid"
+     },
+     {
+      "t": 1.8,
+      "camera": "mid"
+     }
+    ],
+    "expect": {
+     "props_attached": true,
+     "no_ground_clip": true
+    }
+   }
+  ]
+ },
+ "skeleton": "@skeletons/humanoid_v2"
 }

@@ -1,223 +1,894 @@
 {
-  "name": "xianxia_detail",
-  "convention": "euler XYZ radians on humanoid_v1 pose bones; +X swings the limb forward (toward -Y facing); loc = pose-bone-space offset (root Y = world up); props lists which prop_* meshes render. Minute poses stay <= ~0.15 rad per bone — they key subtle loops, not stances.",
-  "poses": {
-    "breath_in": {
-      "bones": {
-        "chest": [0.045, 0, 0],
-        "spine": [0.02, 0, 0],
-        "shoulder.l": [0.02, 0, -0.02],
-        "shoulder.r": [0.02, 0, 0.02]
-      }
-    },
-    "breath_out": {
-      "bones": {
-        "chest": [-0.035, 0, 0],
-        "spine": [-0.015, 0, 0],
-        "head": [0.02, 0, 0]
-      }
-    },
-    "head_turn_l": {
-      "bones": {
-        "head": [0, 0.55, 0],
-        "neck": [0, 0.2, 0]
-      }
-    },
-    "head_turn_r": {
-      "bones": {
-        "head": [0, -0.55, 0],
-        "neck": [0, -0.2, 0]
-      }
-    },
-    "gaze_down": {
-      "bones": {
-        "head": [0.32, 0, 0],
-        "neck": [0.12, 0, 0],
-        "spine": [0.035, 0, 0]
-      }
-    },
-    "weight_shift_l": {
-      "loc": { "root": [0.055, 0, 0] },
-      "bones": {
-        "spine": [0, 0, -0.07],
-        "head": [0, 0, 0.05],
-        "thigh.l": [0.05, 0, -0.04],
-        "thigh.r": [-0.05, 0, -0.04]
-      }
-    },
-    "weight_shift_r": {
-      "loc": { "root": [-0.055, 0, 0] },
-      "bones": {
-        "spine": [0, 0, 0.07],
-        "head": [0, 0, -0.05],
-        "thigh.l": [0.05, 0, 0.04],
-        "thigh.r": [-0.05, 0, 0.04]
-      }
-    },
-    "sleeve_sway_l": {
-      "bones": {
-        "upper_arm.l": [0.1, 0, -0.06],
-        "forearm.l": [-0.12, 0, 0.08]
-      }
-    },
-    "sleeve_sway_r": {
-      "bones": {
-        "upper_arm.r": [0.1, 0, 0.06],
-        "forearm.r": [-0.12, 0, -0.08]
-      }
-    },
-    "wrist_circle_a": {
-      "bones": {
-        "forearm.r": [-0.55, 0, 0],
-        "hand.r": [0.35, 0, 0.3]
-      }
-    },
-    "wrist_circle_b": {
-      "bones": {
-        "forearm.r": [-0.55, 0, 0],
-        "hand.r": [-0.25, 0, 0.3]
-      }
-    },
-    "lunge_strike": {
-      "loc": { "root": [0, -0.14, -0.28] },
-      "bones": {
-        "thigh.l": [1.05, 0, -0.05],
-        "shin.l": [0.95, 0, 0],
-        "thigh.r": [-0.62, 0, 0.05],
-        "shin.r": [0.15, 0, 0],
-        "upper_arm.r": [1.5, 0, -0.1],
-        "forearm.r": [-0.28, 0, 0],
-        "upper_arm.l": [-0.42, 0, 0.35],
-        "forearm.l": [-0.55, 0, 0],
-        "spine": [0.32, 0, -0.06],
-        "chest": [0.1, 0, 0],
-        "head": [0.12, 0, 0]
-      },
-      "props": ["sword"]
-    },
-    "aerial_spin": {
-      "loc": { "root": [0, 0.34, 0] },
-      "bones": {
-        "thigh.l": [0.9, 0, -0.2],
-        "shin.l": [1.45, 0, 0],
-        "thigh.r": [0.75, 0, 0.25],
-        "shin.r": [1.4, 0, 0],
-        "upper_arm.l": [0.85, 0, -0.55],
-        "forearm.l": [-0.35, 0, 0],
-        "upper_arm.r": [0.7, 0, 0.45],
-        "forearm.r": [-0.5, 0, 0],
-        "spine": [0.05, 0.45, 0],
-        "head": [0.1, 0.4, 0]
-      }
-    },
-    "formal_bow": {
-      "bones": {
-        "spine": [0.55, 0, 0],
-        "chest": [0.24, 0, 0],
-        "head": [0.14, 0, 0],
-        "upper_arm.l": [0.35, 0, -0.15],
-        "forearm.l": [-0.55, 0, 0],
-        "upper_arm.r": [0.35, 0, 0.15],
-        "forearm.r": [-0.55, 0, 0],
-        "thigh.l": [0.14, 0, 0],
-        "thigh.r": [0.14, 0, 0],
-        "shin.l": [0.18, 0, 0],
-        "shin.r": [0.18, 0, 0]
-      }
-    },
-    "levitate_channel": {
-      "loc": { "root": [0, 0.5, 0] },
-      "bones": {
-        "thigh.l": [1.3, 0, 0.55],
-        "thigh.r": [1.3, 0, -0.55],
-        "shin.l": [1.9, 0, 0],
-        "shin.r": [1.9, 0, 0],
-        "upper_arm.l": [0.62, 0, -0.32],
-        "forearm.l": [-1.15, 0, 0],
-        "upper_arm.r": [0.62, 0, 0.32],
-        "forearm.r": [-1.15, 0, 0],
-        "spine": [0.06, 0, 0],
-        "head": [-0.08, 0, 0]
-      }
-    },
-    "sword_form_high": {
-      "bones": {
-        "upper_arm.r": [2.35, 0, -0.28],
-        "forearm.r": [-0.5, 0, 0],
-        "upper_arm.l": [0.55, 0, 0.4],
-        "forearm.l": [-0.8, 0, 0],
-        "thigh.l": [0.35, 0, -0.05],
-        "thigh.r": [-0.28, 0, 0.05],
-        "spine": [-0.08, 0, 0],
-        "head": [-0.05, 0, 0]
-      },
-      "props": ["sword"]
-    },
-    "sword_form_low": {
-      "bones": {
-        "thigh.l": [0.85, 0, -0.05],
-        "shin.l": [1.05, 0, 0],
-        "thigh.r": [-0.3, 0, 0.05],
-        "upper_arm.r": [0.55, 0, -0.15],
-        "forearm.r": [-0.12, 0, 0],
-        "upper_arm.l": [0.3, 0, 0.3],
-        "forearm.l": [-0.6, 0, 0],
-        "spine": [0.18, 0, -0.05]
-      },
-      "props": ["sword"]
-    },
-    "spinning_parry": {
-      "bones": {
-        "spine": [0.1, 0.68, 0],
-        "chest": [0.05, 0.2, 0],
-        "upper_arm.l": [0.9, 0, -0.55],
-        "forearm.l": [-1.05, 0, 0],
-        "upper_arm.r": [0.45, 0, 0.3],
-        "forearm.r": [-0.7, 0, 0],
-        "thigh.l": [0.45, 0, -0.1],
-        "thigh.r": [-0.2, 0, 0.1],
-        "shin.l": [0.35, 0, 0],
-        "head": [0, -0.35, 0]
-      },
-      "props": ["sword"]
-    },
-    "cloud_ride": {
-      "bones": {
-        "thigh.l": [1.2, 0, -0.1],
-        "shin.l": [1.5, 0, 0],
-        "thigh.r": [0.12, 0, 0.05],
-        "upper_arm.l": [1.05, 0, -0.9],
-        "forearm.l": [-0.3, 0, 0],
-        "upper_arm.r": [0.85, 0, 0.65],
-        "forearm.r": [-0.25, 0, 0],
-        "spine": [0.08, 0, -0.08],
-        "head": [0.05, 0.2, 0]
-      }
-    },
-    "hand_seal": {
-      "bones": {
-        "upper_arm.r": [0.9, 0, -0.2],
-        "forearm.r": [-1.3, 0, 0],
-        "upper_arm.l": [0.38, 0, 0.25],
-        "forearm.l": [-0.85, 0, 0],
-        "chest": [0.05, 0, 0],
-        "head": [0.08, 0, 0]
-      }
-    },
-    "kneel_offering": {
-      "loc": { "root": [0, -0.44, 0] },
-      "bones": {
-        "thigh.r": [1.5, 0, 0.1],
-        "shin.r": [1.9, 0, 0],
-        "thigh.l": [0.95, 0, -0.15],
-        "shin.l": [0.35, 0, 0],
-        "upper_arm.l": [0.8, 0, -0.12],
-        "forearm.l": [-0.42, 0, 0],
-        "upper_arm.r": [0.8, 0, 0.12],
-        "forearm.r": [-0.42, 0, 0],
-        "spine": [0.22, 0, 0],
-        "head": [0.1, 0, 0]
-      }
-    }
+ "name": "xianxia_detail",
+ "convention": "euler XYZ radians on humanoid_v1 pose bones; +X swings the limb forward (toward -Y facing); loc = pose-bone-space offset (root Y = world up); props lists which prop_* meshes render. Minute poses stay <= ~0.15 rad per bone \u00e2\u20ac\u201d they key subtle loops, not stances.",
+ "poses": {
+  "breath_in": {
+   "bones": {
+    "chest": [
+     0.045,
+     0,
+     0
+    ],
+    "spine": [
+     0.02,
+     0,
+     0
+    ],
+    "shoulder.l": [
+     0.02,
+     0,
+     -0.02
+    ],
+    "shoulder.r": [
+     0.02,
+     0,
+     0.02
+    ],
+    "skirt.front": [
+     0.015,
+     0,
+     0
+    ],
+    "skirt.back": [
+     -0.015,
+     0,
+     0
+    ],
+    "hair.2": [
+     -0.02,
+     0,
+     0
+    ]
+   }
+  },
+  "breath_out": {
+   "bones": {
+    "chest": [
+     -0.035,
+     0,
+     0
+    ],
+    "spine": [
+     -0.015,
+     0,
+     0
+    ],
+    "head": [
+     0.02,
+     0,
+     0
+    ]
+   }
+  },
+  "head_turn_l": {
+   "bones": {
+    "head": [
+     0,
+     0.55,
+     0
+    ],
+    "neck": [
+     0,
+     0.2,
+     0
+    ],
+    "hair.2": [
+     0,
+     -0.18,
+     0
+    ],
+    "hair.3": [
+     0,
+     -0.12,
+     0
+    ],
+    "hair.4": [
+     0,
+     -0.12,
+     0
+    ],
+    "hair.1": [
+     0,
+     -0.08,
+     0
+    ]
+   }
+  },
+  "head_turn_r": {
+   "bones": {
+    "head": [
+     0,
+     -0.55,
+     0
+    ],
+    "neck": [
+     0,
+     -0.2,
+     0
+    ],
+    "hair.2": [
+     0,
+     0.18,
+     0
+    ],
+    "hair.3": [
+     0,
+     0.12,
+     0
+    ],
+    "hair.4": [
+     0,
+     0.12,
+     0
+    ],
+    "hair.1": [
+     0,
+     0.08,
+     0
+    ]
+   }
+  },
+  "gaze_down": {
+   "bones": {
+    "head": [
+     0.32,
+     0,
+     0
+    ],
+    "neck": [
+     0.12,
+     0,
+     0
+    ],
+    "spine": [
+     0.035,
+     0,
+     0
+    ]
+   }
+  },
+  "weight_shift_l": {
+   "loc": {
+    "root": [
+     0.055,
+     0,
+     0
+    ]
+   },
+   "bones": {
+    "spine": [
+     0,
+     0,
+     -0.07
+    ],
+    "head": [
+     0,
+     0,
+     0.05
+    ],
+    "thigh.l": [
+     0.05,
+     0,
+     -0.04
+    ],
+    "thigh.r": [
+     -0.05,
+     0,
+     -0.04
+    ],
+    "skirt.l": [
+     0.05,
+     0,
+     0.03
+    ],
+    "skirt.r": [
+     -0.03,
+     0,
+     0
+    ]
+   }
+  },
+  "weight_shift_r": {
+   "loc": {
+    "root": [
+     -0.055,
+     0,
+     0
+    ]
+   },
+   "bones": {
+    "spine": [
+     0,
+     0,
+     0.07
+    ],
+    "head": [
+     0,
+     0,
+     -0.05
+    ],
+    "thigh.l": [
+     0.05,
+     0,
+     0.04
+    ],
+    "thigh.r": [
+     -0.05,
+     0,
+     0.04
+    ],
+    "skirt.r": [
+     0.05,
+     0,
+     -0.03
+    ],
+    "skirt.l": [
+     -0.03,
+     0,
+     0
+    ]
+   }
+  },
+  "sleeve_sway_l": {
+   "bones": {
+    "upper_arm.l": [
+     0.1,
+     0,
+     -0.06
+    ],
+    "forearm.l": [
+     -0.12,
+     0,
+     0.08
+    ],
+    "skirt.l": [
+     0.06,
+     0,
+     0.05
+    ],
+    "skirt.front": [
+     0.04,
+     0,
+     0
+    ],
+    "skirt.back": [
+     -0.03,
+     0,
+     0
+    ],
+    "hair.2": [
+     -0.05,
+     0,
+     -0.04
+    ],
+    "hair.3": [
+     -0.06,
+     0,
+     0
+    ],
+    "hair.4": [
+     0.03,
+     0,
+     0
+    ]
+   }
+  },
+  "sleeve_sway_r": {
+   "bones": {
+    "upper_arm.r": [
+     0.1,
+     0,
+     0.06
+    ],
+    "forearm.r": [
+     -0.12,
+     0,
+     -0.08
+    ],
+    "skirt.r": [
+     0.06,
+     0,
+     -0.05
+    ],
+    "skirt.front": [
+     0.04,
+     0,
+     0
+    ],
+    "skirt.back": [
+     -0.03,
+     0,
+     0
+    ],
+    "hair.2": [
+     -0.05,
+     0,
+     0.04
+    ],
+    "hair.3": [
+     0.03,
+     0,
+     0
+    ],
+    "hair.4": [
+     -0.06,
+     0,
+     0
+    ]
+   }
+  },
+  "wrist_circle_a": {
+   "bones": {
+    "forearm.r": [
+     -0.55,
+     0,
+     0
+    ],
+    "hand.r": [
+     0.35,
+     0,
+     0.3
+    ]
+   }
+  },
+  "wrist_circle_b": {
+   "bones": {
+    "forearm.r": [
+     -0.55,
+     0,
+     0
+    ],
+    "hand.r": [
+     -0.25,
+     0,
+     0.3
+    ]
+   }
+  },
+  "lunge_strike": {
+   "loc": {
+    "root": [
+     0,
+     -0.14,
+     -0.28
+    ]
+   },
+   "bones": {
+    "thigh.l": [
+     1.05,
+     0,
+     -0.05
+    ],
+    "shin.l": [
+     0.95,
+     0,
+     0
+    ],
+    "thigh.r": [
+     -0.62,
+     0,
+     0.05
+    ],
+    "shin.r": [
+     0.15,
+     0,
+     0
+    ],
+    "upper_arm.r": [
+     1.5,
+     0,
+     -0.1
+    ],
+    "forearm.r": [
+     -0.28,
+     0,
+     0
+    ],
+    "upper_arm.l": [
+     -0.42,
+     0,
+     0.35
+    ],
+    "forearm.l": [
+     -0.55,
+     0,
+     0
+    ],
+    "spine": [
+     0.32,
+     0,
+     -0.06
+    ],
+    "chest": [
+     0.1,
+     0,
+     0
+    ],
+    "head": [
+     0.12,
+     0,
+     0
+    ]
+   },
+   "props": [
+    "sword"
+   ]
+  },
+  "aerial_spin": {
+   "loc": {
+    "root": [
+     0,
+     0.34,
+     0
+    ]
+   },
+   "bones": {
+    "thigh.l": [
+     0.9,
+     0,
+     -0.2
+    ],
+    "shin.l": [
+     1.45,
+     0,
+     0
+    ],
+    "thigh.r": [
+     0.75,
+     0,
+     0.25
+    ],
+    "shin.r": [
+     1.4,
+     0,
+     0
+    ],
+    "upper_arm.l": [
+     0.85,
+     0,
+     -0.55
+    ],
+    "forearm.l": [
+     -0.35,
+     0,
+     0
+    ],
+    "upper_arm.r": [
+     0.7,
+     0,
+     0.45
+    ],
+    "forearm.r": [
+     -0.5,
+     0,
+     0
+    ],
+    "spine": [
+     0.05,
+     0.45,
+     0
+    ],
+    "head": [
+     0.1,
+     0.4,
+     0
+    ]
+   }
+  },
+  "formal_bow": {
+   "bones": {
+    "spine": [
+     0.55,
+     0,
+     0
+    ],
+    "chest": [
+     0.24,
+     0,
+     0
+    ],
+    "head": [
+     0.14,
+     0,
+     0
+    ],
+    "upper_arm.l": [
+     0.35,
+     0,
+     -0.15
+    ],
+    "forearm.l": [
+     -0.55,
+     0,
+     0
+    ],
+    "upper_arm.r": [
+     0.35,
+     0,
+     0.15
+    ],
+    "forearm.r": [
+     -0.55,
+     0,
+     0
+    ],
+    "thigh.l": [
+     0.14,
+     0,
+     0
+    ],
+    "thigh.r": [
+     0.14,
+     0,
+     0
+    ],
+    "shin.l": [
+     0.18,
+     0,
+     0
+    ],
+    "shin.r": [
+     0.18,
+     0,
+     0
+    ]
+   }
+  },
+  "levitate_channel": {
+   "loc": {
+    "root": [
+     0,
+     0.5,
+     0
+    ]
+   },
+   "bones": {
+    "thigh.l": [
+     1.3,
+     0,
+     0.55
+    ],
+    "thigh.r": [
+     1.3,
+     0,
+     -0.55
+    ],
+    "shin.l": [
+     1.9,
+     0,
+     0
+    ],
+    "shin.r": [
+     1.9,
+     0,
+     0
+    ],
+    "upper_arm.l": [
+     0.62,
+     0,
+     -0.32
+    ],
+    "forearm.l": [
+     -1.15,
+     0,
+     0
+    ],
+    "upper_arm.r": [
+     0.62,
+     0,
+     0.32
+    ],
+    "forearm.r": [
+     -1.15,
+     0,
+     0
+    ],
+    "spine": [
+     0.06,
+     0,
+     0
+    ],
+    "head": [
+     -0.08,
+     0,
+     0
+    ]
+   }
+  },
+  "sword_form_high": {
+   "bones": {
+    "upper_arm.r": [
+     2.35,
+     0,
+     -0.28
+    ],
+    "forearm.r": [
+     -0.5,
+     0,
+     0
+    ],
+    "upper_arm.l": [
+     0.55,
+     0,
+     0.4
+    ],
+    "forearm.l": [
+     -0.8,
+     0,
+     0
+    ],
+    "thigh.l": [
+     0.35,
+     0,
+     -0.05
+    ],
+    "thigh.r": [
+     -0.28,
+     0,
+     0.05
+    ],
+    "spine": [
+     -0.08,
+     0,
+     0
+    ],
+    "head": [
+     -0.05,
+     0,
+     0
+    ]
+   },
+   "props": [
+    "sword"
+   ]
+  },
+  "sword_form_low": {
+   "bones": {
+    "thigh.l": [
+     0.85,
+     0,
+     -0.05
+    ],
+    "shin.l": [
+     1.05,
+     0,
+     0
+    ],
+    "thigh.r": [
+     -0.3,
+     0,
+     0.05
+    ],
+    "upper_arm.r": [
+     0.55,
+     0,
+     -0.15
+    ],
+    "forearm.r": [
+     -0.12,
+     0,
+     0
+    ],
+    "upper_arm.l": [
+     0.3,
+     0,
+     0.3
+    ],
+    "forearm.l": [
+     -0.6,
+     0,
+     0
+    ],
+    "spine": [
+     0.18,
+     0,
+     -0.05
+    ]
+   },
+   "props": [
+    "sword"
+   ]
+  },
+  "spinning_parry": {
+   "bones": {
+    "spine": [
+     0.1,
+     0.68,
+     0
+    ],
+    "chest": [
+     0.05,
+     0.2,
+     0
+    ],
+    "upper_arm.l": [
+     0.9,
+     0,
+     -0.55
+    ],
+    "forearm.l": [
+     -1.05,
+     0,
+     0
+    ],
+    "upper_arm.r": [
+     0.45,
+     0,
+     0.3
+    ],
+    "forearm.r": [
+     -0.7,
+     0,
+     0
+    ],
+    "thigh.l": [
+     0.45,
+     0,
+     -0.1
+    ],
+    "thigh.r": [
+     -0.2,
+     0,
+     0.1
+    ],
+    "shin.l": [
+     0.35,
+     0,
+     0
+    ],
+    "head": [
+     0,
+     -0.35,
+     0
+    ]
+   },
+   "props": [
+    "sword"
+   ]
+  },
+  "cloud_ride": {
+   "bones": {
+    "thigh.l": [
+     1.2,
+     0,
+     -0.1
+    ],
+    "shin.l": [
+     1.5,
+     0,
+     0
+    ],
+    "thigh.r": [
+     0.12,
+     0,
+     0.05
+    ],
+    "upper_arm.l": [
+     1.05,
+     0,
+     -0.9
+    ],
+    "forearm.l": [
+     -0.3,
+     0,
+     0
+    ],
+    "upper_arm.r": [
+     0.85,
+     0,
+     0.65
+    ],
+    "forearm.r": [
+     -0.25,
+     0,
+     0
+    ],
+    "spine": [
+     0.08,
+     0,
+     -0.08
+    ],
+    "head": [
+     0.05,
+     0.2,
+     0
+    ]
+   }
+  },
+  "hand_seal": {
+   "bones": {
+    "upper_arm.r": [
+     0.9,
+     0,
+     -0.2
+    ],
+    "forearm.r": [
+     -1.3,
+     0,
+     0
+    ],
+    "upper_arm.l": [
+     0.38,
+     0,
+     0.25
+    ],
+    "forearm.l": [
+     -0.85,
+     0,
+     0
+    ],
+    "chest": [
+     0.05,
+     0,
+     0
+    ],
+    "head": [
+     0.08,
+     0,
+     0
+    ]
+   }
+  },
+  "kneel_offering": {
+   "loc": {
+    "root": [
+     0,
+     -0.44,
+     0
+    ]
+   },
+   "bones": {
+    "thigh.r": [
+     1.5,
+     0,
+     0.1
+    ],
+    "shin.r": [
+     1.9,
+     0,
+     0
+    ],
+    "thigh.l": [
+     0.95,
+     0,
+     -0.15
+    ],
+    "shin.l": [
+     0.35,
+     0,
+     0
+    ],
+    "upper_arm.l": [
+     0.8,
+     0,
+     -0.12
+    ],
+    "forearm.l": [
+     -0.42,
+     0,
+     0
+    ],
+    "upper_arm.r": [
+     0.8,
+     0,
+     0.12
+    ],
+    "forearm.r": [
+     -0.42,
+     0,
+     0
+    ],
+    "spine": [
+     0.22,
+     0,
+     0
+    ],
+    "head": [
+     0.1,
+     0,
+     0
+    ]
+   }
   }
+ }
 }

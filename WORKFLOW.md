@@ -49,7 +49,7 @@ rasterization, ComfyUI device drift).
 | `run_goal` orchestrator | ✅ `tools/run_goal.py` — supervised end-to-end driver: scaffold → C-tracks → publish → supervised harness (`.run/` heartbeat, process-group reap, stall kill) → export → golden diff |
 | golden diff | ✅ `tools/golden_check.py` — per-shot changed-pixel fraction vs `golden/<goal>/`, `--tol`/`--max-changed` bands, `--write` blesses |
 | instance registry | ✅ `.run/<kind>-<pid>.json` records (pipelib `register_instance`/`heartbeat_instance`/`instances`) — runner.gd beats per stage; stale pids reaped |
-| glb providers | ✅ `tools/providers/` — adapter registry (`base.py`) + `mock` (valid GLB, no GPU/Blender) + `hunyuan3d` (accepted→shape→decimate→Blender post-step→textured GLB, ~74s gen + ~40s bake on 16GB; options `texture`/`retopo`/`view`/`tri_budget`; actors still need rig work); glb brief `provider` key routes in `gen_component`; `check.py texture:smoke` covers the post-step |
+| glb providers | ✅ `tools/providers/` — adapter registry (`base.py`) + `mock` (valid GLB, no GPU/Blender) + `hunyuan3d` (accepted→shape→decimate→Blender post-step→textured GLB, ~74s gen + ~40s bake on 16GB; options `texture`/`retopo`/`view`/`tri_budget`; rig `conform`=template geometry keeps rig, `reskin`=painted mesh itself skinned via nearest-conformed-part transfer — real vertex weights + silhouette, blob-deformation limits apply); glb brief `provider` key routes in `gen_component`; `check.py texture:smoke` covers the post-step |
 | layout map | ✅ `tools/layout_map.py` — resolved jobs.json members/patrol/attach → `layout_map.png`; run_goal renders post-publish (plan-first, catches framing/overlap pre-harness) |
 | drop-in check | ✅ `tools/dropin_check.py` — bare temp project + assets/ + scene.tscn, `--import` pass then probe; fails on Parse/Failed-loading, snaps `dist/<goal>/dropin_probe.png` |
 | sync_on assertion | ✅ staged actions resolve `role.anim@event` from component brief anims tables; same-named own events assert `delta_s <= tolerance_s`, unresolved → pass:null + local_t reported |
@@ -83,6 +83,8 @@ model-maker/
                                      # hand — for rigged glb hand_pose checks
     skeletons/humanoid_v1.json       # bone graph spec: required bones, finger
                                      # chains, sockets, per-joint ROM bounds
+    skeletons/humanoid_v2.json       # v1 + fingers(30), skirt, hair, jaw/eyes
+                                     # — superset, v1 clips keep working
     actions/sword_duel.json          # multi-actor timeline: roles, clip
                                      # calls, event anchors, sync tolerance
 
@@ -462,6 +464,14 @@ the brief is the contract; tools catch up.
   spec (required bones, finger chains, sockets, per-joint ROM bounds), not
   an asset. Components sharing a skeleton share the clip/retarget pool.
   `prop: true` marks an attachable glb (no skeleton, no unit pose budget).
+  `humanoid_v2` extends v1 with finger chains (30), skirt panels (4),
+  hair (4), jaw + eyes (3) — a superset: v1 clips keep working, extended
+  bones rest until a clip keys them, and extended bones may be
+  present-but-unbound when the mesh lacks the geometry. Gesture tables
+  (`@poses/grip_sword`, `sword_fingers`, `staff_grip`, `open_palm`,
+  `talisman_pinch` — joints_deg per finger bone + declared hand) key
+  fingers into clips via the builder's per-clip `CLIP_GESTURES` overlay;
+  `.l` mirrors share the same curl values.
 - **`material: "toon"`** on a glb brief switches the runner's render for
   that member/unit render to banded toon shading (DIFFUSE_TOON +
   SPECULAR_TOON) plus an inverted-hull outline `next_pass` (vertex-grow

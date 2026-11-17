@@ -19,6 +19,8 @@ import math
 import os
 import sys
 
+import mathutils
+
 argv = sys.argv[sys.argv.index("--") + 1:]
 OUT = argv[argv.index("--out") + 1] if "--out" in argv else "hero.glb"
 BRIEF = argv[argv.index("--brief") + 1] if "--brief" in argv else None
@@ -195,7 +197,60 @@ th_r    = bone("thigh.r", (0.11, 0, 0.95), (0.11, 0, 0.52), root_b)
 sn_r    = bone("shin.r", (0.11, 0, 0.52), (0.11, 0, 0.10), th_r)
 ft_r    = bone("foot.r", (0.11, 0, 0.10), (0.11, -0.16, 0.04), sn_r)
 
+# humanoid_v2 extended chains — declared by the brief's skeleton ref;
+# v1 keeps exactly the 19 required bones
+SKEL_V2 = brief.get("skeleton", "").endswith("humanoid_v2")
+FINGERS = ("thumb", "index", "middle", "ring", "pinky")
+STUBS = []
+if SKEL_V2:
+    # fingers: 3-joint chains fanning off each hand; stubs (one per
+    # finger, bound to .2) let mitten geometry articulate at knuckle
+    # level — a blob hand gains crude but real finger motion
+    for side, sx in (("l", -1.0), ("r", 1.0)):
+        hand = hand_l if side == "l" else hand_r
+        hdir = mathutils.Vector((sx * 0.8, 0, -0.6)).normalized()
+        for fi, f in enumerate(FINGERS):
+            yoff = [-0.028, -0.014, 0.0, 0.014, 0.028][fi]
+            if f == "thumb":
+                fdir = mathutils.Vector((sx * 0.55, -0.45, -0.6)).normalized()
+                froot = hand.tail + mathutils.Vector((0, -0.01, 0.01))
+                seg = 0.022
+            else:
+                fdir = hdir.copy()
+                froot = hand.tail + hdir * 0.02 + mathutils.Vector((0, yoff, 0))
+                seg = 0.028
+            prev = hand
+            tip_at = froot
+            for j in (1, 2, 3):
+                tip_at = tip_at + fdir * seg
+                prev = bone("hand.%s.%s.%d" % (side, f, j), froot, tip_at, prev)
+                froot = tip_at
+            STUBS.append(("finger_%s_%s" % (side, f),
+                          hand.tail + hdir * 0.02
+                          + mathutils.Vector((0, yoff, 0))
+                          + fdir * seg * 1.5, fdir,
+                          "hand.%s.%s.2" % (side, f)))
+    # robe panels + hair + face — present so conform/reskin can route
+    # real costume geometry onto them (painted meshes have skirt/hair
+    # shells; fingers/jaw are forward-compatible slots)
+    bone("skirt.front", (0, -0.13, 0.95), (0, -0.16, 0.55), root_b)
+    bone("skirt.back", (0, 0.13, 0.95), (0, 0.16, 0.55), root_b)
+    bone("skirt.l", (-0.14, 0, 0.95), (-0.17, 0, 0.55), root_b)
+    bone("skirt.r", (0.14, 0, 0.95), (0.17, 0, 0.55), root_b)
+    bone("hair.1", (0, 0.02, 1.76), (0, 0.02, 1.88), head_b)
+    bone("hair.2", (0, 0.10, 1.70), (0, 0.14, 1.35), head_b)
+    bone("hair.3", (-0.08, -0.05, 1.62), (-0.09, -0.06, 1.42), head_b)
+    bone("hair.4", (0.08, -0.05, 1.62), (0.09, -0.06, 1.42), head_b)
+    bone("jaw", (0, -0.05, 1.58), (0, -0.09, 1.50), head_b)
+    bone("eye.l", (-0.045, -0.09, 1.66), (-0.045, -0.12, 1.66), head_b)
+    bone("eye.r", (0.045, -0.09, 1.66), (0.045, -0.12, 1.66), head_b)
+
 bpy.ops.object.mode_set(mode='OBJECT')
+
+for name, loc, fdir, bname in STUBS:
+    stub = cyl(name, tuple(loc), 0.013, 0.062, MATS["skin"],
+               rot=(0, math.atan2(fdir.x, fdir.z) + math.pi / 2, 0))
+    stub["v2_bone"] = bname
 
 BONE_OF = {
     "pelvis": "root", "chest_m": "chest", "head_m": "head", "jaw_m": "head",
@@ -217,11 +272,22 @@ BONE_OF = {
     "sash_tail_l": "root", "sash_tail_r": "root",
     "foot_l": "foot.l", "foot_r": "foot.r",
 }
+# v2 remaps — costume shells onto their driver bones so conform/reskin
+# routes painted-mesh verts to articulable chains (hair sway, skirt
+# panels); finger stubs carry their v2_bone tag
+if SKEL_V2:
+    BONE_OF.update({
+        "topknot": "hair.1", "hair_fall": "hair.2",
+        "lock_l": "hair.3", "lock_r": "hair.4", "jaw_m": "jaw",
+        "skirt_l": "skirt.l", "skirt_r": "skirt.r",
+        "apron_f": "skirt.front",
+        "sash_tail_l": "skirt.front", "sash_tail_r": "skirt.front",
+    })
 for o in parts:
     mw = o.matrix_world.copy()
     o.parent = arm
     o.parent_type = 'BONE'
-    o.parent_bone = BONE_OF[o.name]
+    o.parent_bone = o.get("v2_bone") or BONE_OF[o.name]
     o.matrix_world = mw
 
 # ---------------- animation clips (pose-keyframed from shared/poses) ----------------
@@ -230,6 +296,52 @@ pdir = os.path.join(ROOT, "shared", "poses")
 for pf in sorted(os.listdir(pdir)):
     if pf.endswith(".json"):
         POSES.update(json.load(open(os.path.join(pdir, pf))).get("poses", {}))
+
+# finger gestures — shared/poses/<g>.json joint_deg tables become pose
+# cfgs on hand.{side}.{finger}.{n}; mirrored variants share the same
+# curl axis values (bone-local X). Harmless on v1 builds: key_bones
+# iterates armature bones, so unborn bone names are never keyed
+def _gesture_cfg(name, side=None):
+    d = json.load(open(os.path.join(pdir, name + ".json")))
+    hand = side or d["hand"]
+    return {"bones": {"%s.%s" % (hand, j): [math.radians(v), 0, 0]
+                      for j, v in d["joints_deg"].items()}}
+
+GCFG = {}
+for g in ("grip_sword", "open_palm", "staff_grip", "sword_fingers",
+          "talisman_pinch"):
+    try:
+        GCFG[g] = _gesture_cfg(g)
+        GCFG[g + ".l"] = _gesture_cfg(g, "hand.l")
+    except (OSError, KeyError):
+        pass
+
+# per-clip gesture overlays — the weapon hand keeps its grip through
+# every frame; the free hand takes the seal/palm shape
+CLIP_GESTURES = {
+    "idle": ["open_palm.l"],
+    "walk": ["open_palm.l"],
+    "breath": ["open_palm.l"],
+    "head_scan": ["open_palm.l"],
+    "weight_shift": ["open_palm.l"],
+    "sleeve_sway": ["open_palm.l"],
+    "gaze_contemplate": ["staff_grip", "open_palm.l"],
+    "wrist_channel": ["staff_grip", "open_palm.l"],
+    "channel_water": ["staff_grip", "open_palm.l"],
+    "staff_salute": ["staff_grip", "open_palm.l"],
+    "seated_meditate": ["open_palm", "open_palm.l"],
+    "formal_bow": ["staff_grip", "open_palm.l"],
+    "kneel_offer": ["staff_grip", "open_palm.l"],
+    "levitate_channel": ["staff_grip", "open_palm.l"],
+    "talisman_cast": ["staff_grip", "sword_fingers.l"],
+    "sword_swing": ["grip_sword"],
+    "sword_form": ["grip_sword"],
+    "lunge_strike": ["grip_sword"],
+    "spinning_parry": ["grip_sword"],
+    "parry": ["grip_sword"],
+    "recover": ["grip_sword"],
+    "aerial_flourish": ["grip_sword"],
+}
 
 FPS = 24
 
@@ -332,6 +444,8 @@ for spec in brief.get("anims", []):
     arm.animation_data.action = action
     n_fr = clip_frames(dur)
     for tf, cfgs in ANIM_KEYS[name][1]:
+        cfgs = cfgs + [(GCFG[g], 1.0) for g in CLIP_GESTURES.get(name, [])
+                       if g in GCFG]
         key_bones(action, tf * (n_fr - 1), cfgs)
     # NLA track per anim -> one exported GLB animation per clip
     tr = arm.animation_data.nla_tracks.new()

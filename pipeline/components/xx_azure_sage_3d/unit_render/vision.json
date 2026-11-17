@@ -1,24 +1,27 @@
 {
-  "verdict": "pass",
-  "actor": "devin:curator",
-  "ts": 1793987242.6423597,
-  "checks": {
-    "unit renders show all clips sampled": "pass",
-    "has: silver-white hair": "pass",
-    "has: layered indigo and silver robes": "pass",
-    "has: dark crown ornament": "pass",
-    "absent: missing fingers": "warn",
-    "absent: collapsed sleeves": "pass",
-    "absent: merged robe layers": "pass"
-  },
-  "flags": [
-    "conformed to painted hunyuan3d silhouette; template topology keeps mannequin-grade facets (rig contract preserved)",
-    "Icosphere joint-ball bake skipped (Blender visibility quirk) - joint hidden inside robe",
-    "fingers are mannequin-block hands, not articulated - honest limit for hero closeups"
-  ],
-  "note": "rev2: shape gen + PBR paint + conform to humanoid_v1; 19 joints/8 clips intact, 41 baked albedos",
-  "reviewed_files": [
-    "unit_render/neutral.png",
-    "unit_render/idle_50.png"
-  ]
+ "verdict": "pass",
+ "actor": "devin:curator",
+ "ts": 1794927768.2498398,
+ "checks": {
+  "unit renders show all clips sampled": "pass",
+  "has: silver-white hair": "pass",
+  "has: layered indigo and silver robes": "pass",
+  "has: dark crown ornament": "pass",
+  "absent: missing fingers": "warn",
+  "absent: collapsed sleeves": "pass",
+  "absent: merged robe layers": "pass"
+ },
+ "flags": [
+  "rev8: humanoid_v2 (60 joints) \u2014 skirt panels carry ~4.4k verts, hair.2 90, jaw 12; fingers present-but-unbound (painted mitten can't articulate)",
+  "finger gestures keyed into clips via shared/poses gesture tables (grip_sword on weapon clips, open_palm on idle family, sword_fingers.l on talisman_cast)",
+  "generated blob limits remain: fused mitten hands, painted-on face, trailing cape shells at back silhouette",
+  "detail-bone grab radius 0.06m in blender_reskin \u2014 distant cloth verts can't spike onto phalanges (fixed rev7 hip-spike)"
+ ],
+ "note": "rev8: reskin onto humanoid_v2 armature; skirt/hair/jaw drive real painted-mesh verts \u2014 first articulable secondary motion on the generated asset",
+ "reviewed_files": [
+  "unit_render/neutral.png",
+  "unit_render/talisman_cast_50.png",
+  "unit_render/sleeve_sway_50.png",
+  "unit_render/sword_swing_50.png"
+ ]
 }
