@@ -4,7 +4,7 @@
   "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\xianxia_hero",
   "provenance": {
     "manifests": {
-      "xx_azure_sage_3d": "sha256:a0f7444d0e9c9bbf101aae76b4709869f3a5d3e1f8f6a75db3aafca7ef924fff",
+      "xx_azure_sage_3d": "sha256:527e08f49be66c0fbfdf4b0c2f5f851a30868a6c1a40182b985491f998ee143a",
       "xx_sage_staff_3d": "sha256:a7f058172f6499258d2f0f69400c46a681c3e749fd1aa2cc6cf9c3221b2ee140",
       "xx_jian_3d": "sha256:af443ad21667198a1ed326f75c7e28ee52d05e1a1a51c2198b56e6d806ba0a80"
     },

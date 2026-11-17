@@ -38,21 +38,23 @@ def main():
     arm = next(o for o in bpy.data.objects if o.type == "ARMATURE")
     meshes = [o for o in bpy.data.objects if o.type == "MESH"]
     body = max(meshes, key=lambda o: len(o.data.vertices))
+    mw = body.matrix_world
+    verts = [mw @ v.co for v in body.data.vertices]
+    ztop = max(v.z for v in verts)
 
-    # strip unskinned strays the generator leaves inside the shell
-    # (e.g. its hidden Icosphere — a 2m ball at the origin that only
-    # stays invisible while buried inside the body shells)
+    # strip provider strays (e.g. the hidden Icosphere — a 2m ball
+    # skinned to `root` at the origin, invisible only while buried
+    # inside the body shells): centroid outside the body's z extent
     for o in [m for m in meshes if m is not body]:
-        if not o.vertex_groups:
-            bpy.data.objects.remove(o, do_unlink=True)
-    meshes = [o for o in bpy.data.objects if o.type == "MESH"]
+        if o.data.vertices:
+            bb = [o.matrix_world @ mathutils.Vector(c)
+                  for c in o.bound_box]
+            cz = sum(v.z for v in bb) / len(bb)
+            if cz < -0.3 or cz > ztop + 0.3:
+                bpy.data.objects.remove(o, do_unlink=True)
 
     # face surface: head cluster = verts near the top; face plane =
     # most-forward y at eye height (glTF->Blender: forward is -y)
-    mw = body.matrix_world
-    verts = [mw @ v.co for v in body.data.vertices]
-    zs = [v.z for v in verts]
-    ztop = max(zs)
     head_v = [v for v in verts if v.z > ztop - 0.35]
     eye_y = ztop - 0.20
 
@@ -77,7 +79,9 @@ def main():
         b = m.node_tree.nodes["Principled BSDF"]
         b.inputs["Base Color"].default_value = (*rgb, 1.0)
         b.inputs["Roughness"].default_value = rough
-        m.use_backface_culling = False
+        # single-sided: doubleSided cards show through the hood's
+        # culled backfaces from behind (#80-class visibility bug)
+        m.use_backface_culling = True
         return m
 
     sclera_m = mat("sclera", (0.92, 0.90, 0.86))
@@ -102,8 +106,9 @@ def main():
                        cy,
                        cz + u * sr + v * cr))
         me = bpy.data.meshes.new(name)
-        # reversed winding: ccw seen from -y (the viewer side)
-        me.from_pydata(vs, [], [tuple(reversed(range(seg)))])
+        # circle points go +x -> +z = ccw seen from -y (viewer side);
+        # natural order already faces the camera — do NOT reverse
+        me.from_pydata(vs, [], [tuple(range(seg))])
         me.update()
         o = bpy.data.objects.new(name, me)
         bpy.context.collection.objects.link(o)
@@ -130,10 +135,13 @@ def main():
                          0.032, 0.006, brow_m, depth=0.005,
                          roll=sx * -0.18))
 
-    # lip line — a thin muted card that covers the painted mouth smear
-    y_mouth = surface_at(0.0, zc=eye_y - 0.055)
-    if y_mouth is not None:
-        made.append(card("lips", (0.0, y_mouth - 0.006, eye_y - 0.055),
+    # lip line — the x=0 probe at mouth height hits the neck cluster
+    # deep inside the head; mouth sits on the eye face plane instead
+    eye_ys = [o.data.vertices[0].co.y
+              for o in made if o.name.startswith("eye_sclera")]
+    if eye_ys:
+        made.append(card("lips", (0.0, sum(eye_ys) / len(eye_ys) + 0.010,
+                                  eye_y - 0.055),
                          0.022, 0.007, lip_m, depth=0.004))
 
     for o in made:

@@ -1,7 +1,7 @@
 {
   "verdict": "pass",
   "actor": "devin",
-  "ts": 1794931228.0098553,
+  "ts": 1794932880.3644452,
   "checks": {
     "materials not washed out": "pass",
     "animations play without clipping": "pass",
@@ -14,11 +14,11 @@
     "absent: merged robe layers": "pass"
   },
   "flags": [
-    "fingers fused-mitten by generation (documented); no hand articulation",
-    "face = eye/brow/lip cards over painted smear; reads at closeup",
-    "AO + roughness floor landed; baked albedo highlights remain"
+    "rev10: eye cards render (winding fix); lips depth fixed; stray Icosphere stripped",
+    "face backfaces show painted texture through hood opening from rear angles \u2014 inherent shell-cloud trait",
+    "painted smear still dominates at gameplay distance"
   ],
-  "note": "rev9: reskin + face cards + pbr_fix + AO (14720 tris, 60 joints, 22 anims)",
+  "note": "rev10: corrected face cards + pbr + AO (14720 tris, 60 joints, 22 anims)",
   "reviewed_files": [
     "unit_render/aerial_flourish_25.png",
     "unit_render/aerial_flourish_50.png",
