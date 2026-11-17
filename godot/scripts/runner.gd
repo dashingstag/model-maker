@@ -288,6 +288,9 @@ func _unit_mode() -> void:
 					continue
 				var inst: Node3D = scn.instantiate()
 				n3.add_child(inst)
+				if uj.get("material") == "toon":
+					_toonify(inst)
+					m["material"] = "toon"
 				await _frames(20)
 				await _snap(udir + "/neutral.png")
 				var ap: AnimationPlayer = inst.find_child("AnimationPlayer", true, false)
@@ -425,6 +428,8 @@ func _composition_mode() -> void:
 				var stage := _mk_stage3d(Vector2i(360, 560))
 				var vp: SubViewport = stage["vp"]
 				var inst: Node3D = scn.instantiate()
+				if m.get("material") == "toon":
+					_toonify(inst)
 				vp.add_child(inst)
 				var s := _mk_sprite(vp.get_texture(),
 					Vector2(m["x"], m["y"]), m.get("h_px", 384))
@@ -432,7 +437,7 @@ func _composition_mode() -> void:
 				sprites[m["id"]] = s
 				member_rows[m["id"]] = m.get("row")
 				glb_nodes[m["id"]] = {"inst": inst, "vp": vp,
-					"cam": stage["cam"],
+					"cam": stage["cam"], "material": m.get("material", ""),
 					"ap": inst.find_child("AnimationPlayer", true, false),
 					"skel": inst.find_child("Skeleton3D", true, false)}
 
@@ -470,6 +475,8 @@ func _composition_mode() -> void:
 		ba3.bone_name = at.get("socket", "hand.r")
 		skel3.add_child(ba3)
 		var pinst3: Node3D = pscn3.instantiate()
+		if glb_nodes[tgt3].get("material") == "toon":
+			_toonify(pinst3)
 		var rot3: Array = at.get("rot", [0, 0, 0])
 		pinst3.rotation_degrees = Vector3(rot3[0], rot3[1], rot3[2])
 		ba3.add_child(pinst3)
@@ -623,6 +630,37 @@ func _mk_stage3d(vsize: Vector2i) -> Dictionary:
 	vp.add_child(c3)
 	c3.make_current()
 	return {"vp": vp, "cam": c3}
+
+var _outline_shader: Shader
+
+func _toonify(inst: Node3D) -> void:
+	# "material":"toon" — banded diffuse/spec + inverted-hull outline pass.
+	# Preserves each surface's baked albedo; render-time override only.
+	# Godot 4 dropped BaseMaterial3D.grow — the outline pass displaces
+	# along normals in a shader instead.
+	if _outline_shader == null:
+		_outline_shader = Shader.new()
+		_outline_shader.code = """shader_type spatial;
+render_mode unshaded, cull_front;
+uniform vec4 edge_color : source_color = vec4(0.05, 0.05, 0.09, 1.0);
+uniform float grow = 0.015;
+void vertex() { VERTEX += NORMAL * grow; }
+void fragment() { ALBEDO = edge_color.rgb; }"""
+	for mi in inst.find_children("", "MeshInstance3D", true, false):
+		for surf in mi.mesh.get_surface_count():
+			var src: Material = mi.get_active_material(surf)
+			var toon := StandardMaterial3D.new()
+			toon.diffuse_mode = BaseMaterial3D.DIFFUSE_TOON
+			toon.specular_mode = BaseMaterial3D.SPECULAR_TOON
+			toon.metallic = 0.0
+			toon.roughness = 1.0
+			if src is BaseMaterial3D:
+				toon.albedo_color = src.albedo_color
+				toon.albedo_texture = src.albedo_texture
+			var edge := ShaderMaterial.new()
+			edge.shader = _outline_shader
+			toon.next_pass = edge
+			mi.set_surface_override_material(surf, toon)
 
 func _aabb_min_y(root: Node3D) -> float:
 	# lowest world-space point of every mesh under root — the floor-clip probe

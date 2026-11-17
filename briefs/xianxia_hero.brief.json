@@ -258,7 +258,8 @@
           "paint_res": 512,
           "image": "idle.png"
         }
-      }
+      },
+      "material": "toon"
     },
     {
       "id": "xx_sage_staff_3d",
@@ -274,7 +275,8 @@
         "bent shaft",
         "extra gems"
       ],
-      "review": "auto"
+      "review": "auto",
+      "material": "toon"
     },
     {
       "id": "xx_jian_3d",
@@ -289,7 +291,8 @@
       "must_not": [
         "curved blade"
       ],
-      "review": "auto"
+      "review": "auto",
+      "material": "toon"
     }
   ],
   "composition": {

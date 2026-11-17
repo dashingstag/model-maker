@@ -82,6 +82,12 @@ def main(goal, unit_only, wait):
                  + ", ".join(skipped + [f"{c} (processed)" for c in uncertified])
                  + "\n  use --unit-only for C3 unit renders")
 
+    briefs = {}
+    for cid in spec["components"]:
+        bp = os.path.join(ROOT, "pipeline", "components", cid, "brief.json")
+        if os.path.exists(bp):
+            briefs[cid] = json.load(open(bp))
+
     unit_jobs, variants, glbs = [], {}, {}
     for cid in sorted(mans):
         man = mans[cid]
@@ -107,6 +113,8 @@ def main(goal, unit_only, wait):
         if t == "glb":
             uj["glb"] = man.get("glb", "pirate.glb")
             glbs[cid] = uj["glb"]
+            if briefs.get(cid, {}).get("material"):
+                uj["material"] = briefs[cid]["material"]
         unit_jobs.append(uj)
 
     # resolve placement into an explicit members list — the runner renders
@@ -116,12 +124,6 @@ def main(goal, unit_only, wait):
     rows = {r["id"]: r["y"] for r in row_list}
     row_ids = list(rows)
     spacing = layout.get("spacing_px", 170)
-    briefs = {}
-    for cid in spec["components"]:
-        bp = os.path.join(ROOT, "pipeline", "components", cid, "brief.json")
-        if os.path.exists(bp):
-            briefs[cid] = json.load(open(bp))
-
     members, auto, first_sprite = [], 0, None
     for cid in spec["components"]:
         man, b = mans.get(cid), briefs.get(cid, {})
@@ -189,11 +191,14 @@ def main(goal, unit_only, wait):
     for cid in spec["components"]:
         if cid in mans and mans[cid]["type"] == "glb" and not briefs.get(cid, {}).get("prop"):
             row = layout.get(f"{cid}_row", row_ids[0])
-            members.append({"id": cid, "kind": "glb",
-                            "dir": f"res://assets/components/{cid}",
-                            "glb": glbs.get(cid),
-                            "x": layout.get(f"{cid}_x", 512),
-                            "row": row, "y": rows.get(row, 648)})
+            member = {"id": cid, "kind": "glb",
+                      "dir": f"res://assets/components/{cid}",
+                      "glb": glbs.get(cid),
+                      "x": layout.get(f"{cid}_x", 512),
+                      "row": row, "y": rows.get(row, 648)}
+            if briefs.get(cid, {}).get("material"):
+                member["material"] = briefs[cid]["material"]
+            members.append(member)
 
     layers = []
     for cid, man in mans.items():

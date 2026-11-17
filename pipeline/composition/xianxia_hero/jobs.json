@@ -27,21 +27,24 @@
       "type": "glb",
       "assets": "res://assets/components/xx_azure_sage_3d",
       "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_azure_sage_3d\\unit_render",
-      "glb": "xx_azure_sage_3d.glb"
+      "glb": "xx_azure_sage_3d.glb",
+      "material": "toon"
     },
     {
       "id": "xx_jian_3d",
       "type": "glb",
       "assets": "res://assets/components/xx_jian_3d",
       "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_jian_3d\\unit_render",
-      "glb": "xx_jian_3d.glb"
+      "glb": "xx_jian_3d.glb",
+      "material": "toon"
     },
     {
       "id": "xx_sage_staff_3d",
       "type": "glb",
       "assets": "res://assets/components/xx_sage_staff_3d",
       "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_sage_staff_3d\\unit_render",
-      "glb": "xx_sage_staff_3d.glb"
+      "glb": "xx_sage_staff_3d.glb",
+      "material": "toon"
     }
   ],
   "composition": {
@@ -77,7 +80,8 @@
         "glb": "xx_azure_sage_3d.glb",
         "x": 512,
         "row": "ground",
-        "y": 648
+        "y": 648,
+        "material": "toon"
       }
     ],
     "dialogue": null,
@@ -89,6 +93,7 @@
       "sage_attach_close"
     ],
     "variants": {},
+    "variant_of": {},
     "glbs": {
       "xx_azure_sage_3d": "xx_azure_sage_3d.glb",
       "xx_jian_3d": "xx_jian_3d.glb",

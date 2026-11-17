@@ -462,6 +462,16 @@ the brief is the contract; tools catch up.
   spec (required bones, finger chains, sockets, per-joint ROM bounds), not
   an asset. Components sharing a skeleton share the clip/retarget pool.
   `prop: true` marks an attachable glb (no skeleton, no unit pose budget).
+- **`material: "toon"`** on a glb brief switches the runner's render for
+  that member/unit render to banded toon shading (DIFFUSE_TOON +
+  SPECULAR_TOON) plus an inverted-hull outline `next_pass` (vertex-grow
+  shader — Godot 4 dropped `BaseMaterial3D.grow`). Render-time only:
+  `publish` forwards it into jobs, `runner` overrides each surface's
+  material while keeping the baked albedo, `attach3d` props inherit the
+  target member's mode, and the unit report records it. Exported .tscn
+  keeps the GLB's imported materials — toon doesn't ship in dist yet.
+  Honest limit: it bands the *lighting*, not baked-in specularity —
+  chrome painted into albedos needs the bake split, not this flag.
 - **`anims` may be objects**, not just names: `{name, loop, duration,
   events, hand_pose, check}`. `events` are named frames (`contact`,
   `grip`, `block`) — they become both C3 capture points and action-shot

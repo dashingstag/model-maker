@@ -46,5 +46,6 @@
       "paint_res": 512,
       "image": "ref.png"
     }
-  }
+  },
+  "material": "toon"
 }

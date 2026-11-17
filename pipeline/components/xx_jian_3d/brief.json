@@ -45,5 +45,6 @@
       "paint_res": 512,
       "image": "idle.png"
     }
-  }
+  },
+  "material": "toon"
 }

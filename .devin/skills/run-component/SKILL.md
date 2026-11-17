@@ -66,7 +66,11 @@ python tools/publish.py <goal> --wait 60
   a ring → denoise 0.26, verified 9/9 clusters in #34). Denoise floor ~0.25
   melts flat guide art into painterly style while preserving count/layout.
 - `glb` — C1 is the blender builder → `build/` + `export/`; extract
-  validates tris vs `tri_budget` and lists animations.
+  validates tris vs `tri_budget` and lists animations. Brief
+  `material: "toon"` gives the member banded toon shading + inverted-hull
+  outline in unit renders and compositions (render-time; props attached
+  via attach3d inherit the member's mode; doesn't affect baked-in
+  specularity — that's the albedo bake's job).
 
 ## Gates (don't skip — evidence, not vibes)
 
