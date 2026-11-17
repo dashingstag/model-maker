@@ -3,7 +3,7 @@
   "id": "xx_azure_sage_3d",
   "type": "glb",
   "status": "certified",
-  "rev": 8,
+  "rev": 9,
   "constraints": {
     "type": "glb",
     "anims": [
@@ -237,10 +237,10 @@
     ]
   },
   "inputs": {
-    "export/xx_azure_sage_3d.glb": "sha256:554077fa399aa223c3613cf952361da7df1388eda8ec8c5a417f436f858c3eaa"
+    "export/xx_azure_sage_3d.glb": "sha256:e8209b16fa309dced71133271e78f0af9f486fa9392ca68f4e33eb033171acf3"
   },
   "artifacts": {
-    "processed/xx_azure_sage_3d.glb": "sha256:554077fa399aa223c3613cf952361da7df1388eda8ec8c5a417f436f858c3eaa"
+    "processed/xx_azure_sage_3d.glb": "sha256:e8209b16fa309dced71133271e78f0af9f486fa9392ca68f4e33eb033171acf3"
   },
   "metrics": {},
   "gate_mode": {
@@ -292,6 +292,11 @@
       "rev": 7,
       "ts": 1794927716.3206732,
       "status": "processed"
+    },
+    {
+      "rev": 8,
+      "ts": 1794931174.2872593,
+      "status": "certified"
     }
   ],
   "toolchain": {
@@ -301,8 +306,8 @@
     "matting": "birefnet-general"
   },
   "glb": "xx_azure_sage_3d.glb",
-  "meshes": 1,
-  "tris": 14588,
+  "meshes": 12,
+  "tris": 14720,
   "animations": [
     "aerial_flourish",
     "breath",
@@ -331,5 +336,8 @@
   "gate": {
     "tris_ok": true
   },
-  "skeleton": "humanoid_v2"
+  "certified": {
+    "ts": 1794931228.2124567,
+    "by": "devin"
+  }
 }

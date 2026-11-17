@@ -309,11 +309,16 @@
   "name": "hunyuan3d",
   "options": {
    "texture": "paint",
-   "rig": "conform",
+   "rig": "reskin",
    "rig_template": "pipeline/components/xx_azure_sage_3d/build/template_mannequin.glb",
    "tri_budget": 15000,
    "paint_res": 512,
-   "image": "idle.png"
+   "image": "idle.png",
+   "post": [
+    "face",
+    "pbr",
+    "ao"
+   ]
   }
  },
  "material": "toon"

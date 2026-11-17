@@ -49,7 +49,7 @@ rasterization, ComfyUI device drift).
 | `run_goal` orchestrator | ✅ `tools/run_goal.py` — supervised end-to-end driver: scaffold → C-tracks → publish → supervised harness (`.run/` heartbeat, process-group reap, stall kill) → export → golden diff |
 | golden diff | ✅ `tools/golden_check.py` — per-shot changed-pixel fraction vs `golden/<goal>/`, `--tol`/`--max-changed` bands, `--write` blesses |
 | instance registry | ✅ `.run/<kind>-<pid>.json` records (pipelib `register_instance`/`heartbeat_instance`/`instances`) — runner.gd beats per stage; stale pids reaped |
-| glb providers | ✅ `tools/providers/` — adapter registry (`base.py`) + `mock` (valid GLB, no GPU/Blender) + `hunyuan3d` (accepted→shape→decimate→Blender post-step→textured GLB, ~74s gen + ~40s bake on 16GB; options `texture`/`retopo`/`view`/`tri_budget`; rig `conform`=template geometry keeps rig, `reskin`=painted mesh itself skinned via nearest-conformed-part transfer — real vertex weights + silhouette, blob-deformation limits apply); glb brief `provider` key routes in `gen_component`; `check.py texture:smoke` covers the post-step |
+| glb providers | ✅ `tools/providers/` — adapter registry (`base.py`) + `mock` (valid GLB, no GPU/Blender) + `hunyuan3d` (accepted→shape→decimate→Blender post-step→textured GLB, ~74s gen + ~40s bake on 16GB; options `texture`/`retopo`/`view`/`tri_budget`; rig `conform`=template geometry keeps rig, `reskin`=painted mesh itself skinned via nearest-conformed-part transfer — real vertex weights + silhouette, blob-deformation limits apply); `post` chain `["face","pbr","ao"]` = face cards bone-parented to `head` (`blender_face.py`) + roughness-floor on the packed MR map (`pbr_fix.py`) + baked AO injection (`blender_ao.py`+`pbr_fix --ao`); glb brief `provider` key routes in `gen_component`; `check.py texture:smoke` covers the post-step |
 | layout map | ✅ `tools/layout_map.py` — resolved jobs.json members/patrol/attach → `layout_map.png`; run_goal renders post-publish (plan-first, catches framing/overlap pre-harness) |
 | drop-in check | ✅ `tools/dropin_check.py` — bare temp project + assets/ + scene.tscn, `--import` pass then probe; fails on Parse/Failed-loading, snaps `dist/<goal>/dropin_probe.png` |
 | sync_on assertion | ✅ staged actions resolve `role.anim@event` from component brief anims tables; same-named own events assert `delta_s <= tolerance_s`, unresolved → pass:null + local_t reported |
@@ -482,6 +482,18 @@ the brief is the contract; tools catch up.
   keeps the GLB's imported materials — toon doesn't ship in dist yet.
   Honest limit: it bands the *lighting*, not baked-in specularity —
   chrome painted into albedos needs the bake split, not this flag.
+- **Provider `post` chain** — finishing steps applied in order to the
+  final GLB (`brief.provider.options.post`): `face` adds flat
+  eye/brow/lip cards bone-parented to `head` (`tools/blender_face.py`
+  — for humanoid rigs; face texture at ~50×80 texels can't carry
+  features, geometry is the honest route); `pbr` floors non-metal
+  roughness in the packed metallicRoughness map (`tools/pbr_fix.py`
+  — fixes hy3d's glossy-cloth chrome at the map level, metal/gem
+  response preserved); `ao` Cycles-bakes occlusion into the atlas and
+  injects `occlusionTexture` (`tools/blender_ao.py` + `pbr_fix --ao`;
+  invisible in EEVEE — judge it in the Godot harness). The face pass
+  also strips unskinned floaters the generator hides inside the
+  shell cloud (#79).
 - **`anims` may be objects**, not just names: `{name, loop, duration,
   events, hand_pose, check}`. `events` are named frames (`contact`,
   `grip`, `block`) — they become both C3 capture points and action-shot

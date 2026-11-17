@@ -7,7 +7,7 @@
    "id": "xx_azure_sage_3d",
    "type": "glb",
    "tri_budget": 15000,
-   "skeleton": "@skeletons/humanoid_v1",
+   "skeleton": "@skeletons/humanoid_v2",
    "prompt_core": "silver-white haired water sage, dark ornamental crown, layered indigo and silver hanfu robes with wide draped sleeves, blue-gem embroidery",
    "must_have": [
     "silver-white hair",

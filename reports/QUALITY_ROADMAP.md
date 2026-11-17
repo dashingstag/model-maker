@@ -81,3 +81,19 @@ through the same gates.
   path. v2 bones drive real verts (skirt ~4.4k). Remaining gap to
   target: bake split (4), face (5), deformation smoothness at
   extremes — the last is a mesh-topology property, not a rig one.
+
+- 2026-11-18 — batches 4+5 landed (sage rev9). Batch 4 found the
+  chrome source empirically: packed metallicRoughness mean roughness
+  0.26 (hy3d paints cloth glossy); metallic already sane (0.7% hot
+  px). pbr_fix.py floors non-metal roughness (0.55), preserves
+  metal/gem response; blender_ao.py Cycles-bakes real AO into the
+  atlas, injected as occlusionTexture (visible in Godot, invisible
+  in EEVEE — verified via the harness). Batch 5 took the geometric
+  route after texture-space failed (face = ~50x80 texels, scattered
+  islands): blender_face.py adds bone-parented eye/brow/lip cards —
+  flat n-gons (14.7k tris, under budget). Cards read in closeups;
+  painted smear still dominates at distance — honest limit. Provider
+  now exposes post:[face|pbr|ao] so future generated assets get the
+  same finishing chain. Stray unskinned provider artifacts (a 2m
+  hidden Icosphere riding inside the shell cloud) are stripped.
+  Goldens re-blessed (drift 2-7% = material+cards, inspected).

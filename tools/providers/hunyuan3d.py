@@ -35,6 +35,11 @@ transfer (real vertex weights; keeps the painted textures and the
 full silhouette instead of template geometry); 'tokenrig' runs
 VAST-AI SkinTokens (env skintokens_python/skintokens_dir) — generates
 its OWN skeleton (31 bones, generic names), for non-humanoid assets.
+post (default []): ordered finishing steps on the final GLB —
+'face' adds eye/brow/lip cards bone-parented to `head` (humanoid
+rigs only), 'pbr' floors non-metal roughness in the packed
+metallicRoughness map, 'ao' bakes ambient occlusion in Blender and
+injects it as occlusionTexture (ao_res tunes bake size).
 """
 import os
 import subprocess
@@ -202,3 +207,37 @@ def generate(cid, cdir, brief, opts, env, out):
         os.replace(tmp, out)
     elif rig:
         raise RuntimeError(f"unknown rig mode '{rig}' for {cid}")
+
+    for step in opts.get("post") or []:
+        tmp = out + ".post.glb"
+        if step == "face":
+            # eye/brow/lip cards bone-parented to `head` (humanoid only)
+            cmd = [blender, "--background", "--python",
+                   os.path.join(_TOOLS, "blender_face.py"), "--", out, tmp]
+        elif step == "pbr":
+            cmd = [sys.executable,
+                   os.path.join(_TOOLS, "pbr_fix.py"), out, tmp]
+        elif step == "ao":
+            ao_png = out + ".ao.png"
+            r = subprocess.run(
+                [blender, "--background", "--python",
+                 os.path.join(_TOOLS, "blender_ao.py"), "--",
+                 out, ao_png, str(opts.get("ao_res", 1024))],
+                capture_output=True, text=True)
+            if r.returncode != 0 or not os.path.exists(ao_png):
+                raise RuntimeError(
+                    f"hunyuan3d ao bake failed for {cid}:\n"
+                    + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+            cmd = [sys.executable,
+                   os.path.join(_TOOLS, "pbr_fix.py"), out, tmp,
+                   "--ao", ao_png]
+        else:
+            raise RuntimeError(f"unknown post step '{step}' for {cid}")
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        if r.returncode != 0 or not os.path.exists(tmp):
+            raise RuntimeError(
+                f"hunyuan3d post '{step}' failed for {cid}:\n"
+                + (r.stdout or "")[-2000:] + (r.stderr or "")[-1000:])
+        os.replace(tmp, out)
+        if step == "ao" and os.path.exists(out + ".ao.png"):
+            os.remove(out + ".ao.png")
