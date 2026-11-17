@@ -57,6 +57,13 @@ through the same gates.
 ## Status log
 
 - 2026-11-13 — evaluation recorded; batch 1 complete (hero glbs toon;
-  goldens re-blessed for verified material change; #75 filed). Next:
-  batch 3's retopo spike is a decision point — run it before batch 2
-  depth, since its outcome shapes how much rig investment pays off.
+  goldens re-blessed for verified material change; #75 filed).
+
+- 2026-11-13 — honest post-batch-1 evaluation: mechanism correct and
+  reusable, but visible delta on the sage is small (~95% identical
+  render). The asset's dominant signature is baked-in specular albedo +
+  facet geometry, not lighting response — toon without a clean diffuse
+  albedo ≈ noise. **Revised order: batch 3 spike → batch 4 bake split
+  are prerequisites for batch 1's payoff.** Next: batch 3's retopo
+  spike is a decision point — run it before batch 2 depth, since its
+  outcome shapes how much rig investment pays off.
