@@ -1,0 +1,113 @@
+[gd_scene load_steps=12 format=3 uid="uid://mm_play01"]
+
+[ext_resource type="Script" path="res://game/play.gd" id="e1"]
+[ext_resource type="Script" path="res://game/player.gd" id="e2"]
+[ext_resource type="PackedScene" path="res://assets/components/xx_azure_sage_3d/xx_azure_sage_3d.glb" id="e3"]
+
+[sub_resource type="CapsuleShape3D" id="c1"]
+radius = 0.32
+height = 1.5
+
+[sub_resource type="BoxShape3D" id="c2"]
+size = Vector3(60, 0.2, 60)
+
+[sub_resource type="PlaneMesh" id="m1"]
+size = Vector2(60, 60)
+subdivide_width = 4
+subdivide_depth = 4
+
+[sub_resource type="StandardMaterial3D" id="mt1"]
+albedo_color = Color(0.32, 0.38, 0.34, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="mt2"]
+albedo_color = Color(0.42, 0.44, 0.5, 1)
+roughness = 0.9
+
+[sub_resource type="BoxShape3D" id="c3"]
+size = Vector3(1.2, 2.4, 1.2)
+
+[sub_resource type="BoxMesh" id="m2"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.38, 0.44, 0.56, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.62, 0.66, 0.78, 1)
+ambient_light_energy = 0.6
+tonemap_mode = 2
+
+[node name="Play" type="Node3D"]
+script = ExtResource("e1")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("e2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("c1")
+
+[node name="Model" parent="Player" instance=ExtResource("e3")]
+
+[node name="CamPivot" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player/CamPivot"]
+spring_length = 4.6
+margin = 0.3
+shape = SubResource("c2")
+
+[node name="Camera3D" type="Camera3D" parent="Player/CamPivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.6)
+fov = 55.0
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("c2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("m1")
+surface_material_override/0 = SubResource("mt1")
+
+[node name="Pillar1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.2, -5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar1"]
+shape = SubResource("c3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillar1"]
+mesh = SubResource("m2")
+surface_material_override/0 = SubResource("mt2")
+transform = Transform3D(1.2, 0, 0, 0, 2.4, 0, 0, 0, 1.2, 0, 0, 0)
+
+[node name="Pillar2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1.2, -8)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar2"]
+shape = SubResource("c3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillar2"]
+mesh = SubResource("m2")
+surface_material_override/0 = SubResource("mt2")
+transform = Transform3D(1.2, 0, 0, 0, 2.4, 0, 0, 0, 1.2, 0, 0, 0)
+
+[node name="Pillar3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.2, -3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar3"]
+shape = SubResource("c3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillar3"]
+mesh = SubResource("m2")
+surface_material_override/0 = SubResource("mt2")
+transform = Transform3D(1.2, 0, 0, 0, 2.4, 0, 0, 0, 1.2, 0, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.35, 0.35, 0, 0.7, 0.7, -0.5, -0.6, 0.6, 0, 8, 0)
+shadow_enabled = true
+light_energy = 1.6
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")

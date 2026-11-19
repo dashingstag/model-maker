@@ -482,6 +482,19 @@ the brief is the contract; tools catch up.
   keeps the GLB's imported materials — toon doesn't ship in dist yet.
   Honest limit: it bands the *lighting*, not baked-in specularity —
   chrome painted into albedos needs the bake split, not this flag.
+- **Playable sandbox** — `godot/game/play.tscn` + `player.gd` give a
+  Genshin-style third-person loop over the certified glbs: WASD
+  camera-relative movement (model faces travel direction), mouse-orbit
+  SpringArm camera, sprint, LMB attack (queues `spinning_parry` on
+  press during the tail), RMB parry, E talisman_cast, R staff_salute.
+  The staff rides the skeleton `hand.r` socket via BoneAttachment3D
+  (same mechanism + socket rot as `layout.attach3d`), and the same
+  toon+outline override the runner uses is applied at runtime. Input
+  actions live in `project.godot` [input]. Launch:
+  `godot --path godot game/play.tscn` (or the project, picking the
+  scene). Verification is deterministic: `godot game/play.tscn --
+  --autotest` runs scripted input (idle→walk→swing→cast→orbit) and
+  writes `godot/reports/playtest/t*.png` — no manual play needed.
 - **Provider `post` chain** — finishing steps applied in order to the
   final GLB (`brief.provider.options.post`): `face` adds flat
   eye/brow/lip cards bone-parented to `head` (`tools/blender_face.py`
