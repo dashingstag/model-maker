@@ -3,7 +3,7 @@
   "id": "xx_azure_sage_3d",
   "type": "glb",
   "status": "certified",
-  "rev": 11,
+  "rev": 12,
   "constraints": {
     "type": "glb",
     "anims": [
@@ -237,10 +237,10 @@
     ]
   },
   "inputs": {
-    "export/xx_azure_sage_3d.glb": "sha256:e1dfe1c18e51432097cd5b561d4c5636955936fe06a03ee02c0e5db910444924"
+    "export/xx_azure_sage_3d.glb": "sha256:f5cac1905eda81f4ea475870591b8ad9fe265c87b6ce9f27235e1f541016edc6"
   },
   "artifacts": {
-    "processed/xx_azure_sage_3d.glb": "sha256:e1dfe1c18e51432097cd5b561d4c5636955936fe06a03ee02c0e5db910444924"
+    "processed/xx_azure_sage_3d.glb": "sha256:f5cac1905eda81f4ea475870591b8ad9fe265c87b6ce9f27235e1f541016edc6"
   },
   "metrics": {},
   "gate_mode": {
@@ -306,6 +306,11 @@
     {
       "rev": 10,
       "ts": 1795107498.4237094,
+      "status": "certified"
+    },
+    {
+      "rev": 11,
+      "ts": 1795109337.7959952,
       "status": "certified"
     }
   ],

@@ -119,3 +119,27 @@ through the same gates.
   exposed). The model now reads as a coherent hooded/masked sage;
   still not Genshin-grade — silhouette lumpiness and ragged side
   strips are topology, not texture.
+
+rev12 (design_pass, concept-art match): the masked-sage palette of
+rev11 was expedient but off-concept — the ACCEPTED concept art
+(pipeline/components/xx_azure_sage_3d/accepted/idle.png) shows an
+OPEN pale face, silver-white flowing hair, a dark jeweled crown,
+and a moonlit pale-blue-white mood. design_pass repaletted: the
+protruding cowl surface around the face cards repaints to pale
+skin (the face lives ON the protrusion — the recessed cavity is
+never visible past it); the cavity repaints to HAIR-white so its
+backfaces stay invisible in the silver hair (#84 mechanism gone
+for skin-on-white); hair mass -> white/silver; crown tips -> dark
+jeweled tones; cape lightened indigo -> moon-blue gradient.
+Face-card POSITION views shifted -0.03y in the same rebuild pass
+(design_pass now rewrites position accessors, not just texture
+bytes) so eyes seat mid-face, not at the hairline. Certified rev12
+(contract pass, vision pass, goldens reblessed after multi-angle
+inspection — 6.0% worst drift, all intended). Verdict vs concept:
+reads as an open-faced white-haired sage at the fidelity the shell
+cloud can express; remaining gap to concept is topology (no
+sculpted nose/cheekbones) and painterly detail, not palette.
+ArtCraft (C:\Workspace\ArtCraft) assessed for this task:
+photocraft/vectorcraft/designcraft are 2D raster/vector/layout
+tools — none edit GLB geometry, rigging, or embedded atlases;
+design_pass remains the correct tool for atlas surgery.

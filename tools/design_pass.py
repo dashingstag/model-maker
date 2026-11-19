@@ -26,11 +26,15 @@ from PIL import Image, ImageDraw
 ARGV = sys.argv[1:]
 SRC, OUT = ARGV[0], ARGV[1]
 
-# palette (xianxia indigo family)
-CAPE_TOP = np.array([0.42, 0.52, 0.72])   # shoulder — cool steel blue
-CAPE_BOT = np.array([0.16, 0.20, 0.38])   # hem — deep indigo
-CAPE_TRIM = np.array([0.10, 0.12, 0.28])  # trim band
-HOOD_INNER = np.array([0.34, 0.40, 0.55]) # face repaint — hood lining
+# palette — keyed to the accepted concept art (idle.png): open pale
+# face, silver-white hair, dark jeweled crown, moonlit blue-white cape
+CAPE_TOP = np.array([0.62, 0.70, 0.85])   # shoulder — misty moon-blue
+CAPE_BOT = np.array([0.30, 0.38, 0.60])   # hem — pale indigo
+CAPE_TRIM = np.array([0.14, 0.18, 0.38])  # trim band — navy accent
+HAIR = np.array([0.82, 0.85, 0.92])       # silver-white hair
+SKIN = np.array([0.83, 0.68, 0.60])       # pale face/neck skin
+CROWN = np.array([0.10, 0.16, 0.30])      # dark jeweled crown
+HOOD_INNER = np.array([0.34, 0.40, 0.55]) # unused legacy (mask pass)
 
 
 def load_glb(path):
@@ -49,13 +53,14 @@ def acc(gltf, d, bo, ai):
     return np.frombuffer(d, dt, a["count"] * nc, off).reshape(a["count"], nc)
 
 
-def rebuild(d, g, bo, bvi, raw):
+def rebuild(d, g, bo, repl):
+    """rebuild the BIN chunk; repl = {bufferView_idx: new_bytes}"""
     payload = d[bo:]
     out = bytearray()
     for i, b in enumerate(g["bufferViews"]):
         out += b"\x00" * ((4 - len(out) % 4) % 4)
         off, ln = b.get("byteOffset", 0), b["byteLength"]
-        r = raw if i == bvi else payload[off:off + ln]
+        r = repl.get(i, payload[off:off + ln])
         b["byteOffset"] = len(out)
         b["byteLength"] = len(r)
         out += r
@@ -142,31 +147,53 @@ def main():
     n1 = paint(cape_mask, cape_col)
     print("design_pass: cape tris repainted:", n1)
 
-    # upper head: unify to hood blue — the white spiky crown reads as
-    # noise from behind and its stray face-texel islands keep leaking.
-    # Gold circlet sits at |x|>0.35, outside the repaint bound
-    hood_mask = (y > 2.28) & (pos[:, 2] > 0.05) \
-        & (np.abs(pos[:, 0]) < 0.38)
-    n0 = paint(hood_mask, lambda p: HOOD_INNER, votes=2)
-    print("design_pass: hood tris repainted:", n0)
+    # === head, matched to the concept art ===
+    # Concept: open pale face framed by silver-white hair, dark
+    # jeweled crown on top — NOT a hooded mask. Order: crown tip,
+    # then face+neck skin core, then hair everywhere else on the head.
+    crown_mask = (y > 2.50) & (np.abs(pos[:, 0]) < 0.20)
+    n0 = paint(crown_mask, lambda p: CROWN, votes=2)
+    print("design_pass: crown tris repainted:", n0)
 
-    # face mask: position, not normals — recessed mouth shells tilt
-    # below the normal threshold and leak through. Everything in the
-    # face volume goes hood-blue: the painted face AND the hood-front
-    # shells (uniform mask) AND their backfaces through the opening
-    # chin/mouth smear sits lower than the eyes (~2.1-2.25); the
-    # x-bound keeps the chest embroidery out of the repaint
-    face_mask = (y > 1.95) & (pos[:, 2] > 0.28) \
-        & (np.abs(pos[:, 0]) < 0.26)
-    n2 = paint(face_mask, lambda p: HOOD_INNER, votes=2)
-    print("design_pass: face tris repainted:", n2)
+    # face: the feature cards (eyes/brows/lips) sit ON the front
+    # protrusion at y~2.42-2.51, z~0.58 — that surface IS the face.
+    # Paint it skin around the cards; the mass hanging below the
+    # chin stays hair-white and reads as a veil
+    face_mask = (y > 2.30) & (y < 2.56) & (pos[:, 2] > 0.46) \
+        & (np.abs(pos[:, 0]) < 0.24)
+    neck_mask = (y > 1.88) & (y < 2.10) & (pos[:, 2] > 0.32) \
+        & (np.abs(pos[:, 0]) < 0.18)
+    n2 = paint(face_mask | neck_mask, lambda p: SKIN, votes=2)
+    print("design_pass: face/neck tris repainted:", n2)
+
+    # the recessed inner cavity (z~0.17-0.29) goes HAIR, not skin:
+    # it's occluded from the front by the protrusion, but its
+    # backfaces show through the opening from behind (#84) — a
+    # white patch in white hair is invisible; a skin one is a bald
+    # spot
+    cavity_mask = (y > 2.02) & (y < 2.44) & (pos[:, 2] > 0.08) \
+        & (pos[:, 2] < 0.46) & (np.abs(pos[:, 0]) < 0.24) \
+        & ~face_mask
+    n2b = paint(cavity_mask, lambda p: HAIR, votes=2)
+    print("design_pass: cavity tris repainted:", n2b)
+
+    # hair: the rest of the upper head — white-silver, absorbing the
+    # spiky noise; gold circlet at |x|>0.35 stays outside the bound
+    hair_mask = (y > 2.0) & (pos[:, 2] > 0.05) \
+        & (np.abs(pos[:, 0]) < 0.38) \
+        & ~(face_mask | neck_mask) & ~crown_mask
+    n3 = paint(hair_mask, lambda p: HAIR, votes=2)
+    print("design_pass: hair tris repainted:", n3)
 
     # strays: face-texture islands scattered outside the face volume
     # (hood-top dot, side-edge smear). Inside the head region only,
     # repaint tris whose CURRENT texel reads skin-pink — leaves the
     # hood's white/blue shells and the hands (below y=2.0) untouched
+    # strays repaint skin-texel tris to HAIR — must not repaint the
+    # just-painted face itself (SKIN reads as warm-pale)
     head_mask = (y > 1.8) & (np.abs(pos[:, 0]) < 0.62) \
-        & (pos[:, 2] > -0.10) & (pos[:, 2] < 0.75)
+        & (pos[:, 2] > -0.10) & (pos[:, 2] < 0.75) \
+        & ~(face_mask | neck_mask)
     tv = head_mask[idx].reshape(-1, 3).sum(axis=1) >= 1
     px = np.asarray(im, dtype=np.float32) / 255.0
 
@@ -199,14 +226,40 @@ def main():
                      and c.max() - c.min() < 0.40
                      and c[0] > 0.45) >= 2
         if go:
-            dr.polygon(pts, fill=tuple(int(x * 255) for x in HOOD_INNER))
+            dr.polygon(pts, fill=tuple(int(x * 255) for x in HAIR))
             stray.append(t)
     print("design_pass: stray face-texel tris repainted:", len(stray))
+
+    # seat the eyes mid-face: the cards ride high at the hairline
+    # (placed for the hood look); shift eye/brow card bind verts
+    # down so they sit on the face oval. Lips stays put — it's
+    # correctly hidden behind the veil (beard read)
+    repl = {img_ref["bufferView"]: None}  # placeholder, set below
+    for m in g["meshes"]:
+        nm = m.get("name", "")
+        if not nm.startswith(("eye", "brow")):
+            continue
+        pa = g["accessors"][m["primitives"][0]["attributes"]["POSITION"]]
+        bvi = pa["bufferView"]
+        bv = g["bufferViews"][bvi]
+        off = bo + bv.get("byteOffset", 0) + pa.get("byteOffset", 0)
+        verts = np.frombuffer(d, np.float32, pa["count"] * 3, off) \
+            .reshape(-1, 3).copy()
+        verts[:, 1] -= 0.03
+        raw_v = np.frombuffer(
+            d, np.uint8, bv["byteLength"], bo + bv.get("byteOffset", 0)) \
+            .copy()
+        ao = pa.get("byteOffset", 0)
+        raw_v[ao:ao + verts.nbytes] = np.frombuffer(
+            verts.tobytes(), np.uint8)
+        repl[bvi] = bytes(raw_v)
+        print("design_pass: shifted", nm, "down 0.03")
 
     buf = io.BytesIO()
     fmt = "JPEG" if img_ref.get("mimeType") == "image/jpeg" else "PNG"
     im.save(buf, fmt, quality=95) if fmt == "JPEG" else im.save(buf, fmt)
-    rebuild(d, g, bo, img_ref["bufferView"], buf.getvalue())
+    repl[img_ref["bufferView"]] = buf.getvalue()
+    rebuild(d, g, bo, repl)
     print("design_pass ->", OUT)
 
 

@@ -1,7 +1,7 @@
 {
   "verdict": "pass",
   "actor": "devin",
-  "ts": 1795107739.4383583,
+  "ts": 1795109402.9330597,
   "checks": {
     "materials not washed out": "pass",
     "animations play without clipping": "pass",
@@ -14,12 +14,12 @@
     "absent: merged robe layers": "pass"
   },
   "flags": [
-    "rev11: design_pass \u2014 cape gradient+trim+seams, hood unified, face->blue mask, stray face-texel cleanup",
-    "front-only goldens hid a featureless rear cape + face-texel backface bleed; multi-angle review is now required evidence",
-    "residual: ~3px crown-tip fleck + faint throat-edge smear (documented); side silhouette still shell-cloud ragged",
-    "painted face region now masked blue \u2014 reads as masked sage; gold filigree ornament at mask edge kept"
+    "rev12: design_pass re-paletted to the ACCEPTED concept art \u2014 open pale face + white hair + dark crown (supersedes rev11's masked-sage look)",
+    "face cards shifted -0.03y to seat mid-face on the protrusion surface; recessed cavity repainted HAIR so its backfaces stay invisible in white hair",
+    "cape lightened to moon-blue gradient per concept mood; gold filigree ornament at face edge kept",
+    "residual: small face reads stylized; shell-cloud silhouette limits unchanged"
   ],
-  "note": "rev11: multi-angle design pass over rev10 (14720 tris, 60 joints, 22 anims unchanged)",
+  "note": "rev12: concept-art-matched design pass (14720 tris, 60 joints, 22 anims unchanged)",
   "reviewed_files": [
     "shots/channel_sequence_t0p6.png",
     "shots/channel_sequence_t1p4.png",

@@ -2,14 +2,14 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c411ivwtco2wg"
+uid="uid://c3yfautpsxc23"
 path.s3tc="res://.godot/imported/xx_azure_sage_3d_sage_painted.jpg-f40ac5e891caa19d45e68881f24dd4a8.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "d314998e34f11769d870e3adbc236318"
+"md5": "0097b87a0e91dfb5b0a4da1b9261523e"
 }
 
 [deps]
