@@ -49,7 +49,7 @@ rasterization, ComfyUI device drift).
 | `run_goal` orchestrator | ✅ `tools/run_goal.py` — supervised end-to-end driver: scaffold → C-tracks → publish → supervised harness (`.run/` heartbeat, process-group reap, stall kill) → export → golden diff |
 | golden diff | ✅ `tools/golden_check.py` — per-shot changed-pixel fraction vs `golden/<goal>/`, `--tol`/`--max-changed` bands, `--write` blesses |
 | instance registry | ✅ `.run/<kind>-<pid>.json` records (pipelib `register_instance`/`heartbeat_instance`/`instances`) — runner.gd beats per stage; stale pids reaped |
-| glb providers | ✅ `tools/providers/` — adapter registry (`base.py`) + `mock` (valid GLB, no GPU/Blender) + `hunyuan3d` (accepted→shape→decimate→Blender post-step→textured GLB, ~74s gen + ~40s bake on 16GB; options `texture`/`retopo`/`view`/`tri_budget`; rig `conform`=template geometry keeps rig, `reskin`=painted mesh itself skinned via nearest-conformed-part transfer — real vertex weights + silhouette, blob-deformation limits apply); `post` chain `["face","pbr","ao"]` = face cards bone-parented to `head` (`blender_face.py`) + roughness-floor on the packed MR map (`pbr_fix.py`) + baked AO injection (`blender_ao.py`+`pbr_fix --ao`); glb brief `provider` key routes in `gen_component`; `check.py texture:smoke` covers the post-step |
+| glb providers | ✅ `tools/providers/` — adapter registry (`base.py`) + `mock` (valid GLB, no GPU/Blender) + `hunyuan3d` (accepted→shape→decimate→Blender post-step→textured GLB, ~74s gen + ~40s bake on 16GB; options `texture`/`retopo`/`view`/`tri_budget`; rig `conform`=template geometry keeps rig, `reskin`=painted mesh itself skinned via nearest-conformed-part transfer — real vertex weights + silhouette, blob-deformation limits apply); `post` chain `["face","pbr","ao","design"]` = face cards bone-parented to `head` (`blender_face.py`) + roughness-floor on the packed MR map (`pbr_fix.py`) + baked AO injection (`blender_ao.py`+`pbr_fix --ao`) + position-keyed atlas repaint (`design_pass.py`); glb brief `provider` key routes in `gen_component`; `check.py texture:smoke` covers the post-step |
 | layout map | ✅ `tools/layout_map.py` — resolved jobs.json members/patrol/attach → `layout_map.png`; run_goal renders post-publish (plan-first, catches framing/overlap pre-harness) |
 | drop-in check | ✅ `tools/dropin_check.py` — bare temp project + assets/ + scene.tscn, `--import` pass then probe; fails on Parse/Failed-loading, snaps `dist/<goal>/dropin_probe.png` |
 | sync_on assertion | ✅ staged actions resolve `role.anim@event` from component brief anims tables; same-named own events assert `delta_s <= tolerance_s`, unresolved → pass:null + local_t reported |
@@ -506,7 +506,18 @@ the brief is the contract; tools catch up.
   injects `occlusionTexture` (`tools/blender_ao.py` + `pbr_fix --ao`;
   invisible in EEVEE — judge it in the Godot harness). The face pass
   also strips unskinned floaters the generator hides inside the
-  shell cloud (#79).
+  shell cloud (#79). `design` repaints the atlas per-triangle keyed
+  on model position (`tools/design_pass.py` — the shell cloud's UV
+  islands scatter across the atlas so region bboxes are useless):
+  cape gradient + silhouette trim + seam bands, hood unify,
+  face→mask repaint (mitigates #84 backface bleed), and a stray
+  face-texel cleanup with a per-tri gold-veto so embroidery
+  survives (#86). Palette is xianxia indigo — new components should
+  fork the palette constants when adding their own design pass.
+  **Multi-angle review is certification evidence for glb
+  components** (#85): front-only goldens passed a model whose rear
+  cape was featureless and whose face cards were invisible — judge
+  turntable back/side/closeups, not just the golden set.
 - **`anims` may be objects**, not just names: `{name, loop, duration,
   events, hand_pose, check}`. `events` are named frames (`contact`,
   `grip`, `block`) — they become both C3 capture points and action-shot

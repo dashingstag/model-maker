@@ -97,3 +97,25 @@ through the same gates.
   same finishing chain. Stray unskinned provider artifacts (a 2m
   hidden Icosphere riding inside the shell cloud) are stripped.
   Goldens re-blessed (drift 2-7% = material+cards, inspected).
+
+- 2026-11-19 — **design pass (sage rev11), prompted by multi-angle
+  critique.** A 768px turntable review exposed what front-only
+  goldens structurally miss: rear = featureless blue balloon cape,
+  45° = pink face smear + head strays, side = ragged strips.
+  `tools/design_pass.py` repaints per-triangle in UV space keyed on
+  MODEL position (UV islands scatter across the whole atlas —
+  region bboxes are meaningless): cape gets height-keyed indigo
+  gradient + silhouette border trim (per-height local edge_x) +
+  hem/shoulder bands + seam bands; the whole upper head unifies to
+  hood-blue (absorbs white-spike noise AND stray face-texel
+  islands); the face volume repaints to mask-blue (kills the #84
+  backface blob — same shells both sides); a stray pass repaints
+  skin-texel tris elsewhere on the head with a per-tri gold veto
+  (pale-warm vs muted-gold separated on brightness, ≥2-sample
+  voting) so pauldron embroidery survives. Residual: ~3px crown
+  fleck, faint throat-edge smear. Provider post now lists
+  `design`; rev11 certified: goldens PASS at 0.03% drift (front
+  goldens don't see rear changes — by design, and by the bug they
+  exposed). The model now reads as a coherent hooded/masked sage;
+  still not Genshin-grade — silhouette lumpiness and ragged side
+  strips are topology, not texture.

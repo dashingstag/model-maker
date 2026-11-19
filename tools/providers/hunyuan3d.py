@@ -39,7 +39,10 @@ post (default []): ordered finishing steps on the final GLB —
 'face' adds eye/brow/lip cards bone-parented to `head` (humanoid
 rigs only), 'pbr' floors non-metal roughness in the packed
 metallicRoughness map, 'ao' bakes ambient occlusion in Blender and
-injects it as occlusionTexture (ao_res tunes bake size).
+injects it as occlusionTexture (ao_res tunes bake size), 'design'
+repaints the atlas per-triangle keyed on model position (cape
+gradient/trim, hood unify, face->mask, stray-texel cleanup —
+tools/design_pass.py, xianxia-indigo palette).
 """
 import os
 import subprocess
@@ -217,6 +220,12 @@ def generate(cid, cdir, brief, opts, env, out):
         elif step == "pbr":
             cmd = [sys.executable,
                    os.path.join(_TOOLS, "pbr_fix.py"), out, tmp]
+        elif step == "design":
+            # texture-space repaint keyed on model position — cape
+            # gradient/trim, hood unify, face->mask, stray face-texel
+            # cleanup. Palette is xianxia indigo (design_pass.py)
+            cmd = [sys.executable,
+                   os.path.join(_TOOLS, "design_pass.py"), out, tmp]
         elif step == "ao":
             ao_png = out + ".ao.png"
             r = subprocess.run(

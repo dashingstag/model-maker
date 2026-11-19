@@ -70,7 +70,16 @@ python tools/publish.py <goal> --wait 60
   `material: "toon"` gives the member banded toon shading + inverted-hull
   outline in unit renders and compositions (render-time; props attached
   via attach3d inherit the member's mode; doesn't affect baked-in
-  specularity — that's the albedo bake's job).
+  specularity — that's the albedo bake's job). `provider.options.post`
+  runs ordered finishing steps: `face` (bone-parented feature cards),
+  `pbr` (roughness floor), `ao` (baked occlusion injection), `design`
+  (position-keyed atlas repaint — cape/trim/hood/mask + stray-texel
+  cleanup, `tools/design_pass.py`, xianxia-indigo palette).
+- `glb` certification requires **multi-angle evidence** (#85): a
+  front-only golden passed a model whose rear cape was featureless
+  and whose face cards never rendered. Before recording vision.json,
+  review the turntable back/side shots plus a face closeup — record
+  residual artifacts in `flags`, don't certify them silently.
 
 ## Gates (don't skip — evidence, not vibes)
 

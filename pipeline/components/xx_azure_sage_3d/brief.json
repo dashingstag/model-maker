@@ -317,7 +317,8 @@
    "post": [
     "face",
     "pbr",
-    "ao"
+    "ao",
+    "design"
    ]
   }
  },
