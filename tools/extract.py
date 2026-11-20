@@ -21,7 +21,8 @@ Re-running on a component with a manifest archives the previous processed/
 import hashlib, json, os, shutil, struct, sys, time
 import numpy as np
 from PIL import Image, ImageFilter
-from pipelib import FileLock, LockHeld, atomic_json, name_of, resolve_ref
+from pipelib import (FileLock, LockHeld, atomic_json, name_of, regen_site,
+                     resolve_ref)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS = json.load(open(os.path.join(ROOT, "models.json")))
@@ -424,6 +425,7 @@ def main(cid):
     atomic_json(os.path.join(cdir, "manifest.json"), manifest)
     print(json.dumps({k: manifest[k] for k in ("id", "type", "status", "rev")}),
           json.dumps(manifest.get("gate", {})), json.dumps(manifest["metrics"])[:600])
+    regen_site()
 
 def acquire_locks(cid, locks):
     """Claim the component (+ its `of` base for variants) before work."""

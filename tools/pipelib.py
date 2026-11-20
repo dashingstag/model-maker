@@ -255,3 +255,21 @@ def instances(root, kind=None, live_only=True):
         elif not alive:
             os.remove(p)  # reap dead record
     return out
+
+
+def regen_site():
+    """Rebuild site/index.html. Fire-and-forget at pipeline milestones —
+    a viewer failure must never break a gate."""
+    try:
+        import subprocess
+        import sys as _sys
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        r = subprocess.run(
+            [_sys.executable, os.path.join(root, "tools", "site_gen.py")],
+            capture_output=True, text=True, timeout=120)
+        if r.returncode == 0 and r.stdout:
+            print(r.stdout.strip())
+        else:
+            print("site_gen failed:", (r.stderr or "")[-300:])
+    except Exception as e:
+        print("site_gen skipped:", e)

@@ -1,0 +1,282 @@
+"""Regenerate site/index.html — a self-contained viewer of every
+component and composition, rebuilt from on-disk evidence.
+
+  python tools/site_gen.py [--serve]
+
+Runs automatically at the end of extract.py and publish.py, so the page
+always reflects the latest rev/shots. Image and GLB paths are relative
+to the repo root, so the page works opened directly from disk; the 3D
+previews need the files over HTTP — run `python tools/site_gen.py
+--serve` (or any static server at the repo root).
+"""
+import html
+import json
+import os
+import sys
+import time
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE = os.path.join(ROOT, "site")
+
+STATUS_COLOR = {
+    "certified": "#3fb950", "processed": "#58a6ff",
+    "generated": "#d29922", "needs_human": "#f85149",
+    "accepted": "#8b949e",
+}
+
+
+def rel(p):
+    return os.path.relpath(p, SITE).replace("\\", "/")
+
+
+def img_card(path, label=""):
+    return (f'<a href="{rel(path)}" target="_blank" class="shot">'
+            f'<img loading="lazy" src="{rel(path)}" alt="{label}">'
+            f'<span>{html.escape(label or os.path.basename(path))}</span></a>')
+
+
+def pngs(d, names=None):
+    if not os.path.isdir(d):
+        return []
+    out = sorted(f for f in os.listdir(d) if f.endswith(".png"))
+    if names:
+        out = [f for f in out if f in names] or out
+    return [os.path.join(d, f) for f in out]
+
+
+def component_card(cdir):
+    cid = os.path.basename(cdir)
+    mpath = os.path.join(cdir, "manifest.json")
+    man = json.load(open(mpath)) if os.path.exists(mpath) else {}
+    bpath = os.path.join(cdir, "brief.json")
+    brief = json.load(open(bpath)) if os.path.exists(bpath) else {}
+    vpath = os.path.join(cdir, "unit_render", "vision.json")
+    vision = json.load(open(vpath)) if os.path.exists(vpath) else {}
+    cpath = os.path.join(cdir, "unit_render", "contract.json")
+    contract = json.load(open(cpath)) if os.path.exists(cpath) else {}
+
+    status = man.get("status", "unscaffolded")
+    color = STATUS_COLOR.get(status, "#8b949e")
+    rev = man.get("rev", "-")
+    cons = man.get("constraints", {})
+    ctype = man.get("type") or brief.get("type", "?")
+    tris = man.get("tris")
+    budget = man.get("tri_budget")
+    tris_s = (f"{tris:,}/{budget:,}" if isinstance(tris, int)
+              and isinstance(budget, int) else
+              (f"{tris:,}" if isinstance(tris, int) else ""))
+    anims = man.get("animations") or [
+        a["name"] if isinstance(a, dict) else a
+        for a in brief.get("anims", [])]
+
+    glb = os.path.join(cdir, "processed", f"{cid}.glb")
+    if not os.path.exists(glb):
+        glb = ""
+    ur = os.path.join(cdir, "unit_render")
+    shots = pngs(ur)
+    acc = pngs(os.path.join(cdir, "accepted"))
+
+    verdict = vision.get("verdict")
+    vcolor = {"pass": "#3fb950", "fail": "#f85149"}.get(verdict, "#8b949e")
+    flags = vision.get("flags", [])
+    cpass = contract.get("pass")
+    hist_n = len([d for d in os.listdir(os.path.join(cdir, "history"))
+                  if d.startswith("rev")]) \
+        if os.path.isdir(os.path.join(cdir, "history")) else 0
+
+    viewer = ""
+    if glb:
+        viewer = (f'<button class="view3d" data-src="{rel(glb)}">'
+                  f'load 3D</button><div class="mv"></div>')
+
+    prompt = html.escape(brief.get("prompt_core", ""))[:220]
+    out = [f'<section class="card" id="{cid}">',
+           f'<h2>{cid} <span class="badge" style="background:{color}">'
+           f'{status}</span> <span class="rev">rev {rev}'
+           + (f' · {hist_n} archived' if hist_n else '') + "</span></h2>",
+           f'<div class="meta"><span class="type">{ctype}</span>']
+    if tris_s:
+        out.append(f"<span>tris {tris_s}</span>")
+    if anims:
+        out.append(f"<span>{len(anims)} anims: "
+                   f"{html.escape(', '.join(anims[:12]))}"
+                   f"{'…' if len(anims) > 12 else ''}</span>")
+    if prompt:
+        out.append(f'<div class="prompt">{prompt}</div>')
+    out.append("</div>")
+    if verdict or cpass is not None:
+        out.append('<div class="gates">')
+        if verdict:
+            out.append(f'<span style="color:{vcolor}">vision: {verdict}'
+                       f'</span>')
+        if cpass is not None:
+            out.append(f'<span style="color:'
+                       f'{"#3fb950" if cpass else "#f85149"}">contract: '
+                       f'{"pass" if cpass else "FAIL"}</span>')
+        for f in flags[:6]:
+            out.append(f'<span class="flag">⚑ {html.escape(str(f))}</span>')
+        out.append("</div>")
+    out.append(viewer)
+    if acc:
+        out.append('<div class="strip"><b>accepted</b>'
+                   + "".join(img_card(p, "ref") for p in acc[:1]) + "</div>")
+    if shots:
+        out.append('<div class="strip"><b>unit_render</b>'
+                   + "".join(img_card(p, os.path.splitext(
+                       os.path.basename(p))[0]) for p in shots) + "</div>")
+    out.append("</section>")
+    return "\n".join(out)
+
+
+def composition_card(gdir):
+    gid = os.path.basename(gdir)
+    rpath = os.path.join(gdir, "report.json")
+    rep = json.load(open(rpath)) if os.path.exists(rpath) else {}
+    errors = rep.get("errors") or []
+    shots = pngs(os.path.join(gdir, "shots"))
+    gshot = os.path.join(ROOT, "golden", gid)
+    blessed = set(os.listdir(gshot)) if os.path.isdir(gshot) else set()
+    fresh = {os.path.basename(s) for s in shots} & blessed
+    out = [f'<section class="card wide" id="{gid}">',
+           f'<h2>{gid} <span class="type">composition</span> '
+           f'<span class="rev">{len(shots)} shots · '
+           f'{len(fresh)}/{len(blessed)} golden-covered</span></h2>']
+    out.append('<div class="gates">'
+               + (f'<span style="color:#3fb950">0 errors</span>'
+                  if not errors else
+                  "".join(f'<span style="color:#f85149">'
+                          f'{html.escape(str(e))}</span>' for e in errors))
+               + "</div>")
+    if shots:
+        out.append('<div class="strip">'
+                   + "".join(img_card(p, os.path.splitext(
+                       os.path.basename(p))[0]) for p in shots) + "</div>")
+    out.append("</section>")
+    return "\n".join(out)
+
+
+PAGE = """<!doctype html><meta charset="utf-8">
+<title>model-maker — asset viewer</title>
+<style>
+  :root {{ color-scheme: dark }}
+  body {{ background:#0d1117; color:#c9d1d9; font:14px/1.45 system-ui;
+         margin:0; padding:24px }}
+  h1 {{ font-size:20px }} h2 {{ font-size:16px; font-weight:600 }}
+  .bar {{ color:#8b949e; margin-bottom:20px }}
+  nav a {{ color:#58a6ff; margin-right:12px; text-decoration:none }}
+  .card {{ background:#161b22; border:1px solid #30363d; border-radius:8px;
+          padding:16px; margin:0 0 18px }}
+  .badge {{ color:#0d1117; border-radius:10px; padding:1px 9px;
+           font-size:12px; vertical-align:middle }}
+  .rev,.type {{ color:#8b949e; font-size:12px; font-weight:400 }}
+  .meta {{ display:flex; gap:14px; flex-wrap:wrap; color:#8b949e;
+          margin:6px 0 }}
+  .prompt {{ flex-basis:100%; color:#7d8590; font-style:italic }}
+  .gates {{ display:flex; gap:14px; flex-wrap:wrap; margin:6px 0 }}
+  .flag {{ color:#d29922; font-size:12px }}
+  .strip {{ display:flex; gap:8px; overflow-x:auto; padding:10px 0 2px;
+           align-items:flex-start }}
+  .strip b {{ flex:0 0 auto; color:#8b949e; font-size:11px;
+             text-transform:uppercase; padding-top:40px }}
+  a.shot {{ flex:0 0 auto; width:150px; text-decoration:none }}
+  a.shot img {{ width:150px; height:94px; object-fit:cover;
+               border:1px solid #30363d; border-radius:6px }}
+  a.shot span {{ display:block; color:#8b949e; font-size:10px;
+                overflow:hidden; text-overflow:ellipsis; white-space:nowrap }}
+  .view3d {{ background:#21262d; color:#c9d1d9; border:1px solid #30363d;
+            border-radius:6px; padding:4px 12px; cursor:pointer; margin:8px 0 }}
+  .mv canvas {{ width:100%; height:320px; border:1px solid #30363d;
+               border-radius:6px; background:#0d1117 }}
+</style>
+<h1>model-maker — asset viewer</h1>
+<div class="bar">regenerated {ts} · {nc} components · {ng} compositions ·
+ 3D previews need <code>python tools/site_gen.py --serve</code>
+ (or any static server) at the repo root</div>
+<nav>{nav}</nav>
+{body}
+<script src="vendor/three.min.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script>
+for (const b of document.querySelectorAll(".view3d")) {{
+  b.onclick = () => {{
+    if (b.disabled) return;
+    b.disabled = true; b.textContent = "loading…";
+    const host = b.parentElement.querySelector(".mv");
+    try {{ loadGlb(host, b.dataset.src); }}
+    catch (e) {{ b.textContent = "3D needs an http server (see header)"; }}
+  }};
+}}
+function loadGlb(host, src) {{
+  const W = host.clientWidth || 900, H = 320;
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0d1117);
+  const cam = new THREE.PerspectiveCamera(40, W / H, 0.01, 100);
+  const ren = new THREE.WebGLRenderer({{ antialias: true }});
+  ren.setSize(W, H); ren.outputEncoding = THREE.sRGBEncoding;
+  host.appendChild(ren.domElement);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 1.1));
+  const dir = new THREE.DirectionalLight(0xffffff, 0.7);
+  dir.position.set(2, 4, 3); scene.add(dir);
+  new THREE.GLTFLoader().load(src, (g) => {{
+    scene.add(g.scene);
+    const box = new THREE.Box3().setFromObject(g.scene);
+    const c = box.getCenter(new THREE.Vector3());
+    const s = box.getSize(new THREE.Vector3()).length();
+    cam.position.set(c.x + s * 0.7, c.y + s * 0.3, c.z + s * 0.9);
+    const ctl = new THREE.OrbitControls(cam, ren.domElement);
+    ctl.target.copy(c);
+    const mix = g.animations.length
+      ? new THREE.AnimationMixer(g.scene) : null;
+    if (mix) mix.clipAction(g.animations[0]).play();
+    const clk = new THREE.Clock();
+    (function tick() {{
+      requestAnimationFrame(tick);
+      if (mix) mix.update(clk.getDelta());
+      ctl.update(); ren.render(scene, cam);
+    }})();
+  }}, undefined, (e) => {{
+    host.innerHTML = "<p style='color:#f85149'>GLB load failed — " +
+      "serve over http (file:// blocks fetch)</p>";
+  }});
+}}
+</script>
+"""
+
+
+def main():
+    os.makedirs(SITE, exist_ok=True)
+    comp_root = os.path.join(ROOT, "pipeline", "components")
+    goal_root = os.path.join(ROOT, "pipeline", "composition")
+    comps = sorted(os.path.join(comp_root, d)
+                   for d in os.listdir(comp_root)
+                   if os.path.isdir(os.path.join(comp_root, d)))
+    goals = sorted(os.path.join(goal_root, d)
+                   for d in os.listdir(goal_root)
+                   if os.path.isdir(os.path.join(goal_root, d)))
+    body = [composition_card(g) for g in goals]
+    body += [component_card(c) for c in comps]
+    ids = [os.path.basename(g) for g in goals] + \
+          [os.path.basename(c) for c in comps]
+    nav = "".join(f'<a href="#{i}">{i}</a>' for i in ids)
+    page = PAGE.format(ts=time.strftime("%Y-%m-%d %H:%M:%S"),
+                       nc=len(comps), ng=len(goals),
+                       nav=nav, body="\n".join(body))
+    open(os.path.join(SITE, "index.html"), "w",
+         encoding="utf-8").write(page)
+    print(f"site -> {os.path.join(SITE, 'index.html')} "
+          f"({len(comps)} components, {len(goals)} compositions)")
+    if "--serve" in sys.argv:
+        import functools
+        import http.server
+        import socketserver
+        import webbrowser
+        port = 8471
+        handler = functools.partial(
+            http.server.SimpleHTTPRequestHandler, directory=ROOT)
+        print(f"serving {ROOT} at http://127.0.0.1:{port}/site/")
+        webbrowser.open(f"http://127.0.0.1:{port}/site/")
+        socketserver.TCPServer(("127.0.0.1", port), handler).serve_forever()
+
+
+main()

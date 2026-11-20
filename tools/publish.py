@@ -12,7 +12,7 @@ lock (sorted) around its swap. Staging happens outside godot/ so Godot
 never imports half-copied trees.
 """
 import hashlib, json, os, sys, shutil, subprocess, time, uuid
-from pipelib import FileLock, LockHeld, atomic_json
+from pipelib import FileLock, LockHeld, atomic_json, regen_site
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GODOT = os.path.join(ROOT, "godot")
@@ -240,6 +240,7 @@ def main(goal, unit_only, wait):
         print("not published:", ", ".join(skipped))
     print("published ->", assets)
     print("job ->", job_path)
+    regen_site()
 
 if __name__ == "__main__":
     goal = sys.argv[1]
