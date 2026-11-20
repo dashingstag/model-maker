@@ -3,7 +3,7 @@
   "id": "xx_azure_sage_3d",
   "type": "glb",
   "status": "certified",
-  "rev": 12,
+  "rev": 13,
   "constraints": {
     "type": "glb",
     "anims": [
@@ -237,10 +237,10 @@
     ]
   },
   "inputs": {
-    "export/xx_azure_sage_3d.glb": "sha256:f5cac1905eda81f4ea475870591b8ad9fe265c87b6ce9f27235e1f541016edc6"
+    "export/xx_azure_sage_3d.glb": "sha256:63df4136b8489c80e699414a45a44493c4eaaf394a1db25d2fed29ce97f15466"
   },
   "artifacts": {
-    "processed/xx_azure_sage_3d.glb": "sha256:f5cac1905eda81f4ea475870591b8ad9fe265c87b6ce9f27235e1f541016edc6"
+    "processed/xx_azure_sage_3d.glb": "sha256:63df4136b8489c80e699414a45a44493c4eaaf394a1db25d2fed29ce97f15466"
   },
   "metrics": {},
   "gate_mode": {
@@ -312,6 +312,11 @@
       "rev": 11,
       "ts": 1795109337.7959952,
       "status": "certified"
+    },
+    {
+      "rev": 12,
+      "ts": 1795202018.0813544,
+      "status": "certified"
     }
   ],
   "toolchain": {
@@ -351,8 +356,8 @@
   "gate": {
     "tris_ok": true
   },
-  "vision": {
-    "verdict": "pass",
-    "actor": "devin"
+  "certified": {
+    "ts": 1795202139.6772766,
+    "by": "devin"
   }
 }

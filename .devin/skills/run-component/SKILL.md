@@ -75,8 +75,9 @@ python tools/publish.py <goal> --wait 60
   `pbr` (roughness floor), `ao` (baked occlusion injection, Blender
   Cycles) or `tcao` (same injection via texturecraft-cli's GPU bake —
   faster, also yields curvature/thickness maps; `tools/tc_bake.py`),
-  `design` (position-keyed atlas repaint — cape/trim/hood/mask +
-  stray-texel cleanup, `tools/design_pass.py`, xianxia-indigo palette).
+  `design` (position-keyed atlas repaint — cape/trim, cavity→hair,
+  soft face field + z-gate, crown gate, gutter dilation, card
+  position rewrites; `tools/design_pass.py`, concept-keyed palette).
 - `glb` certification requires **multi-angle evidence** (#85): a
   front-only golden passed a model whose rear cape was featureless
   and whose face cards never rendered. Before recording vision.json,

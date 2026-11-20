@@ -521,11 +521,19 @@ the brief is the contract; tools catch up.
   shell cloud (#79). `design` repaints the atlas per-triangle keyed
   on model position (`tools/design_pass.py` — the shell cloud's UV
   islands scatter across the atlas so region bboxes are useless):
-  cape gradient + silhouette trim + seam bands, hood unify,
-  face→mask repaint (mitigates #84 backface bleed), and a stray
-  face-texel cleanup with a per-tri gold-veto so embroidery
-  survives (#86). Palette is xianxia indigo — new components should
-  fork the palette constants when adding their own design pass.
+  cape gradient + silhouette trim + seam bands, recessed cavity→hair
+  (backfaces vanish into silver hair, #84), stray face-texel cleanup
+  with a per-tri gold-veto (#86), a barycentric soft field for the
+  face (feathered skin oval on the protrusion surface z>0.5, smooth
+  z-gate so the cavity paints hair, nearest-r texel ownership across
+  shared islands), neck skin blend, coverage-gated crown navy
+  (shared-island bleed guard), **gutter dilation** (#90 — texels no
+  tri covers still feed mips; fill them from island colors or old
+  paint bleeds onto the surface), plus geometry edits TC can't do:
+  card-position rewrites and lips material factor. Palette is
+  concept-keyed (pale face/silver hair/dark crown/moon-blue) — new
+  components should fork the palette constants when adding their own
+  design pass.
   **Multi-angle review is certification evidence for glb
   components** (#85): front-only goldens passed a model whose rear
   cape was featureless and whose face cards were invisible — judge
