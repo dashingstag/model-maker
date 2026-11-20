@@ -5,10 +5,11 @@ component and composition, rebuilt from on-disk evidence.
 
 Runs automatically at the end of extract.py and publish.py, so the page
 always reflects the latest rev/shots. Image and GLB paths are relative
-to the repo root, so the page works opened directly from disk; the 3D
-previews need the files over HTTP — run `python tools/site_gen.py
---serve` (or any static server at the repo root).
+to the repo root, so the page works opened directly from disk — 3D
+previews fetch the GLB over HTTP when served, and fall back to
+base64 sidecars in site/glb/ when opened via file://.
 """
+import base64
 import html
 import json
 import os
@@ -17,6 +18,7 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, "site")
+GLB_JS = os.path.join(SITE, "glb")
 
 STATUS_COLOR = {
     "certified": "#3fb950", "processed": "#58a6ff",
@@ -86,7 +88,14 @@ def component_card(cdir):
 
     viewer = ""
     if glb:
-        viewer = (f'<button class="view3d" data-src="{rel(glb)}">'
+        os.makedirs(GLB_JS, exist_ok=True)
+        b64 = base64.b64encode(open(glb, "rb").read()).decode("ascii")
+        js = os.path.join(GLB_JS, f"{cid}.js")
+        with open(js, "w", encoding="ascii") as f:
+            f.write(f'window.__GLB_B64=window.__GLB_B64||{{}};'
+                    f'window.__GLB_B64["{cid}"]="{b64}";\n')
+        viewer = (f'<button class="view3d" data-src="{rel(glb)}" '
+                  f'data-glbjs="glb/{cid}.js" data-cid="{cid}">'
                   f'load 3D</button><div class="mv"></div>')
 
     prompt = html.escape(brief.get("prompt_core", ""))[:220]
@@ -197,8 +206,7 @@ PAGE = """<!doctype html><meta charset="utf-8">
 </style>
 <h1>model-maker — asset viewer</h1>
 <div class="bar">regenerated {ts} · {nc} components · {ng} compositions ·
- 3D previews need <code>python tools/site_gen.py --serve</code>
- (or any static server) at the repo root</div>
+ works from file:// or <code>python tools/site_gen.py --serve</code></div>
 <nav>{nav}</nav>
 {body}
 <script src="vendor/three.min.js"></script>
@@ -210,11 +218,11 @@ for (const b of document.querySelectorAll(".view3d")) {{
     if (b.disabled) return;
     b.disabled = true; b.textContent = "loading…";
     const host = b.parentElement.querySelector(".mv");
-    try {{ loadGlb(host, b.dataset.src); }}
-    catch (e) {{ b.textContent = "3D needs an http server (see header)"; }}
+    try {{ loadGlb(host, b.dataset.src, b.dataset.glbjs, b.dataset.cid); }}
+    catch (e) {{ b.textContent = "3D failed to load (see console)"; }}
   }};
 }}
-function loadGlb(host, src) {{
+function loadGlb(host, src, glbjs, cid) {{
   const W = host.clientWidth || 900, H = 340;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0d1117);
@@ -228,7 +236,30 @@ function loadGlb(host, src) {{
   scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 1.1));
   const dir = new THREE.DirectionalLight(0xffffff, 0.7);
   dir.position.set(2, 4, 3); scene.add(dir);
-  new THREE.GLTFLoader().load(src, (g) => {{
+  const loader = new THREE.GLTFLoader();
+  const fail = () => {{
+    host.innerHTML = "<p style='color:#f85149'>GLB load failed — " +
+      "run <code>python tools/site_gen.py --serve</code> or regenerate</p>";
+  }};
+  const fromBytes = (buf) => loader.parse(buf, "", onGlb, fail);
+  const viaScript = () => {{
+    const s = document.createElement("script");
+    s.src = glbjs;
+    s.onload = () => {{
+      const b64 = window.__GLB_B64 && window.__GLB_B64[cid];
+      if (!b64) return fail();
+      const bin = atob(b64), bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      fromBytes(bytes.buffer);
+    }};
+    s.onerror = fail;
+    document.head.appendChild(s);
+  }};
+  fetch(src).then(r => {{
+    if (!r.ok) throw new Error(r.status);
+    return r.arrayBuffer();
+  }}).then(fromBytes).catch(viaScript);
+  function onGlb(g) {{
     scene.add(g.scene);
     const box = new THREE.Box3().setFromObject(g.scene);
     const c = box.getCenter(new THREE.Vector3());
@@ -288,10 +319,7 @@ function loadGlb(host, src) {{
       mix.update(clk.getDelta());
       ctl.update(); ren.render(scene, cam);
     }})();
-  }}, undefined, (e) => {{
-    host.innerHTML = "<p style='color:#f85149'>GLB load failed — " +
-      "serve over http (file:// blocks fetch)</p>";
-  }});
+  }}
 }}
 </script>
 """
@@ -299,6 +327,9 @@ function loadGlb(host, src) {{
 
 def main():
     os.makedirs(SITE, exist_ok=True)
+    if os.path.isdir(GLB_JS):           # stale sidecars for removed comps
+        for f in os.listdir(GLB_JS):
+            os.remove(os.path.join(GLB_JS, f))
     comp_root = os.path.join(ROOT, "pipeline", "components")
     goal_root = os.path.join(ROOT, "pipeline", "composition")
     comps = sorted(os.path.join(comp_root, d)
