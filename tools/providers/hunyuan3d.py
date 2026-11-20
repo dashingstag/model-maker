@@ -39,7 +39,9 @@ post (default []): ordered finishing steps on the final GLB —
 'face' adds eye/brow/lip cards bone-parented to `head` (humanoid
 rigs only), 'pbr' floors non-metal roughness in the packed
 metallicRoughness map, 'ao' bakes ambient occlusion in Blender and
-injects it as occlusionTexture (ao_res tunes bake size), 'design'
+injects it as occlusionTexture (ao_res tunes bake size), 'tcao' does
+the same via texturecraft-cli's GPU ray-traced bake (seconds vs
+minutes; also dumps curvature map beside the GLB), 'design'
 repaints the atlas per-triangle keyed on model position (cape
 gradient/trim, hood unify, face->mask, stray-texel cleanup —
 tools/design_pass.py, xianxia-indigo palette).
@@ -240,6 +242,10 @@ def generate(cid, cdir, brief, opts, env, out):
             cmd = [sys.executable,
                    os.path.join(_TOOLS, "pbr_fix.py"), out, tmp,
                    "--ao", ao_png]
+        elif step == "tcao":
+            # texturecraft-cli GPU bake + occlusionTexture inject
+            cmd = [sys.executable,
+                   os.path.join(_TOOLS, "tc_bake.py"), out, tmp]
         else:
             raise RuntimeError(f"unknown post step '{step}' for {cid}")
         r = subprocess.run(cmd, capture_output=True, text=True)

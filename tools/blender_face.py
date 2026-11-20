@@ -109,6 +109,13 @@ def main():
         # circle points go +x -> +z = ccw seen from -y (viewer side);
         # natural order already faces the camera — do NOT reverse
         me.from_pydata(vs, [], [tuple(range(seg))])
+        # degenerate UVs: cards carry solid-color materials and need no
+        # atlas, but a UV-less primitive makes downstream tools (e.g.
+        # texturecraft-cli) auto-unwrap the WHOLE mesh — discarding the
+        # painted atlas. Pin every vert at (0.5, 0.5).
+        uvl = me.uv_layers.new(name="UVMap")
+        for i in range(len(me.uv_layers[0].data)):
+            uvl.data[i].uv = (0.5, 0.5)
         me.update()
         o = bpy.data.objects.new(name, me)
         bpy.context.collection.objects.link(o)

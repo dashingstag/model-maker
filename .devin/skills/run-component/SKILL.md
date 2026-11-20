@@ -72,9 +72,11 @@ python tools/publish.py <goal> --wait 60
   via attach3d inherit the member's mode; doesn't affect baked-in
   specularity — that's the albedo bake's job). `provider.options.post`
   runs ordered finishing steps: `face` (bone-parented feature cards),
-  `pbr` (roughness floor), `ao` (baked occlusion injection), `design`
-  (position-keyed atlas repaint — cape/trim/hood/mask + stray-texel
-  cleanup, `tools/design_pass.py`, xianxia-indigo palette).
+  `pbr` (roughness floor), `ao` (baked occlusion injection, Blender
+  Cycles) or `tcao` (same injection via texturecraft-cli's GPU bake —
+  faster, also yields curvature/thickness maps; `tools/tc_bake.py`),
+  `design` (position-keyed atlas repaint — cape/trim/hood/mask +
+  stray-texel cleanup, `tools/design_pass.py`, xianxia-indigo palette).
 - `glb` certification requires **multi-angle evidence** (#85): a
   front-only golden passed a model whose rear cape was featureless
   and whose face cards never rendered. Before recording vision.json,

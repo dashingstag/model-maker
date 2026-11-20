@@ -504,7 +504,12 @@ the brief is the contract; tools catch up.
   — fixes hy3d's glossy-cloth chrome at the map level, metal/gem
   response preserved); `ao` Cycles-bakes occlusion into the atlas and
   injects `occlusionTexture` (`tools/blender_ao.py` + `pbr_fix --ao`;
-  invisible in EEVEE — judge it in the Godot harness). The face pass
+  invisible in EEVEE — judge it in the Godot harness); `tcao` is the
+  same step on texturecraft-cli's GPU ray-traced bake
+  (`tools/tc_bake.py` — seconds vs Cycles minutes, also dumps the
+  curvature map beside the GLB; TC requires UVs on every primitive or
+  it re-unwraps the whole mesh, so tc_bake patches degenerate UVs on
+  UV-less prims — e.g. face cards — in a temp copy first). The face pass
   also strips unskinned floaters the generator hides inside the
   shell cloud (#79). `design` repaints the atlas per-triangle keyed
   on model position (`tools/design_pass.py` — the shell cloud's UV
