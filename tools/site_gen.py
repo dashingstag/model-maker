@@ -185,8 +185,15 @@ PAGE = """<!doctype html><meta charset="utf-8">
                 overflow:hidden; text-overflow:ellipsis; white-space:nowrap }}
   .view3d {{ background:#21262d; color:#c9d1d9; border:1px solid #30363d;
             border-radius:6px; padding:4px 12px; cursor:pointer; margin:8px 0 }}
-  .mv canvas {{ width:100%; height:320px; border:1px solid #30363d;
-               border-radius:6px; background:#0d1117 }}
+  .mv {{ position:relative }}
+  .mv canvas {{ width:100%; height:340px; border:1px solid #30363d;
+               border-radius:6px; background:#0d1117; display:block }}
+  .mv .ctl {{ display:flex; gap:10px; align-items:center; padding:6px 2px;
+             font-size:12px; color:#8b949e }}
+  .mv select {{ background:#21262d; color:#c9d1d9; border:1px solid #30363d;
+               border-radius:6px; padding:3px 8px; font-size:12px }}
+  .mv label {{ display:flex; gap:4px; align-items:center; cursor:pointer }}
+  .mv .hint {{ margin-left:auto; font-style:italic }}
 </style>
 <h1>model-maker — asset viewer</h1>
 <div class="bar">regenerated {ts} · {nc} components · {ng} compositions ·
@@ -208,13 +215,16 @@ for (const b of document.querySelectorAll(".view3d")) {{
   }};
 }}
 function loadGlb(host, src) {{
-  const W = host.clientWidth || 900, H = 320;
+  const W = host.clientWidth || 900, H = 340;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0d1117);
   const cam = new THREE.PerspectiveCamera(40, W / H, 0.01, 100);
   const ren = new THREE.WebGLRenderer({{ antialias: true }});
   ren.setSize(W, H); ren.outputEncoding = THREE.sRGBEncoding;
+  const bar = document.createElement("div");
+  bar.className = "ctl";
   host.appendChild(ren.domElement);
+  host.appendChild(bar);
   scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 1.1));
   const dir = new THREE.DirectionalLight(0xffffff, 0.7);
   dir.position.set(2, 4, 3); scene.add(dir);
@@ -223,16 +233,59 @@ function loadGlb(host, src) {{
     const box = new THREE.Box3().setFromObject(g.scene);
     const c = box.getCenter(new THREE.Vector3());
     const s = box.getSize(new THREE.Vector3()).length();
-    cam.position.set(c.x + s * 0.7, c.y + s * 0.3, c.z + s * 0.9);
+    cam.position.set(c.x + s * 0.55, c.y + s * 0.2, c.z + s * 0.75);
     const ctl = new THREE.OrbitControls(cam, ren.domElement);
     ctl.target.copy(c);
-    const mix = g.animations.length
-      ? new THREE.AnimationMixer(g.scene) : null;
-    if (mix) mix.clipAction(g.animations[0]).play();
+    ctl.enableDamping = true;
+
+    const mix = new THREE.AnimationMixer(g.scene);
+    const actions = {{}};
+    for (const clip of g.animations)
+      actions[clip.name] = mix.clipAction(clip);
+
+    let cur = null;
+    const sel = document.createElement("select");
+    const names = ["paused (hold frame)"].concat(g.animations.map(a => a.name));
+    for (const n of names) {{
+      const o = document.createElement("option");
+      o.value = n; o.textContent = n; sel.appendChild(o);
+    }}
+    function play(name) {{
+      if (cur) cur.stop();
+      if (name !== "paused (hold frame)") {{
+        mix.stopAllAction();
+        cur = actions[name];
+        if (cur) {{
+          cur.reset();
+          cur.setLoop(THREE.LoopRepeat, Infinity).play();
+        }}
+      }} else {{ mix.stopAllAction(); cur = null; }}
+    }}
+    sel.onchange = () => play(sel.value);
+    const prefer = g.animations.some(a => a.name === "idle")
+      ? "idle" : names[names.length - 1];
+    sel.value = prefer;
+    bar.appendChild(document.createTextNode("pose"));
+    bar.appendChild(sel);
+
+    const spin = document.createElement("label");
+    const box2 = document.createElement("input");
+    box2.type = "checkbox";
+    box2.onchange = () => {{ ctl.autoRotate = box2.checked;
+                            ctl.autoRotateSpeed = 2.0; }};
+    spin.appendChild(box2);
+    spin.appendChild(document.createTextNode("auto-rotate"));
+    bar.appendChild(spin);
+    const hint = document.createElement("span");
+    hint.className = "hint";
+    hint.textContent = "drag = orbit · wheel = zoom · right-drag = pan";
+    bar.appendChild(hint);
+    play(prefer);
+
     const clk = new THREE.Clock();
     (function tick() {{
       requestAnimationFrame(tick);
-      if (mix) mix.update(clk.getDelta());
+      mix.update(clk.getDelta());
       ctl.update(); ren.render(scene, cam);
     }})();
   }}, undefined, (e) => {{
