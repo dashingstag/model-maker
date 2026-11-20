@@ -271,9 +271,17 @@ def main():
         import http.server
         import socketserver
         import webbrowser
+
+        class Handler(http.server.SimpleHTTPRequestHandler):
+            def translate_path(self, path):
+                # /site/index.html/… -> /site/index.html (browsers that
+                # append a slash, incl. favicon fetches)
+                if "/index.html/" in path:
+                    path = path.split("/index.html/", 1)[0] + "/index.html"
+                return super().translate_path(path)
+
         port = 8471
-        handler = functools.partial(
-            http.server.SimpleHTTPRequestHandler, directory=ROOT)
+        handler = functools.partial(Handler, directory=ROOT)
         print(f"serving {ROOT} at http://127.0.0.1:{port}/site/")
         webbrowser.open(f"http://127.0.0.1:{port}/site/")
         socketserver.TCPServer(("127.0.0.1", port), handler).serve_forever()
