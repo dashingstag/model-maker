@@ -1,0 +1,430 @@
+{
+  "schema": "mm.jobs.v1",
+  "mode": "unit",
+  "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\std_parts",
+  "provenance": {
+    "manifests": {
+      "body_head": "sha256:c943ada372118dc07465cf2aec367c6d4fc6d43050166df248b655d47b99b490",
+      "body_neck": "sha256:dccb0687f0d2cfe6acb025bf9534bb179545bd2b1ce8056f56708576a20020e0",
+      "body_torso": "sha256:eac198c22a95bbf7a308b58bf531bf5e10259341f6d9599f87de1146908acf56",
+      "body_arm_l": "sha256:5b0457b97bdc2200d99f5d3baf544f77f0a26da6db4e16f153cd67f2ddb416ab",
+      "body_arm_r": "sha256:435f7ebe5a3fcf57881e8b7c1192af6355b8c55301391048b50d8c0b813da49c",
+      "body_hand_l": "sha256:c5e3acc7ea503bd15c7e6cb6ce2e851f8d288e80aee891197dd476c96e1125ae",
+      "body_hand_r": "sha256:a498de63fb34211fe4c7ae98a3eaacb5ca4d42097e5769cf17c3b1080d59623c",
+      "body_leg_l": "sha256:5f056e7f5c516622c12eca09e9e59023112fdf32efe830785082fca794660d28",
+      "body_leg_r": "sha256:17bf0d1123f6a74e71ce8b9bd8b261ca8c876892332cd934d7773fd31d48b330",
+      "body_foot_l": "sha256:a57a9b668269ba0cac36bcbdf79cb8d011c879ee1e554a24c7906283ea5f2f0e",
+      "body_foot_r": "sha256:5e19fdf48349d154a4126aa593445a98a7dd1dce40962b1961e0d25dae4bec31",
+      "cloth_torso": "sha256:4e92ab80d19ae2fa6ed0b7c5ab3def3b6193c9a88493311c22aae7feb48b0ef5",
+      "cloth_sleeve_l": "sha256:7c37d3964812767efc05b95149a9ec5c6ac4909b1d28396daa84b5bbb3388db3",
+      "cloth_sleeve_r": "sha256:0ea97c28490eb2924d871686c5d93269ccda8f6031f3d7d3cd10877ff76529d4",
+      "cloth_waist": "sha256:83c36767dc60e2199317abcaa54b105409632ea70ab1141a54d31f1fb2b37c1c",
+      "cloth_skirt": "sha256:1336c5c145fa0f86ffe6173f44a4748bec140eac9eaab60871c8fdfed8d32a41",
+      "cloth_legs": "sha256:5950b5c21b4af250c57fa6c5c0345c4d95571836ea0df5642ed87457e3a9bb7c",
+      "cloth_feet": "sha256:280250d6b0802944f8695a9831958cb427ceff37bf36d7609f5347f303437672",
+      "std_hair": "sha256:135d9387dd206df3926633ffd8fa6d4237e673508f98e3f77423b9ba207e84c1",
+      "std_ornament": "sha256:e7658945fd2bdd26d6ee45ae78cc82c1f5692bf5108d01737b911092355cb781",
+      "xx_std_figure": "sha256:3c39042033ebcb33495b4cfccd526d43e6e9fb8f2e9b0460e753c4ea3bfa906e"
+    },
+    "goal": "std_parts"
+  },
+  "rig": {
+    "name": "std_xianxia",
+    "canvas_modulate": "#b8b0cc",
+    "light_2d": {
+      "color": "#ffd9a0",
+      "energy": 2.0,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2a2a38"
+  },
+  "unit_jobs": [
+    {
+      "id": "body_arm_l",
+      "type": "glb",
+      "assets": "res://assets/components/body_arm_l",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_arm_l\\unit_render",
+      "glb": "body_arm_l.glb"
+    },
+    {
+      "id": "body_arm_r",
+      "type": "glb",
+      "assets": "res://assets/components/body_arm_r",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_arm_r\\unit_render",
+      "glb": "body_arm_r.glb"
+    },
+    {
+      "id": "body_foot_l",
+      "type": "glb",
+      "assets": "res://assets/components/body_foot_l",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_foot_l\\unit_render",
+      "glb": "body_foot_l.glb"
+    },
+    {
+      "id": "body_foot_r",
+      "type": "glb",
+      "assets": "res://assets/components/body_foot_r",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_foot_r\\unit_render",
+      "glb": "body_foot_r.glb"
+    },
+    {
+      "id": "body_hand_l",
+      "type": "glb",
+      "assets": "res://assets/components/body_hand_l",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_hand_l\\unit_render",
+      "glb": "body_hand_l.glb"
+    },
+    {
+      "id": "body_hand_r",
+      "type": "glb",
+      "assets": "res://assets/components/body_hand_r",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_hand_r\\unit_render",
+      "glb": "body_hand_r.glb"
+    },
+    {
+      "id": "body_head",
+      "type": "glb",
+      "assets": "res://assets/components/body_head",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_head\\unit_render",
+      "glb": "body_head.glb"
+    },
+    {
+      "id": "body_leg_l",
+      "type": "glb",
+      "assets": "res://assets/components/body_leg_l",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_leg_l\\unit_render",
+      "glb": "body_leg_l.glb"
+    },
+    {
+      "id": "body_leg_r",
+      "type": "glb",
+      "assets": "res://assets/components/body_leg_r",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_leg_r\\unit_render",
+      "glb": "body_leg_r.glb"
+    },
+    {
+      "id": "body_neck",
+      "type": "glb",
+      "assets": "res://assets/components/body_neck",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_neck\\unit_render",
+      "glb": "body_neck.glb"
+    },
+    {
+      "id": "body_torso",
+      "type": "glb",
+      "assets": "res://assets/components/body_torso",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\body_torso\\unit_render",
+      "glb": "body_torso.glb"
+    },
+    {
+      "id": "cloth_feet",
+      "type": "glb",
+      "assets": "res://assets/components/cloth_feet",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\cloth_feet\\unit_render",
+      "glb": "cloth_feet.glb"
+    },
+    {
+      "id": "cloth_legs",
+      "type": "glb",
+      "assets": "res://assets/components/cloth_legs",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\cloth_legs\\unit_render",
+      "glb": "cloth_legs.glb"
+    },
+    {
+      "id": "cloth_skirt",
+      "type": "glb",
+      "assets": "res://assets/components/cloth_skirt",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\cloth_skirt\\unit_render",
+      "glb": "cloth_skirt.glb"
+    },
+    {
+      "id": "cloth_sleeve_l",
+      "type": "glb",
+      "assets": "res://assets/components/cloth_sleeve_l",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\cloth_sleeve_l\\unit_render",
+      "glb": "cloth_sleeve_l.glb"
+    },
+    {
+      "id": "cloth_sleeve_r",
+      "type": "glb",
+      "assets": "res://assets/components/cloth_sleeve_r",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\cloth_sleeve_r\\unit_render",
+      "glb": "cloth_sleeve_r.glb"
+    },
+    {
+      "id": "cloth_torso",
+      "type": "glb",
+      "assets": "res://assets/components/cloth_torso",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\cloth_torso\\unit_render",
+      "glb": "cloth_torso.glb"
+    },
+    {
+      "id": "cloth_waist",
+      "type": "glb",
+      "assets": "res://assets/components/cloth_waist",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\cloth_waist\\unit_render",
+      "glb": "cloth_waist.glb"
+    },
+    {
+      "id": "std_hair",
+      "type": "glb",
+      "assets": "res://assets/components/std_hair",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\std_hair\\unit_render",
+      "glb": "std_hair.glb"
+    },
+    {
+      "id": "std_ornament",
+      "type": "glb",
+      "assets": "res://assets/components/std_ornament",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\std_ornament\\unit_render",
+      "glb": "std_ornament.glb"
+    },
+    {
+      "id": "xx_std_figure",
+      "type": "glb",
+      "assets": "res://assets/components/xx_std_figure",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_std_figure\\unit_render",
+      "glb": "xx_std_figure.glb"
+    }
+  ],
+  "composition": {
+    "components_dir": "res://assets/components",
+    "layout": {
+      "rows": [
+        {
+          "id": "ground",
+          "y": 648
+        }
+      ],
+      "body_head_row": "ground",
+      "body_head_x": 512,
+      "feet_pivot": true
+    },
+    "members": [
+      {
+        "id": "body_head",
+        "kind": "glb",
+        "dir": "res://assets/components/body_head",
+        "glb": "body_head.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_neck",
+        "kind": "glb",
+        "dir": "res://assets/components/body_neck",
+        "glb": "body_neck.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_torso",
+        "kind": "glb",
+        "dir": "res://assets/components/body_torso",
+        "glb": "body_torso.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_arm_l",
+        "kind": "glb",
+        "dir": "res://assets/components/body_arm_l",
+        "glb": "body_arm_l.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_arm_r",
+        "kind": "glb",
+        "dir": "res://assets/components/body_arm_r",
+        "glb": "body_arm_r.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_hand_l",
+        "kind": "glb",
+        "dir": "res://assets/components/body_hand_l",
+        "glb": "body_hand_l.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_hand_r",
+        "kind": "glb",
+        "dir": "res://assets/components/body_hand_r",
+        "glb": "body_hand_r.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_leg_l",
+        "kind": "glb",
+        "dir": "res://assets/components/body_leg_l",
+        "glb": "body_leg_l.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_leg_r",
+        "kind": "glb",
+        "dir": "res://assets/components/body_leg_r",
+        "glb": "body_leg_r.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_foot_l",
+        "kind": "glb",
+        "dir": "res://assets/components/body_foot_l",
+        "glb": "body_foot_l.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "body_foot_r",
+        "kind": "glb",
+        "dir": "res://assets/components/body_foot_r",
+        "glb": "body_foot_r.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "cloth_torso",
+        "kind": "glb",
+        "dir": "res://assets/components/cloth_torso",
+        "glb": "cloth_torso.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "cloth_sleeve_l",
+        "kind": "glb",
+        "dir": "res://assets/components/cloth_sleeve_l",
+        "glb": "cloth_sleeve_l.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "cloth_sleeve_r",
+        "kind": "glb",
+        "dir": "res://assets/components/cloth_sleeve_r",
+        "glb": "cloth_sleeve_r.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "cloth_waist",
+        "kind": "glb",
+        "dir": "res://assets/components/cloth_waist",
+        "glb": "cloth_waist.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "cloth_skirt",
+        "kind": "glb",
+        "dir": "res://assets/components/cloth_skirt",
+        "glb": "cloth_skirt.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "cloth_legs",
+        "kind": "glb",
+        "dir": "res://assets/components/cloth_legs",
+        "glb": "cloth_legs.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "cloth_feet",
+        "kind": "glb",
+        "dir": "res://assets/components/cloth_feet",
+        "glb": "cloth_feet.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "std_hair",
+        "kind": "glb",
+        "dir": "res://assets/components/std_hair",
+        "glb": "std_hair.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "std_ornament",
+        "kind": "glb",
+        "dir": "res://assets/components/std_ornament",
+        "glb": "std_ornament.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
+        "id": "xx_std_figure",
+        "kind": "glb",
+        "dir": "res://assets/components/xx_std_figure",
+        "glb": "xx_std_figure.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      }
+    ],
+    "dialogue": null,
+    "layers": [],
+    "shots": [
+      "turntable_front",
+      "turntable_side",
+      "turntable_back"
+    ],
+    "variants": {},
+    "variant_of": {},
+    "glbs": {
+      "body_arm_l": "body_arm_l.glb",
+      "body_arm_r": "body_arm_r.glb",
+      "body_foot_l": "body_foot_l.glb",
+      "body_foot_r": "body_foot_r.glb",
+      "body_hand_l": "body_hand_l.glb",
+      "body_hand_r": "body_hand_r.glb",
+      "body_head": "body_head.glb",
+      "body_leg_l": "body_leg_l.glb",
+      "body_leg_r": "body_leg_r.glb",
+      "body_neck": "body_neck.glb",
+      "body_torso": "body_torso.glb",
+      "cloth_feet": "cloth_feet.glb",
+      "cloth_legs": "cloth_legs.glb",
+      "cloth_skirt": "cloth_skirt.glb",
+      "cloth_sleeve_l": "cloth_sleeve_l.glb",
+      "cloth_sleeve_r": "cloth_sleeve_r.glb",
+      "cloth_torso": "cloth_torso.glb",
+      "cloth_waist": "cloth_waist.glb",
+      "std_hair": "std_hair.glb",
+      "std_ornament": "std_ornament.glb",
+      "xx_std_figure": "xx_std_figure.glb"
+    },
+    "shot_expect": {},
+    "action_shots": []
+  }
+}

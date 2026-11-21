@@ -1,0 +1,50 @@
+{
+  "cid": "std_hair",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:head",
+      "pass": true
+    },
+    {
+      "id": "bone:hair.1",
+      "pass": true
+    },
+    {
+      "id": "bone:hair.4",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:hair_cap",
+      "pass": true
+    },
+    {
+      "id": "node:hair_fall",
+      "pass": true
+    },
+    {
+      "id": "node:lock_l",
+      "pass": true
+    },
+    {
+      "id": "node:lock_r",
+      "pass": true
+    },
+    {
+      "id": "node:topknot",
+      "pass": true
+    },
+    {
+      "id": "node:hairpin",
+      "pass": true
+    }
+  ]
+}

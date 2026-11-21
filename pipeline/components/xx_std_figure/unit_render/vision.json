@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "actor": "devin",
+  "ts": 1795274757.227391,
+  "checks": {
+    "all 20 parts present, no missing slot": "pass",
+    "clothes layer over complete body": "pass",
+    "deforms as one rig through clips": "pass",
+    "smooth shading \u2014 no blocky facets": "pass"
+  },
+  "flags": [
+    "head_m is featureless skin \u2014 authored head variants carry faces later, by design"
+  ],
+  "note": "rev3 \u2014 anatomy-shaped lofts + weld/smooth normals across body and garment layers",
+  "reviewed_files": [
+    "unit_render/neutral.png",
+    "unit_render/sword_form_50.png"
+  ]
+}

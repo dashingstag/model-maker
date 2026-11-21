@@ -1,0 +1,32 @@
+{
+  "id": "body_arm_r",
+  "type": "glb",
+  "part": {
+    "slot": "body_arm_r",
+    "layer": "body",
+    "meshes": [
+      "forearm_r",
+      "barm_up_r"
+    ],
+    "source": "build_body"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "upper_arm.r",
+        "forearm.r",
+        "hand.r"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "forearm_r",
+        "barm_up_r"
+      ]
+    }
+  }
+}

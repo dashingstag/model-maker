@@ -1,0 +1,33 @@
+{
+  "id": "std_ornament",
+  "type": "glb",
+  "part": {
+    "slot": "std_ornament",
+    "layer": "ornament",
+    "covers": [],
+    "meshes": [
+      "crown",
+      "crown_fin",
+      "brow_gem"
+    ],
+    "source": "@mannequin/humanoid_base"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "head"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "crown",
+        "crown_fin",
+        "brow_gem"
+      ]
+    }
+  }
+}

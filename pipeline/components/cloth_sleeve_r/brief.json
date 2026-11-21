@@ -1,0 +1,36 @@
+{
+  "id": "cloth_sleeve_r",
+  "type": "glb",
+  "part": {
+    "slot": "cloth_sleeve_r",
+    "layer": "cloth",
+    "covers": [
+      "body_arm_r"
+    ],
+    "meshes": [
+      "sleeve_up_r",
+      "sleeve_lo_r",
+      "cuff_r"
+    ],
+    "source": "@mannequin/humanoid_base"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "upper_arm.r",
+        "forearm.r"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "sleeve_up_r",
+        "sleeve_lo_r",
+        "cuff_r"
+      ]
+    }
+  }
+}

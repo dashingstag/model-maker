@@ -1,0 +1,41 @@
+{
+  "id": "std_hair",
+  "type": "glb",
+  "part": {
+    "slot": "std_hair",
+    "layer": "hair",
+    "covers": [],
+    "meshes": [
+      "hair_cap",
+      "hair_fall",
+      "lock_l",
+      "lock_r",
+      "topknot",
+      "hairpin"
+    ],
+    "source": "@mannequin/humanoid_base"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "head",
+        "hair.1",
+        "hair.4"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "hair_cap",
+        "hair_fall",
+        "lock_l",
+        "lock_r",
+        "topknot",
+        "hairpin"
+      ]
+    }
+  }
+}

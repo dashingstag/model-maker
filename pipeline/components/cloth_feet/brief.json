@@ -1,0 +1,35 @@
+{
+  "id": "cloth_feet",
+  "type": "glb",
+  "part": {
+    "slot": "cloth_feet",
+    "layer": "cloth",
+    "covers": [
+      "body_foot_l",
+      "body_foot_r"
+    ],
+    "meshes": [
+      "foot_l",
+      "foot_r"
+    ],
+    "source": "@mannequin/humanoid_base"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "foot.l",
+        "foot.r"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "foot_l",
+        "foot_r"
+      ]
+    }
+  }
+}

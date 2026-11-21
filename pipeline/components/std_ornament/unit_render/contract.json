@@ -1,0 +1,30 @@
+{
+  "cid": "std_ornament",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:head",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:crown",
+      "pass": true
+    },
+    {
+      "id": "node:crown_fin",
+      "pass": true
+    },
+    {
+      "id": "node:brow_gem",
+      "pass": true
+    }
+  ]
+}

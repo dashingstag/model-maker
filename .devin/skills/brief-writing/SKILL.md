@@ -68,6 +68,20 @@ regen, `modulate`|runtime tint, `parts`); `vary` (regions that change);
 `variants` — explicit per-member targets keyed by **palette name**
 (`@palettes/<pal>.colors.<key>`), never raw hues.
 
+**Part components (`body_*`/`cloth_*`/`std_*`):** `part = {slot, layer,
+covers, meshes, source}` — slot/layer/covers must match
+`shared/mannequin/humanoid_base.json` (vocab, never invent slots);
+`contract.glb.nodes` lists the part's mesh-node names; `bones` samples
+the bind bones. Parts are prebuilt — no prompt fields.
+`layer: "body"` = complete skin coverage; `layer: "cloth"` = garment,
+`covers: [body slots]` declares what it hides.
+
+**Assembled characters:** `assemble = {base: "@mannequin/<name>",
+parts: {slot: component_id}}` — every part id must be certified before
+`tools/assemble.py` runs; the character's `contract.glb.nodes` lists
+mesh nodes expected after the merge (spot-check a few per layer), and
+`anims` spot-checks clips.
+
 **Rigged GLBs:** `skeleton: @skeletons/<name>` (bone-graph spec — shared
 skeleton = shared retarget pool); `prop: true` (attachable, no unit pose
 budget); `anims` as objects `{name, loop, duration, events, hand_pose,

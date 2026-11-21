@@ -1,0 +1,243 @@
+{
+  "base": "@mannequin/humanoid_base",
+  "parts": [
+    {
+      "slot": "body_arm_l",
+      "id": "body_arm_l",
+      "meshes": [
+        "forearm_l",
+        "barm_up_l"
+      ],
+      "covers": [],
+      "tris": 180
+    },
+    {
+      "slot": "body_arm_r",
+      "id": "body_arm_r",
+      "meshes": [
+        "forearm_r",
+        "barm_up_r"
+      ],
+      "covers": [],
+      "tris": 180
+    },
+    {
+      "slot": "body_foot_l",
+      "id": "body_foot_l",
+      "meshes": [
+        "bfoot_l"
+      ],
+      "covers": [],
+      "tris": 168
+    },
+    {
+      "slot": "body_foot_r",
+      "id": "body_foot_r",
+      "meshes": [
+        "bfoot_r"
+      ],
+      "covers": [],
+      "tris": 168
+    },
+    {
+      "slot": "body_hand_l",
+      "id": "body_hand_l",
+      "meshes": [
+        "finger_l_thumb",
+        "finger_l_index",
+        "finger_l_middle",
+        "finger_l_ring",
+        "finger_l_pinky",
+        "hand_l"
+      ],
+      "covers": [],
+      "tris": 432
+    },
+    {
+      "slot": "body_hand_r",
+      "id": "body_hand_r",
+      "meshes": [
+        "finger_r_thumb",
+        "finger_r_index",
+        "finger_r_middle",
+        "finger_r_ring",
+        "finger_r_pinky",
+        "hand_r"
+      ],
+      "covers": [],
+      "tris": 432
+    },
+    {
+      "slot": "body_head",
+      "id": "body_head",
+      "meshes": [
+        "jaw_m",
+        "head_m"
+      ],
+      "covers": [],
+      "tris": 264
+    },
+    {
+      "slot": "body_leg_l",
+      "id": "body_leg_l",
+      "meshes": [
+        "bthigh_l",
+        "bshin_l"
+      ],
+      "covers": [],
+      "tris": 336
+    },
+    {
+      "slot": "body_leg_r",
+      "id": "body_leg_r",
+      "meshes": [
+        "bthigh_r",
+        "bshin_r"
+      ],
+      "covers": [],
+      "tris": 336
+    },
+    {
+      "slot": "body_neck",
+      "id": "body_neck",
+      "meshes": [
+        "neck_m"
+      ],
+      "covers": [],
+      "tris": 36
+    },
+    {
+      "slot": "body_torso",
+      "id": "body_torso",
+      "meshes": [
+        "btorso_pelvis",
+        "btorso_waist",
+        "btorso_chest"
+      ],
+      "covers": [],
+      "tris": 408
+    },
+    {
+      "slot": "cloth_feet",
+      "id": "cloth_feet",
+      "meshes": [
+        "foot_l",
+        "foot_r"
+      ],
+      "covers": [
+        "body_foot_l",
+        "body_foot_r"
+      ],
+      "tris": 24
+    },
+    {
+      "slot": "cloth_legs",
+      "id": "cloth_legs",
+      "meshes": [
+        "hakama_l",
+        "hakama_r"
+      ],
+      "covers": [
+        "body_leg_l",
+        "body_leg_r"
+      ],
+      "tris": 88
+    },
+    {
+      "slot": "cloth_skirt",
+      "id": "cloth_skirt",
+      "meshes": [
+        "apron_f",
+        "skirt_l",
+        "skirt_r"
+      ],
+      "covers": [
+        "body_leg_l",
+        "body_leg_r"
+      ],
+      "tris": 100
+    },
+    {
+      "slot": "cloth_sleeve_l",
+      "id": "cloth_sleeve_l",
+      "meshes": [
+        "cuff_l",
+        "sleeve_lo_l",
+        "sleeve_up_l"
+      ],
+      "covers": [
+        "body_arm_l"
+      ],
+      "tris": 232
+    },
+    {
+      "slot": "cloth_sleeve_r",
+      "id": "cloth_sleeve_r",
+      "meshes": [
+        "cuff_r",
+        "sleeve_lo_r",
+        "sleeve_up_r"
+      ],
+      "covers": [
+        "body_arm_r"
+      ],
+      "tris": 232
+    },
+    {
+      "slot": "cloth_torso",
+      "id": "cloth_torso",
+      "meshes": [
+        "chest_m",
+        "lapel_l",
+        "lapel_r",
+        "mantle",
+        "robe_up"
+      ],
+      "covers": [
+        "body_torso"
+      ],
+      "tris": 364
+    },
+    {
+      "slot": "cloth_waist",
+      "id": "cloth_waist",
+      "meshes": [
+        "sash_tail_l",
+        "sash_tail_r",
+        "pelvis",
+        "sash",
+        "sash_knot"
+      ],
+      "covers": [
+        "body_torso"
+      ],
+      "tris": 388
+    },
+    {
+      "slot": "std_hair",
+      "id": "std_hair",
+      "meshes": [
+        "topknot",
+        "hair_fall",
+        "lock_l",
+        "lock_r",
+        "hair_cap",
+        "hairpin"
+      ],
+      "covers": [],
+      "tris": 464
+    },
+    {
+      "slot": "std_ornament",
+      "id": "std_ornament",
+      "meshes": [
+        "brow_gem",
+        "crown",
+        "crown_fin"
+      ],
+      "covers": [],
+      "tris": 300
+    }
+  ],
+  "tris": 5132
+}

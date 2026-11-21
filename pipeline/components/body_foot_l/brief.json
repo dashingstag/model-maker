@@ -1,0 +1,28 @@
+{
+  "id": "body_foot_l",
+  "type": "glb",
+  "part": {
+    "slot": "body_foot_l",
+    "layer": "body",
+    "meshes": [
+      "bfoot_l"
+    ],
+    "source": "build_body"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "foot.l"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "bfoot_l"
+      ]
+    }
+  }
+}

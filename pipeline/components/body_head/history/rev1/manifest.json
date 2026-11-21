@@ -1,0 +1,61 @@
+{
+  "schema_v": 1,
+  "id": "body_head",
+  "type": "glb",
+  "status": "certified",
+  "rev": 1,
+  "constraints": {
+    "type": "glb",
+    "tri_budget": 1500,
+    "skeleton": "@skeletons/humanoid_v2"
+  },
+  "inputs": {
+    "export/body_head.glb": "sha256:4fddf1001c0dfd2f9caf4c625a563ed9b34e6e9405bad74880db2a9f75fbe48a"
+  },
+  "artifacts": {
+    "processed/body_head.glb": "sha256:4fddf1001c0dfd2f9caf4c625a563ed9b34e6e9405bad74880db2a9f75fbe48a"
+  },
+  "metrics": {},
+  "gate_mode": {
+    "tris_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "glb": "body_head.glb",
+  "meshes": 2,
+  "tris": 264,
+  "animations": [
+    "idle",
+    "walk",
+    "channel_water",
+    "staff_salute",
+    "seated_meditate",
+    "sword_swing",
+    "parry",
+    "recover",
+    "breath",
+    "weight_shift",
+    "head_scan",
+    "sleeve_sway",
+    "gaze_contemplate",
+    "wrist_channel",
+    "formal_bow",
+    "lunge_strike",
+    "spinning_parry",
+    "aerial_flourish",
+    "levitate_channel",
+    "sword_form",
+    "talisman_cast",
+    "kneel_offer"
+  ],
+  "tri_budget": 1500,
+  "gate": {
+    "tris_ok": true
+  }
+}

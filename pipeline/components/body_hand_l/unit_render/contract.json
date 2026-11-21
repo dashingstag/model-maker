@@ -1,0 +1,50 @@
+{
+  "cid": "body_hand_l",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:hand.l",
+      "pass": true
+    },
+    {
+      "id": "bone:hand.l.index.2",
+      "pass": true
+    },
+    {
+      "id": "bone:hand.l.thumb.2",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:finger_l_thumb",
+      "pass": true
+    },
+    {
+      "id": "node:finger_l_index",
+      "pass": true
+    },
+    {
+      "id": "node:finger_l_middle",
+      "pass": true
+    },
+    {
+      "id": "node:finger_l_ring",
+      "pass": true
+    },
+    {
+      "id": "node:finger_l_pinky",
+      "pass": true
+    },
+    {
+      "id": "node:hand_l",
+      "pass": true
+    }
+  ]
+}

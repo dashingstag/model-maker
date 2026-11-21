@@ -1,0 +1,32 @@
+{
+  "id": "body_head",
+  "type": "glb",
+  "part": {
+    "slot": "body_head",
+    "layer": "body",
+    "meshes": [
+      "jaw_m",
+      "head_m"
+    ],
+    "source": "build_body"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "head",
+        "jaw",
+        "neck"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "jaw_m",
+        "head_m"
+      ]
+    }
+  }
+}

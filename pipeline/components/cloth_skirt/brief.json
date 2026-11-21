@@ -1,0 +1,38 @@
+{
+  "id": "cloth_skirt",
+  "type": "glb",
+  "part": {
+    "slot": "cloth_skirt",
+    "layer": "cloth",
+    "covers": [
+      "body_leg_l",
+      "body_leg_r"
+    ],
+    "meshes": [
+      "skirt_l",
+      "skirt_r",
+      "apron_f"
+    ],
+    "source": "@mannequin/humanoid_base"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "skirt.l",
+        "skirt.r",
+        "skirt.front"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "skirt_l",
+        "skirt_r",
+        "apron_f"
+      ]
+    }
+  }
+}

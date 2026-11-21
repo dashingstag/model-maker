@@ -1,0 +1,40 @@
+{
+  "id": "body_hand_l",
+  "type": "glb",
+  "part": {
+    "slot": "body_hand_l",
+    "layer": "body",
+    "meshes": [
+      "finger_l_thumb",
+      "finger_l_index",
+      "finger_l_middle",
+      "finger_l_ring",
+      "finger_l_pinky",
+      "hand_l"
+    ],
+    "source": "build_body"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "hand.l",
+        "hand.l.index.2",
+        "hand.l.thumb.2"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "finger_l_thumb",
+        "finger_l_index",
+        "finger_l_middle",
+        "finger_l_ring",
+        "finger_l_pinky",
+        "hand_l"
+      ]
+    }
+  }
+}

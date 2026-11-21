@@ -1,0 +1,30 @@
+{
+  "cid": "cloth_feet",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:foot.l",
+      "pass": true
+    },
+    {
+      "id": "bone:foot.r",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:foot_l",
+      "pass": true
+    },
+    {
+      "id": "node:foot_r",
+      "pass": true
+    }
+  ]
+}

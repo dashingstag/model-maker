@@ -1,0 +1,42 @@
+{
+  "cid": "cloth_torso",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:chest",
+      "pass": true
+    },
+    {
+      "id": "bone:spine",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:chest_m",
+      "pass": true
+    },
+    {
+      "id": "node:robe_up",
+      "pass": true
+    },
+    {
+      "id": "node:lapel_l",
+      "pass": true
+    },
+    {
+      "id": "node:lapel_r",
+      "pass": true
+    },
+    {
+      "id": "node:mantle",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "cid": "cloth_skirt",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:skirt.l",
+      "pass": true
+    },
+    {
+      "id": "bone:skirt.r",
+      "pass": true
+    },
+    {
+      "id": "bone:skirt.front",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:skirt_l",
+      "pass": true
+    },
+    {
+      "id": "node:skirt_r",
+      "pass": true
+    },
+    {
+      "id": "node:apron_f",
+      "pass": true
+    }
+  ]
+}

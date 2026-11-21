@@ -788,6 +788,48 @@ hand-deleted.
 
 ---
 
+## Part library — reusable body/cloth components
+
+Characters are assembled from certified parts, not generated whole.
+Every part is a normal glb component under `pipeline/components/<id>/`
+— own brief, own tri budget, own contract, own unit renders, own
+certification. Two layers:
+
+- **`body_*`** — the complete skin layer. A full body exists under
+  every outfit, so any garment combination works. Built by
+  `tools/build_body.py` (parametric lofts on the skeleton's
+  model-space joints — anatomy-shaped profiles, 12-gon rings) plus
+  authored mannequin skins (head, neck, forearms, hands, fingers).
+- **`cloth_*`** — garments worn over body. Each declares
+  `part.covers: [body slots]` in its brief — coverage metadata for
+  later culling (v0 retains covered skin; skin inside cloth can't
+  poke out). Sliced from the mannequin by `tools/std_parts.py`.
+- `std_hair`, `std_ornament` — unlayered slots.
+
+The slot taxonomy lives in `shared/mannequin/humanoid_base.json`
+(vocab, referenced as `@mannequin/humanoid_base`): slot → layer,
+meshes, covers, src (`mannequin`|`build_body`|`mixed`).
+
+**Binding convention:** every mesh is rigid-parented to one bone
+(the mannequin's hybrid action-figure scheme); part GLBs carry the
+full skeleton + all 22 anim clips so a part animates standalone in
+unit renders, and assembly re-grafts by matching bone names.
+Joints close by *overlap* — limb ends extend past the joint so
+neighbours interpenetrate (the modular-kit rule: seams hide inside
+geometry, never at coincident rings).
+
+**`tools/assemble.py <char_id>`** merges *certified* parts into one
+GLB: `brief.assemble = {base, parts: {slot: part_id}}` — uncertified
+parts abort; writes `export/<char>.glb` + `export/assemble.json`
+provenance; then the character runs the normal glb C-track.
+`xx_std_figure` (20 parts → 5,132 tris) is the reference assembly.
+
+Shading: mannequin meshes store per-face verts (flat shading) —
+`std_parts.smooth_normals` welds them and writes smooth vertex
+normals at emit time (rev2+).
+
+---
+
 ## Composition track — once, per goal → `pipeline/composition/<goal>/`
 
 Runs only after all declared components are certified (and none stale).

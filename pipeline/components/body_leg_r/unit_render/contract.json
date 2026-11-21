@@ -1,0 +1,34 @@
+{
+  "cid": "body_leg_r",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:thigh.r",
+      "pass": true
+    },
+    {
+      "id": "bone:shin.r",
+      "pass": true
+    },
+    {
+      "id": "bone:foot.r",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:bthigh_r",
+      "pass": true
+    },
+    {
+      "id": "node:bshin_r",
+      "pass": true
+    }
+  ]
+}

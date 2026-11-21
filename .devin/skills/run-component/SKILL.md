@@ -65,6 +65,18 @@ python tools/publish.py <goal> --wait 60
   the model can't produce on its own (e.g. exact counts: draw nine orbs in
   a ring → denoise 0.26, verified 9/9 clusters in #34). Denoise floor ~0.25
   melts flat guide art into painterly style while preserving count/layout.
+- `glb` **parts** (`body_*`/`cloth_*`/`std_*`) — prebuilt artifacts, no
+  C1: `tools/build_body.py` emits procedural skin parts (lofts on the
+  skeleton's model-space joints; `part.layer: body`), `tools/std_parts.py`
+  slices garment/ornament parts from `@mannequin/humanoid_base`
+  (`part.layer: cloth|hair|ornament`, cloth declares `part.covers`).
+  Emit → `export/` directly, then extract → contract → unit render →
+  certify. Slot taxonomy lives in `shared/mannequin/humanoid_base.json`.
+- `glb` **assemblies** — `brief.assemble = {base, parts: {slot: id}}`:
+  run `python tools/assemble.py <id>` after every listed part is
+  `certified` (the tool aborts otherwise). Grafts each part's mesh nodes
+  onto the shared skeleton by bone-name match; writes `export/<id>.glb`
+  + `export/assemble.json`. Then normal glb C-track.
 - `glb` — C1 is the blender builder → `build/` + `export/`; extract
   validates tris vs `tri_budget` and lists animations. Brief
   `material: "toon"` gives the member banded toon shading + inverted-hull

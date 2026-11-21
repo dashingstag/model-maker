@@ -1,0 +1,35 @@
+{
+  "id": "cloth_legs",
+  "type": "glb",
+  "part": {
+    "slot": "cloth_legs",
+    "layer": "cloth",
+    "covers": [
+      "body_leg_l",
+      "body_leg_r"
+    ],
+    "meshes": [
+      "hakama_l",
+      "hakama_r"
+    ],
+    "source": "@mannequin/humanoid_base"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "thigh.l",
+        "thigh.r"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "hakama_l",
+        "hakama_r"
+      ]
+    }
+  }
+}

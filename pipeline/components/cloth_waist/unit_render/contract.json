@@ -1,0 +1,38 @@
+{
+  "cid": "cloth_waist",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:root",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:pelvis",
+      "pass": true
+    },
+    {
+      "id": "node:sash",
+      "pass": true
+    },
+    {
+      "id": "node:sash_knot",
+      "pass": true
+    },
+    {
+      "id": "node:sash_tail_l",
+      "pass": true
+    },
+    {
+      "id": "node:sash_tail_r",
+      "pass": true
+    }
+  ]
+}

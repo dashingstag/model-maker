@@ -1,0 +1,39 @@
+{
+  "id": "cloth_waist",
+  "type": "glb",
+  "part": {
+    "slot": "cloth_waist",
+    "layer": "cloth",
+    "covers": [
+      "body_torso"
+    ],
+    "meshes": [
+      "pelvis",
+      "sash",
+      "sash_knot",
+      "sash_tail_l",
+      "sash_tail_r"
+    ],
+    "source": "@mannequin/humanoid_base"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "root"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "pelvis",
+        "sash",
+        "sash_knot",
+        "sash_tail_l",
+        "sash_tail_r"
+      ]
+    }
+  }
+}

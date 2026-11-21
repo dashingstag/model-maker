@@ -1,0 +1,56 @@
+{
+  "schema": "mm.spec.v1",
+  "goal": "std_parts",
+  "rig": {
+    "name": "std_xianxia",
+    "canvas_modulate": "#b8b0cc",
+    "light_2d": {
+      "color": "#ffd9a0",
+      "energy": 2.0,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2a2a38"
+  },
+  "shots": [
+    "turntable_front",
+    "turntable_side",
+    "turntable_back"
+  ],
+  "shot_expect": {},
+  "action_shots": [],
+  "layout": {
+    "rows": [
+      {
+        "id": "ground",
+        "y": 648
+      }
+    ],
+    "body_head_row": "ground",
+    "body_head_x": 512,
+    "feet_pivot": true
+  },
+  "components": [
+    "body_head",
+    "body_neck",
+    "body_torso",
+    "body_arm_l",
+    "body_arm_r",
+    "body_hand_l",
+    "body_hand_r",
+    "body_leg_l",
+    "body_leg_r",
+    "body_foot_l",
+    "body_foot_r",
+    "cloth_torso",
+    "cloth_sleeve_l",
+    "cloth_sleeve_r",
+    "cloth_waist",
+    "cloth_skirt",
+    "cloth_legs",
+    "cloth_feet",
+    "std_hair",
+    "std_ornament",
+    "xx_std_figure"
+  ]
+}

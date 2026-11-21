@@ -1,0 +1,30 @@
+{
+  "cid": "cloth_legs",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:thigh.l",
+      "pass": true
+    },
+    {
+      "id": "bone:thigh.r",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:hakama_l",
+      "pass": true
+    },
+    {
+      "id": "node:hakama_r",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "verdict": "pass",
+  "actor": "devin",
+  "ts": 1795274749.7205713,
+  "checks": {
+    "part present and rendered in-engine": "pass",
+    "rides its bind bones through anim clips": "pass",
+    "no stray geometry or wrong-slot meshes": "pass",
+    "smooth normals \u2014 no faceted shading": "pass"
+  },
+  "flags": [],
+  "note": "rev2 \u2014 weld+smooth normals pass",
+  "reviewed_files": [
+    "unit_render/neutral.png"
+  ]
+}

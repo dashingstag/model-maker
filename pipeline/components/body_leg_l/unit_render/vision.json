@@ -1,0 +1,16 @@
+{
+  "verdict": "pass",
+  "actor": "devin",
+  "ts": 1795274656.514669,
+  "checks": {
+    "part present and rendered in-engine": "pass",
+    "rides its bind bones through anim clips": "pass",
+    "no stray geometry or wrong-slot meshes": "pass",
+    "smoothed anatomy \u2014 no blocky facets": "pass"
+  },
+  "flags": [],
+  "note": "rev2 \u2014 anatomy-shaped lofts (12-gon rings, shaped profiles); merged-body render reviewed",
+  "reviewed_files": [
+    "unit_render/neutral.png"
+  ]
+}

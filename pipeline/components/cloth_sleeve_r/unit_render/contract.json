@@ -1,0 +1,34 @@
+{
+  "cid": "cloth_sleeve_r",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:upper_arm.r",
+      "pass": true
+    },
+    {
+      "id": "bone:forearm.r",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:sleeve_up_r",
+      "pass": true
+    },
+    {
+      "id": "node:sleeve_lo_r",
+      "pass": true
+    },
+    {
+      "id": "node:cuff_r",
+      "pass": true
+    }
+  ]
+}

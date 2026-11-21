@@ -1,0 +1,40 @@
+{
+  "id": "cloth_torso",
+  "type": "glb",
+  "part": {
+    "slot": "cloth_torso",
+    "layer": "cloth",
+    "covers": [
+      "body_torso"
+    ],
+    "meshes": [
+      "chest_m",
+      "robe_up",
+      "lapel_l",
+      "lapel_r",
+      "mantle"
+    ],
+    "source": "@mannequin/humanoid_base"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "chest",
+        "spine"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "chest_m",
+        "robe_up",
+        "lapel_l",
+        "lapel_r",
+        "mantle"
+      ]
+    }
+  }
+}

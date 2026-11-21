@@ -1,0 +1,32 @@
+{
+  "id": "body_leg_r",
+  "type": "glb",
+  "part": {
+    "slot": "body_leg_r",
+    "layer": "body",
+    "meshes": [
+      "bthigh_r",
+      "bshin_r"
+    ],
+    "source": "build_body"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "thigh.r",
+        "shin.r",
+        "foot.r"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "bthigh_r",
+        "bshin_r"
+      ]
+    }
+  }
+}

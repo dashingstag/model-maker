@@ -1,0 +1,203 @@
+{
+  "id": "humanoid_base",
+  "glb": "shared/mannequin/humanoid_base.glb",
+  "skeleton": "@skeletons/humanoid_v2",
+  "desc": "Canonical low-poly humanoid: 60 joints, 22 anim clips, every mesh rigid-parented to its bone. Parts are layered: body_* = complete skin coverage (any outfit works); cloth_* = garments worn over body, each declaring which body slots it covers.",
+  "slots": {
+    "body_head": {
+      "layer": "body",
+      "src": "mannequin",
+      "meshes": [
+        "head_m",
+        "jaw_m"
+      ]
+    },
+    "body_neck": {
+      "layer": "body",
+      "src": "mannequin",
+      "meshes": [
+        "neck_m"
+      ]
+    },
+    "body_torso": {
+      "layer": "body",
+      "src": "build_body",
+      "meshes": [
+        "btorso_pelvis",
+        "btorso_waist",
+        "btorso_chest"
+      ]
+    },
+    "body_arm_l": {
+      "layer": "body",
+      "src": "mixed",
+      "meshes": [
+        "barm_up_l",
+        "forearm_l"
+      ]
+    },
+    "body_arm_r": {
+      "layer": "body",
+      "src": "mixed",
+      "meshes": [
+        "barm_up_r",
+        "forearm_r"
+      ]
+    },
+    "body_hand_l": {
+      "layer": "body",
+      "src": "mannequin",
+      "meshes": [
+        "hand_l",
+        "finger_l_thumb",
+        "finger_l_index",
+        "finger_l_middle",
+        "finger_l_ring",
+        "finger_l_pinky"
+      ]
+    },
+    "body_hand_r": {
+      "layer": "body",
+      "src": "mannequin",
+      "meshes": [
+        "hand_r",
+        "finger_r_thumb",
+        "finger_r_index",
+        "finger_r_middle",
+        "finger_r_ring",
+        "finger_r_pinky"
+      ]
+    },
+    "body_leg_l": {
+      "layer": "body",
+      "src": "build_body",
+      "meshes": [
+        "bthigh_l",
+        "bshin_l"
+      ]
+    },
+    "body_leg_r": {
+      "layer": "body",
+      "src": "build_body",
+      "meshes": [
+        "bthigh_r",
+        "bshin_r"
+      ]
+    },
+    "body_foot_l": {
+      "layer": "body",
+      "src": "build_body",
+      "meshes": [
+        "bfoot_l"
+      ]
+    },
+    "body_foot_r": {
+      "layer": "body",
+      "src": "build_body",
+      "meshes": [
+        "bfoot_r"
+      ]
+    },
+    "cloth_torso": {
+      "layer": "cloth",
+      "covers": [
+        "body_torso"
+      ],
+      "meshes": [
+        "chest_m",
+        "robe_up",
+        "lapel_l",
+        "lapel_r",
+        "mantle"
+      ]
+    },
+    "cloth_sleeve_l": {
+      "layer": "cloth",
+      "covers": [
+        "body_arm_l"
+      ],
+      "meshes": [
+        "sleeve_up_l",
+        "sleeve_lo_l",
+        "cuff_l"
+      ]
+    },
+    "cloth_sleeve_r": {
+      "layer": "cloth",
+      "covers": [
+        "body_arm_r"
+      ],
+      "meshes": [
+        "sleeve_up_r",
+        "sleeve_lo_r",
+        "cuff_r"
+      ]
+    },
+    "cloth_waist": {
+      "layer": "cloth",
+      "covers": [
+        "body_torso"
+      ],
+      "meshes": [
+        "pelvis",
+        "sash",
+        "sash_knot",
+        "sash_tail_l",
+        "sash_tail_r"
+      ]
+    },
+    "cloth_skirt": {
+      "layer": "cloth",
+      "covers": [
+        "body_leg_l",
+        "body_leg_r"
+      ],
+      "meshes": [
+        "skirt_l",
+        "skirt_r",
+        "apron_f"
+      ]
+    },
+    "cloth_legs": {
+      "layer": "cloth",
+      "covers": [
+        "body_leg_l",
+        "body_leg_r"
+      ],
+      "meshes": [
+        "hakama_l",
+        "hakama_r"
+      ]
+    },
+    "cloth_feet": {
+      "layer": "cloth",
+      "covers": [
+        "body_foot_l",
+        "body_foot_r"
+      ],
+      "meshes": [
+        "foot_l",
+        "foot_r"
+      ]
+    },
+    "std_hair": {
+      "layer": "hair",
+      "meshes": [
+        "hair_cap",
+        "hair_fall",
+        "lock_l",
+        "lock_r",
+        "topknot",
+        "hairpin"
+      ]
+    },
+    "std_ornament": {
+      "layer": "ornament",
+      "meshes": [
+        "crown",
+        "crown_fin",
+        "brow_gem"
+      ]
+    }
+  }
+}

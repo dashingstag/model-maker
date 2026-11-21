@@ -1,0 +1,34 @@
+{
+  "id": "body_torso",
+  "type": "glb",
+  "part": {
+    "slot": "body_torso",
+    "layer": "body",
+    "meshes": [
+      "btorso_pelvis",
+      "btorso_waist",
+      "btorso_chest"
+    ],
+    "source": "build_body"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 1500,
+  "contract": {
+    "glb": {
+      "bones": [
+        "root",
+        "spine",
+        "chest"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "btorso_pelvis",
+        "btorso_waist",
+        "btorso_chest"
+      ]
+    }
+  }
+}
