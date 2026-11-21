@@ -1,0 +1,30 @@
+{
+  "verdict": "pass",
+  "actor": "devin",
+  "ts": 1795273298.4715014,
+  "checks": {
+    "materials not washed out": "pass",
+    "animations play without clipping": "pass",
+    "within tri budget": "pass",
+    "has: silver-white hair": "pass",
+    "has: layered indigo and silver robes": "pass",
+    "has: dark crown ornament": "pass",
+    "absent: missing fingers": "pass",
+    "absent: collapsed sleeves": "pass",
+    "absent: merged robe layers": "pass",
+    "face present in hood opening, forward-facing": "pass",
+    "features painted in-texture (no floating cards)": "pass"
+  },
+  "flags": [
+    "stylized low-poly face \u2014 soft features by design; brow strokes faint (silver-on-skin)"
+  ],
+  "note": "rev18 = facebuild head-track redo (ledger #95): hood shell CUT in the face box (real opening), canonical face mesh recessed inside (brow ridge/sockets/nose/cheek/lip/chin relief, chin taper, back-of-head hemi), features painted into the face's OWN texture (sclera/iris/pupil/highlight/brows/lips) \u2014 card quads and the faceplate are gone (132 tris deleted, 288 installed, 14,863 total). No floating cards => no cast-shadow smears. design_pass paints the rim as hood (has_face path); face spec lives in the brief's 'face' block; contract gained 7 face:* checks.",
+  "reviewed_files": [
+    "unit_render/turntable_front.png",
+    "unit_render/turntable_side.png",
+    "unit_render/turntable_back.png",
+    "unit_render/idle_25.png",
+    "unit_render/idle_50.png",
+    "unit_render/face_close.png"
+  ]
+}

@@ -37,10 +37,16 @@ VAST-AI SkinTokens (env skintokens_python/skintokens_dir) — generates
 its OWN skeleton (31 bones, generic names), for non-humanoid assets.
 post (default []): ordered finishing steps on the final GLB —
 'face' adds eye/brow/lip cards bone-parented to `head` (humanoid
-rigs only), 'faceplate' adds a sculpted face-plate mesh under the
-cards — the hy3d shell has no real face surface (recessed tris are
-inner backfaces), so the plate shrink-wraps onto the hood shell with
-gaussian relief and re-seats the card stack (tools/face_plate.py),
+rigs only), 'facebuild' is the surgical head track (tools/
+face_build.py): strips card/plate meshes, CUTS a real opening in
+the hood shell, installs a canonical face mesh recessed inside with
+features painted into its own texture — the brief's "face" block
+declares the box. Replaces 'face'+'faceplate' for faced components;
+run before 'design'. 'faceplate' adds a sculpted face-plate mesh
+under the cards — the hy3d shell has no real face surface (recessed
+tris are inner backfaces), so the plate shrink-wraps onto the hood
+shell with gaussian relief and re-seats the card stack
+(tools/face_plate.py),
 metallicRoughness map, 'ao' bakes ambient occlusion in Blender and
 injects it as occlusionTexture (ao_res tunes bake size), 'tcao' does
 the same via texturecraft-cli's GPU ray-traced bake (seconds vs
@@ -229,6 +235,15 @@ def generate(cid, cdir, brief, opts, env, out):
             # sculpted face-plate mesh + card re-seat (needs 'face' first)
             cmd = [sys.executable,
                    os.path.join(_TOOLS, "face_plate.py"), out, tmp]
+        elif step == "facebuild":
+            # surgical face: strip card/plate meshes, CUT the hood shell
+            # opening, install canonical face mesh + painted feature
+            # texture (face spec = brief's top-level "face" block).
+            # Replaces 'face'+'faceplate' — run before 'design'.
+            bj = os.path.join(os.path.dirname(_TOOLS), "pipeline",
+                              "components", cid, "brief.json")
+            cmd = [sys.executable,
+                   os.path.join(_TOOLS, "face_build.py"), out, tmp, bj]
         elif step == "pbr":
             cmd = [sys.executable,
                    os.path.join(_TOOLS, "pbr_fix.py"), out, tmp]

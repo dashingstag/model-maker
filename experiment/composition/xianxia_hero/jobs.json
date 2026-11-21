@@ -1,0 +1,263 @@
+{
+  "schema": "mm.jobs.v1",
+  "mode": "all",
+  "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\xianxia_hero",
+  "provenance": {
+    "manifests": {
+      "xx_azure_sage_3d": "sha256:cdff639bb3512835137f4dd2c26e8d565207d6dbe43f01dbaf90d88370c8da79",
+      "xx_sage_staff_3d": "sha256:a7f058172f6499258d2f0f69400c46a681c3e749fd1aa2cc6cf9c3221b2ee140",
+      "xx_jian_3d": "sha256:af443ad21667198a1ed326f75c7e28ee52d05e1a1a51c2198b56e6d806ba0a80"
+    },
+    "goal": "xianxia_hero"
+  },
+  "rig": {
+    "name": "std_xianxia",
+    "canvas_modulate": "#b8b0cc",
+    "light_2d": {
+      "color": "#ffd9a0",
+      "energy": 2.0,
+      "texture_scale": 3.0,
+      "anchor": "center-above-hero"
+    },
+    "unit_render_bg": "#2a2a38"
+  },
+  "unit_jobs": [
+    {
+      "id": "xx_azure_sage_3d",
+      "type": "glb",
+      "assets": "res://assets/components/xx_azure_sage_3d",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_azure_sage_3d\\unit_render",
+      "glb": "xx_azure_sage_3d.glb",
+      "material": "toon"
+    },
+    {
+      "id": "xx_jian_3d",
+      "type": "glb",
+      "assets": "res://assets/components/xx_jian_3d",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_jian_3d\\unit_render",
+      "glb": "xx_jian_3d.glb",
+      "material": "toon"
+    },
+    {
+      "id": "xx_sage_staff_3d",
+      "type": "glb",
+      "assets": "res://assets/components/xx_sage_staff_3d",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_sage_staff_3d\\unit_render",
+      "glb": "xx_sage_staff_3d.glb",
+      "material": "toon"
+    }
+  ],
+  "composition": {
+    "components_dir": "res://assets/components",
+    "layout": {
+      "rows": [
+        {
+          "id": "ground",
+          "y": 648
+        }
+      ],
+      "xx_azure_sage_3d_row": "ground",
+      "xx_azure_sage_3d_x": 512,
+      "feet_pivot": true,
+      "attach3d": [
+        {
+          "prop": "xx_sage_staff_3d",
+          "to": "xx_azure_sage_3d",
+          "socket": "hand.r",
+          "rot": [
+            -80,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "members": [
+      {
+        "id": "xx_azure_sage_3d",
+        "kind": "glb",
+        "dir": "res://assets/components/xx_azure_sage_3d",
+        "glb": "xx_azure_sage_3d.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648,
+        "material": "toon"
+      }
+    ],
+    "dialogue": null,
+    "layers": [],
+    "shots": [
+      "turntable_front",
+      "turntable_side",
+      "turntable_back",
+      "sage_attach_close"
+    ],
+    "variants": {},
+    "variant_of": {},
+    "glbs": {
+      "xx_azure_sage_3d": "xx_azure_sage_3d.glb",
+      "xx_jian_3d": "xx_jian_3d.glb",
+      "xx_sage_staff_3d": "xx_sage_staff_3d.glb"
+    },
+    "shot_expect": {},
+    "action_shots": [
+      {
+        "name": "channel_sequence",
+        "cast": {
+          "sage": "xx_azure_sage_3d"
+        },
+        "captures": [
+          {
+            "t": 0.6,
+            "camera": "front_close"
+          },
+          {
+            "t": 1.4,
+            "camera": "front_close"
+          }
+        ],
+        "expect": {
+          "props_attached": true
+        },
+        "props": {
+          "sage": {
+            "cid": "xx_sage_staff_3d",
+            "socket": "hand.r"
+          }
+        }
+      },
+      {
+        "name": "duel_probe",
+        "of": "sword_duel",
+        "cast": {
+          "attacker": "xx_azure_sage_3d",
+          "defender": "xx_azure_sage_3d"
+        },
+        "props": {
+          "attacker": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          },
+          "defender": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          }
+        },
+        "captures": [
+          {
+            "t": 0.45,
+            "camera": "mid"
+          },
+          {
+            "t": 0.9,
+            "camera": "mid"
+          }
+        ],
+        "expect": {
+          "props_attached": true,
+          "contact_within_m": 0.15,
+          "no_ground_clip": true
+        }
+      },
+      {
+        "name": "form_kata",
+        "of": "sword_form",
+        "cast": {
+          "form": "xx_azure_sage_3d"
+        },
+        "props": {
+          "form": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          }
+        },
+        "captures": [
+          {
+            "t": 1.35,
+            "camera": "front_close"
+          },
+          {
+            "t": 2.2,
+            "camera": "front_close"
+          }
+        ],
+        "expect": {
+          "props_attached": true
+        }
+      },
+      {
+        "name": "greeting",
+        "of": "ceremony_greeting",
+        "cast": {
+          "senior": "xx_azure_sage_3d",
+          "junior": "xx_azure_sage_3d"
+        },
+        "captures": [
+          {
+            "t": 1.0,
+            "camera": "mid"
+          },
+          {
+            "t": 1.9,
+            "camera": "mid"
+          }
+        ],
+        "expect": {
+          "no_ground_clip": true
+        }
+      },
+      {
+        "name": "duel_exchange",
+        "of": "duel_advanced",
+        "cast": {
+          "attacker": "xx_azure_sage_3d",
+          "defender": "xx_azure_sage_3d"
+        },
+        "props": {
+          "attacker": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          },
+          "defender": {
+            "cid": "xx_jian_3d",
+            "aim": [
+              0,
+              1.45,
+              0
+            ]
+          }
+        },
+        "captures": [
+          {
+            "t": 0.55,
+            "camera": "mid"
+          },
+          {
+            "t": 1.8,
+            "camera": "mid"
+          }
+        ],
+        "expect": {
+          "props_attached": true,
+          "no_ground_clip": true
+        }
+      }
+    ]
+  }
+}

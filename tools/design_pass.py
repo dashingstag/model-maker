@@ -77,6 +77,11 @@ def rebuild(d, g, bo, repl):
 
 def main():
     d, g, bo = load_glb(SRC)
+    # facebuild installs a real face mesh with its own texture — the
+    # painted face oval must NOT run (it would ring the opening with
+    # skin-colored shell); the rim stays hood/hair. Card ops are already
+    # no-ops (card meshes are gone).
+    has_face = any(n.get("name") == "face_mesh" for n in g["nodes"])
     mi = max(range(len(g["meshes"])), key=lambda i: sum(
         g["accessors"][p["indices"]]["count"]
         for p in g["meshes"][i]["primitives"]))
@@ -378,8 +383,17 @@ def main():
         return np.clip(col, 0, 1), r
 
     head_soft = (y > 2.0) & (pos[:, 2] > -0.60) & (ax < 0.38)
-    nh = paint_soft(head_soft, face_fill, votes=1)
-    print("design_pass: head-field tris repainted:", nh)
+    if has_face:
+        # real face installed — the opening rim is hood, not skin
+        def hood_fill(P, base):
+            r = np.sqrt((P[:, 0] / 0.095) ** 2
+                        + ((P[:, 1] - 2.360) / 0.088) ** 2)
+            return np.tile(HAIR, (len(P), 1)), r
+        nh = paint_soft(head_soft, hood_fill, votes=1)
+    else:
+        nh = paint_soft(head_soft, face_fill, votes=1)
+    print("design_pass: head-field tris repainted:", nh,
+          "(hood rim)" if has_face else "(face oval)")
 
     def neck_fill(P, base):
         x, yv = P[:, 0], P[:, 1]

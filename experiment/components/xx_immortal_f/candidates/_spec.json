@@ -1,0 +1,258 @@
+{
+  "name": "xx_immortal_f",
+  "prompt": "female immortal, elaborate updo with golden hairpins, flowing white and gold layered hanfu with wide feathered sleeves, graceful posture, faint golden glow, full body, ornate updo with golden hairpins, wide flowing sleeves, layered white and gold hanfu, full body head to feet, ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece, moon-white and gold silk robes, silver-white hair, jade accents, violet dusk sky fading to peach gold, teal waterfalls, glowing cyan spirit trees, lilac mist",
+  "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, detailed background, scenery, landscape, gradient background, low quality, wings, extra limbs, cropped feet, second figure, modern clothing",
+  "camera": {
+    "ortho_scale": 2.4,
+    "location": [
+      0,
+      -4.2,
+      1.0
+    ],
+    "size": [
+      512,
+      640
+    ]
+  },
+  "poses": {
+    "idle": {
+      "seed": 1000,
+      "bones": {}
+    },
+    "sleeve_dance": {
+      "seed": 1100,
+      "bones": {
+        "upper_arm.l": [
+          1.15,
+          0,
+          -0.55
+        ],
+        "upper_arm.r": [
+          1.15,
+          0,
+          0.55
+        ],
+        "forearm.l": [
+          0.3,
+          0,
+          -0.35
+        ],
+        "forearm.r": [
+          0.3,
+          0,
+          0.35
+        ],
+        "spine": [
+          -0.08,
+          0,
+          0
+        ],
+        "head": [
+          -0.12,
+          0,
+          0
+        ],
+        "thigh.l": [
+          0.2,
+          0,
+          0.15
+        ],
+        "thigh.r": [
+          -0.1,
+          0,
+          -0.1
+        ]
+      }
+    },
+    "sword_stance": {
+      "seed": 1200,
+      "bones": {
+        "upper_arm.r": [
+          1.3,
+          0,
+          -0.15
+        ],
+        "forearm.r": [
+          0.2,
+          0,
+          0
+        ],
+        "upper_arm.l": [
+          0.55,
+          0,
+          0.3
+        ],
+        "forearm.l": [
+          1.0,
+          0,
+          -0.15
+        ],
+        "thigh.l": [
+          0.35,
+          0,
+          0.1
+        ],
+        "shin.l": [
+          0.3,
+          0,
+          0
+        ],
+        "thigh.r": [
+          -0.15,
+          0,
+          -0.1
+        ],
+        "shin.r": [
+          0.1,
+          0,
+          0
+        ],
+        "spine": [
+          0.08,
+          0,
+          0
+        ]
+      }
+    },
+    "meditate": {
+      "seed": 1300,
+      "bones": {
+        "thigh.l": [
+          1.15,
+          0,
+          0.45
+        ],
+        "thigh.r": [
+          1.15,
+          0,
+          -0.45
+        ],
+        "shin.l": [
+          1.75,
+          0,
+          0
+        ],
+        "shin.r": [
+          1.75,
+          0,
+          0
+        ],
+        "upper_arm.l": [
+          0.3,
+          0,
+          -0.1
+        ],
+        "upper_arm.r": [
+          0.3,
+          0,
+          0.1
+        ],
+        "forearm.l": [
+          -0.95,
+          0,
+          0
+        ],
+        "forearm.r": [
+          -0.95,
+          0,
+          0
+        ],
+        "spine": [
+          0.06,
+          0,
+          0
+        ],
+        "head": [
+          0.1,
+          0,
+          0
+        ]
+      }
+    },
+    "hand_seal": {
+      "seed": 1400,
+      "bones": {
+        "upper_arm.r": [
+          0.9,
+          0,
+          -0.2
+        ],
+        "forearm.r": [
+          -1.3,
+          0,
+          0
+        ],
+        "upper_arm.l": [
+          0.38,
+          0,
+          0.25
+        ],
+        "forearm.l": [
+          -0.85,
+          0,
+          0
+        ],
+        "chest": [
+          0.05,
+          0,
+          0
+        ],
+        "head": [
+          0.08,
+          0,
+          0
+        ]
+      }
+    },
+    "cloud_ride": {
+      "seed": 1500,
+      "bones": {
+        "thigh.l": [
+          1.2,
+          0,
+          -0.1
+        ],
+        "shin.l": [
+          1.5,
+          0,
+          0
+        ],
+        "thigh.r": [
+          0.12,
+          0,
+          0.05
+        ],
+        "upper_arm.l": [
+          1.05,
+          0,
+          -0.9
+        ],
+        "forearm.l": [
+          -0.3,
+          0,
+          0
+        ],
+        "upper_arm.r": [
+          0.85,
+          0,
+          0.65
+        ],
+        "forearm.r": [
+          -0.25,
+          0,
+          0
+        ],
+        "spine": [
+          0.08,
+          0,
+          -0.08
+        ],
+        "head": [
+          0.05,
+          0.2,
+          0
+        ]
+      }
+    }
+  }
+}

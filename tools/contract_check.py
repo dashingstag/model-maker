@@ -189,6 +189,187 @@ def _glb_metrics(d, targets):
     return (aspect, cov, meta), glbs[0]
 
 
+_FACE_DROP = {"brow.l", "brow.r", "eye_hi.l", "eye_hi.r",
+              "eye_iris.l", "eye_iris.r", "eye_pupil.l", "eye_pupil.r",
+              "eye_sclera.l", "eye_sclera.r", "lips", "faceplate"}
+
+
+def _acc(g, bin_, ai):
+    import numpy as np
+    a = g["accessors"][ai]
+    bv = g["bufferViews"][a["bufferView"]]
+    off = bv.get("byteOffset", 0) + a.get("byteOffset", 0)
+    nc = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4}[a["type"]]
+    dt = {5126: np.float32, 5123: np.uint16, 5125: np.uint32,
+          5121: np.uint8}[a["componentType"]]
+    return np.frombuffer(bin_, dt, a["count"] * nc, off).reshape(-1, nc)
+
+
+def _world_pos(g, bin_, node_i):
+    """POSITION accessor of node's mesh, pushed through the parent chain
+    (TRS compose — enough for rigid bone-parented attachments)."""
+    import numpy as np
+
+    def trs(n):
+        t = np.array(n.get("translation", [0, 0, 0]), dtype=np.float64)
+        r = np.array(n.get("rotation", [0, 0, 0, 1]), dtype=np.float64)
+        s = np.array(n.get("scale", [1, 1, 1]), dtype=np.float64)
+        x, y, z, w = r
+        R = np.array([
+            [1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
+            [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+            [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)]])
+        return R, t, s
+
+    parent = {}
+    for i, n in enumerate(g["nodes"]):
+        for c in n.get("children", []):
+            parent[c] = i
+    chain = [node_i]
+    while chain[-1] in parent:
+        chain.append(parent[chain[-1]])
+    Rs, ts, ss = [], [], []
+    for i in reversed(chain):
+        R, t, s = trs(g["nodes"][i])
+        Rs.append(R)
+        ts.append(t)
+        ss.append(s)
+
+    def xform(v):
+        p = np.asarray(v, dtype=np.float64)
+        for R, t, s in zip(Rs, ts, ss):
+            p = R @ (p * s) + t
+        return p
+    prims = g["meshes"][g["nodes"][node_i]["mesh"]]["primitives"]
+    outs = []
+    for p in prims:
+        pos = _acc(g, bin_, p["attributes"]["POSITION"]).astype(np.float64)
+        outs.append(np.apply_along_axis(xform, 1, pos))
+    return np.vstack(outs)
+
+
+def _face_box(g, bin_, fcon):
+    """Resolve the face spec to a model-coord box (x0,x1,y0,y1)."""
+    if "box_model" in fcon:
+        bm = fcon["box_model"]
+        return (bm["x"][0], bm["x"][1], bm["y"][0], bm["y"][1])
+    # normalized fractions of the head band (verts in top 0.45m)
+    import numpy as np
+    allp = []
+    for m in g["meshes"]:
+        for p in m.get("primitives", []):
+            if "POSITION" in p["attributes"]:
+                allp.append(_acc(g, bin_, p["attributes"]["POSITION"]))
+    P = np.vstack(allp)
+    H = P[P[:, 1] > P[:, 1].max() - 0.45]
+    bx, by = fcon["box"]["x"], fcon["box"]["y"]
+    return (H[:, 0].min() + bx[0] * (H[:, 0].max() - H[:, 0].min()),
+            H[:, 0].min() + bx[1] * (H[:, 0].max() - H[:, 0].min()),
+            H[:, 1].min() + by[0] * (H[:, 1].max() - H[:, 1].min()),
+            H[:, 1].min() + by[1] * (H[:, 1].max() - H[:, 1].min()))
+
+
+def _face_checks(g, bin_, fcon):
+    """Product-truth gate: a face EXISTS at the spec'd position, forward,
+    unobstructed, right-sized, with painted features — the thing revs
+    13-17 got past every technical check without having."""
+    import numpy as np
+    checks = []
+    box = _face_box(g, bin_, fcon)
+    x0, x1, y0, y1 = box
+    face_i = next((i for i, n in enumerate(g["nodes"])
+                   if n.get("name") == "face_mesh" and "mesh" in n), None)
+    checks.append({"id": "face:node", "pass": face_i is not None,
+                   "note": "canonical face mesh child of head"})
+    if face_i is None:
+        return checks
+    parent = {}
+    for i, n in enumerate(g["nodes"]):
+        for c in n.get("children", []):
+            parent[c] = i
+    a = face_i
+    under_head = False
+    while a in parent:
+        a = parent[a]
+        if g["nodes"][a].get("name") == "head":
+            under_head = True
+            break
+    checks.append({"id": "face:parent_head", "pass": under_head})
+    mesh_names = {m.get("name", "") for m in g["meshes"]}
+    checks.append({"id": "face:cards_gone",
+                   "pass": bool(not (mesh_names & _FACE_DROP)),
+                   "note": "card/plate meshes deleted"})
+    fv = _world_pos(g, bin_, face_i)
+    fmesh = g["meshes"][g["nodes"][face_i]["mesh"]]
+    tris = []
+    for p in fmesh["primitives"]:
+        idx = _acc(g, bin_, p["indices"]).reshape(-1, 3)
+        tris.append(fv[idx].mean(axis=1))
+    fc = np.vstack(tris)
+    pad = 0.10 * (x1 - x0)
+    inb = (fc[:, 0] > x0 - pad) & (fc[:, 0] < x1 + pad) \
+        & (fc[:, 1] > y0 - pad) & (fc[:, 1] < y1 + pad)
+    frac = inb.mean()
+    checks.append({"id": "face:tris_in_box", "pass": bool(frac >= 0.6),
+                   "value": round(float(frac), 3), "target": 0.6})
+    # occluders: shell tris in front of the face inside the opening
+    ffront = fc[:, 2].max()
+    occ = 0
+    fi_mesh = g["nodes"][face_i]["mesh"]
+    for mi, m in enumerate(g["meshes"]):
+        if mi == fi_mesh:
+            continue
+        for p in m.get("primitives", []):
+            if "indices" not in p:
+                continue
+            pos = _acc(g, bin_, p["attributes"]["POSITION"])
+            idx = _acc(g, bin_, p["indices"]).reshape(-1, 3)
+            c = pos[idx].mean(axis=1)
+            eu = (c[:, 0] - (x0 + x1) / 2) / ((x1 - x0) / 2)
+            ev = (c[:, 1] - (y0 + y1) / 2) / ((y1 - y0) / 2)
+            occ += int(((eu * eu + ev * ev < 1.0)
+                        & (c[:, 2] > ffront + 0.004)).sum())
+    checks.append({"id": "face:occluders", "pass": bool(occ == 0),
+                   "value": int(occ), "target": 0})
+    # size: face width vs head-band width
+    allp = []
+    for m in g["meshes"]:
+        for p in m.get("primitives", []):
+            if "POSITION" in p["attributes"]:
+                allp.append(_acc(g, bin_, p["attributes"]["POSITION"]))
+    P = np.vstack(allp)
+    hb = P[P[:, 1] > P[:, 1].max() - 0.45]
+    ratio = (x1 - x0) / max(1e-6, hb[:, 0].max() - hb[:, 0].min())
+    checks.append({"id": "face:width", "pass": bool(0.15 <= ratio <= 0.55),
+                   "value": round(float(ratio), 3),
+                   "target": [0.15, 0.55]})
+    # features live in the face texture: iris-colored pixels exist
+    feat_ok = False
+    want = (fcon.get("colors") or {}).get("iris")
+    if want:
+        rgb = _hex_rgb(want)
+        for img in g.get("images", []):
+            if img.get("name") != "face_tex":
+                continue
+            bv = g["bufferViews"][img["bufferView"]]
+            data = bin_[bv.get("byteOffset", 0):
+                        bv.get("byteOffset", 0) + bv["byteLength"]]
+            try:
+                from PIL import Image
+                im = Image.open(io.BytesIO(data)).convert("RGB")
+                px = im.load()
+                n = 0
+                for yy in range(0, im.size[1], 4):
+                    for xx in range(0, im.size[0], 4):
+                        n += _match(*px[xx, yy], rgb)
+                feat_ok = n >= 4
+            except Exception:
+                pass
+    checks.append({"id": "face:texture_features", "pass": feat_ok,
+                   "note": "iris-colored texels in face_tex"})
+    return checks
+
+
 def run(cid):
     d = os.path.join(ROOT, "pipeline", "components", cid)
     brief = json.load(open(os.path.join(d, "brief.json")))
@@ -242,6 +423,15 @@ def run(cid):
             if tmin is not None:
                 checks.append({"id": "textures", "pass": meta["n_images"] >= tmin,
                                "value": meta["n_images"], "target": tmin})
+
+    if brief.get("face"):
+        glbs = glob.glob(os.path.join(d, "export", "*.glb"))
+        if glbs:
+            g2, bin2 = _glb(glbs[0])
+            checks += _face_checks(g2, bin2, brief["face"])
+        else:
+            checks.append({"id": "face:glb", "pass": False,
+                           "note": "no export/*.glb"})
 
     if not checks:
         out = {"cid": cid, "pass": None,
