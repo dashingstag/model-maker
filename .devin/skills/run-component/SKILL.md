@@ -77,7 +77,11 @@ python tools/publish.py <goal> --wait 60
   faster, also yields curvature/thickness maps; `tools/tc_bake.py`),
   `design` (position-keyed atlas repaint — cape/trim, cavity→hair,
   soft face field + z-gate, crown gate, gutter dilation, card
-  position rewrites; `tools/design_pass.py`, concept-keyed palette).
+  position rewrites; `tools/design_pass.py`, concept-keyed palette),
+  `tcdesign` (TextureCraft layer stack — curvature-cavity shading,
+  edge rim, banded gold via generator masks, native dilation export;
+  `tools/tc_design.py`. Tune generator levels to the baked-map
+  histogram — shell clouds bake AO≈1, default levels mask EMPTY #91).
 - `glb` certification requires **multi-angle evidence** (#85): a
   front-only golden passed a model whose rear cape was featureless
   and whose face cards never rendered. Before recording vision.json,

@@ -22,11 +22,6 @@ import sys
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ARGV = sys.argv[1:]
-IN, OUT = ARGV[0], ARGV[1]
-RES = int(ARGV[ARGV.index("--res") + 1]) if "--res" in ARGV else 2048
-MAPS = (ARGV[ARGV.index("--maps") + 1].split(",")
-        if "--maps" in ARGV else ["ao"])
 
 MAP_ID = {"ao": "AmbientOcclusion", "curvature": "Curvature",
           "thickness": "Thickness", "position": "Position",
@@ -115,9 +110,14 @@ def run(cli, args, what):
 
 
 def main():
+    argv = sys.argv[1:]
+    src, out = argv[0], argv[1]
+    res = int(argv[argv.index("--res") + 1]) if "--res" in argv else 2048
+    maps = (argv[argv.index("--maps") + 1].split(",")
+            if "--maps" in argv else ["ao"])
     env = json.load(open(os.path.join(_env_path())))
     cli = env["texturecraft_cli"]
-    _, g, binc = load_glb(IN)
+    _, g, binc = load_glb(src)
     patched = patch_uvs(g, binc)
     if patched:
         print(f"tc_bake: patched UVs on {patched} primitives")
@@ -127,8 +127,8 @@ def main():
     write_glb(fixed, g, binc)
     proj = os.path.join(work, "proj.tcraft")
 
-    run(cli, ["new", fixed, proj, "--resolution", str(RES)], "new")
-    run(cli, ["bake", proj, "--resolution", str(RES)], "bake")
+    run(cli, ["new", fixed, proj, "--resolution", str(res)], "new")
+    run(cli, ["bake", proj, "--resolution", str(res)], "bake")
 
     # export each requested map on texture set 0 (the generated body —
     # card materials carry no atlas and their maps are unusable anyway)
@@ -140,7 +140,7 @@ def main():
              "channels": [["R", {"Baked": {"map": MAP_ID[m], "component": 0}}],
                           ["G", {"Baked": {"map": MAP_ID[m], "component": 1}}],
                           ["B", {"Baked": {"map": MAP_ID[m], "component": 2}}]]}
-            for m in MAPS]
+            for m in maps]
     preset = json.dumps({"name": "tcbake", "maps": maps})
     out = run(cli, ["run", proj, "file.exportTextures",
                     json.dumps({"dir": outdir, "preset": json.loads(preset),
@@ -149,7 +149,7 @@ def main():
     files = sorted(os.listdir(outdir))
     body_name = None
     for f in files:
-        if f.endswith("_ao.png") or (MAPS == ["ao"] and f.endswith(".png")):
+        if f.endswith("_ao.png") or (maps == ["ao"] and f.endswith(".png")):
             body_name = f
     if body_name is None:
         raise RuntimeError(f"tc_bake: no AO map exported, got {files}")
@@ -158,20 +158,21 @@ def main():
     # extra maps kept beside <out> for inspection/future passes
     for f in files:
         if f != body_name:
-            dst = OUT + "." + f.rsplit("_", 1)[-1]
+            dst = out + "." + f.rsplit("_", 1)[-1]
             open(dst, "wb").write(open(os.path.join(outdir, f), "rb").read())
 
-    _, g2, binc2 = load_glb(IN)  # fresh copy: real atlas, real geometry
+    _, g2, binc2 = load_glb(src)  # fresh copy: real atlas, real geometry
     n = inject_ao(g2, binc2, ao)
     if n == 0:
         raise RuntimeError("tc_bake: no pbrMetallicRoughness material to "
                            "attach occlusionTexture")
-    write_glb(OUT, g2, binc2)
-    print(f"tc_bake: AO injected on {n} material(s) -> {OUT}")
+    write_glb(out, g2, binc2)
+    print(f"tc_bake: AO injected on {n} material(s) -> {out}")
 
 
 def _env_path():
     return os.path.join(ROOT, "tools", "env.json")
 
 
-main()
+if __name__ == "__main__":
+    main()

@@ -1,7 +1,7 @@
 {
   "verdict": "pass",
   "actor": "devin",
-  "ts": 1795202139.4797084,
+  "ts": 1795236727.3066633,
   "checks": {
     "materials not washed out": "pass",
     "animations play without clipping": "pass",
@@ -14,7 +14,7 @@
     "absent: merged robe layers": "pass"
   },
   "flags": [],
-  "note": "rev13: gutter dilation + z-gated face field \u2014 mip-bleed smudges and cavity backface blob fixed",
+  "note": "rev14: tcdesign post-step \u2014 curvature-cavity shading + edge rim + banded gold edging via TextureCraft generators; native dilation padding",
   "reviewed_files": [
     "unit_render/aerial_flourish_25.png",
     "unit_render/aerial_flourish_50.png",

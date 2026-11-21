@@ -516,7 +516,18 @@ the brief is the contract; tools catch up.
   (`tools/tc_bake.py` — seconds vs Cycles minutes, also dumps the
   curvature map beside the GLB; TC requires UVs on every primitive or
   it re-unwraps the whole mesh, so tc_bake patches degenerate UVs on
-  UV-less prims — e.g. face cards — in a temp copy first). The face pass
+  UV-less prims — e.g. face cards — in a temp copy first).
+  `tcdesign` layers TextureCraft's paint stack on top
+  (`tools/tc_design.py`): imports the current albedo as a fill layer,
+  GPU-bakes mesh maps, then adds generator-masked detail layers —
+  curvature-cavity shading, edgeWear rim highlight, and gold edging
+  banded by a `position` y-mask (world thresholds convert through the
+  bbox-normalized `pos·dir` signal) — and exports baseColor with
+  `padding: dilation` (the #90 gutter fix, native). Caution: generator
+  levels must be tuned to the baked-map histogram — a non-manifold
+  shell cloud bakes AO≈1 and mild curvature, so Substance-default
+  levels evaluate to EMPTY masks (#91); dump `mask.export` when
+  tuning. The face pass
   also strips unskinned floaters the generator hides inside the
   shell cloud (#79). `design` repaints the atlas per-triangle keyed
   on model position (`tools/design_pass.py` — the shell cloud's UV

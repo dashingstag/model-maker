@@ -44,7 +44,10 @@ the same via texturecraft-cli's GPU ray-traced bake (seconds vs
 minutes; also dumps curvature map beside the GLB), 'design'
 repaints the atlas per-triangle keyed on model position (cape
 gradient/trim, hood unify, face->mask, stray-texel cleanup —
-tools/design_pass.py, xianxia-indigo palette).
+tools/design_pass.py, xianxia-indigo palette). 'tcdesign' runs the
+TextureCraft paint stack instead: imported albedo + generator-masked
+detail layers (curvature cavities, edge rim, banded gold) exported
+with native gutter dilation (tools/tc_design.py).
 """
 import os
 import subprocess
@@ -246,6 +249,12 @@ def generate(cid, cdir, brief, opts, env, out):
             # texturecraft-cli GPU bake + occlusionTexture inject
             cmd = [sys.executable,
                    os.path.join(_TOOLS, "tc_bake.py"), out, tmp]
+        elif step == "tcdesign":
+            # texturecraft-cli paint stack: curvature/edge/position
+            # generator-masked detail layers over the current albedo,
+            # exported with native gutter dilation, re-injected
+            cmd = [sys.executable,
+                   os.path.join(_TOOLS, "tc_design.py"), out, tmp]
         else:
             raise RuntimeError(f"unknown post step '{step}' for {cid}")
         r = subprocess.run(cmd, capture_output=True, text=True)
