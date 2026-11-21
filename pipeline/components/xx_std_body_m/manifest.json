@@ -3,24 +3,30 @@
   "id": "xx_std_body_m",
   "type": "glb",
   "status": "certified",
-  "rev": 1,
+  "rev": 2,
   "constraints": {
     "type": "glb",
     "tri_budget": 40000,
     "skeleton": "@skeletons/humanoid_v2"
   },
   "inputs": {
-    "export/xx_std_body_m.glb": "sha256:cba00c6bfbdc445d12dafbb6fd52d2ad32ae69574314c219d76b1735ec461fd7"
+    "export/xx_std_body_m.glb": "sha256:18e90a4f4f079bd6527ded618d48587e7d6bd3dcd5f0e4534eeca0fa030b363b"
   },
   "artifacts": {
-    "processed/xx_std_body_m.glb": "sha256:cba00c6bfbdc445d12dafbb6fd52d2ad32ae69574314c219d76b1735ec461fd7"
+    "processed/xx_std_body_m.glb": "sha256:18e90a4f4f079bd6527ded618d48587e7d6bd3dcd5f0e4534eeca0fa030b363b"
   },
   "metrics": {},
   "gate_mode": {
     "tris_ok": "enforced"
   },
   "waiver": null,
-  "history": [],
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1795291542.311748,
+      "status": "certified"
+    }
+  ],
   "toolchain": {
     "blender": "4.5.15",
     "comfyui": "0.43.0",
@@ -59,7 +65,7 @@
     "tris_ok": true
   },
   "certified": {
-    "ts": 1795283436.9709754,
+    "ts": 1795291690.7386014,
     "by": "devin"
   }
 }

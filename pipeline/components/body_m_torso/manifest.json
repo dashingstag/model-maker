@@ -3,24 +3,30 @@
   "id": "body_m_torso",
   "type": "glb",
   "status": "certified",
-  "rev": 1,
+  "rev": 2,
   "constraints": {
     "type": "glb",
     "tri_budget": 3879,
     "skeleton": "@skeletons/humanoid_v2"
   },
   "inputs": {
-    "export/body_m_torso.glb": "sha256:7039c2dbdf364fc37601b96c5159507b5d39846268e667d172e02a33e9886262"
+    "export/body_m_torso.glb": "sha256:bf6e52772079d6c0d1d34b41839a5860dafdaa07300a0f0124dacccf25958f88"
   },
   "artifacts": {
-    "processed/body_m_torso.glb": "sha256:7039c2dbdf364fc37601b96c5159507b5d39846268e667d172e02a33e9886262"
+    "processed/body_m_torso.glb": "sha256:bf6e52772079d6c0d1d34b41839a5860dafdaa07300a0f0124dacccf25958f88"
   },
   "metrics": {},
   "gate_mode": {
     "tris_ok": "enforced"
   },
   "waiver": null,
-  "history": [],
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1795291305.2621708,
+      "status": "certified"
+    }
+  ],
   "toolchain": {
     "blender": "4.5.15",
     "comfyui": "0.43.0",
@@ -59,7 +65,7 @@
     "tris_ok": true
   },
   "certified": {
-    "ts": 1795283281.180812,
+    "ts": 1795291532.2487006,
     "by": "devin"
   }
 }

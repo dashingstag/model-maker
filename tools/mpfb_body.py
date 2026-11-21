@@ -100,7 +100,7 @@ SEX_MACROS = {
     "male":   {"gender": 1.0, "muscle": 0.65, "weight": 0.5,
                "cupsize": 0.0},
     "female": {"gender": 0.0, "muscle": 0.45, "weight": 0.5,
-               "cupsize": 0.7, "proportions": 0.65, "firmness": 0.6},
+               "cupsize": 1.0, "proportions": 0.65, "firmness": 0.6},
 }
 
 def parse_args():
@@ -235,9 +235,25 @@ def main():
     keep_verts = sorted({v for p in keep_faces for v in p.vertices})
     remap = {old: new for new, old in enumerate(keep_verts)}
 
-    # build a clean mesh with kept geometry only
+    # build a clean mesh with kept geometry only.
+    # MPFB applies macro morphs (gender/cupsize/muscle/proportions) as shape
+    # keys, not base positions — bake them manually to keep base indexing
+    # (the evaluated mesh renumbers verts via the helper mask modifier).
+    skeys = human.data.shape_keys
+    baked = {}
+    if skeys and skeys.use_relative:
+        basis = skeys.reference_key
+        bco = [v.co.copy() for v in basis.data]
+        active = [k for k in skeys.key_blocks
+                  if k != basis and abs(k.value) > 1e-6
+                  and k.relative_key == basis]
+        baked = {i: v.co.copy() for i, v in enumerate(basis.data)}
+        for k in active:
+            for i, kd in enumerate(k.data):
+                baked[i] += k.value * (kd.co - bco[i])
+    verts_new = [human.matrix_world @ (baked[i] if i in baked else me.vertices[i].co)
+                 for i in keep_verts]
     new_me = bpy.data.meshes.new("body")
-    verts_new = [human.matrix_world @ me.vertices[i].co for i in keep_verts]
     faces_new = [[remap[v] for v in p.vertices] for p in keep_faces]
     new_me.from_pydata(verts_new, [], faces_new)
     new_me.update()

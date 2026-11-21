@@ -804,7 +804,12 @@ certification. Two layers:
   `game_engine` rig with authored weights headlessly inside Blender
   — `--sex` feeds a `macro_detail_dict` phenotype (gender target
   1.0/0.0 + muscle/cupsize/proportions/firmness shaping) to
-  `create_human`. Optional post-fit shaping flags
+  `create_human`. MPFB applies macros as *shape keys* (`$md-*`
+  blocks), not base positions — the tool bakes them manually
+  (`basis + Σ value·(key − basis)`, base-index aligned; the
+  evaluated mesh can't be used because the helper mask modifier
+  renumbers verts). Without the bake the phenotype is silently
+  inert. Optional post-fit shaping flags
   (`--neck-lift`, `--waist`, `--hip`) apply joint-anchored spatial
   fields on the fitted mesh — head-family verts lift with a smooth
   falloff through the neck band; torso-weighted verts taper in x/y
