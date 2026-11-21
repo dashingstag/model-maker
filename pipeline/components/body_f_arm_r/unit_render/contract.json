@@ -1,0 +1,30 @@
+{
+  "cid": "body_f_arm_r",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:upper_arm.r",
+      "pass": true
+    },
+    {
+      "id": "bone:forearm.r",
+      "pass": true
+    },
+    {
+      "id": "bone:hand.r",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:body_arm_r",
+      "pass": true
+    }
+  ]
+}

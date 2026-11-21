@@ -68,16 +68,18 @@ regen, `modulate`|runtime tint, `parts`); `vary` (regions that change);
 `variants` — explicit per-member targets keyed by **palette name**
 (`@palettes/<pal>.colors.<key>`), never raw hues.
 
-**Part components (`body_*`/`cloth_*`/`std_*`):** `part = {slot, layer,
-covers, meshes, source}` — slot/layer/covers must match
-`shared/mannequin/humanoid_base.json` (vocab, never invent slots;
+**Part components (`body_{m|f}_*`/`cloth_*`/`std_*`):** `part = {slot,
+layer, covers, meshes, source, binding, sex}` — slot/layer/covers must
+match `shared/mannequin/humanoid_base.json` (vocab, never invent slots;
 body slots declare `bones` — slice ownership — cloth slots declare
-`meshes`). `contract.glb.nodes` lists the part's mesh-node names —
-skinned `body_*` parts export ONE mesh node named after the slot;
-rigid `cloth_*`/`std_*` parts keep their mannequin mesh names.
+`meshes`). Body component ids are **sexed** (`body_m_head`,
+`body_f_foot_r`) — `part.sex: male|female` records the MPFB phenotype
+— while `part.slot` and the exported mesh node keep the unsexed slot
+name (`body_head`), so `contract.glb.nodes` lists `[<slot>]` for any
+sex. Rigid `cloth_*`/`std_*` parts keep their mannequin mesh names.
 `bones` samples the bind bones. Parts are prebuilt — no prompt fields.
 `layer: "body"` = complete skin coverage, skinned (MPFB2 via
-`tools/mpfb_body.py`); `layer: "cloth"` = garment, rigid,
+`tools/mpfb_body.py --sex`); `layer: "cloth"` = garment, rigid,
 `covers: [body slots]` declares what it hides.
 
 **Assembled characters:** `assemble = {base: "@mannequin/<name>",

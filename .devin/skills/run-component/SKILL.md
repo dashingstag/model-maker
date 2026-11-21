@@ -65,11 +65,13 @@ python tools/publish.py <goal> --wait 60
   the model can't produce on its own (e.g. exact counts: draw nine orbs in
   a ring → denoise 0.26, verified 9/9 clusters in #34). Denoise floor ~0.25
   melts flat guide art into painterly style while preserving count/layout.
-- `glb` **parts** (`body_*`/`cloth_*`/`std_*`) — prebuilt artifacts, no
-  C1: `tools/mpfb_body.py` emits *skinned* body parts (`part.layer: body`
-  — MPFB2 authored human, pose-fit onto `humanoid_v2`, sliced by dominant
-  bone, LBS ≤4 influences, weights preserved across slice seams; needs
-  the MPFB2 Blender extension + `blender --background`), `tools/std_parts.py`
+- `glb` **parts** (`body_{m|f}_*`/`cloth_*`/`std_*`) — prebuilt
+  artifacts, no C1: `tools/mpfb_body.py --sex male|female` emits
+  *skinned* body parts (`part.layer: body`, `part.sex` records the
+  phenotype — MPFB2 authored human, gender/muscle/cupsize macro
+  targets, pose-fit onto `humanoid_v2`, sliced by dominant bone, LBS
+  ≤4 influences, weights preserved across slice seams; needs the
+  MPFB2 Blender extension + `blender --background`), `tools/std_parts.py`
   slices garment/ornament parts from `@mannequin/humanoid_base`
   (`part.layer: cloth|hair|ornament`, rigid bone-parented, cloth declares
   `part.covers`). Emit → `export/` directly, then extract → contract →
@@ -84,8 +86,8 @@ python tools/publish.py <goal> --wait 60
   IBMs from the first part, per-part `JOINTS_0` index remap) and the
   rigid `Merger` (mesh nodes grafted under same-name bones). Figures may
   mix both. Writes `export/<id>.glb` + `export/assemble.json`. Then
-  normal glb C-track. `xx_std_body` (11 skinned parts) is the reference
-  skinned assembly.
+  normal glb C-track. `xx_std_body_m`/`xx_std_body_f` (11 skinned parts
+  each) are the reference skinned assemblies.
 - `glb` — C1 is the blender builder → `build/` + `export/`; extract
   validates tris vs `tri_budget` and lists animations. Brief
   `material: "toon"` gives the member banded toon shading + inverted-hull

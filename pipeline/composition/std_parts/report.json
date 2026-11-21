@@ -4,17 +4,28 @@
     "inputs": {
       "goal": "std_parts",
       "manifests": {
-        "body_arm_l": "sha256:c483fce1d5831b22d8515ce0899775f1b939061092a300dff2c98f63cce055f0",
-        "body_arm_r": "sha256:0a2f84a1fbcd6190f64d1b97e97c687c104870ebbdcb93b41042d7bde3760f6b",
-        "body_foot_l": "sha256:108234818e08c563cf0d997b24a2b201de9f644d17e37749b303b6d0645bde4b",
-        "body_foot_r": "sha256:86fc41333716af27f315442cec5a36c4af4049ff323803ef15d956aa6440cda9",
-        "body_hand_l": "sha256:7b546d0b7399ed45c164ac2cab1598263968ebb3a04cc8ba20624dceff22dc44",
-        "body_hand_r": "sha256:f6032520a1ef3def1c882e20c590cf2045dc51253aabe220030030b4dc56c6ae",
-        "body_head": "sha256:4931677796828bd075f43f8bda14ebe4d2df36fc15978702973926d833ec29c4",
-        "body_leg_l": "sha256:82d7b9939c3230ee426a0236423b31a7996b5ae3ebbf82a92cefd04d18dc135c",
-        "body_leg_r": "sha256:9ef7f42a92ee7923a059ab5b799824a044adbd328767e12532d0e47ab4804925",
-        "body_neck": "sha256:176c474929be14cfe5533239e58ec2b245d1454ebb7983755b6c4fc1153208c3",
-        "body_torso": "sha256:010c6f0053d0bc355cb651d5b85098f7d909115d9f4ef5b00103f3791cf5d383",
+        "body_f_arm_l": "sha256:14c06ca1dad35ce566aaa07eae733b8bd1a1b6014dc30bf7eaf149c959983ea4",
+        "body_f_arm_r": "sha256:7e17f354188eee7e558076c0603abe577442080608885d07829d1aad98bc3fc6",
+        "body_f_foot_l": "sha256:a04ab1576dc71fc0283dc2a5422c46d01a80694426c8ed71b661e406d52cc602",
+        "body_f_foot_r": "sha256:c6533c0531df6cf308bda83cc45829a2baab982bdefca893033af7520fb00485",
+        "body_f_hand_l": "sha256:0afcdf29e858c032d714f535714afcea14ea5b9d141b3e191d2e8f4b16eb6263",
+        "body_f_hand_r": "sha256:a857511076f7924808c3a9bf305faa7744a1addb660dab841563a32752cd4964",
+        "body_f_head": "sha256:ab13af663c9caec80e37d28afe4ede4ff7d955383160194d4121d6f512bfda5d",
+        "body_f_leg_l": "sha256:4f9f9964cadce7589a1d31191f70e5d4fa08912b04d0fb467bcc2d2b13eb22d9",
+        "body_f_leg_r": "sha256:ca1f495d57c80b4ea80913753bbccbc52155f8eb9cd582028f8cd627fb7bc19f",
+        "body_f_neck": "sha256:68b621e72aa17adfd8abc512a15f42f1344945cff81a44d30534ef622a810db6",
+        "body_f_torso": "sha256:68eb13120e8ae35ba38183e91facb668d2ba3d9350e6eb65312e40e347d5fbd8",
+        "body_m_arm_l": "sha256:85ed6347c5fcbc764e7082e8e39575a229287a1f43f6a1f4e42f5472145aa78f",
+        "body_m_arm_r": "sha256:56bd7a46a6a9009467921b47f27f8b264ae2cfe4bdbfa84be9413c85b39bc77d",
+        "body_m_foot_l": "sha256:01572f11725ee0c5fe0b1290fb35e8749bf1e104818c70907cc71720a9fdf745",
+        "body_m_foot_r": "sha256:f972d623b947ecebdd944b32a9f1f4e16db12847305ca94dc5eb55d212284acd",
+        "body_m_hand_l": "sha256:75486eef49fa4095fa9a04499f85b8879d9bb0bafa3d85b4ca916010a04e14ae",
+        "body_m_hand_r": "sha256:9269d56767de612af67d1157c6bc769a0871a1c2510a02e7ecb32ef05b41d068",
+        "body_m_head": "sha256:5dd34008b4ceaf1ab870e37e05abd7b605ef471ff0517cd4565e9983f7e9c1c9",
+        "body_m_leg_l": "sha256:f8d5ce5a20cf37296398ce65dbcce779fb90cabbaa88766da19226508934e59b",
+        "body_m_leg_r": "sha256:18e814a9ab4f39633599b3dc2eb7983de845a0d15eb75485d0f50a98d2570bef",
+        "body_m_neck": "sha256:5249ff3080246b4a66caadbba33373051fedf509653ebc9203da971e9f8e5d18",
+        "body_m_torso": "sha256:15a07ffe49a62ecd23928eb8f9a3d8d96bb8c096710199b318d357a00efb7466",
         "cloth_feet": "sha256:280250d6b0802944f8695a9831958cb427ceff37bf36d7609f5347f303437672",
         "cloth_legs": "sha256:5950b5c21b4af250c57fa6c5c0345c4d95571836ea0df5642ed87457e3a9bb7c",
         "cloth_skirt": "sha256:1336c5c145fa0f86ffe6173f44a4748bec140eac9eaab60871c8fdfed8d32a41",
@@ -24,17 +35,18 @@
         "cloth_waist": "sha256:83c36767dc60e2199317abcaa54b105409632ea70ab1141a54d31f1fb2b37c1c",
         "std_hair": "sha256:135d9387dd206df3926633ffd8fa6d4237e673508f98e3f77423b9ba207e84c1",
         "std_ornament": "sha256:e7658945fd2bdd26d6ee45ae78cc82c1f5692bf5108d01737b911092355cb781",
-        "xx_std_body": "sha256:e404b26f9679dbd15011306c11eddd2f217cd0a6035a8dd1ca96e67eac1eb08a",
+        "xx_std_body_f": "sha256:41b91550f69a14fc26b002c927b78032f923e0782385e8bf6587d990006138d9",
+        "xx_std_body_m": "sha256:d875fc2446df1d81e230d2357ab8ce55e604683bc70115f44cfdbaba5915e44a",
         "xx_std_figure": "sha256:3c39042033ebcb33495b4cfccd526d43e6e9fb8f2e9b0460e753c4ea3bfa906e"
       }
     },
-    "job_file": "ecab2076d423",
+    "job_file": "3a55e2d4486e",
     "mode": "unit",
-    "timestamp": "2026-11-22T00:22:18"
+    "timestamp": "2026-11-22T01:50:28"
   },
   "schema": "mm.report.v1",
   "unit": {
-    "body_arm_l": {
+    "body_f_arm_l": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -61,7 +73,7 @@
       ],
       "type": "glb"
     },
-    "body_arm_r": {
+    "body_f_arm_r": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -88,7 +100,7 @@
       ],
       "type": "glb"
     },
-    "body_foot_l": {
+    "body_f_foot_l": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -115,7 +127,7 @@
       ],
       "type": "glb"
     },
-    "body_foot_r": {
+    "body_f_foot_r": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -142,7 +154,7 @@
       ],
       "type": "glb"
     },
-    "body_hand_l": {
+    "body_f_hand_l": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -169,7 +181,7 @@
       ],
       "type": "glb"
     },
-    "body_hand_r": {
+    "body_f_hand_r": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -196,7 +208,7 @@
       ],
       "type": "glb"
     },
-    "body_head": {
+    "body_f_head": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -223,7 +235,7 @@
       ],
       "type": "glb"
     },
-    "body_leg_l": {
+    "body_f_leg_l": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -250,7 +262,7 @@
       ],
       "type": "glb"
     },
-    "body_leg_r": {
+    "body_f_leg_r": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -277,7 +289,7 @@
       ],
       "type": "glb"
     },
-    "body_neck": {
+    "body_f_neck": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -304,7 +316,304 @@
       ],
       "type": "glb"
     },
-    "body_torso": {
+    "body_f_torso": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_arm_l": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_arm_r": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_foot_l": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_foot_r": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_hand_l": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_hand_r": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_head": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_leg_l": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_leg_r": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_neck": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "body_m_torso": {
       "animations": [
         "aerial_flourish",
         "breath",
@@ -574,7 +883,34 @@
       ],
       "type": "glb"
     },
-    "xx_std_body": {
+    "xx_std_body_f": {
+      "animations": [
+        "aerial_flourish",
+        "breath",
+        "channel_water",
+        "formal_bow",
+        "gaze_contemplate",
+        "head_scan",
+        "idle",
+        "kneel_offer",
+        "levitate_channel",
+        "lunge_strike",
+        "parry",
+        "recover",
+        "seated_meditate",
+        "sleeve_sway",
+        "spinning_parry",
+        "staff_salute",
+        "sword_form",
+        "sword_swing",
+        "talisman_cast",
+        "walk",
+        "weight_shift",
+        "wrist_channel"
+      ],
+      "type": "glb"
+    },
+    "xx_std_body_m": {
       "animations": [
         "aerial_flourish",
         "breath",

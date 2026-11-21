@@ -5,16 +5,22 @@ One Blender session:
   MPFB create_human + game_engine rig (authored weights)
   -> drop helper/genital/cube geometry, keep eyes/teeth/tongue
   -> merge MPFB weight groups onto humanoid_v2 bone names
-  -> bone-space retarget: place each vert in our skeleton's rest pose
-     (v' = sum_b w_b * F_ours[b'] * scale_b * F_mpfb[b]^-1 * v), mirrored on X
-  -> slice into body_* slots by dominant bone (ring-consistent: boundary
-     verts duplicated per part at identical positions/weights)
+  -> pose-fit retarget: pose each MPFB bone so its head lands on our
+     joint position + aims at our tail, then APPLY the armature
+     modifier — our proportions bake in through coherent LBS
+  -> mirror X (MPFB _l is +x, our .l is -x), merge weight groups to
+     humanoid_v2 names, cap at 4 influences
+  -> slice into body_* slots by dominant bone
   -> export one skinned GLB per part (armature = our skeleton + clips)
 
 Usage:
   blender -b --python tools/mpfb_body.py -- \\
       --skeleton-glb pipeline/components/body_torso/export/body_torso.glb \\
-      --out-dir pipeline/components --scale 1.07 [--decimate 0.5] [--only body_torso]
+      --out-dir pipeline/components [--sex male|female|neutral] \\
+      [--scale 1.07] [--decimate 0.5] [--only body_torso]
+
+--sex male|female emits body_m_*/body_f_* component ids (the mesh NODE
+keeps the unsexed slot name so contracts/assemble stay sex-agnostic).
 """
 import bpy, sys, os, json, argparse
 from mathutils import Vector, Matrix
@@ -88,6 +94,15 @@ HELPER_REGIONS = {
 
 LATERAL_SCALE = 1.07  # girth scale relative to MPFB (tunable via --scale)
 
+# MPFB phenotype per sex (gender interpolates female->male target set;
+# muscle/weight/cupsize shape the readable silhouette)
+SEX_MACROS = {
+    "male":   {"gender": 1.0, "muscle": 0.65, "weight": 0.5,
+               "cupsize": 0.0},
+    "female": {"gender": 0.0, "muscle": 0.45, "weight": 0.5,
+               "cupsize": 0.45},
+}
+
 def parse_args():
     argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     p = argparse.ArgumentParser()
@@ -97,6 +112,8 @@ def parse_args():
     p.add_argument("--decimate", type=float, default=0.0, help="collapse ratio (0=off)")
     p.add_argument("--only", default="")
     p.add_argument("--preview", default="", help="write merged preview GLB here")
+    p.add_argument("--sex", choices=["neutral", "male", "female"],
+                   default="neutral")
     return p.parse_args(argv)
 
 # ---------------- helpers ----------------
@@ -155,9 +172,17 @@ def main():
     print("our bones:", len(F_ours))
 
     # 2) MPFB human + game_engine rig
+    macro = {
+        "gender": 0.5, "age": 0.5, "muscle": 0.5, "weight": 0.5,
+        "proportions": 0.5, "height": 0.5, "cupsize": 0.5,
+        "firmness": 0.5,
+        "race": {"asian": 0.33, "caucasian": 0.33, "african": 0.33},
+    }
+    macro.update(SEX_MACROS.get(ARGS.sex, {}))
     human = HumanService.create_human(
         mask_helpers=True, detailed_helpers=True,
-        extra_vertex_groups=True, feet_on_ground=True, scale=0.1)
+        extra_vertex_groups=True, feet_on_ground=True, scale=0.1,
+        macro_detail_dict=macro)
     rig = HumanService.add_builtin_rig(human, "game_engine")
     F_mpfb = bone_world_map(rig)
     print("mpfb bones:", len(F_mpfb))
@@ -386,7 +411,12 @@ def main():
     for p in body.data.polygons:
         slot_faces[face_slot(p)].append(p)
 
-    # 7) emit per-part GLBs
+    # 7) emit per-part GLBs — component id is sexed (body_m_head), the
+    # exported mesh/node keeps the unsexed slot name (body_head) so the
+    # slot taxonomy, contracts and assemble schema stay sex-agnostic.
+    def cid(slot):
+        return slot if ARGS.sex == "neutral" \
+            else f"body_{ARGS.sex[0]}_{slot[5:]}"
     only = set(ARGS.only.split(",")) if ARGS.only else set(SLOTS)
     emitted = {}
     for slot, faces in slot_faces.items():
@@ -431,13 +461,13 @@ def main():
             o.select_set(False)
         our_arm.select_set(True)
         part.select_set(True)
-        part_dir = os.path.join(out_dir, slot, "export")
+        part_dir = os.path.join(out_dir, cid(slot), "export")
         os.makedirs(part_dir, exist_ok=True)
         bpy.ops.export_scene.gltf(
-            filepath=os.path.join(part_dir, f"{slot}.glb"),
+            filepath=os.path.join(part_dir, f"{cid(slot)}.glb"),
             use_selection=True, export_animations=True,
             export_skins=True, export_yup=True)
-        print("WROTE", slot)
+        print("WROTE", slot, "as", cid(slot))
     if ARGS.preview:
         for o in bpy.data.objects:
             o.select_set(False)

@@ -1,0 +1,57 @@
+{
+  "id": "body_f_hand_r",
+  "type": "glb",
+  "part": {
+    "slot": "body_hand_r",
+    "layer": "body",
+    "meshes": [
+      "body_hand_r"
+    ],
+    "source": "mpfb_body",
+    "binding": "skinned",
+    "sex": "female"
+  },
+  "skeleton": "@skeletons/humanoid_v2",
+  "tri_budget": 4181,
+  "contract": {
+    "glb": {
+      "bones": [
+        "hand.r",
+        "hand.r.index.2",
+        "hand.r.thumb.2"
+      ],
+      "anims": [
+        "idle",
+        "walk"
+      ],
+      "nodes": [
+        "body_hand_r"
+      ]
+    }
+  },
+  "goal": "std_parts",
+  "style": {
+    "name": "xianxia_ethereal",
+    "suffix": "ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece",
+    "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, detailed background, scenery, landscape, gradient background, low quality",
+    "subject_bg": "isolated on plain solid white background",
+    "scene_suffix": "wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters"
+  },
+  "palette": {
+    "name": "xianxia_element",
+    "colors": {
+      "crimson_aura": "#e03a2f",
+      "crimson_deep": "#5c1512",
+      "blood_moon": "#f2e6dd",
+      "bone_white": "#e8e0d4",
+      "ink_black": "#14100f",
+      "jade_aura": "#3fd87a",
+      "jade_deep": "#0d3a24",
+      "spirit_cyan": "#7fd8e8",
+      "night_blue": "#14283c",
+      "silver_moon": "#c8d8e8",
+      "gold_line": "#d9b568"
+    },
+    "prompt_hints": "crimson blood-moon aura vs jade verdant glow, ink-black robes with ornate embroidery, bone-white hair, dark elemental backdrop"
+  }
+}

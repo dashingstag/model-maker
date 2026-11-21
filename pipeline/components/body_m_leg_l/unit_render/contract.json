@@ -1,0 +1,30 @@
+{
+  "cid": "body_m_leg_l",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:thigh.l",
+      "pass": true
+    },
+    {
+      "id": "bone:shin.l",
+      "pass": true
+    },
+    {
+      "id": "bone:foot.l",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:body_leg_l",
+      "pass": true
+    }
+  ]
+}

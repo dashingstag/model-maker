@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "actor": "devin",
+  "ts": 1795283436.7866344,
+  "checks": {
+    "all 11 skinned parts present and assembled": "pass",
+    "skin deformation coherent across part boundaries (kneel/walk/sword)": "pass",
+    "no gaps or tearing at slice seams under animation": "pass",
+    "smooth normals \u2014 realistic MPFB anatomy": "pass",
+    "female anatomy correct (gender target read at figure scale)": "pass"
+  },
+  "flags": [
+    "faint seam lines at neck/shoulder under extreme poses \u2014 known v1 limitation",
+    "female build reads ~7cm taller than male (MPFB morph residual after joint-fit) \u2014 acceptable"
+  ],
+  "note": "rev1 \u2014 MPFB2 female skinned modular assembly",
+  "reviewed_files": [
+    "unit_render/neutral.png",
+    "unit_render/sword_form_50.png",
+    "unit_render/kneel_offer_50.png",
+    "unit_render/walk_50.png"
+  ]
+}

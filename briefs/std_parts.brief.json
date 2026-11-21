@@ -4,243 +4,1297 @@
   "palette": "@palettes/xianxia_element",
   "skeleton": "@skeletons/humanoid_v2",
   "components": [
-    {"id": "body_head", "type": "glb", "tri_budget": 11890,
-     "part": {"slot": "body_head", "layer": "body",
-              "meshes": ["head_m", "jaw_m"], "source": "mannequin"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["head", "jaw", "neck"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["head_m", "jaw_m"]}}},
-    {"id": "body_neck", "type": "glb", "tri_budget": 668,
-     "part": {"slot": "body_neck", "layer": "body",
-              "meshes": ["neck_m"], "source": "mannequin"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["neck"], "anims": ["idle", "walk"],
-                          "nodes": ["neck_m"]}}},
-    {"id": "body_torso", "type": "glb", "tri_budget": 3879,
-     "part": {"slot": "body_torso", "layer": "body",
-              "meshes": ["btorso_pelvis", "btorso_waist", "btorso_chest"],
-              "source": "build_body"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["root", "spine", "chest"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["btorso_pelvis", "btorso_waist",
-                                    "btorso_chest"]}}},
-    {"id": "body_arm_l", "type": "glb", "tri_budget": 1495,
-     "part": {"slot": "body_arm_l", "layer": "body",
-              "meshes": ["barm_up_l", "forearm_l"], "source": "mixed"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["upper_arm.l", "forearm.l", "hand.l"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["barm_up_l", "forearm_l"]}}},
-    {"id": "body_arm_r", "type": "glb", "tri_budget": 1495,
-     "part": {"slot": "body_arm_r", "layer": "body",
-              "meshes": ["barm_up_r", "forearm_r"], "source": "mixed"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["upper_arm.r", "forearm.r", "hand.r"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["barm_up_r", "forearm_r"]}}},
-    {"id": "body_hand_l", "type": "glb", "tri_budget": 4181,
-     "part": {"slot": "body_hand_l", "layer": "body",
-              "meshes": ["hand_l", "finger_l_thumb", "finger_l_index",
-                         "finger_l_middle", "finger_l_ring",
-                         "finger_l_pinky"], "source": "mannequin"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["hand.l", "hand.l.index.2",
-                                   "hand.l.thumb.2"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["hand_l", "finger_l_thumb",
-                                    "finger_l_index", "finger_l_middle",
-                                    "finger_l_ring", "finger_l_pinky"]}}},
-    {"id": "body_hand_r", "type": "glb", "tri_budget": 4181,
-     "part": {"slot": "body_hand_r", "layer": "body",
-              "meshes": ["hand_r", "finger_r_thumb", "finger_r_index",
-                         "finger_r_middle", "finger_r_ring",
-                         "finger_r_pinky"], "source": "mannequin"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["hand.r", "hand.r.index.2",
-                                   "hand.r.thumb.2"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["hand_r", "finger_r_thumb",
-                                    "finger_r_index", "finger_r_middle",
-                                    "finger_r_ring", "finger_r_pinky"]}}},
-    {"id": "body_leg_l", "type": "glb", "tri_budget": 1521,
-     "part": {"slot": "body_leg_l", "layer": "body",
-              "meshes": ["bthigh_l", "bshin_l"], "source": "build_body"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["thigh.l", "shin.l", "foot.l"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["bthigh_l", "bshin_l"]}}},
-    {"id": "body_leg_r", "type": "glb", "tri_budget": 1526,
-     "part": {"slot": "body_leg_r", "layer": "body",
-              "meshes": ["bthigh_r", "bshin_r"], "source": "build_body"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["thigh.r", "shin.r", "foot.r"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["bthigh_r", "bshin_r"]}}},
-    {"id": "body_foot_l", "type": "glb", "tri_budget": 2845,
-     "part": {"slot": "body_foot_l", "layer": "body",
-              "meshes": ["bfoot_l"], "source": "build_body"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["foot.l"], "anims": ["idle", "walk"],
-                          "nodes": ["bfoot_l"]}}},
-    {"id": "body_foot_r", "type": "glb", "tri_budget": 2842,
-     "part": {"slot": "body_foot_r", "layer": "body",
-              "meshes": ["bfoot_r"], "source": "build_body"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["foot.r"], "anims": ["idle", "walk"],
-                          "nodes": ["bfoot_r"]}}},
-
-    {"id": "cloth_torso", "type": "glb", "tri_budget": 1500,
-     "part": {"slot": "cloth_torso", "layer": "cloth",
-              "covers": ["body_torso"],
-              "meshes": ["chest_m", "robe_up", "lapel_l", "lapel_r",
-                         "mantle"],
-              "source": "@mannequin/humanoid_base"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["chest", "spine"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["chest_m", "robe_up", "lapel_l",
-                                    "lapel_r", "mantle"]}}},
-    {"id": "cloth_sleeve_l", "type": "glb", "tri_budget": 1500,
-     "part": {"slot": "cloth_sleeve_l", "layer": "cloth",
-              "covers": ["body_arm_l"],
-              "meshes": ["sleeve_up_l", "sleeve_lo_l", "cuff_l"],
-              "source": "@mannequin/humanoid_base"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["upper_arm.l", "forearm.l"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["sleeve_up_l", "sleeve_lo_l",
-                                    "cuff_l"]}}},
-    {"id": "cloth_sleeve_r", "type": "glb", "tri_budget": 1500,
-     "part": {"slot": "cloth_sleeve_r", "layer": "cloth",
-              "covers": ["body_arm_r"],
-              "meshes": ["sleeve_up_r", "sleeve_lo_r", "cuff_r"],
-              "source": "@mannequin/humanoid_base"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["upper_arm.r", "forearm.r"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["sleeve_up_r", "sleeve_lo_r",
-                                    "cuff_r"]}}},
-    {"id": "cloth_waist", "type": "glb", "tri_budget": 1500,
-     "part": {"slot": "cloth_waist", "layer": "cloth",
-              "covers": ["body_torso"],
-              "meshes": ["pelvis", "sash", "sash_knot", "sash_tail_l",
-                         "sash_tail_r"],
-              "source": "@mannequin/humanoid_base"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["root"], "anims": ["idle", "walk"],
-                          "nodes": ["pelvis", "sash", "sash_knot",
-                                    "sash_tail_l", "sash_tail_r"]}}},
-    {"id": "cloth_skirt", "type": "glb", "tri_budget": 1500,
-     "part": {"slot": "cloth_skirt", "layer": "cloth",
-              "covers": ["body_leg_l", "body_leg_r"],
-              "meshes": ["skirt_l", "skirt_r", "apron_f"],
-              "source": "@mannequin/humanoid_base"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["skirt.l", "skirt.r", "skirt.front"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["skirt_l", "skirt_r", "apron_f"]}}},
-    {"id": "cloth_legs", "type": "glb", "tri_budget": 1500,
-     "part": {"slot": "cloth_legs", "layer": "cloth",
-              "covers": ["body_leg_l", "body_leg_r"],
-              "meshes": ["hakama_l", "hakama_r"],
-              "source": "@mannequin/humanoid_base"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["thigh.l", "thigh.r"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["hakama_l", "hakama_r"]}}},
-    {"id": "cloth_feet", "type": "glb", "tri_budget": 1500,
-     "part": {"slot": "cloth_feet", "layer": "cloth",
-              "covers": ["body_foot_l", "body_foot_r"],
-              "meshes": ["foot_l", "foot_r"],
-              "source": "@mannequin/humanoid_base"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["foot.l", "foot.r"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["foot_l", "foot_r"]}}},
-
-    {"id": "std_hair", "type": "glb", "tri_budget": 1500,
-     "part": {"slot": "std_hair", "layer": "hair",
-              "meshes": ["hair_cap", "hair_fall", "lock_l", "lock_r",
-                         "topknot", "hairpin"],
-              "source": "@mannequin/humanoid_base"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["head", "hair.1", "hair.4"],
-                          "anims": ["idle", "walk"],
-                          "nodes": ["hair_cap", "hair_fall", "lock_l",
-                                    "lock_r", "topknot", "hairpin"]}}},
-    {"id": "std_ornament", "type": "glb", "tri_budget": 1500,
-     "part": {"slot": "std_ornament", "layer": "ornament",
-              "meshes": ["crown", "crown_fin", "brow_gem"],
-              "source": "@mannequin/humanoid_base"},
-     "skeleton": "@skeletons/humanoid_v2",
-     "contract": {"glb": {"bones": ["head"], "anims": ["idle", "walk"],
-                          "nodes": ["crown", "crown_fin", "brow_gem"]}}},
-
-    {"id": "xx_std_body", "type": "glb", "tri_budget": 40000,
-     "skeleton": "@skeletons/humanoid_v2",
-     "assemble": {
-       "base": "@mannequin/humanoid_base",
-       "parts": {
-         "body_head": "body_head", "body_neck": "body_neck",
-         "body_torso": "body_torso",
-         "body_arm_l": "body_arm_l", "body_arm_r": "body_arm_r",
-         "body_hand_l": "body_hand_l", "body_hand_r": "body_hand_r",
-         "body_leg_l": "body_leg_l", "body_leg_r": "body_leg_r",
-         "body_foot_l": "body_foot_l", "body_foot_r": "body_foot_r"
-       }
-     },
-     "contract": {"glb": {
-       "bones": ["root", "spine", "chest", "neck", "head", "jaw",
-                 "eye.l", "eye.r",
-                 "upper_arm.l", "forearm.l", "hand.l", "hand.r",
-                 "hand.l.thumb.1", "hand.r.index.1",
-                 "thigh.l", "shin.l", "foot.l", "foot.r"],
-       "anims": ["idle", "walk", "kneel_offer", "sword_form"],
-       "nodes": ["body_head", "body_neck", "body_torso",
-                  "body_arm_l", "body_arm_r",
-                  "body_hand_l", "body_hand_r",
-                  "body_leg_l", "body_leg_r",
-                  "body_foot_l", "body_foot_r"]}}},
-
-    {"id": "xx_std_figure", "type": "glb", "tri_budget": 6000,
-     "skeleton": "@skeletons/humanoid_v2",
-     "assemble": {
-       "base": "@mannequin/humanoid_base",
-       "parts": {
-         "body_head": "body_head", "body_neck": "body_neck",
-         "body_torso": "body_torso",
-         "body_arm_l": "body_arm_l", "body_arm_r": "body_arm_r",
-         "body_hand_l": "body_hand_l", "body_hand_r": "body_hand_r",
-         "body_leg_l": "body_leg_l", "body_leg_r": "body_leg_r",
-         "body_foot_l": "body_foot_l", "body_foot_r": "body_foot_r",
-         "cloth_torso": "cloth_torso",
-         "cloth_sleeve_l": "cloth_sleeve_l",
-         "cloth_sleeve_r": "cloth_sleeve_r",
-         "cloth_waist": "cloth_waist", "cloth_skirt": "cloth_skirt",
-         "cloth_legs": "cloth_legs", "cloth_feet": "cloth_feet",
-         "std_hair": "std_hair", "std_ornament": "std_ornament"
-       }
-     },
-     "contract": {"glb": {
-       "bones": ["root", "spine", "chest", "neck", "head",
-                 "upper_arm.l", "hand.l", "hand.r",
-                 "thigh.l", "shin.l", "foot.l", "foot.r",
-                 "skirt.front", "hair.1"],
-       "anims": ["idle", "walk", "kneel_offer", "sword_form"],
-       "nodes": ["btorso_chest", "barm_up_l", "bthigh_l", "bfoot_r",
-                  "chest_m", "sleeve_up_l", "hakama_l", "foot_r",
-                  "hair_cap", "crown"]}}}
+    {
+      "id": "body_f_foot_r",
+      "type": "glb",
+      "part": {
+        "slot": "body_foot_r",
+        "layer": "body",
+        "meshes": [
+          "body_foot_r"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 2842,
+      "contract": {
+        "glb": {
+          "bones": [
+            "foot.r"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_foot_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_foot_l",
+      "type": "glb",
+      "part": {
+        "slot": "body_foot_l",
+        "layer": "body",
+        "meshes": [
+          "body_foot_l"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 2845,
+      "contract": {
+        "glb": {
+          "bones": [
+            "foot.l"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_foot_l"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_leg_r",
+      "type": "glb",
+      "part": {
+        "slot": "body_leg_r",
+        "layer": "body",
+        "meshes": [
+          "body_leg_r"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 1526,
+      "contract": {
+        "glb": {
+          "bones": [
+            "thigh.r",
+            "shin.r",
+            "foot.r"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_leg_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_leg_l",
+      "type": "glb",
+      "part": {
+        "slot": "body_leg_l",
+        "layer": "body",
+        "meshes": [
+          "body_leg_l"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 1521,
+      "contract": {
+        "glb": {
+          "bones": [
+            "thigh.l",
+            "shin.l",
+            "foot.l"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_leg_l"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_hand_r",
+      "type": "glb",
+      "part": {
+        "slot": "body_hand_r",
+        "layer": "body",
+        "meshes": [
+          "body_hand_r"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 4181,
+      "contract": {
+        "glb": {
+          "bones": [
+            "hand.r",
+            "hand.r.index.2",
+            "hand.r.thumb.2"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_hand_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_hand_l",
+      "type": "glb",
+      "part": {
+        "slot": "body_hand_l",
+        "layer": "body",
+        "meshes": [
+          "body_hand_l"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 4181,
+      "contract": {
+        "glb": {
+          "bones": [
+            "hand.l",
+            "hand.l.index.2",
+            "hand.l.thumb.2"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_hand_l"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_arm_r",
+      "type": "glb",
+      "part": {
+        "slot": "body_arm_r",
+        "layer": "body",
+        "meshes": [
+          "body_arm_r"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 1495,
+      "contract": {
+        "glb": {
+          "bones": [
+            "upper_arm.r",
+            "forearm.r",
+            "hand.r"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_arm_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_arm_l",
+      "type": "glb",
+      "part": {
+        "slot": "body_arm_l",
+        "layer": "body",
+        "meshes": [
+          "body_arm_l"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 1495,
+      "contract": {
+        "glb": {
+          "bones": [
+            "upper_arm.l",
+            "forearm.l",
+            "hand.l"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_arm_l"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_torso",
+      "type": "glb",
+      "part": {
+        "slot": "body_torso",
+        "layer": "body",
+        "meshes": [
+          "body_torso"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 3879,
+      "contract": {
+        "glb": {
+          "bones": [
+            "root",
+            "spine",
+            "chest"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_torso"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_neck",
+      "type": "glb",
+      "part": {
+        "slot": "body_neck",
+        "layer": "body",
+        "meshes": [
+          "body_neck"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 668,
+      "contract": {
+        "glb": {
+          "bones": [
+            "neck"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_neck"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_f_head",
+      "type": "glb",
+      "part": {
+        "slot": "body_head",
+        "layer": "body",
+        "meshes": [
+          "body_head"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "female"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 11890,
+      "contract": {
+        "glb": {
+          "bones": [
+            "head",
+            "jaw",
+            "neck"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_head"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_foot_r",
+      "type": "glb",
+      "part": {
+        "slot": "body_foot_r",
+        "layer": "body",
+        "meshes": [
+          "body_foot_r"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 2842,
+      "contract": {
+        "glb": {
+          "bones": [
+            "foot.r"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_foot_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_foot_l",
+      "type": "glb",
+      "part": {
+        "slot": "body_foot_l",
+        "layer": "body",
+        "meshes": [
+          "body_foot_l"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 2845,
+      "contract": {
+        "glb": {
+          "bones": [
+            "foot.l"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_foot_l"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_leg_r",
+      "type": "glb",
+      "part": {
+        "slot": "body_leg_r",
+        "layer": "body",
+        "meshes": [
+          "body_leg_r"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 1526,
+      "contract": {
+        "glb": {
+          "bones": [
+            "thigh.r",
+            "shin.r",
+            "foot.r"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_leg_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_leg_l",
+      "type": "glb",
+      "part": {
+        "slot": "body_leg_l",
+        "layer": "body",
+        "meshes": [
+          "body_leg_l"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 1521,
+      "contract": {
+        "glb": {
+          "bones": [
+            "thigh.l",
+            "shin.l",
+            "foot.l"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_leg_l"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_hand_r",
+      "type": "glb",
+      "part": {
+        "slot": "body_hand_r",
+        "layer": "body",
+        "meshes": [
+          "body_hand_r"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 4181,
+      "contract": {
+        "glb": {
+          "bones": [
+            "hand.r",
+            "hand.r.index.2",
+            "hand.r.thumb.2"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_hand_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_hand_l",
+      "type": "glb",
+      "part": {
+        "slot": "body_hand_l",
+        "layer": "body",
+        "meshes": [
+          "body_hand_l"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 4181,
+      "contract": {
+        "glb": {
+          "bones": [
+            "hand.l",
+            "hand.l.index.2",
+            "hand.l.thumb.2"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_hand_l"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_arm_r",
+      "type": "glb",
+      "part": {
+        "slot": "body_arm_r",
+        "layer": "body",
+        "meshes": [
+          "body_arm_r"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 1495,
+      "contract": {
+        "glb": {
+          "bones": [
+            "upper_arm.r",
+            "forearm.r",
+            "hand.r"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_arm_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_arm_l",
+      "type": "glb",
+      "part": {
+        "slot": "body_arm_l",
+        "layer": "body",
+        "meshes": [
+          "body_arm_l"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 1495,
+      "contract": {
+        "glb": {
+          "bones": [
+            "upper_arm.l",
+            "forearm.l",
+            "hand.l"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_arm_l"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_torso",
+      "type": "glb",
+      "part": {
+        "slot": "body_torso",
+        "layer": "body",
+        "meshes": [
+          "body_torso"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 3879,
+      "contract": {
+        "glb": {
+          "bones": [
+            "root",
+            "spine",
+            "chest"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_torso"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_neck",
+      "type": "glb",
+      "part": {
+        "slot": "body_neck",
+        "layer": "body",
+        "meshes": [
+          "body_neck"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 668,
+      "contract": {
+        "glb": {
+          "bones": [
+            "neck"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_neck"
+          ]
+        }
+      }
+    },
+    {
+      "id": "body_m_head",
+      "type": "glb",
+      "part": {
+        "slot": "body_head",
+        "layer": "body",
+        "meshes": [
+          "body_head"
+        ],
+        "source": "mpfb_body",
+        "binding": "skinned",
+        "sex": "male"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "tri_budget": 11890,
+      "contract": {
+        "glb": {
+          "bones": [
+            "head",
+            "jaw",
+            "neck"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "body_head"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cloth_torso",
+      "type": "glb",
+      "tri_budget": 1500,
+      "part": {
+        "slot": "cloth_torso",
+        "layer": "cloth",
+        "covers": [
+          "body_torso"
+        ],
+        "meshes": [
+          "chest_m",
+          "robe_up",
+          "lapel_l",
+          "lapel_r",
+          "mantle"
+        ],
+        "source": "@mannequin/humanoid_base"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "contract": {
+        "glb": {
+          "bones": [
+            "chest",
+            "spine"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "chest_m",
+            "robe_up",
+            "lapel_l",
+            "lapel_r",
+            "mantle"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cloth_sleeve_l",
+      "type": "glb",
+      "tri_budget": 1500,
+      "part": {
+        "slot": "cloth_sleeve_l",
+        "layer": "cloth",
+        "covers": [
+          "body_arm_l"
+        ],
+        "meshes": [
+          "sleeve_up_l",
+          "sleeve_lo_l",
+          "cuff_l"
+        ],
+        "source": "@mannequin/humanoid_base"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "contract": {
+        "glb": {
+          "bones": [
+            "upper_arm.l",
+            "forearm.l"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "sleeve_up_l",
+            "sleeve_lo_l",
+            "cuff_l"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cloth_sleeve_r",
+      "type": "glb",
+      "tri_budget": 1500,
+      "part": {
+        "slot": "cloth_sleeve_r",
+        "layer": "cloth",
+        "covers": [
+          "body_arm_r"
+        ],
+        "meshes": [
+          "sleeve_up_r",
+          "sleeve_lo_r",
+          "cuff_r"
+        ],
+        "source": "@mannequin/humanoid_base"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "contract": {
+        "glb": {
+          "bones": [
+            "upper_arm.r",
+            "forearm.r"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "sleeve_up_r",
+            "sleeve_lo_r",
+            "cuff_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cloth_waist",
+      "type": "glb",
+      "tri_budget": 1500,
+      "part": {
+        "slot": "cloth_waist",
+        "layer": "cloth",
+        "covers": [
+          "body_torso"
+        ],
+        "meshes": [
+          "pelvis",
+          "sash",
+          "sash_knot",
+          "sash_tail_l",
+          "sash_tail_r"
+        ],
+        "source": "@mannequin/humanoid_base"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "contract": {
+        "glb": {
+          "bones": [
+            "root"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "pelvis",
+            "sash",
+            "sash_knot",
+            "sash_tail_l",
+            "sash_tail_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cloth_skirt",
+      "type": "glb",
+      "tri_budget": 1500,
+      "part": {
+        "slot": "cloth_skirt",
+        "layer": "cloth",
+        "covers": [
+          "body_leg_l",
+          "body_leg_r"
+        ],
+        "meshes": [
+          "skirt_l",
+          "skirt_r",
+          "apron_f"
+        ],
+        "source": "@mannequin/humanoid_base"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "contract": {
+        "glb": {
+          "bones": [
+            "skirt.l",
+            "skirt.r",
+            "skirt.front"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "skirt_l",
+            "skirt_r",
+            "apron_f"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cloth_legs",
+      "type": "glb",
+      "tri_budget": 1500,
+      "part": {
+        "slot": "cloth_legs",
+        "layer": "cloth",
+        "covers": [
+          "body_leg_l",
+          "body_leg_r"
+        ],
+        "meshes": [
+          "hakama_l",
+          "hakama_r"
+        ],
+        "source": "@mannequin/humanoid_base"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "contract": {
+        "glb": {
+          "bones": [
+            "thigh.l",
+            "thigh.r"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "hakama_l",
+            "hakama_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cloth_feet",
+      "type": "glb",
+      "tri_budget": 1500,
+      "part": {
+        "slot": "cloth_feet",
+        "layer": "cloth",
+        "covers": [
+          "body_foot_l",
+          "body_foot_r"
+        ],
+        "meshes": [
+          "foot_l",
+          "foot_r"
+        ],
+        "source": "@mannequin/humanoid_base"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "contract": {
+        "glb": {
+          "bones": [
+            "foot.l",
+            "foot.r"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "foot_l",
+            "foot_r"
+          ]
+        }
+      }
+    },
+    {
+      "id": "std_hair",
+      "type": "glb",
+      "tri_budget": 1500,
+      "part": {
+        "slot": "std_hair",
+        "layer": "hair",
+        "meshes": [
+          "hair_cap",
+          "hair_fall",
+          "lock_l",
+          "lock_r",
+          "topknot",
+          "hairpin"
+        ],
+        "source": "@mannequin/humanoid_base"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "contract": {
+        "glb": {
+          "bones": [
+            "head",
+            "hair.1",
+            "hair.4"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "hair_cap",
+            "hair_fall",
+            "lock_l",
+            "lock_r",
+            "topknot",
+            "hairpin"
+          ]
+        }
+      }
+    },
+    {
+      "id": "std_ornament",
+      "type": "glb",
+      "tri_budget": 1500,
+      "part": {
+        "slot": "std_ornament",
+        "layer": "ornament",
+        "meshes": [
+          "crown",
+          "crown_fin",
+          "brow_gem"
+        ],
+        "source": "@mannequin/humanoid_base"
+      },
+      "skeleton": "@skeletons/humanoid_v2",
+      "contract": {
+        "glb": {
+          "bones": [
+            "head"
+          ],
+          "anims": [
+            "idle",
+            "walk"
+          ],
+          "nodes": [
+            "crown",
+            "crown_fin",
+            "brow_gem"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xx_std_figure",
+      "type": "glb",
+      "tri_budget": 6000,
+      "skeleton": "@skeletons/humanoid_v2",
+      "assemble": {
+        "base": "@mannequin/humanoid_base",
+        "parts": {
+          "body_head": "body_head",
+          "body_neck": "body_neck",
+          "body_torso": "body_torso",
+          "body_arm_l": "body_arm_l",
+          "body_arm_r": "body_arm_r",
+          "body_hand_l": "body_hand_l",
+          "body_hand_r": "body_hand_r",
+          "body_leg_l": "body_leg_l",
+          "body_leg_r": "body_leg_r",
+          "body_foot_l": "body_foot_l",
+          "body_foot_r": "body_foot_r",
+          "cloth_torso": "cloth_torso",
+          "cloth_sleeve_l": "cloth_sleeve_l",
+          "cloth_sleeve_r": "cloth_sleeve_r",
+          "cloth_waist": "cloth_waist",
+          "cloth_skirt": "cloth_skirt",
+          "cloth_legs": "cloth_legs",
+          "cloth_feet": "cloth_feet",
+          "std_hair": "std_hair",
+          "std_ornament": "std_ornament"
+        }
+      },
+      "contract": {
+        "glb": {
+          "bones": [
+            "root",
+            "spine",
+            "chest",
+            "neck",
+            "head",
+            "upper_arm.l",
+            "hand.l",
+            "hand.r",
+            "thigh.l",
+            "shin.l",
+            "foot.l",
+            "foot.r",
+            "skirt.front",
+            "hair.1"
+          ],
+          "anims": [
+            "idle",
+            "walk",
+            "kneel_offer",
+            "sword_form"
+          ],
+          "nodes": [
+            "btorso_chest",
+            "barm_up_l",
+            "bthigh_l",
+            "bfoot_r",
+            "chest_m",
+            "sleeve_up_l",
+            "hakama_l",
+            "foot_r",
+            "hair_cap",
+            "crown"
+          ]
+        }
+      }
+    },
+    {
+      "id": "xx_std_body_m",
+      "type": "glb",
+      "tri_budget": 40000,
+      "skeleton": "@skeletons/humanoid_v2",
+      "assemble": {
+        "base": "@mannequin/humanoid_base",
+        "parts": {
+          "body_head": "body_m_head",
+          "body_neck": "body_m_neck",
+          "body_torso": "body_m_torso",
+          "body_arm_l": "body_m_arm_l",
+          "body_arm_r": "body_m_arm_r",
+          "body_hand_l": "body_m_hand_l",
+          "body_hand_r": "body_m_hand_r",
+          "body_leg_l": "body_m_leg_l",
+          "body_leg_r": "body_m_leg_r",
+          "body_foot_l": "body_m_foot_l",
+          "body_foot_r": "body_m_foot_r"
+        }
+      },
+      "contract": {
+        "glb": {
+          "bones": [
+            "root",
+            "spine",
+            "chest",
+            "neck",
+            "head",
+            "jaw",
+            "eye.l",
+            "eye.r",
+            "upper_arm.l",
+            "forearm.l",
+            "hand.l",
+            "hand.r",
+            "hand.l.thumb.1",
+            "hand.r.index.1",
+            "thigh.l",
+            "shin.l",
+            "foot.l",
+            "foot.r"
+          ],
+          "anims": [
+            "idle",
+            "walk",
+            "kneel_offer",
+            "sword_form"
+          ],
+          "nodes": [
+            "body_head",
+            "body_neck",
+            "body_torso",
+            "body_arm_l",
+            "body_arm_r",
+            "body_hand_l",
+            "body_hand_r",
+            "body_leg_l",
+            "body_leg_r",
+            "body_foot_l",
+            "body_foot_r"
+          ]
+        }
+      },
+      "goal": "std_parts",
+      "style": {
+        "name": "xianxia_ethereal",
+        "suffix": "ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece",
+        "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, detailed background, scenery, landscape, gradient background, low quality",
+        "subject_bg": "isolated on plain solid white background",
+        "scene_suffix": "wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters"
+      },
+      "palette": {
+        "name": "xianxia_element",
+        "colors": {
+          "crimson_aura": "#e03a2f",
+          "crimson_deep": "#5c1512",
+          "blood_moon": "#f2e6dd",
+          "bone_white": "#e8e0d4",
+          "ink_black": "#14100f",
+          "jade_aura": "#3fd87a",
+          "jade_deep": "#0d3a24",
+          "spirit_cyan": "#7fd8e8",
+          "night_blue": "#14283c",
+          "silver_moon": "#c8d8e8",
+          "gold_line": "#d9b568"
+        },
+        "prompt_hints": "crimson blood-moon aura vs jade verdant glow, ink-black robes with ornate embroidery, bone-white hair, dark elemental backdrop"
+      }
+    },
+    {
+      "id": "xx_std_body_f",
+      "type": "glb",
+      "tri_budget": 40000,
+      "skeleton": "@skeletons/humanoid_v2",
+      "assemble": {
+        "base": "@mannequin/humanoid_base",
+        "parts": {
+          "body_head": "body_f_head",
+          "body_neck": "body_f_neck",
+          "body_torso": "body_f_torso",
+          "body_arm_l": "body_f_arm_l",
+          "body_arm_r": "body_f_arm_r",
+          "body_hand_l": "body_f_hand_l",
+          "body_hand_r": "body_f_hand_r",
+          "body_leg_l": "body_f_leg_l",
+          "body_leg_r": "body_f_leg_r",
+          "body_foot_l": "body_f_foot_l",
+          "body_foot_r": "body_f_foot_r"
+        }
+      },
+      "contract": {
+        "glb": {
+          "bones": [
+            "root",
+            "spine",
+            "chest",
+            "neck",
+            "head",
+            "jaw",
+            "eye.l",
+            "eye.r",
+            "upper_arm.l",
+            "forearm.l",
+            "hand.l",
+            "hand.r",
+            "hand.l.thumb.1",
+            "hand.r.index.1",
+            "thigh.l",
+            "shin.l",
+            "foot.l",
+            "foot.r"
+          ],
+          "anims": [
+            "idle",
+            "walk",
+            "kneel_offer",
+            "sword_form"
+          ],
+          "nodes": [
+            "body_head",
+            "body_neck",
+            "body_torso",
+            "body_arm_l",
+            "body_arm_r",
+            "body_hand_l",
+            "body_hand_r",
+            "body_leg_l",
+            "body_leg_r",
+            "body_foot_l",
+            "body_foot_r"
+          ]
+        }
+      },
+      "goal": "std_parts",
+      "style": {
+        "name": "xianxia_ethereal",
+        "suffix": "ethereal xianxia fantasy game art, flowing silk hanfu robes, luminous mist, soft glowing accents, elegant elongated silhouettes, hand-painted, painterly detail, game asset, masterpiece",
+        "negative": "photorealistic, photo, 3d render, modern clothing, modern items, deformed, extra limbs, deformed hands, cropped, text, watermark, signature, logo, busy background, detailed background, scenery, landscape, gradient background, low quality",
+        "subject_bg": "isolated on plain solid white background",
+        "scene_suffix": "wide painted xianxia fantasy background, floating mountains, volumetric mist, soft glowing motes, atmospheric depth, no characters"
+      },
+      "palette": {
+        "name": "xianxia_element",
+        "colors": {
+          "crimson_aura": "#e03a2f",
+          "crimson_deep": "#5c1512",
+          "blood_moon": "#f2e6dd",
+          "bone_white": "#e8e0d4",
+          "ink_black": "#14100f",
+          "jade_aura": "#3fd87a",
+          "jade_deep": "#0d3a24",
+          "spirit_cyan": "#7fd8e8",
+          "night_blue": "#14283c",
+          "silver_moon": "#c8d8e8",
+          "gold_line": "#d9b568"
+        },
+        "prompt_hints": "crimson blood-moon aura vs jade verdant glow, ink-black robes with ornate embroidery, bone-white hair, dark elemental backdrop"
+      }
+    }
   ],
   "composition": {
     "lighting_rig": "@rigs/std_xianxia",
     "layout": {
-      "rows": [{"id": "ground", "y": 648}],
-      "body_head_row": "ground", "body_head_x": 512,
+      "rows": [
+        {
+          "id": "ground",
+          "y": 648
+        }
+      ],
+      "body_head_row": "ground",
+      "body_head_x": 512,
       "feet_pivot": true
     },
-    "shots": ["turntable_front", "turntable_side", "turntable_back"],
+    "shots": [
+      "turntable_front",
+      "turntable_side",
+      "turntable_back"
+    ],
     "shot_expect": {}
   }
 }

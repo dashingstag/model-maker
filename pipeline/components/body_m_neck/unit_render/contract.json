@@ -1,0 +1,22 @@
+{
+  "cid": "body_m_neck",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:neck",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:body_neck",
+      "pass": true
+    }
+  ]
+}

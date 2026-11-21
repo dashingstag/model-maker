@@ -2,7 +2,7 @@
   "id": "humanoid_base",
   "glb": "shared/mannequin/humanoid_base.glb",
   "skeleton": "@skeletons/humanoid_v2",
-  "desc": "Canonical low-poly humanoid: 60 joints, 22 anim clips, every mesh rigid-parented to its bone. Parts are layered: body_* = complete skin coverage (any outfit works); cloth_* = garments worn over body, each declaring which body slots it covers.",
+  "desc": "Canonical low-poly humanoid: 60 joints, 22 anim clips. Parts are layered: body_* slots = complete skin coverage (any outfit works) — component ids are sexed (body_m_*/body_f_*, MPFB2 skinned) while the slot/mesh-node names stay unsexed; cloth_* = garments worn over body, each declaring which body slots it covers.",
   "slots": {
     "body_head": {
       "layer": "body",

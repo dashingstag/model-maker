@@ -1,0 +1,30 @@
+{
+  "cid": "body_f_hand_l",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:hand.l",
+      "pass": true
+    },
+    {
+      "id": "bone:hand.l.index.2",
+      "pass": true
+    },
+    {
+      "id": "bone:hand.l.thumb.2",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:body_hand_l",
+      "pass": true
+    }
+  ]
+}

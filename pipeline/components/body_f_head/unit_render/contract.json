@@ -1,0 +1,30 @@
+{
+  "cid": "body_f_head",
+  "pass": true,
+  "checks": [
+    {
+      "id": "bone:head",
+      "pass": true
+    },
+    {
+      "id": "bone:jaw",
+      "pass": true
+    },
+    {
+      "id": "bone:neck",
+      "pass": true
+    },
+    {
+      "id": "anim:idle",
+      "pass": true
+    },
+    {
+      "id": "anim:walk",
+      "pass": true
+    },
+    {
+      "id": "node:body_head",
+      "pass": true
+    }
+  ]
+}
