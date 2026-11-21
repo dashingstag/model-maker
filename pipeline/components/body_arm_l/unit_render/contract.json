@@ -23,11 +23,7 @@
       "pass": true
     },
     {
-      "id": "node:forearm_l",
-      "pass": true
-    },
-    {
-      "id": "node:barm_up_l",
+      "id": "node:body_arm_l",
       "pass": true
     }
   ]

@@ -6,97 +6,58 @@
   "slots": {
     "body_head": {
       "layer": "body",
-      "src": "mannequin",
-      "meshes": [
-        "head_m",
-        "jaw_m"
-      ]
+      "src": "mpfb",
+      "bones": ["head", "jaw", "eye.l", "eye.r"]
     },
     "body_neck": {
       "layer": "body",
-      "src": "mannequin",
-      "meshes": [
-        "neck_m"
-      ]
+      "src": "mpfb",
+      "bones": ["neck"]
     },
     "body_torso": {
       "layer": "body",
-      "src": "build_body",
-      "meshes": [
-        "btorso_pelvis",
-        "btorso_waist",
-        "btorso_chest"
-      ]
+      "src": "mpfb",
+      "bones": ["root", "spine", "chest", "shoulder.l", "shoulder.r"]
     },
     "body_arm_l": {
       "layer": "body",
-      "src": "mixed",
-      "meshes": [
-        "barm_up_l",
-        "forearm_l"
-      ]
+      "src": "mpfb",
+      "bones": ["upper_arm.l", "forearm.l"]
     },
     "body_arm_r": {
       "layer": "body",
-      "src": "mixed",
-      "meshes": [
-        "barm_up_r",
-        "forearm_r"
-      ]
+      "src": "mpfb",
+      "bones": ["upper_arm.r", "forearm.r"]
     },
     "body_hand_l": {
       "layer": "body",
-      "src": "mannequin",
-      "meshes": [
-        "hand_l",
-        "finger_l_thumb",
-        "finger_l_index",
-        "finger_l_middle",
-        "finger_l_ring",
-        "finger_l_pinky"
-      ]
+      "src": "mpfb",
+      "bones": ["hand.l", "hand.l.*"]
     },
     "body_hand_r": {
       "layer": "body",
-      "src": "mannequin",
-      "meshes": [
-        "hand_r",
-        "finger_r_thumb",
-        "finger_r_index",
-        "finger_r_middle",
-        "finger_r_ring",
-        "finger_r_pinky"
-      ]
+      "src": "mpfb",
+      "bones": ["hand.r", "hand.r.*"]
     },
     "body_leg_l": {
       "layer": "body",
-      "src": "build_body",
-      "meshes": [
-        "bthigh_l",
-        "bshin_l"
-      ]
+      "src": "mpfb",
+      "bones": ["thigh.l", "shin.l"]
     },
     "body_leg_r": {
       "layer": "body",
-      "src": "build_body",
-      "meshes": [
-        "bthigh_r",
-        "bshin_r"
-      ]
+      "src": "mpfb",
+      "bones": ["thigh.r", "shin.r"]
     },
     "body_foot_l": {
       "layer": "body",
-      "src": "build_body",
-      "meshes": [
-        "bfoot_l"
-      ]
+      "src": "mpfb",
+      "bones": ["foot.l"]
     },
     "body_foot_r": {
       "layer": "body",
-      "src": "build_body",
-      "meshes": [
-        "bfoot_r"
-      ]
+      "src": "mpfb",
+      "bones": ["foot.r"]
     },
     "cloth_torso": {
       "layer": "cloth",

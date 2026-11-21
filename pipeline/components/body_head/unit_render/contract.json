@@ -23,11 +23,7 @@
       "pass": true
     },
     {
-      "id": "node:jaw_m",
-      "pass": true
-    },
-    {
-      "id": "node:head_m",
+      "id": "node:body_head",
       "pass": true
     }
   ]

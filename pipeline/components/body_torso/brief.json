@@ -5,14 +5,13 @@
     "slot": "body_torso",
     "layer": "body",
     "meshes": [
-      "btorso_pelvis",
-      "btorso_waist",
-      "btorso_chest"
+      "body_torso"
     ],
-    "source": "build_body"
+    "source": "mpfb_body",
+    "binding": "skinned"
   },
   "skeleton": "@skeletons/humanoid_v2",
-  "tri_budget": 1500,
+  "tri_budget": 3879,
   "contract": {
     "glb": {
       "bones": [
@@ -25,9 +24,7 @@
         "walk"
       ],
       "nodes": [
-        "btorso_pelvis",
-        "btorso_waist",
-        "btorso_chest"
+        "body_torso"
       ]
     }
   }

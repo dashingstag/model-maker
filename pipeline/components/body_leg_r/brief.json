@@ -5,13 +5,13 @@
     "slot": "body_leg_r",
     "layer": "body",
     "meshes": [
-      "bthigh_r",
-      "bshin_r"
+      "body_leg_r"
     ],
-    "source": "build_body"
+    "source": "mpfb_body",
+    "binding": "skinned"
   },
   "skeleton": "@skeletons/humanoid_v2",
-  "tri_budget": 1500,
+  "tri_budget": 1526,
   "contract": {
     "glb": {
       "bones": [
@@ -24,8 +24,7 @@
         "walk"
       ],
       "nodes": [
-        "bthigh_r",
-        "bshin_r"
+        "body_leg_r"
       ]
     }
   }

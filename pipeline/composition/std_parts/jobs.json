@@ -1,20 +1,20 @@
 {
   "schema": "mm.jobs.v1",
-  "mode": "unit",
+  "mode": "all",
   "out_dir": "C:\\Workspace\\Models\\model-maker\\pipeline\\composition\\std_parts",
   "provenance": {
     "manifests": {
-      "body_head": "sha256:c943ada372118dc07465cf2aec367c6d4fc6d43050166df248b655d47b99b490",
-      "body_neck": "sha256:dccb0687f0d2cfe6acb025bf9534bb179545bd2b1ce8056f56708576a20020e0",
-      "body_torso": "sha256:eac198c22a95bbf7a308b58bf531bf5e10259341f6d9599f87de1146908acf56",
-      "body_arm_l": "sha256:5b0457b97bdc2200d99f5d3baf544f77f0a26da6db4e16f153cd67f2ddb416ab",
-      "body_arm_r": "sha256:435f7ebe5a3fcf57881e8b7c1192af6355b8c55301391048b50d8c0b813da49c",
-      "body_hand_l": "sha256:c5e3acc7ea503bd15c7e6cb6ce2e851f8d288e80aee891197dd476c96e1125ae",
-      "body_hand_r": "sha256:a498de63fb34211fe4c7ae98a3eaacb5ca4d42097e5769cf17c3b1080d59623c",
-      "body_leg_l": "sha256:5f056e7f5c516622c12eca09e9e59023112fdf32efe830785082fca794660d28",
-      "body_leg_r": "sha256:17bf0d1123f6a74e71ce8b9bd8b261ca8c876892332cd934d7773fd31d48b330",
-      "body_foot_l": "sha256:a57a9b668269ba0cac36bcbdf79cb8d011c879ee1e554a24c7906283ea5f2f0e",
-      "body_foot_r": "sha256:5e19fdf48349d154a4126aa593445a98a7dd1dce40962b1961e0d25dae4bec31",
+      "body_head": "sha256:4931677796828bd075f43f8bda14ebe4d2df36fc15978702973926d833ec29c4",
+      "body_neck": "sha256:176c474929be14cfe5533239e58ec2b245d1454ebb7983755b6c4fc1153208c3",
+      "body_torso": "sha256:010c6f0053d0bc355cb651d5b85098f7d909115d9f4ef5b00103f3791cf5d383",
+      "body_arm_l": "sha256:c483fce1d5831b22d8515ce0899775f1b939061092a300dff2c98f63cce055f0",
+      "body_arm_r": "sha256:0a2f84a1fbcd6190f64d1b97e97c687c104870ebbdcb93b41042d7bde3760f6b",
+      "body_hand_l": "sha256:7b546d0b7399ed45c164ac2cab1598263968ebb3a04cc8ba20624dceff22dc44",
+      "body_hand_r": "sha256:f6032520a1ef3def1c882e20c590cf2045dc51253aabe220030030b4dc56c6ae",
+      "body_leg_l": "sha256:82d7b9939c3230ee426a0236423b31a7996b5ae3ebbf82a92cefd04d18dc135c",
+      "body_leg_r": "sha256:9ef7f42a92ee7923a059ab5b799824a044adbd328767e12532d0e47ab4804925",
+      "body_foot_l": "sha256:108234818e08c563cf0d997b24a2b201de9f644d17e37749b303b6d0645bde4b",
+      "body_foot_r": "sha256:86fc41333716af27f315442cec5a36c4af4049ff323803ef15d956aa6440cda9",
       "cloth_torso": "sha256:4e92ab80d19ae2fa6ed0b7c5ab3def3b6193c9a88493311c22aae7feb48b0ef5",
       "cloth_sleeve_l": "sha256:7c37d3964812767efc05b95149a9ec5c6ac4909b1d28396daa84b5bbb3388db3",
       "cloth_sleeve_r": "sha256:0ea97c28490eb2924d871686c5d93269ccda8f6031f3d7d3cd10877ff76529d4",
@@ -24,6 +24,7 @@
       "cloth_feet": "sha256:280250d6b0802944f8695a9831958cb427ceff37bf36d7609f5347f303437672",
       "std_hair": "sha256:135d9387dd206df3926633ffd8fa6d4237e673508f98e3f77423b9ba207e84c1",
       "std_ornament": "sha256:e7658945fd2bdd26d6ee45ae78cc82c1f5692bf5108d01737b911092355cb781",
+      "xx_std_body": "sha256:b75742fd172a4a99556ac87e64385c9162d9a4d9087f86fd290b5727764e160f",
       "xx_std_figure": "sha256:3c39042033ebcb33495b4cfccd526d43e6e9fb8f2e9b0460e753c4ea3bfa906e"
     },
     "goal": "std_parts"
@@ -179,6 +180,13 @@
       "assets": "res://assets/components/std_ornament",
       "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\std_ornament\\unit_render",
       "glb": "std_ornament.glb"
+    },
+    {
+      "id": "xx_std_body",
+      "type": "glb",
+      "assets": "res://assets/components/xx_std_body",
+      "out": "C:\\Workspace\\Models\\model-maker\\pipeline\\components\\xx_std_body\\unit_render",
+      "glb": "xx_std_body.glb"
     },
     {
       "id": "xx_std_figure",
@@ -383,6 +391,15 @@
         "y": 648
       },
       {
+        "id": "xx_std_body",
+        "kind": "glb",
+        "dir": "res://assets/components/xx_std_body",
+        "glb": "xx_std_body.glb",
+        "x": 512,
+        "row": "ground",
+        "y": 648
+      },
+      {
         "id": "xx_std_figure",
         "kind": "glb",
         "dir": "res://assets/components/xx_std_figure",
@@ -422,6 +439,7 @@
       "cloth_waist": "cloth_waist.glb",
       "std_hair": "std_hair.glb",
       "std_ornament": "std_ornament.glb",
+      "xx_std_body": "xx_std_body.glb",
       "xx_std_figure": "xx_std_figure.glb"
     },
     "shot_expect": {},

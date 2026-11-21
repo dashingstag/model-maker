@@ -70,10 +70,14 @@ regen, `modulate`|runtime tint, `parts`); `vary` (regions that change);
 
 **Part components (`body_*`/`cloth_*`/`std_*`):** `part = {slot, layer,
 covers, meshes, source}` — slot/layer/covers must match
-`shared/mannequin/humanoid_base.json` (vocab, never invent slots);
-`contract.glb.nodes` lists the part's mesh-node names; `bones` samples
-the bind bones. Parts are prebuilt — no prompt fields.
-`layer: "body"` = complete skin coverage; `layer: "cloth"` = garment,
+`shared/mannequin/humanoid_base.json` (vocab, never invent slots;
+body slots declare `bones` — slice ownership — cloth slots declare
+`meshes`). `contract.glb.nodes` lists the part's mesh-node names —
+skinned `body_*` parts export ONE mesh node named after the slot;
+rigid `cloth_*`/`std_*` parts keep their mannequin mesh names.
+`bones` samples the bind bones. Parts are prebuilt — no prompt fields.
+`layer: "body"` = complete skin coverage, skinned (MPFB2 via
+`tools/mpfb_body.py`); `layer: "cloth"` = garment, rigid,
 `covers: [body slots]` declares what it hides.
 
 **Assembled characters:** `assemble = {base: "@mannequin/<name>",

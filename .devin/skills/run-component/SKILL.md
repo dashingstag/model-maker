@@ -66,17 +66,26 @@ python tools/publish.py <goal> --wait 60
   a ring → denoise 0.26, verified 9/9 clusters in #34). Denoise floor ~0.25
   melts flat guide art into painterly style while preserving count/layout.
 - `glb` **parts** (`body_*`/`cloth_*`/`std_*`) — prebuilt artifacts, no
-  C1: `tools/build_body.py` emits procedural skin parts (lofts on the
-  skeleton's model-space joints; `part.layer: body`), `tools/std_parts.py`
+  C1: `tools/mpfb_body.py` emits *skinned* body parts (`part.layer: body`
+  — MPFB2 authored human, pose-fit onto `humanoid_v2`, sliced by dominant
+  bone, LBS ≤4 influences, weights preserved across slice seams; needs
+  the MPFB2 Blender extension + `blender --background`), `tools/std_parts.py`
   slices garment/ornament parts from `@mannequin/humanoid_base`
-  (`part.layer: cloth|hair|ornament`, cloth declares `part.covers`).
-  Emit → `export/` directly, then extract → contract → unit render →
-  certify. Slot taxonomy lives in `shared/mannequin/humanoid_base.json`.
+  (`part.layer: cloth|hair|ornament`, rigid bone-parented, cloth declares
+  `part.covers`). Emit → `export/` directly, then extract → contract →
+  unit render → certify. Slot taxonomy lives in
+  `shared/mannequin/humanoid_base.json` — body slots carry `bones`
+  (slice ownership), cloth slots carry `meshes` (mannequin graft list).
 - `glb` **assemblies** — `brief.assemble = {base, parts: {slot: id}}`:
   run `python tools/assemble.py <id>` after every listed part is
-  `certified` (the tool aborts otherwise). Grafts each part's mesh nodes
-  onto the shared skeleton by bone-name match; writes `export/<id>.glb`
-  + `export/assemble.json`. Then normal glb C-track.
+  `certified` (the tool aborts otherwise). Two merge paths picked per
+  part: `SkinnedMerger` for parts carrying a glTF skin (one shared
+  60-joint skin in the output — joints remapped to base bones by name,
+  IBMs from the first part, per-part `JOINTS_0` index remap) and the
+  rigid `Merger` (mesh nodes grafted under same-name bones). Figures may
+  mix both. Writes `export/<id>.glb` + `export/assemble.json`. Then
+  normal glb C-track. `xx_std_body` (11 skinned parts) is the reference
+  skinned assembly.
 - `glb` — C1 is the blender builder → `build/` + `export/`; extract
   validates tris vs `tri_budget` and lists animations. Brief
   `material: "toon"` gives the member banded toon shading + inverted-hull

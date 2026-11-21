@@ -23,11 +23,7 @@
       "pass": true
     },
     {
-      "id": "node:bthigh_r",
-      "pass": true
-    },
-    {
-      "id": "node:bshin_r",
+      "id": "node:body_leg_r",
       "pass": true
     }
   ]

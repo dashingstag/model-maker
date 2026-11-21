@@ -5,17 +5,13 @@
     "slot": "body_hand_r",
     "layer": "body",
     "meshes": [
-      "finger_r_thumb",
-      "finger_r_index",
-      "finger_r_middle",
-      "finger_r_ring",
-      "finger_r_pinky",
-      "hand_r"
+      "body_hand_r"
     ],
-    "source": "build_body"
+    "source": "mpfb_body",
+    "binding": "skinned"
   },
   "skeleton": "@skeletons/humanoid_v2",
-  "tri_budget": 1500,
+  "tri_budget": 4181,
   "contract": {
     "glb": {
       "bones": [
@@ -28,12 +24,7 @@
         "walk"
       ],
       "nodes": [
-        "finger_r_thumb",
-        "finger_r_index",
-        "finger_r_middle",
-        "finger_r_ring",
-        "finger_r_pinky",
-        "hand_r"
+        "body_hand_r"
       ]
     }
   }

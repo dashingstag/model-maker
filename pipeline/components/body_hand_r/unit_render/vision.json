@@ -1,16 +1,18 @@
 {
   "verdict": "pass",
   "actor": "devin",
-  "ts": 1795274749.7481315,
+  "ts": 1795277972.9523132,
   "checks": {
     "part present and rendered in-engine": "pass",
-    "rides its bind bones through anim clips": "pass",
-    "no stray geometry or wrong-slot meshes": "pass",
+    "skinned deformation follows bind bones (no rigid gaps)": "pass",
+    "no stray geometry or helper meshes": "pass",
     "smooth normals \u2014 no faceted shading": "pass"
   },
   "flags": [],
-  "note": "rev2 \u2014 weld+smooth normals pass",
+  "note": "MPFB hand+fingers, wrist/finger articulation",
   "reviewed_files": [
-    "unit_render/neutral.png"
+    "unit_render/neutral.png",
+    "unit_render/sword_form_50.png",
+    "unit_render/kneel_offer_50.png"
   ]
 }

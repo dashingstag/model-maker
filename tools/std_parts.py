@@ -111,7 +111,7 @@ def main():
     for slot in slots:
         sm = spec["slots"][slot]
         if sm.get("layer") == "body":
-            continue            # body parts come from build_body.py
+            continue            # body parts come from mpfb_body.py
         cid = slot if "_" in slot else "std_" + slot
         cdir = os.path.join(ROOT, "pipeline", "components", cid)
         os.makedirs(os.path.join(cdir, "export"), exist_ok=True)

@@ -23,27 +23,7 @@
       "pass": true
     },
     {
-      "id": "node:finger_l_thumb",
-      "pass": true
-    },
-    {
-      "id": "node:finger_l_index",
-      "pass": true
-    },
-    {
-      "id": "node:finger_l_middle",
-      "pass": true
-    },
-    {
-      "id": "node:finger_l_ring",
-      "pass": true
-    },
-    {
-      "id": "node:finger_l_pinky",
-      "pass": true
-    },
-    {
-      "id": "node:hand_l",
+      "id": "node:body_hand_l",
       "pass": true
     }
   ]

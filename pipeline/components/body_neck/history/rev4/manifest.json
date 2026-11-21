@@ -1,0 +1,77 @@
+{
+  "schema_v": 1,
+  "id": "body_neck",
+  "type": "glb",
+  "status": "processed",
+  "rev": 4,
+  "constraints": {
+    "type": "glb",
+    "tri_budget": 500,
+    "skeleton": "@skeletons/humanoid_v2"
+  },
+  "inputs": {
+    "export/body_neck.glb": "sha256:7ac90d34adbf5edcaeb45cad39854b420b09d56ce3e64ae3a0632231e8f048e0"
+  },
+  "artifacts": {
+    "processed/body_neck.glb": "sha256:7ac90d34adbf5edcaeb45cad39854b420b09d56ce3e64ae3a0632231e8f048e0"
+  },
+  "metrics": {},
+  "gate_mode": {
+    "tris_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1795274741.322614,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1795276662.7791905,
+      "status": "certified"
+    },
+    {
+      "rev": 3,
+      "ts": 1795276684.7540898,
+      "status": "processed"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "glb": "body_neck.glb",
+  "meshes": 1,
+  "tris": 476,
+  "animations": [
+    "aerial_flourish",
+    "breath",
+    "channel_water",
+    "formal_bow",
+    "gaze_contemplate",
+    "head_scan",
+    "idle",
+    "kneel_offer",
+    "levitate_channel",
+    "lunge_strike",
+    "parry",
+    "recover",
+    "seated_meditate",
+    "sleeve_sway",
+    "spinning_parry",
+    "staff_salute",
+    "sword_form",
+    "sword_swing",
+    "talisman_cast",
+    "walk",
+    "weight_shift",
+    "wrist_channel"
+  ],
+  "tri_budget": 500,
+  "gate": {
+    "tris_ok": true
+  }
+}

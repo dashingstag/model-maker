@@ -5,12 +5,13 @@
     "slot": "body_neck",
     "layer": "body",
     "meshes": [
-      "neck_m"
+      "body_neck"
     ],
-    "source": "build_body"
+    "source": "mpfb_body",
+    "binding": "skinned"
   },
   "skeleton": "@skeletons/humanoid_v2",
-  "tri_budget": 1500,
+  "tri_budget": 668,
   "contract": {
     "glb": {
       "bones": [
@@ -21,7 +22,7 @@
         "walk"
       ],
       "nodes": [
-        "neck_m"
+        "body_neck"
       ]
     }
   }

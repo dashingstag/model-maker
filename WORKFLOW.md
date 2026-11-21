@@ -797,32 +797,49 @@ certification. Two layers:
 
 - **`body_*`** — the complete skin layer. A full body exists under
   every outfit, so any garment combination works. Built by
-  `tools/build_body.py` (parametric lofts on the skeleton's
-  model-space joints — anatomy-shaped profiles, 12-gon rings) plus
-  authored mannequin skins (head, neck, forearms, hands, fingers).
-- **`cloth_*`** — garments worn over body. Each declares
-  `part.covers: [body slots]` in its brief — coverage metadata for
-  later culling (v0 retains covered skin; skin inside cloth can't
-  poke out). Sliced from the mannequin by `tools/std_parts.py`.
+  `tools/mpfb_body.py`: MPFB2 (MakeHuman-for-Blender, CC0 output)
+  generates an authored realistic human + `game_engine` rig with
+  authored weights headlessly inside Blender; the tool then
+  pose-fits the MPFB rig onto `humanoid_v2` joint positions
+  (armature-modifier apply = coherent deformation, no per-vertex
+  matrix math), drops helper meshes (hair/skirt/genital/joint
+  cubes/eyelash cards), re-targets special regions (eyes→`eye.l/r`,
+  lower teeth+tongue→`jaw`, upper teeth→`head`), mirrors MPFB's
+  +x-left convention to our −x `.l`, caps influences at 4/vert,
+  slices by dominant bone into the 11 slots, and exports each part
+  as a *skinned* GLB (full 60-joint skin + all 22 clips per part).
+- **`cloth_*`** — garments worn over body (deferred — v1 mannequin
+  slices don't fit MPFB proportions; re-fit is future work). Each
+  declares `part.covers: [body slots]` in its brief. Sliced from
+  the mannequin by `tools/std_parts.py`.
 - `std_hair`, `std_ornament` — unlayered slots.
 
 The slot taxonomy lives in `shared/mannequin/humanoid_base.json`
 (vocab, referenced as `@mannequin/humanoid_base`): slot → layer,
-meshes, covers, src (`mannequin`|`build_body`|`mixed`).
+meshes, covers, src (`mannequin`|`build_body`|`mpfb`).
 
-**Binding convention:** every mesh is rigid-parented to one bone
-(the mannequin's hybrid action-figure scheme); part GLBs carry the
-full skeleton + all 22 anim clips so a part animates standalone in
-unit renders, and assembly re-grafts by matching bone names.
-Joints close by *overlap* — limb ends extend past the joint so
-neighbours interpenetrate (the modular-kit rule: seams hide inside
-geometry, never at coincident rings).
+**Two binding conventions coexist:**
+- *Skinned* (body): smooth LBS, ≤4 influences, weights preserved
+  across slice boundaries so assembled parts deform continuously.
+  This is the realism path — elbows/knees/spine bend without gaps.
+- *Rigid bone-parent* (cloth, hair, ornament): the mannequin's
+  action-figure scheme; correct for semi-rigid garments and props.
+Part GLBs carry the full skeleton + all 22 anim clips either way,
+so a part animates standalone in unit renders.
 
 **`tools/assemble.py <char_id>`** merges *certified* parts into one
 GLB: `brief.assemble = {base, parts: {slot: part_id}}` — uncertified
-parts abort; writes `export/<char>.glb` + `export/assemble.json`
-provenance; then the character runs the normal glb C-track.
-`xx_std_figure` (20 parts → 5,132 tris) is the reference assembly.
+parts abort. Two merge paths: `SkinnedMerger` (one shared skin —
+joints remapped to base bone nodes by name, IBMs copied from the
+first part, per-part `JOINTS_0` index remap when skin ordering
+differs) and the rigid `Merger` (mesh nodes grafted under same-name
+bones). A figure may mix both. Writes `export/<char>.glb` +
+`export/assemble.json` provenance; then the character runs the
+normal glb C-track. `xx_std_body` (11 skinned parts → 27,676 tris)
+is the reference skinned assembly; `xx_std_figure` (20 parts →
+5,132 tris) is the older rigid-mannequin assembly (body revs
+predate MPFB — do not re-assemble; its cloth was fitted to the old
+proportions).
 
 Shading: mannequin meshes store per-face verts (flat shading) —
 `std_parts.smooth_normals` welds them and writes smooth vertex

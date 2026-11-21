@@ -3,17 +3,17 @@
   "id": "body_head",
   "type": "glb",
   "status": "certified",
-  "rev": 2,
+  "rev": 6,
   "constraints": {
     "type": "glb",
-    "tri_budget": 1500,
+    "tri_budget": 11890,
     "skeleton": "@skeletons/humanoid_v2"
   },
   "inputs": {
-    "export/body_head.glb": "sha256:051ac0d5b25320558e13e33ad303e3c2e3af386c540f1c5ad77a1dbdf0227976"
+    "export/body_head.glb": "sha256:7316f14e969fd77d02b1b336cc2a9a53ad88d35ff30de9c116887a8abf507a4a"
   },
   "artifacts": {
-    "processed/body_head.glb": "sha256:051ac0d5b25320558e13e33ad303e3c2e3af386c540f1c5ad77a1dbdf0227976"
+    "processed/body_head.glb": "sha256:7316f14e969fd77d02b1b336cc2a9a53ad88d35ff30de9c116887a8abf507a4a"
   },
   "metrics": {},
   "gate_mode": {
@@ -25,6 +25,26 @@
       "rev": 1,
       "ts": 1795274740.8440733,
       "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1795276662.2008781,
+      "status": "certified"
+    },
+    {
+      "rev": 3,
+      "ts": 1795276684.2273784,
+      "status": "processed"
+    },
+    {
+      "rev": 4,
+      "ts": 1795276707.3354003,
+      "status": "processed"
+    },
+    {
+      "rev": 5,
+      "ts": 1795276712.6865234,
+      "status": "processed"
     }
   ],
   "toolchain": {
@@ -34,34 +54,38 @@
     "matting": "birefnet-general"
   },
   "glb": "body_head.glb",
-  "meshes": 2,
-  "tris": 264,
+  "meshes": 1,
+  "tris": 9108,
   "animations": [
-    "idle",
-    "walk",
+    "aerial_flourish",
+    "breath",
     "channel_water",
-    "staff_salute",
-    "seated_meditate",
-    "sword_swing",
+    "formal_bow",
+    "gaze_contemplate",
+    "head_scan",
+    "idle",
+    "kneel_offer",
+    "levitate_channel",
+    "lunge_strike",
     "parry",
     "recover",
-    "breath",
-    "weight_shift",
-    "head_scan",
+    "seated_meditate",
     "sleeve_sway",
-    "gaze_contemplate",
-    "wrist_channel",
-    "formal_bow",
-    "lunge_strike",
     "spinning_parry",
-    "aerial_flourish",
-    "levitate_channel",
+    "staff_salute",
     "sword_form",
+    "sword_swing",
     "talisman_cast",
-    "kneel_offer"
+    "walk",
+    "weight_shift",
+    "wrist_channel"
   ],
-  "tri_budget": 1500,
+  "tri_budget": 11890,
   "gate": {
     "tris_ok": true
+  },
+  "certified": {
+    "ts": 1795277977.2084255,
+    "by": "devin"
   }
 }

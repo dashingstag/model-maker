@@ -3,17 +3,17 @@
   "id": "body_neck",
   "type": "glb",
   "status": "certified",
-  "rev": 2,
+  "rev": 5,
   "constraints": {
     "type": "glb",
-    "tri_budget": 1500,
+    "tri_budget": 668,
     "skeleton": "@skeletons/humanoid_v2"
   },
   "inputs": {
-    "export/body_neck.glb": "sha256:31aaefba0828982f874e455c1fd61d9b3ccd5453b3fa185f4303e82405ec3aa0"
+    "export/body_neck.glb": "sha256:7ac90d34adbf5edcaeb45cad39854b420b09d56ce3e64ae3a0632231e8f048e0"
   },
   "artifacts": {
-    "processed/body_neck.glb": "sha256:31aaefba0828982f874e455c1fd61d9b3ccd5453b3fa185f4303e82405ec3aa0"
+    "processed/body_neck.glb": "sha256:7ac90d34adbf5edcaeb45cad39854b420b09d56ce3e64ae3a0632231e8f048e0"
   },
   "metrics": {},
   "gate_mode": {
@@ -25,6 +25,21 @@
       "rev": 1,
       "ts": 1795274741.322614,
       "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1795276662.7791905,
+      "status": "certified"
+    },
+    {
+      "rev": 3,
+      "ts": 1795276684.7540898,
+      "status": "processed"
+    },
+    {
+      "rev": 4,
+      "ts": 1795276713.2416768,
+      "status": "processed"
     }
   ],
   "toolchain": {
@@ -35,33 +50,37 @@
   },
   "glb": "body_neck.glb",
   "meshes": 1,
-  "tris": 36,
+  "tris": 476,
   "animations": [
-    "idle",
-    "walk",
+    "aerial_flourish",
+    "breath",
     "channel_water",
-    "staff_salute",
-    "seated_meditate",
-    "sword_swing",
+    "formal_bow",
+    "gaze_contemplate",
+    "head_scan",
+    "idle",
+    "kneel_offer",
+    "levitate_channel",
+    "lunge_strike",
     "parry",
     "recover",
-    "breath",
-    "weight_shift",
-    "head_scan",
+    "seated_meditate",
     "sleeve_sway",
-    "gaze_contemplate",
-    "wrist_channel",
-    "formal_bow",
-    "lunge_strike",
     "spinning_parry",
-    "aerial_flourish",
-    "levitate_channel",
+    "staff_salute",
     "sword_form",
+    "sword_swing",
     "talisman_cast",
-    "kneel_offer"
+    "walk",
+    "weight_shift",
+    "wrist_channel"
   ],
-  "tri_budget": 1500,
+  "tri_budget": 668,
   "gate": {
     "tris_ok": true
+  },
+  "certified": {
+    "ts": 1795277977.3747513,
+    "by": "devin"
   }
 }

@@ -23,15 +23,7 @@
       "pass": true
     },
     {
-      "id": "node:btorso_pelvis",
-      "pass": true
-    },
-    {
-      "id": "node:btorso_waist",
-      "pass": true
-    },
-    {
-      "id": "node:btorso_chest",
+      "id": "node:body_torso",
       "pass": true
     }
   ]

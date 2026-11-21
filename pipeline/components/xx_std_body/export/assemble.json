@@ -1,0 +1,105 @@
+{
+  "base": "@mannequin/humanoid_base",
+  "parts": [
+    {
+      "slot": "body_arm_l",
+      "id": "body_arm_l",
+      "meshes": [
+        "body_arm_l"
+      ],
+      "covers": [],
+      "tris": 1112
+    },
+    {
+      "slot": "body_arm_r",
+      "id": "body_arm_r",
+      "meshes": [
+        "body_arm_r"
+      ],
+      "covers": [],
+      "tris": 1112
+    },
+    {
+      "slot": "body_foot_l",
+      "id": "body_foot_l",
+      "meshes": [
+        "body_foot_l"
+      ],
+      "covers": [],
+      "tris": 2150
+    },
+    {
+      "slot": "body_foot_r",
+      "id": "body_foot_r",
+      "meshes": [
+        "body_foot_r"
+      ],
+      "covers": [],
+      "tris": 2148
+    },
+    {
+      "slot": "body_hand_l",
+      "id": "body_hand_l",
+      "meshes": [
+        "body_hand_l"
+      ],
+      "covers": [],
+      "tris": 3178
+    },
+    {
+      "slot": "body_hand_r",
+      "id": "body_hand_r",
+      "meshes": [
+        "body_hand_r"
+      ],
+      "covers": [],
+      "tris": 3178
+    },
+    {
+      "slot": "body_head",
+      "id": "body_head",
+      "meshes": [
+        "body_head"
+      ],
+      "covers": [],
+      "tris": 9108
+    },
+    {
+      "slot": "body_leg_l",
+      "id": "body_leg_l",
+      "meshes": [
+        "body_leg_l"
+      ],
+      "covers": [],
+      "tris": 1132
+    },
+    {
+      "slot": "body_leg_r",
+      "id": "body_leg_r",
+      "meshes": [
+        "body_leg_r"
+      ],
+      "covers": [],
+      "tris": 1136
+    },
+    {
+      "slot": "body_neck",
+      "id": "body_neck",
+      "meshes": [
+        "body_neck"
+      ],
+      "covers": [],
+      "tris": 476
+    },
+    {
+      "slot": "body_torso",
+      "id": "body_torso",
+      "meshes": [
+        "body_torso"
+      ],
+      "covers": [],
+      "tris": 2946
+    }
+  ],
+  "tris": 27676
+}
