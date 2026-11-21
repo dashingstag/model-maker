@@ -322,10 +322,21 @@ function loadGlb(host, src, glbjs, cid) {{
   }}
 }}
 </script>
+<script>
+// live reload — /__ver is served only by `site_gen.py --serve`; on
+// file:// or any fetch error this quietly does nothing
+let __ver = null;
+setInterval(() => {{
+  fetch("/__ver", {{cache: "no-store"}}).then(r => r.json()).then(j => {{
+    if (__ver === null) {{ __ver = j.v; }}
+    else if (j.v !== __ver) {{ location.reload(); }}
+  }}).catch(() => {{}});
+}}, 3000);
+</script>
 """
 
 
-def main():
+def build():
     os.makedirs(SITE, exist_ok=True)
     if os.path.isdir(GLB_JS):           # stale sidecars for removed comps
         for f in os.listdir(GLB_JS):
@@ -346,15 +357,61 @@ def main():
     page = PAGE.format(ts=time.strftime("%Y-%m-%d %H:%M:%S"),
                        nc=len(comps), ng=len(goals),
                        nav=nav, body="\n".join(body))
-    open(os.path.join(SITE, "index.html"), "w",
-         encoding="utf-8").write(page)
+    # atomic write — a reader must never see a half-written page
+    tmp = os.path.join(SITE, "index.html.tmp")
+    open(tmp, "w", encoding="utf-8").write(page)
+    os.replace(tmp, os.path.join(SITE, "index.html"))
     print(f"site -> {os.path.join(SITE, 'index.html')} "
           f"({len(comps)} components, {len(goals)} compositions)")
+
+
+WATCH_EXT = (".json", ".glb", ".png", ".jpg", ".jpeg", ".md")
+
+
+def signature():
+    """(max mtime_ns, file count) over the asset tree — any add,
+    modify or delete under pipeline/ changes it."""
+    latest, count = 0, 0
+    for base, _, files in os.walk(os.path.join(ROOT, "pipeline")):
+        for f in files:
+            if not f.endswith(WATCH_EXT):
+                continue
+            count += 1
+            try:
+                latest = max(latest, os.stat(
+                    os.path.join(base, f)).st_mtime_ns)
+            except OSError:
+                pass
+    return latest, count
+
+
+def main():
+    build()
     if "--serve" in sys.argv:
         import functools
         import http.server
+        import json as _json
         import socketserver
+        import threading
         import webbrowser
+
+        state = {"v": 0, "sig": signature()}
+        lock = threading.Lock()
+
+        def watch():
+            while True:
+                time.sleep(3)
+                try:
+                    sig = signature()
+                    if sig != state["sig"]:
+                        with lock:
+                            state["sig"] = sig
+                            build()
+                            state["v"] += 1
+                except Exception as e:     # a bad tree state must never
+                    print("site watch:", e)  # kill the server
+
+        threading.Thread(target=watch, daemon=True).start()
 
         class Handler(http.server.SimpleHTTPRequestHandler):
             def translate_path(self, path):
@@ -364,11 +421,25 @@ def main():
                     path = path.split("/index.html/", 1)[0] + "/index.html"
                 return super().translate_path(path)
 
+            def do_GET(self):
+                if self.path.split("?", 1)[0] == "/__ver":
+                    body = _json.dumps({"v": state["v"]}).encode()
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(body)))
+                    self.send_header("Cache-Control", "no-store")
+                    self.end_headers()
+                    self.wfile.write(body)
+                    return
+                super().do_GET()
+
         port = 8471
         handler = functools.partial(Handler, directory=ROOT)
-        print(f"serving {ROOT} at http://127.0.0.1:{port}/site/")
+        print(f"serving {ROOT} at http://127.0.0.1:{port}/site/ "
+              f"(watching pipeline/ for changes)")
         webbrowser.open(f"http://127.0.0.1:{port}/site/")
-        socketserver.TCPServer(("127.0.0.1", port), handler).serve_forever()
+        socketserver.ThreadingTCPServer(
+            ("127.0.0.1", port), handler).serve_forever()
 
 
 main()
