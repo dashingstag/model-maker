@@ -803,7 +803,13 @@ certification. Two layers:
   Blender, CC0 output) generates an authored realistic human +
   `game_engine` rig with authored weights headlessly inside Blender
   — `--sex` feeds a `macro_detail_dict` phenotype (gender target
-  1.0/0.0 + muscle/cupsize shaping) to `create_human`. The tool then
+  1.0/0.0 + muscle/cupsize/proportions/firmness shaping) to
+  `create_human`. Optional post-fit shaping flags
+  (`--neck-lift`, `--waist`, `--hip`) apply joint-anchored spatial
+  fields on the fitted mesh — head-family verts lift with a smooth
+  falloff through the neck band; torso-weighted verts taper in x/y
+  inside a gaussian waist band; root-weighted verts flare at the
+  hip band — bones stay canonical, only the mesh moves. The tool then
   pose-fits the MPFB rig onto `humanoid_v2` joint positions
   (armature-modifier apply = coherent deformation, no per-vertex
   matrix math), drops helper meshes (hair/skirt/genital/joint

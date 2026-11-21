@@ -100,7 +100,7 @@ SEX_MACROS = {
     "male":   {"gender": 1.0, "muscle": 0.65, "weight": 0.5,
                "cupsize": 0.0},
     "female": {"gender": 0.0, "muscle": 0.45, "weight": 0.5,
-               "cupsize": 0.45},
+               "cupsize": 0.5, "proportions": 0.65, "firmness": 0.6},
 }
 
 def parse_args():
@@ -114,6 +114,13 @@ def parse_args():
     p.add_argument("--preview", default="", help="write merged preview GLB here")
     p.add_argument("--sex", choices=["neutral", "male", "female"],
                    default="neutral")
+    # post-fit shaping (all in our model space, meters/fractions)
+    p.add_argument("--neck-lift", type=float, default=0.0,
+                   help="raise head verts by this much, neck stretched")
+    p.add_argument("--waist", type=float, default=0.0,
+                   help="inward x/y scale fraction at the waist band")
+    p.add_argument("--hip", type=float, default=0.0,
+                   help="outward x scale fraction at the hip band")
     return p.parse_args(argv)
 
 # ---------------- helpers ----------------
@@ -377,6 +384,41 @@ def main():
     for new_i, w in vweights.items():
         for our_b, wt in w.items():
             our_vgs[our_b].add([new_i], wt, "REPLACE")
+
+    # 4c) optional spatial shaping — joint-anchored fields on the fitted
+    # mesh (our space). Bones stay canonical; only the mesh moves.
+    if ARGS.neck_lift or ARGS.waist or ARGS.hip:
+        import math
+        z_root  = F_ours["root"][0].z
+        z_chest = F_ours["chest"][0].z
+        z_neck  = F_ours["neck"][0].z
+        z_head  = F_ours["head"][0].z
+        y_spine = F_ours["spine"][0].y   # interior spine line for y-scale
+        z_waist = z_root + 0.55 * (z_chest - z_root)
+        z_hip   = z_root - 0.01
+        SIG_W, SIG_H = 0.045, 0.05
+        HEAD_BONES = ("head", "jaw", "eye.l", "eye.r")
+        TORSO_BONES = ("spine", "chest", "root")
+        print(f"shape bands: waist z={z_waist:.3f} hip z={z_hip:.3f} "
+              f"neck {z_neck:.3f}->{z_head:.3f}")
+        for new_i, w in vweights.items():
+            v = body.data.vertices[new_i]
+            z = v.co.z
+            if ARGS.neck_lift:
+                hw = sum(w.get(b, 0.0) for b in HEAD_BONES)
+                nw = w.get("neck", 0.0)
+                t = min(1.0, max(0.0, (z - z_neck) / (z_head - z_neck)))
+                v.co.z += ARGS.neck_lift * (hw + nw * t)
+            torso_w = min(1.0, sum(w.get(b, 0.0) for b in TORSO_BONES))
+            if ARGS.waist and torso_w > 0.15:
+                g = math.exp(-((z - z_waist) / SIG_W) ** 2)
+                s = 1.0 - ARGS.waist * g * torso_w
+                v.co.x *= s
+                v.co.y = y_spine + (v.co.y - y_spine) * s
+            if ARGS.hip:
+                hw = w.get("root", 0.0)
+                g = math.exp(-((z - z_hip) / SIG_H) ** 2)
+                v.co.x *= 1.0 + ARGS.hip * g * hw
 
     # 5) optional decimate (mesh groups carry the weights through)
     if ARGS.decimate > 0:

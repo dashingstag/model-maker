@@ -1,16 +1,17 @@
 {
   "verdict": "pass",
   "actor": "devin",
-  "ts": 1795283280.6249287,
+  "ts": 1795286663.2630305,
   "checks": {
     "part present and rendered in-engine": "pass",
     "skinned deformation follows bind bones (no rigid gaps)": "pass",
     "no stray geometry or helper meshes": "pass",
     "smooth normals \u2014 no faceted shading": "pass",
-    "female anatomy distinct (MPFB gender target applied)": "pass"
+    "female anatomy distinct (MPFB gender target applied)": "pass",
+    "female shaping applied (waist taper, neck lift, hip flare)": "pass"
   },
   "flags": [],
-  "note": "rev1 \u2014 MPFB2 female (gender=0.0), skinned, pose-fit retarget",
+  "note": "rev2 \u2014 female shape pass: neck+2.5cm, waist-12%, hips+5%, proportions 0.65",
   "reviewed_files": [
     "unit_render/neutral.png",
     "unit_render/sword_form_50.png",
