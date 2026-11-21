@@ -49,7 +49,7 @@ rasterization, ComfyUI device drift).
 | `run_goal` orchestrator | ✅ `tools/run_goal.py` — supervised end-to-end driver: scaffold → C-tracks → publish → supervised harness (`.run/` heartbeat, process-group reap, stall kill) → export → golden diff |
 | golden diff | ✅ `tools/golden_check.py` — per-shot changed-pixel fraction vs `golden/<goal>/`, `--tol`/`--max-changed` bands, `--write` blesses |
 | instance registry | ✅ `.run/<kind>-<pid>.json` records (pipelib `register_instance`/`heartbeat_instance`/`instances`) — runner.gd beats per stage; stale pids reaped |
-| glb providers | ✅ `tools/providers/` — adapter registry (`base.py`) + `mock` (valid GLB, no GPU/Blender) + `hunyuan3d` (accepted→shape→decimate→Blender post-step→textured GLB, ~74s gen + ~40s bake on 16GB; options `texture`/`retopo`/`view`/`tri_budget`; rig `conform`=template geometry keeps rig, `reskin`=painted mesh itself skinned via nearest-conformed-part transfer — real vertex weights + silhouette, blob-deformation limits apply); `post` chain `["face","pbr","ao","design"]` = face cards bone-parented to `head` (`blender_face.py`) + roughness-floor on the packed MR map (`pbr_fix.py`) + baked AO injection (`blender_ao.py`+`pbr_fix --ao`) + position-keyed atlas repaint (`design_pass.py`); glb brief `provider` key routes in `gen_component`; `check.py texture:smoke` covers the post-step |
+| glb providers | ✅ `tools/providers/` — adapter registry (`base.py`) + `mock` (valid GLB, no GPU/Blender) + `hunyuan3d` (accepted→shape→decimate→Blender post-step→textured GLB, ~74s gen + ~40s bake on 16GB; options `texture`/`retopo`/`view`/`tri_budget`; rig `conform`=template geometry keeps rig, `reskin`=painted mesh itself skinned via nearest-conformed-part transfer — real vertex weights + silhouette, blob-deformation limits apply); `post` chain `["face","faceplate","pbr","ao","design","tcdesign"]` = face cards bone-parented to `head` (`blender_face.py`) + sculpted face-plate mesh + card re-seat (`face_plate.py`) + roughness-floor on the packed MR map (`pbr_fix.py`) + baked AO injection (`blender_ao.py`+`pbr_fix --ao`) + position-keyed atlas repaint (`design_pass.py`) + TextureCraft generator-masked detail layers (`tc_design.py`); glb brief `provider` key routes in `gen_component`; `check.py texture:smoke` covers the post-step |
 | layout map | ✅ `tools/layout_map.py` — resolved jobs.json members/patrol/attach → `layout_map.png`; run_goal renders post-publish (plan-first, catches framing/overlap pre-harness) |
 | drop-in check | ✅ `tools/dropin_check.py` — bare temp project + assets/ + scene.tscn, `--import` pass then probe; fails on Parse/Failed-loading, snaps `dist/<goal>/dropin_probe.png` |
 | sync_on assertion | ✅ staged actions resolve `role.anim@event` from component brief anims tables; same-named own events assert `delta_s <= tolerance_s`, unresolved → pass:null + local_t reported |
@@ -506,7 +506,16 @@ the brief is the contract; tools catch up.
   final GLB (`brief.provider.options.post`): `face` adds flat
   eye/brow/lip cards bone-parented to `head` (`tools/blender_face.py`
   — for humanoid rigs; face texture at ~50×80 texels can't carry
-  features, geometry is the honest route); `pbr` floors non-metal
+  features, geometry is the honest route); `faceplate` adds a sculpted
+  face-plate mesh under the cards (`tools/face_plate.py` — pure-GLB
+  append, no Blender; must run after `face`). Needed because the hy3d
+  shell cloud has NO real face surface — the recessed region is
+  inner-shell backfaces (#92): the plate is a concentric-ring mesh
+  shrink-wrapped onto the hood shell (per-vert `max shell z +
+  clearance`) with gaussian relief for brow ridge, nose, eye sockets,
+  cheeks and chin, plus a chin-taper width profile, and it re-seats
+  each eye's card STACK by one shared delta so sclera/iris/pupil
+  layering is preserved; `pbr` floors non-metal
   roughness in the packed metallicRoughness map (`tools/pbr_fix.py`
   — fixes hy3d's glossy-cloth chrome at the map level, metal/gem
   response preserved); `ao` Cycles-bakes occlusion into the atlas and

@@ -1,0 +1,368 @@
+{
+  "schema_v": 1,
+  "id": "xx_azure_sage_3d",
+  "type": "glb",
+  "status": "certified",
+  "rev": 14,
+  "constraints": {
+    "type": "glb",
+    "anims": [
+      {
+        "name": "idle",
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "walk",
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "channel_water",
+        "duration": 2.0,
+        "fps": 24,
+        "events": [
+          {
+            "name": "surge",
+            "t": 0.6
+          },
+          {
+            "name": "release",
+            "t": 1.4
+          }
+        ]
+      },
+      {
+        "name": "staff_salute",
+        "duration": 1.2,
+        "fps": 24,
+        "hand_pose": "@poses/grip_sword",
+        "events": [
+          {
+            "name": "bow",
+            "t": 0.5
+          }
+        ]
+      },
+      {
+        "name": "seated_meditate",
+        "duration": 4.0,
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "sword_swing",
+        "duration": 1.0,
+        "fps": 24,
+        "events": [
+          {
+            "name": "contact",
+            "t": 0.45
+          }
+        ]
+      },
+      {
+        "name": "parry",
+        "duration": 0.8,
+        "fps": 24,
+        "events": [
+          {
+            "name": "contact",
+            "t": 0.25
+          }
+        ]
+      },
+      {
+        "name": "recover",
+        "duration": 0.8,
+        "fps": 24
+      },
+      {
+        "name": "breath",
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "weight_shift",
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "head_scan",
+        "duration": 3.0,
+        "fps": 24
+      },
+      {
+        "name": "sleeve_sway",
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "gaze_contemplate",
+        "duration": 3.0,
+        "fps": 24
+      },
+      {
+        "name": "wrist_channel",
+        "loop": true,
+        "fps": 24
+      },
+      {
+        "name": "formal_bow",
+        "duration": 2.4,
+        "fps": 24,
+        "events": [
+          {
+            "name": "bow",
+            "t": 1.0
+          }
+        ]
+      },
+      {
+        "name": "lunge_strike",
+        "duration": 1.2,
+        "fps": 24,
+        "hand_pose": "@poses/grip_sword",
+        "events": [
+          {
+            "name": "contact",
+            "t": 0.66
+          }
+        ]
+      },
+      {
+        "name": "spinning_parry",
+        "duration": 0.9,
+        "fps": 24,
+        "hand_pose": "@poses/grip_sword",
+        "events": [
+          {
+            "name": "contact",
+            "t": 0.35
+          },
+          {
+            "name": "deflect",
+            "t": 0.35
+          }
+        ]
+      },
+      {
+        "name": "aerial_flourish",
+        "duration": 1.6,
+        "fps": 24,
+        "events": [
+          {
+            "name": "apex",
+            "t": 0.72
+          },
+          {
+            "name": "contact",
+            "t": 0.41
+          }
+        ]
+      },
+      {
+        "name": "levitate_channel",
+        "loop": true,
+        "duration": 5.0,
+        "fps": 24,
+        "hand_pose": "@poses/sword_fingers",
+        "events": [
+          {
+            "name": "seal",
+            "t": 1.25
+          },
+          {
+            "name": "release",
+            "t": 4.5
+          }
+        ]
+      },
+      {
+        "name": "sword_form",
+        "duration": 3.0,
+        "fps": 24,
+        "hand_pose": "@poses/grip_sword",
+        "events": [
+          {
+            "name": "thrust",
+            "t": 1.35
+          },
+          {
+            "name": "low_guard",
+            "t": 2.1
+          }
+        ]
+      },
+      {
+        "name": "talisman_cast",
+        "duration": 1.4,
+        "fps": 24,
+        "hand_pose": "@poses/talisman_pinch",
+        "events": [
+          {
+            "name": "flick",
+            "t": 0.77
+          }
+        ]
+      },
+      {
+        "name": "kneel_offer",
+        "duration": 3.0,
+        "fps": 24,
+        "hand_pose": "@poses/open_palm",
+        "events": [
+          {
+            "name": "offer",
+            "t": 1.8
+          }
+        ]
+      }
+    ],
+    "tri_budget": 15000,
+    "collision": "capsule-approx",
+    "skeleton": "@skeletons/humanoid_v2",
+    "attachments": [
+      {
+        "id": "staff_main",
+        "component": "xx_sage_staff_3d",
+        "socket": "hand.r",
+        "keep_during": [
+          "idle",
+          "walk",
+          "channel_water",
+          "staff_salute"
+        ]
+      }
+    ]
+  },
+  "inputs": {
+    "export/xx_azure_sage_3d.glb": "sha256:49060fa23369fa4adc8117b262c21fd048be9dadfa49327e833647a2d3192f16"
+  },
+  "artifacts": {
+    "processed/xx_azure_sage_3d.glb": "sha256:49060fa23369fa4adc8117b262c21fd048be9dadfa49327e833647a2d3192f16"
+  },
+  "metrics": {},
+  "gate_mode": {
+    "tris_ok": "enforced"
+  },
+  "waiver": null,
+  "history": [
+    {
+      "rev": 1,
+      "ts": 1793808221.727168,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1793809275.8933048,
+      "status": "certified"
+    },
+    {
+      "rev": 3,
+      "ts": 1793823143.4712965,
+      "status": "certified"
+    },
+    {
+      "ts": 1793987242.6441987,
+      "actor": "devin:curator",
+      "note": "rev2: shape gen + PBR paint + conform to humanoid_v1; 19 joints/8 clips intact, 41 baked albedos"
+    },
+    {
+      "rev": 4,
+      "ts": 1793987725.1477637,
+      "status": "certified"
+    },
+    {
+      "ts": 1793987743.5209267,
+      "actor": "devin:curator",
+      "note": "rev5: 22-clip template reconformed onto painted silhouette; contract 22/22 anims + 7 bones green; vision rev2 stands (same meshes+textures)"
+    },
+    {
+      "rev": 5,
+      "ts": 1794927093.51035,
+      "status": "certified"
+    },
+    {
+      "rev": 6,
+      "ts": 1794927630.317957,
+      "status": "certified"
+    },
+    {
+      "rev": 7,
+      "ts": 1794927716.3206732,
+      "status": "processed"
+    },
+    {
+      "rev": 8,
+      "ts": 1794931174.2872593,
+      "status": "certified"
+    },
+    {
+      "rev": 9,
+      "ts": 1794932872.3485975,
+      "status": "certified"
+    },
+    {
+      "rev": 10,
+      "ts": 1795107498.4237094,
+      "status": "certified"
+    },
+    {
+      "rev": 11,
+      "ts": 1795109337.7959952,
+      "status": "certified"
+    },
+    {
+      "rev": 12,
+      "ts": 1795202018.0813544,
+      "status": "certified"
+    },
+    {
+      "rev": 13,
+      "ts": 1795236690.2698827,
+      "status": "certified"
+    }
+  ],
+  "toolchain": {
+    "blender": "4.5.15",
+    "comfyui": "0.43.0",
+    "comfyui_device": "cuda",
+    "matting": "birefnet-general"
+  },
+  "glb": "xx_azure_sage_3d.glb",
+  "meshes": 12,
+  "tris": 14720,
+  "animations": [
+    "aerial_flourish",
+    "breath",
+    "channel_water",
+    "formal_bow",
+    "gaze_contemplate",
+    "head_scan",
+    "idle",
+    "kneel_offer",
+    "levitate_channel",
+    "lunge_strike",
+    "parry",
+    "recover",
+    "seated_meditate",
+    "sleeve_sway",
+    "spinning_parry",
+    "staff_salute",
+    "sword_form",
+    "sword_swing",
+    "talisman_cast",
+    "walk",
+    "weight_shift",
+    "wrist_channel"
+  ],
+  "tri_budget": 15000,
+  "gate": {
+    "tris_ok": true
+  },
+  "certified": {
+    "ts": 1795236727.5076082,
+    "by": "devin"
+  }
+}

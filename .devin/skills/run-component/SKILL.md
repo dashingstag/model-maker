@@ -72,6 +72,11 @@ python tools/publish.py <goal> --wait 60
   via attach3d inherit the member's mode; doesn't affect baked-in
   specularity — that's the albedo bake's job). `provider.options.post`
   runs ordered finishing steps: `face` (bone-parented feature cards),
+  `faceplate` (sculpted face-plate mesh bone-parented to `head`,
+  shrink-wrapped to the shell with gaussian relief + card-stack
+  re-seat; needed when the generated mesh has no real face surface —
+  shell-cloud recessed regions are backfaces, not a face;
+  `tools/face_plate.py`, must run after `face`),
   `pbr` (roughness floor), `ao` (baked occlusion injection, Blender
   Cycles) or `tcao` (same injection via texturecraft-cli's GPU bake —
   faster, also yields curvature/thickness maps; `tools/tc_bake.py`),

@@ -37,7 +37,10 @@ VAST-AI SkinTokens (env skintokens_python/skintokens_dir) — generates
 its OWN skeleton (31 bones, generic names), for non-humanoid assets.
 post (default []): ordered finishing steps on the final GLB —
 'face' adds eye/brow/lip cards bone-parented to `head` (humanoid
-rigs only), 'pbr' floors non-metal roughness in the packed
+rigs only), 'faceplate' adds a sculpted face-plate mesh under the
+cards — the hy3d shell has no real face surface (recessed tris are
+inner backfaces), so the plate shrink-wraps onto the hood shell with
+gaussian relief and re-seats the card stack (tools/face_plate.py),
 metallicRoughness map, 'ao' bakes ambient occlusion in Blender and
 injects it as occlusionTexture (ao_res tunes bake size), 'tcao' does
 the same via texturecraft-cli's GPU ray-traced bake (seconds vs
@@ -222,6 +225,10 @@ def generate(cid, cdir, brief, opts, env, out):
             # eye/brow/lip cards bone-parented to `head` (humanoid only)
             cmd = [blender, "--background", "--python",
                    os.path.join(_TOOLS, "blender_face.py"), "--", out, tmp]
+        elif step == "faceplate":
+            # sculpted face-plate mesh + card re-seat (needs 'face' first)
+            cmd = [sys.executable,
+                   os.path.join(_TOOLS, "face_plate.py"), out, tmp]
         elif step == "pbr":
             cmd = [sys.executable,
                    os.path.join(_TOOLS, "pbr_fix.py"), out, tmp]

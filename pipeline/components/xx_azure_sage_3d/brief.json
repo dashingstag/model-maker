@@ -316,9 +316,11 @@
    "image": "idle.png",
    "post": [
     "face",
+    "faceplate",
     "pbr",
     "ao",
-    "design"
+    "design",
+    "tcdesign"
    ]
   }
  },
