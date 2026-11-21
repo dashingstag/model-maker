@@ -4,17 +4,17 @@
     "inputs": {
       "goal": "std_parts",
       "manifests": {
-        "body_f_arm_l": "sha256:bcbfc174c38c8a79ee0033506c9763d9cf361f70260f3e2af131a2f65a6c3aad",
-        "body_f_arm_r": "sha256:b103c2a30cadb0ce0b8bf68bc1faa34ccf794456f51e3f44791862b3c11d903c",
-        "body_f_foot_l": "sha256:cd8f4592b09f0d758cb5d02863b706c5084a1954f473cf926a79a2161d485336",
-        "body_f_foot_r": "sha256:f50d7c549896d145565def72410dc6c694902b82053eab356c801c922ad8d7f8",
-        "body_f_hand_l": "sha256:7fa76f3615654b929c0188d34066ab047e9213017d442a34c4083c0087817f4a",
-        "body_f_hand_r": "sha256:b423f9bf923e48532b3ece0bd77669c28f8273ed526e145808413e1e0ad73357",
-        "body_f_head": "sha256:866ac335b5b90c4739c6633f5aaf7fc021ce9fb5392d2f9adc9dd1321cd8b6e7",
-        "body_f_leg_l": "sha256:c32e98d148e66df8d49daa67206a9aca667b688a1201aebd44ae8160fc3fe84a",
-        "body_f_leg_r": "sha256:3420f7dcdbfa243c7b4ef913e057775a06bbfff83676a30946d798beea0b5104",
-        "body_f_neck": "sha256:1f88dd4d83c81544b3e1da95ba5fa188d27b93c0bc5f4891e118d44ebd5192ba",
-        "body_f_torso": "sha256:3df128b7ae1f380b6f40a5d070bb44f1887fb2e9f731df16bd75cbbaa9433703",
+        "body_f_arm_l": "sha256:fffa4e1fefad0bfcf1c12c12e640888259c24178c65b97e58eea34ed25a9488e",
+        "body_f_arm_r": "sha256:d544bfcc21d7f9053bac0baf472c5a972e5d67337b0bb08d97f44ca413c669c0",
+        "body_f_foot_l": "sha256:b2b1424aec0b7536a9fd4060026aacf7fc18c8183fe146d8364828b9799f39d2",
+        "body_f_foot_r": "sha256:2067806fa0a700df4c743cd1b2c579c041d175b4e8a2ba3dc0f022feafc68181",
+        "body_f_hand_l": "sha256:c623ca5d22911840c80ccf07040647fe60d081af6532b0fc1f817ba18c5811a0",
+        "body_f_hand_r": "sha256:81b2048e43e85b3dc65a9daaf5696d4900ae0862a7c7370a545cb98cfbc89e91",
+        "body_f_head": "sha256:5f40336fb390e6a2f9130ab6541e9de44eeebdb1a0158260ad0b0540e502eb9b",
+        "body_f_leg_l": "sha256:2a3006deada87bbcb004b3ac78ef2e6902b5aa9460f66a39a1551a28bcf647f2",
+        "body_f_leg_r": "sha256:c4ecd1718888fe10bb05ca316f5666552b70972dbe1591aedb75cea8ebfff6f8",
+        "body_f_neck": "sha256:5c1a1f0ac66288f75e74167bff670cc160609c2114f32aebec8a70fc55234213",
+        "body_f_torso": "sha256:34a04d7f6f19552917419ec2ebc009e72de855877c9707eff3a783101ef74463",
         "body_m_arm_l": "sha256:85ed6347c5fcbc764e7082e8e39575a229287a1f43f6a1f4e42f5472145aa78f",
         "body_m_arm_r": "sha256:56bd7a46a6a9009467921b47f27f8b264ae2cfe4bdbfa84be9413c85b39bc77d",
         "body_m_foot_l": "sha256:01572f11725ee0c5fe0b1290fb35e8749bf1e104818c70907cc71720a9fdf745",
@@ -35,14 +35,14 @@
         "cloth_waist": "sha256:83c36767dc60e2199317abcaa54b105409632ea70ab1141a54d31f1fb2b37c1c",
         "std_hair": "sha256:135d9387dd206df3926633ffd8fa6d4237e673508f98e3f77423b9ba207e84c1",
         "std_ornament": "sha256:e7658945fd2bdd26d6ee45ae78cc82c1f5692bf5108d01737b911092355cb781",
-        "xx_std_body_f": "sha256:296084fe108b4b2bd3166ad6fcc0cab7714a2f3667963ff528ac97b00fa27360",
+        "xx_std_body_f": "sha256:b0fb04b280583309889493b5a4a4896d62f5974eaa469e85962c73a73bd5deda",
         "xx_std_body_m": "sha256:97d081d68973f357be0e711ba2c8830419ce9867dda417faa852f633797ae52f",
         "xx_std_figure": "sha256:3c39042033ebcb33495b4cfccd526d43e6e9fb8f2e9b0460e753c4ea3bfa906e"
       }
     },
-    "job_file": "616174b84b19",
+    "job_file": "52224dd7aa58",
     "mode": "unit",
-    "timestamp": "2026-11-22T02:46:38"
+    "timestamp": "2026-11-22T03:43:46"
   },
   "schema": "mm.report.v1",
   "unit": {

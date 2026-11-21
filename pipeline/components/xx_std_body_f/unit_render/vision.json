@@ -1,7 +1,7 @@
 {
   "verdict": "pass",
   "actor": "devin",
-  "ts": 1795286808.8938043,
+  "ts": 1795290236.760002,
   "checks": {
     "all 11 skinned parts present and assembled": "pass",
     "skin deformation coherent across part boundaries (kneel/walk/sword)": "pass",
@@ -9,12 +9,14 @@
     "smooth normals \u2014 realistic MPFB anatomy": "pass",
     "female anatomy correct (gender target read at figure scale)": "pass",
     "head sits on visible neck (lift applied)": "pass",
-    "waist pinch + hip flare read at figure scale": "pass"
+    "waist pinch + hip flare read at figure scale": "pass",
+    "head sits on clearly elongated neck": "pass",
+    "waist pinch + bust read at figure scale": "pass"
   },
   "flags": [
     "faint seam lines at neck/shoulder under extreme poses \u2014 known v1 limitation"
   ],
-  "note": "rev2 \u2014 female shape pass: neck+2.5cm lift, waist-12% taper, hips+5% flare, MPFB proportions 0.65/firmness 0.6/cupsize 0.5",
+  "note": "rev3 \u2014 female pushed further: neck+4cm, waist-18%, cupsize 0.7",
   "reviewed_files": [
     "unit_render/neutral.png",
     "unit_render/sword_form_50.png",

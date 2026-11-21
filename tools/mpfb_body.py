@@ -100,7 +100,7 @@ SEX_MACROS = {
     "male":   {"gender": 1.0, "muscle": 0.65, "weight": 0.5,
                "cupsize": 0.0},
     "female": {"gender": 0.0, "muscle": 0.45, "weight": 0.5,
-               "cupsize": 0.5, "proportions": 0.65, "firmness": 0.6},
+               "cupsize": 0.7, "proportions": 0.65, "firmness": 0.6},
 }
 
 def parse_args():

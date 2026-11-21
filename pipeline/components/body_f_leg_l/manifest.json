@@ -3,17 +3,17 @@
   "id": "body_f_leg_l",
   "type": "glb",
   "status": "certified",
-  "rev": 2,
+  "rev": 3,
   "constraints": {
     "type": "glb",
     "tri_budget": 1521,
     "skeleton": "@skeletons/humanoid_v2"
   },
   "inputs": {
-    "export/body_f_leg_l.glb": "sha256:4f44e2c551608f2e08153ccad75f1bf25595e8ac24c953ceb27baf7b57ae71ca"
+    "export/body_f_leg_l.glb": "sha256:128b3647427af30eebbce4ef165d587331838dde25067c432bf6b96d02784161"
   },
   "artifacts": {
-    "processed/body_f_leg_l.glb": "sha256:4f44e2c551608f2e08153ccad75f1bf25595e8ac24c953ceb27baf7b57ae71ca"
+    "processed/body_f_leg_l.glb": "sha256:128b3647427af30eebbce4ef165d587331838dde25067c432bf6b96d02784161"
   },
   "metrics": {},
   "gate_mode": {
@@ -24,6 +24,11 @@
     {
       "rev": 1,
       "ts": 1795286511.221566,
+      "status": "certified"
+    },
+    {
+      "rev": 2,
+      "ts": 1795289947.1755776,
       "status": "certified"
     }
   ],
@@ -65,7 +70,7 @@
     "tris_ok": true
   },
   "certified": {
-    "ts": 1795286664.699463,
+    "ts": 1795290090.713803,
     "by": "devin"
   }
 }
