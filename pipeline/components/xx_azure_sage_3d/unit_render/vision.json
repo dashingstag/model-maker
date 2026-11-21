@@ -1,7 +1,7 @@
 {
   "verdict": "pass",
   "actor": "devin",
-  "ts": 1795241412.8178582,
+  "ts": 1795244915.825371,
   "checks": {
     "materials not washed out": "pass",
     "animations play without clipping": "pass",
@@ -14,7 +14,7 @@
     "absent: merged robe layers": "pass"
   },
   "flags": [],
-  "note": "rev15: faceplate post-step \u2014 sculpted face mesh (91 verts/162 tris) shrink-wrapped onto hood shell with brow/nose/socket/chin relief, bone-parented to head; eye/brow/lips card stacks re-seated as clusters preserving z-layering. Face is now real geometry framed by hair, not paint on hair. Verified via head_shots turntable + unit_render turntable/idle.",
+  "note": "rev16: faceplate v2 \u2014 face is now a VERTICAL plane (Z0=0.605, tilt 0.12, x-wrap 0.030) with shell-follow as floor only; rev15's shrink-wrap followed the shell's backward slope so the face lay on top of the head (#92 follow-up). Center lowered to y2.43. Profile reads brow/nose/chin; eyes front-facing under hood.",
   "reviewed_files": [
     "unit_render/turntable_front.png",
     "unit_render/turntable_side.png",

@@ -16,7 +16,7 @@ import sys
 import numpy as np
 
 # Face oval in model coords (same field as design_pass face_fill)
-CX, CY = 0.0, 2.440
+CX, CY = 0.0, 2.430
 AX, AY = 0.095, 0.105
 CLEAR = 0.004          # plate floats this far off the shell
 CARD_CLEAR = 0.004     # cards re-seat this far above the plate
@@ -103,14 +103,21 @@ def _smoothstep(t):
     return t * t * (3.0 - 2.0 * t)
 
 
+Z0 = 0.605     # face plane depth at eye line (shell recedes above this)
+TILT = 0.12    # slight backward tilt with height — natural, not shell slope
+WRAP = 0.030   # cylindrical wrap: edges recede into the hair frame
+
+
 def plate_z_fn(shell_cents):
-    """Return f(x, y) -> plate surface z: shrink-wrapped shell + relief."""
+    """Return f(x, y) -> plate surface z.
+
+    The face is a vertical surface of its own — the hood shell recedes with
+    height (front z ~0.62 at the jaw, ~0.45 at the crown), so shrink-wrapping
+    made the face lie on top of the head. Base is a near-vertical plane with
+    a slight back-tilt and x-wrap; the shell-follow survives only as a floor
+    so shell bumps can never poke through the face.
+    """
     def f(x, y):
-        m = ((np.abs(shell_cents[:, 0] - x) < SHELL_R)
-             & (np.abs(shell_cents[:, 1] - y) < SHELL_R))
-        base = 0.50
-        if m.any():
-            base = max(base, float(shell_cents[m][:, 2].max()))
         u, v = (x - CX) / AX, (y - CY) / AY
         r2 = u * u + v * v
         fall = _smoothstep(min(max((1.0 - r2) / 0.3, 0.0), 1.0))
@@ -118,7 +125,13 @@ def plate_z_fn(shell_cents):
         for cx, cy, sx, sy, a in RELIEF:
             rel += a * np.exp(-(((x - cx) / sx) ** 2
                                 + ((y - cy) / sy) ** 2))
-        return base + CLEAR + rel * fall
+        plane = Z0 - TILT * (y - CY) - WRAP * u * u + rel * fall
+        floor = 0.0
+        m = ((np.abs(shell_cents[:, 0] - x) < SHELL_R)
+             & (np.abs(shell_cents[:, 1] - y) < SHELL_R))
+        if m.any():
+            floor = float(shell_cents[m][:, 2].max()) + CLEAR
+        return max(plane, floor)
     return f
 
 
