@@ -15,24 +15,35 @@ import sys
 
 import numpy as np
 
-# Face oval in model coords (same field as design_pass face_fill)
-CX, CY = 0.0, 2.430
-AX, AY = 0.095, 0.105
-CLEAR = 0.004          # plate floats this far off the shell
+# Face oval in model coords — the face belongs in the hood opening,
+# low-center of the head mass (concept: eyes below the hairline, silver
+# hair + crown ornament above). Not at the crown where the shell tips.
+CX, CY = 0.0, 2.360
+AX, AY = 0.085, 0.088
+CLEAR = 0.008          # plate floats this far off the shell — bumpy shell
+                       # peaks poke through a thinner floor and read as
+                       # smudges between the cards
 CARD_CLEAR = 0.004     # cards re-seat this far above the plate
 SHELL_R = 0.028        # radius for shell-front depth sampling
 
-# relief gaussians: (cx, cy, sx, sy, amplitude)  +z forward
+# card cluster targets, face-relative offsets from CY — the cards were
+# authored up at the crown; the face assembly moves down together
+CARD_Y = {
+    "eye.l": 0.022, "eye.r": 0.022,
+    "brow.l": 0.052, "brow.r": 0.052, "lips": -0.050,
+}
+
+# relief gaussians: (cx, cy-offset from CY, sx, sy, amplitude)  +z forward
 RELIEF = [
-    (0.0,    2.478, 0.075, 0.013, +0.016),   # brow ridge
-    (0.0,    2.447, 0.013, 0.030, +0.022),   # nose bridge
-    (0.0,    2.406, 0.018, 0.015, +0.036),   # nose tip
-    (-0.037, 2.450, 0.023, 0.016, -0.015),   # eye socket l
-    (+0.037, 2.450, 0.023, 0.016, -0.015),   # eye socket r
-    (-0.050, 2.395, 0.028, 0.026, +0.007),   # cheek l
-    (+0.050, 2.395, 0.028, 0.026, +0.007),   # cheek r
-    (0.0,    2.378, 0.022, 0.009, +0.008),   # upper lip
-    (0.0,    2.350, 0.030, 0.013, +0.013),   # chin
+    (0.0,    +0.048, 0.075, 0.013, +0.016),  # brow ridge
+    (0.0,    +0.017, 0.013, 0.030, +0.022),  # nose bridge
+    (0.0,    -0.024, 0.018, 0.015, +0.036),  # nose tip
+    (-0.037, +0.020, 0.023, 0.016, -0.015),  # eye socket l
+    (+0.037, +0.020, 0.023, 0.016, -0.015),  # eye socket r
+    (-0.050, -0.035, 0.028, 0.026, +0.007),  # cheek l
+    (+0.050, -0.035, 0.028, 0.026, +0.007),  # cheek r
+    (0.0,    -0.052, 0.022, 0.009, +0.008),  # upper lip
+    (0.0,    -0.080, 0.030, 0.013, +0.013),  # chin
 ]
 
 
@@ -108,7 +119,7 @@ TILT = 0.12    # slight backward tilt with height — natural, not shell slope
 WRAP = 0.030   # cylindrical wrap: edges recede into the hair frame
 
 
-def plate_z_fn(shell_cents):
+def plate_z_fn(shell_pts):
     """Return f(x, y) -> plate surface z.
 
     The face is a vertical surface of its own — the hood shell recedes with
@@ -122,15 +133,15 @@ def plate_z_fn(shell_cents):
         r2 = u * u + v * v
         fall = _smoothstep(min(max((1.0 - r2) / 0.3, 0.0), 1.0))
         rel = 0.0
-        for cx, cy, sx, sy, a in RELIEF:
+        for cx, cyo, sx, sy, a in RELIEF:
             rel += a * np.exp(-(((x - cx) / sx) ** 2
-                                + ((y - cy) / sy) ** 2))
+                                + ((y - (CY + cyo)) / sy) ** 2))
         plane = Z0 - TILT * (y - CY) - WRAP * u * u + rel * fall
         floor = 0.0
-        m = ((np.abs(shell_cents[:, 0] - x) < SHELL_R)
-             & (np.abs(shell_cents[:, 1] - y) < SHELL_R))
+        m = ((np.abs(shell_pts[:, 0] - x) < SHELL_R)
+             & (np.abs(shell_pts[:, 1] - y) < SHELL_R))
         if m.any():
-            floor = float(shell_cents[m][:, 2].max()) + CLEAR
+            floor = float(shell_pts[m][:, 2].max()) + CLEAR
         return max(plane, floor)
     return f
 
@@ -144,11 +155,14 @@ def main():
     idx = _acc(g, blob, pr["indices"], 1).reshape(-1).astype(np.int64)
     tris = idx.reshape(-1, 3)
     cents = pos[tris].mean(axis=1)
-    band = ((np.abs(cents[:, 0]) < 0.16) & (cents[:, 1] > 2.30)
+    band = ((np.abs(cents[:, 0]) < 0.16) & (cents[:, 1] > 2.20)
             & (cents[:, 1] < 2.60) & (cents[:, 2] > 0.40))
-    shell_cents = cents[band]
+    # floor must sample shell VERTS — peaks sit between tri centroids and
+    # poke through a centroid-sampled floor as smudges between the cards
+    band_verts = np.unique(tris[band].reshape(-1))
+    shell_pts = pos[band_verts]
 
-    pz = plate_z_fn(shell_cents)
+    pz = plate_z_fn(shell_pts)
 
     # concentric-ring topology — smooth elliptical rim, no sawtooth boundary
     RINGS = [0.22, 0.45, 0.68, 0.87, 1.0]
@@ -198,6 +212,7 @@ def main():
         ("brow.l", {"brow.l"}), ("brow.r", {"brow.r"}), ("lips", {"lips"}),
     ]
     card_data = {}
+    card_rot_sin = 0.0
     for node in g["nodes"]:
         if node.get("name") not in CARD_MESH_NAMES or "mesh" not in node:
             continue
@@ -208,25 +223,35 @@ def main():
         cv = np.frombuffer(bytes(blob), np.float32,
                            a["count"] * 3, off).reshape(-1, 3).copy()
         card_data[node["name"]] = (off, cv)
+        # card nodes rotate ~-1.2deg about x — the rotation drops their
+        # effective z by y*sin(theta); the seat must compensate or the
+        # plate buries them (#93 follow-up)
+        if not card_rot_sin and node.get("rotation"):
+            qx, qw = node["rotation"][0], node["rotation"][3]
+            card_rot_sin = abs(2.0 * qx * qw)
     moved = []
     for cname, members in CLUSTERS:
         cards = [(n, card_data[n]) for n in members if n in card_data]
         if not cards:
             continue
-        lo = min(float(cv[:, 2].min()) for _, (_, cv) in cards)
-        x0 = np.mean([cv[:, 0].mean() for _, (_, cv) in cards])
+        # y: move the whole cluster to its face-relative target — the
+        # cards were authored up at the crown; the face moved down
         y0 = np.mean([cv[:, 1].mean() for _, (_, cv) in cards])
+        dy = (CY + CARD_Y.get(cname, 0.0)) - y0
+        x0 = np.mean([cv[:, 0].mean() for _, (_, cv) in cards])
+        # z: seat the cluster's lowest layer above the plate, keep layering;
+        # add the rotation penalty y*|sin(theta)| so effective world z clears
+        lo = min(float(cv[:, 2].min()) for _, (_, cv) in cards)
         m = ((np.abs(pcent[:, 0] - x0) < 0.045)
-             & (np.abs(pcent[:, 1] - y0) < 0.045))
-        if not m.any():
-            continue
-        delta = float(pcent[m][:, 2].max()) + CARD_CLEAR - lo
-        if delta <= 0.001:
-            continue
+             & (np.abs(pcent[:, 1] - (y0 + dy)) < 0.045))
+        dz = (float(pcent[m][:, 2].max()) + CARD_CLEAR
+              + (y0 + dy) * card_rot_sin - lo) if m.any() else 0.0
         for n, (off, cv) in cards:
-            cv[:, 2] += np.float32(delta)
+            cv[:, 1] += np.float32(dy)
+            if dz > 0.001:
+                cv[:, 2] += np.float32(dz)
             blob[off:off + cv.nbytes] = cv.tobytes()
-        moved.append((cname, round(delta, 4)))
+        moved.append((cname, f"dy {dy:+.3f}", f"dz {max(dz, 0.0):+.3f}"))
 
     # append plate resources
     ai_pos = _push(g["bufferViews"], g["accessors"], blob, pv, 34962,

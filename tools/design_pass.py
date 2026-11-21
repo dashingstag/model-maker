@@ -160,7 +160,7 @@ def main():
     # feature-card zone (cards span |x|<0.075, y 2.41-2.49 on the
     # front protrusion z~0.58)
     ax = np.abs(pos[:, 0])
-    face_zone = (y > 2.32) & (y < 2.56) & (pos[:, 2] > 0.40) & (ax < 0.22)
+    face_zone = (y > 2.24) & (y < 2.56) & (pos[:, 2] > 0.40) & (ax < 0.22)
     neck_zone = (y > 1.86) & (y < 2.14) & (pos[:, 2] > 0.28) & (ax < 0.16)
 
     # the recessed inner cavity (z~0.17-0.29) goes HAIR, not skin:
@@ -349,7 +349,10 @@ def main():
         shading; score = oval radius so the most face-like surface
         owns each texel."""
         x, yv, z = P[:, 0], P[:, 1], P[:, 2]
-        r = np.sqrt((x / 0.118) ** 2 + ((yv - 2.447) / 0.098) ** 2)
+        # face sits in the hood opening, low-center of the head mass —
+        # matches face_plate CX/CY/AX/AY (the plate covers the shell;
+        # this oval is the skin surround at its edges)
+        r = np.sqrt((x / 0.095) ** 2 + ((yv - 2.360) / 0.088) ** 2)
         w = np.clip((1.15 - r) / 0.38, 0.0, 1.0)
         w = w * w * (3.0 - 2.0 * w)          # smoothstep edge
         # z-gate: skin lives on the protrusion front (z>0.5); the
@@ -359,17 +362,17 @@ def main():
         # front surface dips to z~0.4 and hard cutoffs speckle.
         w *= np.clip((z - 0.34) / 0.14, 0.0, 1.0)
         sh = np.ones(len(P))
-        sh -= 0.07 * np.exp(-((yv - 2.463) / 0.011) ** 2)          # under-brow
-        sh -= 0.05 * np.exp(-((yv - 2.433) / 0.013) ** 2)          # under-eye
+        sh -= 0.07 * np.exp(-((yv - 2.376) / 0.011) ** 2)          # under-brow
+        sh -= 0.05 * np.exp(-((yv - 2.346) / 0.013) ** 2)          # under-eye
         sh += 0.05 * np.exp(-((x / 0.055) ** 2
-                              + ((yv - 2.50) / 0.030) ** 2))       # forehead
+                              + ((yv - 2.413) / 0.030) ** 2))      # forehead
         sh -= 0.10 * np.clip((np.abs(x) - 0.038) / 0.05, 0, 1) \
-            * np.clip((2.455 - yv) / 0.05, 0, 1)                   # cheek sides
+            * np.clip((2.368 - yv) / 0.05, 0, 1)                   # cheek sides
         sh += 0.05 * np.exp(-(x / 0.017) ** 2) \
-            * np.exp(-((yv - 2.440) / 0.016) ** 2)                 # nose bridge
+            * np.exp(-((yv - 2.353) / 0.016) ** 2)                 # nose bridge
         sh -= 0.05 * np.exp(-(x / 0.013) ** 2) \
-            * np.exp(-((yv - 2.414) / 0.006) ** 2)                 # nose base
-        sh -= 0.10 * np.clip((2.398 - yv) / 0.025, 0, 1)           # chin fade
+            * np.exp(-((yv - 2.327) / 0.006) ** 2)                 # nose base
+        sh -= 0.10 * np.clip((2.311 - yv) / 0.025, 0, 1)           # chin fade
         col = SKIN[None, :] * np.clip(sh, 0.5, 1.2)[:, None]
         col = HAIR[None, :] * (1 - w[:, None]) + col * w[:, None]
         return np.clip(col, 0, 1), r
